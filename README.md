@@ -1,5 +1,9 @@
 # Design in Tech Report 2026 by @johnmaeda
 
+NEW: Try out the simple mapper https://johnmaeda.github.io/dit26-ai-upskilling-gameboard/
+
+---
+
 > "From UX to AX"
 
 > MAR 18, 2026 | 11:30AM – 12:30PM CT

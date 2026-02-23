@@ -6,6 +6,8 @@ I'm presenting this as part of the [Design in Tech Report 2026: From UX to AX](h
 
 This will be subject to more than a few changes this year. I know that for sure ;-). —JM
 
+> NEW: Try out the simple mapper https://johnmaeda.github.io/dit26-ai-upskilling-gameboard/
+
 ---
 
 ## How to Use This
@@ -166,6 +168,8 @@ The goal of AI as embedded in product design work mirrors the evolution of the a
 
 ### SAE L0: 🚗💨 Manual
 
+#### CLASSICAL DESIGNER (🚫 AI) | No Automation | Craft fundamentals (and they still matter)
+
 *Human-only execution*
 
 > You do the work. Tools don't decide or generate.
@@ -181,6 +185,8 @@ The goal of AI as embedded in product design work mirrors the evolution of the a
 ---
 
 ### SAE L1: 🚗➕ AI-Assisted
+
+#### MARKETING DESIGNER × AI | Better thinking (and draft assets in minutes)
 
 *AI suggests; human decides*
 
@@ -205,6 +211,8 @@ The goal of AI as embedded in product design work mirrors the evolution of the a
 ---
 
 ### SAE L2: 🚗🧠 Partially Automated
+
+#### PRODUCT DESIGNER × AI | Bigger thinking (and non-production prototypes in hours)
 
 *AI builds bounded chunks; human integrates*
 
@@ -231,6 +239,8 @@ New hybrid design↔code canvas tools (Lovable, MagicPath,  Pencil.dev, v0, Bolt
 ---
 
 ### SAE L3: 🚗😴 Guided Automation
+
+#### DESIGN ENGINEER × AI | Persistent workflows (and real production PRs)
 
 *IDE-centric, human-in-the-loop execution*
 
@@ -259,6 +269,8 @@ New hybrid design↔code canvas tools (Lovable, MagicPath,  Pencil.dev, v0, Bolt
 
 ### SAE L4: 🚕🤖 Mostly Automated
 
+#### SUPER DESIGN ENGINEER × AI | Autonomous execution (your work done while you sleep)
+
 *Harness-centric, system-run execution*
 
 > Work completes while you're asleep, and you trust the results unless alerted.
@@ -282,6 +294,8 @@ New hybrid design↔code canvas tools (Lovable, MagicPath,  Pencil.dev, v0, Bolt
 ---
 
 ### SAE L5: 🚗✨ Fully Automated
+
+#### AI × AI | Goal-setting only (and we're not there yet)
 
 *Science-fiction, might happen some day*
 
@@ -323,9 +337,9 @@ L0 — craft fundamentals (and they still matter)
 
 With AI:
 L1 — better thinking (and first drafts in minutes)
-L2 — reusable outputs (and prototypes in hours)
-L3 — persistent workflows (and real PRs)
-L4 — autonomous execution (and you scale past yourself)
+L2 — reusable outputs (and non-production prototypes in hours)
+L3 — persistent workflows (and real production PRs)
+L4 — autonomous execution (your work done while you sleep)
 L5 — goal-setting only (and we're not there yet)
 ```
 

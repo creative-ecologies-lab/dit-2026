@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-view="full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAE × E-P-I-A-S Gameboard | Design in Tech Report 2026</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79b8ff;
+  --check-bg: #58a6ff;
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --surface: #f6f8fa;
+  --border: #d0d7de;
+  --text: #1f2328;
+  --muted: #656d76;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --check-bg: #0969da;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--text);
+  transition: transform 0.3s ease;
+}
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+.sun-icon { display: none; }
+.moon-icon { display: block; }
+[data-theme="light"] .sun-icon { display: block; }
+[data-theme="light"] .moon-icon { display: none; }
+
+/* Fixed Expand Button (compact mode only) */
+.fixed-expand-btn {
+  position: fixed;
+  top: 1rem;
+  right: 4rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--accent);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+.fixed-expand-btn:hover {
+  background: var(--accent-hover);
+}
+.fixed-expand-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+[data-view="compact"] .fixed-expand-btn {
+  display: flex;
+}
+
+header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-right: 60px; }
+h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+h2 { font-size: 1.1rem; font-weight: 500; color: var(--muted); }
+h2 a { color: var(--accent); text-decoration: none; }
+h2 a:hover { text-decoration: underline; }
+
+.instructions { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 2rem; transition: background 0.3s ease; }
+.instructions p { color: var(--muted); font-size: 0.9rem; }
+
+/* Share CTA */
+.share-cta {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.share-cta-icon { font-size: 1.5rem; }
+.share-cta-text { flex: 1; min-width: 200px; }
+.share-cta-text strong { display: block; margin-bottom: 0.25rem; color: var(--text); }
+.share-cta-text span { font-size: 0.85rem; color: var(--muted); }
+.share-cta-text .hashtag { color: var(--accent); font-weight: 600; text-decoration: none; }
+.share-cta-text .hashtag:hover { text-decoration: underline; }
+
+.compact-btn {
+  background: var(--accent);
+  color: white;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.compact-btn:hover { background: var(--accent-hover); }
+.compact-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: white;
+}
+.expand-icon { display: none; }
+.compress-icon { display: block; }
+[data-view="compact"] .expand-icon { display: block; }
+[data-view="compact"] .compress-icon { display: none; }
+
+/* ========== FULL VIEW ========== */
+.full-view { display: block; }
+.compact-view { display: none; }
+[data-view="compact"] .full-view { display: none; }
+[data-view="compact"] .compact-view { display: block; }
+[data-view="compact"] .instructions { display: none; }
+[data-view="compact"] .share-cta { display: none; }
+[data-view="compact"] .share-reminder { display: none; }
+
+.level-section { margin-bottom: 2rem; }
+.level-header { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+.level-header h3 { font-size: 1rem; font-weight: 600; }
+.tagline { color: var(--muted); font-size: 0.875rem; }
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+table { 
+  width: 100%; 
+  min-width: 700px;
+  border-collapse: collapse; 
+  table-layout: fixed; 
+}
+th, td { border: 1px solid var(--border); padding: 0.75rem; text-align: center; vertical-align: top; transition: background 0.3s ease, border-color 0.3s ease; }
+th { background: var(--surface); font-weight: 600; font-size: 0.8rem; }
+th:first-child { width: 80px; }
+th:not(:first-child), td:not(:first-child) { width: calc((100% - 80px) / 5); }
+.th-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+}
+.th-content .info-icon {
+  margin-left: auto;
+}
+td:first-child { background: var(--surface); font-weight: 500; font-size: 0.9rem; white-space: nowrap; position: sticky; left: 0; z-index: 1; }
+.cell-content { min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; }
+.checkbox { 
+  width: 28px; 
+  height: 28px; 
+  border: 2px solid var(--border); 
+  border-radius: 4px; 
+  background: transparent; 
+  cursor: pointer; 
+  transition: all 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+.checkbox:hover::before { border-color: var(--accent); }
+.checkbox.checked::before { background: var(--check-bg); border-color: var(--check-bg); }
+.cell-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+
+/* ========== COMPACT VIEW ========== */
+.compact-view .table-wrapper {
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+
+.compact-view table {
+  min-width: 800px;
+}
+
+.compact-view th {
+  padding: 0.6rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.compact-view th:first-child {
+  width: 140px;
+}
+
+.compact-view th:not(:first-child), 
+.compact-view td:not(:first-child) { 
+  width: calc((100% - 140px) / 5); 
+}
+
+.compact-view td {
+  padding: 0.4rem 0.3rem;
+}
+
+.compact-view td:first-child {
+  font-size: 0.7rem;
+  text-align: left;
+  padding-left: 0.5rem;
+  line-height: 1.3;
+}
+
+.compact-view .level-name {
+  font-weight: 600;
+  display: block;
+}
+
+.compact-view .level-tagline {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.6rem;
+}
+
+.compact-view .cell-content {
+  min-height: 36px;
+  gap: 0.2rem;
+}
+
+.compact-view .checkbox {
+  min-width: 32px;
+  min-height: 32px;
+  width: 20px;
+  height: 20px;
+}
+
+.compact-view .checkbox::before {
+  width: 18px;
+  height: 18px;
+}
+
+.compact-view .cell-label {
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+
+/* Row colors for compact view */
+.compact-view tr:nth-child(odd) td:not(:first-child) {
+  background: var(--bg);
+}
+.compact-view tr:nth-child(even) td:not(:first-child) {
+  background: var(--surface);
+}
+
+/* Share reminder */
+.share-reminder {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.share-reminder-text {
+  flex: 1;
+  min-width: 200px;
+}
+.share-reminder-text p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+.share-reminder-text .hashtag {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.share-reminder-text .hashtag:hover {
+  text-decoration: underline;
+}
+
+footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Info Icon + Modal */
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+.info-icon:hover {
+  background: var(--accent);
+  color: white;
+}
+.cell-label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.active {
+  display: flex;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal Content */
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.25s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1.25rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.modal-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+.modal-header .level-badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.modal-close:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.modal-body {
+  padding: 1.25rem;
+}
+.modal-body p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0;
+}
+.modal-meta {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.modal-tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--bg);
+  color: var(--muted);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* Compact view info icons */
+.compact-view .info-icon {
+  display: none;
+}
+.compact-view .cell-label-wrapper .info-icon {
+  display: none;
+}
+
+/* Level cell styling */
+.level-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: auto;
+}
+.level-label {
+  font-weight: 500;
+}
+.level-cell-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  position: relative;
+}
+.level-cell-compact .info-icon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 70vh;
+  }
+  .info-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 0.6rem;
+  }
+}
+
+.scroll-hint {
+  display: none;
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  body { padding: 1rem; padding-top: 4rem; }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 0.95rem; }
+  header { padding-right: 0; }
+  .level-header { flex-direction: column; gap: 0.25rem; }
+  .level-header h3 { font-size: 0.95rem; }
+  .tagline { font-size: 0.8rem; }
+  .scroll-hint { display: flex; }
+  .share-cta, .share-reminder { flex-direction: column; text-align: center; }
+  .share-cta-text, .share-reminder-text { min-width: 100%; }
+  
+  .table-wrapper, .compact-view .table-wrapper {
+    margin: 0 -1rem;
+    padding: 0;
+    mask-image: linear-gradient(to right, transparent, black 1rem, black calc(100% - 1rem), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 1rem, black calc(100% - 1rem), transparent);
+  }
+  
+  table { min-width: 600px; }
+  th, td { padding: 0.5rem 0.4rem; }
+  th { font-size: 0.7rem; }
+  th:first-child { width: 60px; }
+  td:first-child { font-size: 0.75rem; }
+  .cell-label { font-size: 0.65rem; }
+  .cell-content { min-height: 50px; gap: 0.35rem; }
+  
+  .compact-view table { min-width: 650px; }
+  .compact-view th:first-child { width: 100px; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 0.75rem; padding-top: 4rem; }
+  h1 { font-size: 1.2rem; }
+  table { min-width: 520px; }
+  th, td { padding: 0.4rem 0.3rem; }
+  .cell-label { font-size: 0.6rem; }
+  
+  .compact-view table { min-width: 550px; }
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+  <svg class="sun-icon" viewBox="0 0 24 24"><path d="M12 17.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 1.5a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-17a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 2zm0 18a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 20zM21 12.75h1.5a.75.75 0 0 0 0-1.5H21a.75.75 0 0 0 0 1.5zM1.5 12.75H3a.75.75 0 0 0 0-1.5H1.5a.75.75 0 0 0 0 1.5zm17.303-7.114l1.061-1.06a.75.75 0 0 0-1.06-1.061l-1.061 1.06a.75.75 0 0 0 1.06 1.061zM5.136 19.425l1.061-1.06a.75.75 0 1 0-1.06-1.061l-1.061 1.06a.75.75 0 0 0 1.06 1.061zm13.728 0a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 0 0-1.061 1.06l1.06 1.061zM5.136 5.636a.75.75 0 0 0 1.06-1.06L5.136 3.515a.75.75 0 1 0-1.061 1.06l1.06 1.061z"/></svg>
+  <svg class="moon-icon" viewBox="0 0 24 24"><path d="M9.37 5.51A7.35 7.35 0 0 0 9.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27A7.014 7.014 0 0 1 12 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+</button>
+
+<button class="fixed-expand-btn" onclick="toggleView()" aria-label="Expand view">
+  <svg viewBox="0 0 24 24"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z"/></svg>
+</button>
+
+<header>
+  <h1>Appendix: SAE × E-P-I-A-S Gameboard</h1>
+  <h2>AI Upskilling Framework for Product Designers | <a href="https://github.com/aji-ai/dit-2026/blob/main/ai-upskilling-for-product-designers.md">On GitHub</a></h2>
+</header>
+
+<div class="share-cta">
+  <span class="share-cta-icon">📸</span>
+  <div class="share-cta-text">
+    <strong>Map your journey, share your progress!</strong>
+    <span>Mark your path, tap Compact for a screenshot-friendly view, then share online with <a href="https://designintech.report" class="hashtag">#DesignInTech</a></span>
+  </div>
+  <button class="compact-btn" onclick="toggleView()">
+    <svg class="compress-icon" viewBox="0 0 24 24"><path d="M4 12H2v8a2 2 0 0 0 2 2h8v-2H4v-8zm0-8h8V2H4a2 2 0 0 0-2 2v8h2V4zm16 0h-8v2h8v8h2V4a2 2 0 0 0-2-2zm0 16h-8v2h8a2 2 0 0 0 2-2v-8h-2v8z"/></svg>
+    <svg class="expand-icon" viewBox="0 0 24 24"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z"/></svg>
+    <span class="btn-label">Compact</span>
+  </button>
+</div>
+
+<div class="instructions">
+  <p><strong>How to use this board:</strong> Starting at Explorer, mark the squares across that represent your #DesignInTech journey. Move right (maturity) or go up/down (autonomy). There is no single correct path. Click squares to mark your progress. <b>No data is saved.</b></p>
+</div>
+
+<!-- ========== FULL VIEW ========== -->
+<div class="full-view">
+
+<section class="level-section">
+  <div class="level-header"><h3>CLASSICAL DESIGNER (🚫 AI) | No Automation</h3><span class="tagline">Craft fundamentals (and they still matter)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚗💨 L0</span><span class="info-icon" data-level="L0" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="0-0"></div><span class="cell-label">Learning craft basics</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="0-1"></div><span class="cell-label">Consistent manual workflow</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="0-2"></div><span class="cell-label">Decisions documented + QA</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="0-3"></div><span class="cell-label">Reusable templates others use</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="0-4"></div><span class="cell-label">Sets craft standards + mentors</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="level-section">
+  <div class="level-header"><h3>MARKETING DESIGNER × AI </h3><span class="tagline">Better thinking (and draft assets in minutes)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚗➕ L1</span><span class="info-icon" data-level="L1" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="1-0"></div><span class="cell-label">Trying prompts + generators</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="1-1"></div><span class="cell-label">Daily AI usage w/ saved prompts</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="1-2"></div><span class="cell-label">AI across full task flow</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="1-3"></div><span class="cell-label">Shared prompt libraries</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="1-4"></div><span class="cell-label">Defines team AI usage rules</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="level-section">
+  <div class="level-header"><h3>PRODUCT DESIGNER × AI </h3><span class="tagline">Bigger thinking (and non-production prototypes in hours)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚗🧠 L2</span><span class="info-icon" data-level="L2" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="2-0"></div><span class="cell-label">Testing app builders</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="2-1"></div><span class="cell-label">Repeatable component outputs</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="2-2"></div><span class="cell-label">Outputs fit tokens/layout/a11y</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="2-3"></div><span class="cell-label">Prompt packs + component templates</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="2-4"></div><span class="cell-label">Defines safe automation boundaries</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="level-section">
+  <div class="level-header"><h3>DESIGN ENGINEER × AI</h3><span class="tagline">Persistent workflows (and real production PRs)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚗😴 L3</span><span class="info-icon" data-level="L3" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="3-0"></div><span class="cell-label">Learning IDE + context rules</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="3-1"></div><span class="cell-label">Multi-step runs w/ checkpoints</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="3-2"></div><span class="cell-label">Human-AI approval model</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="3-3"></div><span class="cell-label">Shared IDE workflows + evals</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="3-4"></div><span class="cell-label">Org standards for context + safety</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="level-section">
+  <div class="level-header"><h3>SUPER DESIGN ENGINEER × AI</h3><span class="tagline">Autonomous execution (your work done while you sleep)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚕🤖 L4</span><span class="info-icon" data-level="L4" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="4-0"></div><span class="cell-label">Testing agent pipelines</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="4-1"></div><span class="cell-label">Reliable eval + retry patterns</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="4-2"></div><span class="cell-label">Autonomous workflows w/ recovery</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="4-3"></div><span class="cell-label">Production agent infrastructure</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="4-4"></div><span class="cell-label">Defines autonomy governance</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="level-section">
+  <div class="level-header"><h3>AI × AI</h3><span class="tagline">Goal-setting only (and we're not there yet)</span></div>
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Level</th><th><span class="th-content">Explorer ❶<span class="info-icon" data-stage="E" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Practitioner ❷<span class="info-icon" data-stage="P" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Integrator ❸<span class="info-icon" data-stage="I" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Architect ❹<span class="info-icon" data-stage="A" role="button" tabindex="0">i</span></span></th><th><span class="th-content">Steward ❺<span class="info-icon" data-stage="S" role="button" tabindex="0">i</span></span></th></tr></thead>
+      <tbody><tr>
+        <td><div class="cell-content level-cell"><span class="level-label">🚗✨ L5</span><span class="info-icon" data-level="L5" role="button" tabindex="0">i</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="5-0"></div><span class="cell-label">Exploring goal-based AI</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="5-1"></div><span class="cell-label">Consistent approval gates</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="5-2"></div><span class="cell-label">Exception-driven autonomy</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="5-3"></div><span class="cell-label">Goal frameworks others trust</span></div></td>
+        <td><div class="cell-content"><div class="checkbox" data-cell="5-4"></div><span class="cell-label">Org-wide AI governance</span></div></td>
+      </tr></tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<!-- ========== COMPACT VIEW ========== -->
+<div class="compact-view">
+  <div class="scroll-hint">← Swipe to see all levels →</div>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>SAE Level</th>
+          <th>Explorer ❶</th>
+          <th>Practitioner ❷</th>
+          <th>Integrator ❸</th>
+          <th>Architect ❹</th>
+          <th>Steward ❺</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">CLASSICAL<BR />DESIGNER</span><span class="level-tagline">Craft fundamentals</span><span class="info-icon" data-level="L0" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="0-0"></div><span class="cell-label">Learning craft basics</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="0-1"></div><span class="cell-label">Consistent manual workflow</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="0-2"></div><span class="cell-label">Decisions documented + QA</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="0-3"></div><span class="cell-label">Reusable templates others use</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="0-4"></div><span class="cell-label">Sets craft standards + mentors</span></div></td>
+        </tr>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">MARKETING<BR />DESIGNER × AI</span><span class="level-tagline">Better thinking</span><span class="info-icon" data-level="L1" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="1-0"></div><span class="cell-label">Trying prompts + generators</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="1-1"></div><span class="cell-label">Daily AI w/ saved prompts</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="1-2"></div><span class="cell-label">AI across full task flow</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="1-3"></div><span class="cell-label">Shared prompt libraries</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="1-4"></div><span class="cell-label">Defines team AI rules</span></div></td>
+        </tr>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">PRODUCT<BR/>DESIGNER × AI</span><span class="level-tagline">Reusable outputs</span><span class="info-icon" data-level="L2" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="2-0"></div><span class="cell-label">Testing app builders</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="2-1"></div><span class="cell-label">Repeatable components</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="2-2"></div><span class="cell-label">Fits tokens/layout/a11y</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="2-3"></div><span class="cell-label">Prompt packs + templates</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="2-4"></div><span class="cell-label">Safe automation bounds</span></div></td>
+        </tr>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">DESIGN<br/>ENGINEER × AI</span><span class="level-tagline">Persistent workflows</span><span class="info-icon" data-level="L3" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="3-0"></div><span class="cell-label">Learning IDE + context</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="3-1"></div><span class="cell-label">Multi-step + checkpoints</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="3-2"></div><span class="cell-label">Human-AI approval</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="3-3"></div><span class="cell-label">Shared IDE workflows</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="3-4"></div><span class="cell-label">Org context + safety</span></div></td>
+        </tr>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">SUPER DESIGN<Br/>ENGINEER × AI</span><span class="level-tagline">Autonomous execution</span><span class="info-icon" data-level="L4" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="4-0"></div><span class="cell-label">Testing agent pipelines</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="4-1"></div><span class="cell-label">Reliable eval + retry</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="4-2"></div><span class="cell-label">Autonomous + recovery</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="4-3"></div><span class="cell-label">Production agent infra</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="4-4"></div><span class="cell-label">Autonomy governance</span></div></td>
+        </tr>
+        <tr>
+          <td><div class="level-cell-compact"><span class="level-name">AI × AI<br />SINGULARITY</span><span class="level-tagline">Goal-setting only</span><span class="info-icon" data-level="L5" role="button" tabindex="0">i</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="5-0"></div><span class="cell-label">Exploring goal-based AI</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="5-1"></div><span class="cell-label">Consistent approval gates</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="5-2"></div><span class="cell-label">Exception-driven</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="5-3"></div><span class="cell-label">Trusted goal frameworks</span></div></td>
+          <td><div class="cell-content"><div class="checkbox" data-cell="5-4"></div><span class="cell-label">Org-wide AI governance</span></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="share-reminder">
+  <span class="share-cta-icon">📣</span>
+  <div class="share-reminder-text">
+    <p><strong>Ready to share?</strong> Tap <strong>Compact</strong> above → screenshot → post with <a href="https://designintech.report" class="hashtag">#DesignInTech</a></p>
+  </div>
+  <button class="compact-btn" onclick="toggleView()">
+    <svg class="compress-icon" viewBox="0 0 24 24"><path d="M4 12H2v8a2 2 0 0 0 2 2h8v-2H4v-8zm0-8h8V2H4a2 2 0 0 0-2 2v8h2V4zm16 0h-8v2h8v8h2V4a2 2 0 0 0-2-2zm0 16h-8v2h8a2 2 0 0 0 2-2v-8h-2v8z"/></svg>
+    <svg class="expand-icon" viewBox="0 0 24 24"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10L21 11z"/></svg>
+    <span class="btn-label">Compact</span>
+  </button>
+</div>
+
+<footer>
+  <p>Part of the <a href="https://schedule.sxsw.com/2026/events/PP1148536">Design in Tech Report 2026: From UX to AX</a> by John Maeda</p>
+  <p style="margin-top: 0.5rem;">Go deep before you go wide.</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div>
+        <span class="level-badge" id="modal-badge"></span>
+        <h3 id="modal-title"></h3>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p id="modal-description"></p>
+      <div class="modal-meta" id="modal-meta"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cell explanations data
+const cellData = {
+  // EPIAS Stage descriptions (column headers)
+  "E": {
+    level: "EPIAS",
+    stage: "Explorer",
+    title: "❶ E: Explorer",
+    description: "Trying things; learning basics. You're experimenting with new tools and techniques, results are inconsistent but you're building foundational understanding.",
+    tags: ["Learning", "Experimenting", "Inconsistent Results"]
+  },
+  "P": {
+    level: "EPIAS",
+    stage: "Practitioner",
+    title: "❷ P: Practitioner",
+    description: "Building consistent habits. You have developed reliable workflows and can produce predictable, quality outputs through regular practice.",
+    tags: ["Consistent", "Reliable", "Repeatable"]
+  },
+  "I": {
+    level: "EPIAS",
+    stage: "Integrator",
+    title: "❸ I: Integrator",
+    description: "Making it part of workflow. Your skills are embedded into complete end-to-end processes with validation, documentation, and clear decision points.",
+    tags: ["End-to-End", "Documented", "Validated"]
+  },
+  "A": {
+    level: "EPIAS",
+    stage: "Architect",
+    title: "❹ A: Architect",
+    description: "Building systems others use. You create reusable frameworks, templates, and infrastructure that enable teammates to work effectively.",
+    tags: ["Systems", "Reusable", "Team-Enabling"]
+  },
+  "S": {
+    level: "EPIAS",
+    stage: "Steward",
+    title: "❺ S: Steward",
+    description: "Setting standards; teaching others. You define organizational norms, mentor colleagues, and maintain the shared systems that govern quality.",
+    tags: ["Standards", "Mentorship", "Governance"]
+  },
+  
+  // SAE Level descriptions (first column)
+  "L0": {
+    level: "SAE L0",
+    stage: "Manual",
+    title: "🚗💨 No Automation",
+    description: "\"I do my design work without AI; I'm open to using the latest tool, but in general I prefer doing things as manually as possible.\"",
+    tags: ["Figma", "Sketch", "Pen & Paper", "Paper Prototyping"]
+  },
+  "L1": {
+    level: "SAE L1",
+    stage: "AI-Assisted",
+    title: "🚗➕ AI-Assisted",
+    description: "\"I use AI to generate ideas, copy, or visuals, but I direct each step and manually verify and refine everything.\"",
+    tags: ["ChatGPT", "Microsoft Copilot", "Midjourney", "Figma Make", "Krea", "Adobe Firefly", "Canva", "DALL-E"]
+  },
+  "L2": {
+    level: "SAE L2",
+    stage: "Partially Automated",
+    title: "🚗🧠 Partially Automated",
+    description: "\"I use AI app-builders and hybrid design↔code canvases to generate bounded chunks (screens, components, flows, or small apps) from clear instructions, then I manually integrate and QA the results.\"",
+    tags: ["Lovable", "Bolt.new", "MagicPath", "Pencil.dev", "Vercel v0", "Framer AI", "Replit", "GitHub Spark"]
+  },
+  "L3": {
+    level: "SAE L3",
+    stage: "Guided Automation",
+    title: "🚗😴 Guided Automation",
+    description: "\"In my IDE, I run orchestrated, multi-step workflows with context engineering, using subagents/skills/MCP tools to generate large pieces of work, with human-led QA and eval checkpoints.\"",
+    tags: ["VS Code + GitHub Copilot", "Cursor", "Codex", "Claude in IDE", "API Playgrounds"]
+  },
+  "L4": {
+    level: "SAE L4",
+    stage: "Mostly Automated",
+    title: "🚕🤖 Mostly Automated",
+    description: "\"In my IDE/ADE/CLI, I operate advanced context, tuned harnesses, and eval suites, using subagents/skills/MCP tools to generate, refine, and QA features end-to-end, with humans handling exceptions rather than execution.\"",
+    tags: ["Claude Code CLI", "Conductor", "GitHub Copilot CLI", "LangSmith", "LangGraph", "Braintrust", "Weights & Biases"]
+  },
+  "L5": {
+    level: "SAE L5",
+    stage: "Full Autonomy",
+    title: "🚗✨ Full Autonomy",
+    description: "\"AI runs most of the workflow by default and self-corrects; I set the goals, constraints, quality bar, and approval gates, then review outcomes and exceptions.\"",
+    tags: ["Aspirational", "Not Yet Real", "AGI Future"]
+  },
+  
+  // SAE L0 - Manual
+  "0-0": {
+    level: "SAE L0 Manual",
+    stage: "Explorer",
+    title: "Learning craft basics",
+    description: "Exploring craft fundamentals; learning manual techniques with inconsistent results. You're discovering the foundations of design work without AI tools.",
+    tags: ["Figma", "Sketch", "Pen & Paper"]
+  },
+  "0-1": {
+    level: "SAE L0 Manual",
+    stage: "Practitioner",
+    title: "Consistent manual workflow",
+    description: "Consistent manual practice with developed habits and repeatable techniques. You've built muscle memory and reliable processes for your craft.",
+    tags: ["Repeatable Process", "Developed Habits"]
+  },
+  "0-2": {
+    level: "SAE L0 Manual",
+    stage: "Integrator",
+    title: "Decisions documented + QA",
+    description: "Manual workflow fully integrated with validation steps, traceability, and clear decision documentation. Your work is reviewable and explainable.",
+    tags: ["Documentation", "Validation", "Traceability"]
+  },
+  "0-3": {
+    level: "SAE L0 Manual",
+    stage: "Architect",
+    title: "Reusable templates others use",
+    description: "Built reusable manual systems, templates, and processes that others on team adopt. Your frameworks enable others to work effectively.",
+    tags: ["Templates", "Team Systems", "Reusable"]
+  },
+  "0-4": {
+    level: "SAE L0 Manual",
+    stage: "Steward",
+    title: "Sets craft standards + mentors",
+    description: "Set organizational standards for craft quality; mentor others in manual techniques; maintain shared design systems. You define what 'good' looks like.",
+    tags: ["Standards", "Mentorship", "Design Systems"]
+  },
+  
+  // SAE L1 - AI-Assisted
+  "1-0": {
+    level: "SAE L1 AI-Assisted",
+    stage: "Explorer",
+    title: "Trying prompts + generators",
+    description: "Trying ChatGPT, Microsoft Copilot, Midjourney, Firefly for ideas or drafts; outputs are hit-or-miss and heavily rewritten. AI helps you think, but you heavily curate.",
+    tags: ["ChatGPT", "Midjourney", "Firefly", "Copilot"]
+  },
+  "1-1": {
+    level: "SAE L1 AI-Assisted",
+    stage: "Practitioner",
+    title: "Daily AI usage w/ saved prompts",
+    description: "Using AI daily with saved prompts; consistent structure, tone, and basic quality checks before use. You've developed reliable prompting habits.",
+    tags: ["Saved Prompts", "Daily Usage", "Quality Checks"]
+  },
+  "1-2": {
+    level: "SAE L1 AI-Assisted",
+    stage: "Integrator",
+    title: "AI across full task flow",
+    description: "AI embedded across a full task (research → ideation → draft → refine) with sources noted, decisions explained, and manual validation. End-to-end AI augmentation.",
+    tags: ["Full Workflow", "Source Tracking", "Validation"]
+  },
+  "1-3": {
+    level: "SAE L1 AI-Assisted",
+    stage: "Architect",
+    title: "Shared prompt libraries",
+    description: "Shared prompt libraries, review checklists, and example outputs teammates can reuse and trust. Your prompts become team assets.",
+    tags: ["Prompt Libraries", "Checklists", "Team Resources"]
+  },
+  "1-4": {
+    level: "SAE L1 AI-Assisted",
+    stage: "Steward",
+    title: "Defines team AI usage rules",
+    description: "Team standards for AI-assisted work (what's allowed, how it's reviewed); mentors others on prompting and judgment; governs usage. You shape AI culture.",
+    tags: ["Governance", "Team Standards", "Mentorship"]
+  },
+  
+  // SAE L2 - Partially Automated
+  "2-0": {
+    level: "SAE L2 Partial",
+    stage: "Explorer",
+    title: "Testing app builders",
+    description: "Trying app-builders (Bolt/Lovable/v0/Framer) to generate screens/components; lots of manual stitching and rework. AI builds chunks, you assemble.",
+    tags: ["Bolt", "Lovable", "v0", "Framer"]
+  },
+  "2-1": {
+    level: "SAE L2 Partial",
+    stage: "Practitioner",
+    title: "Repeatable component outputs",
+    description: "Getting repeatable components from clear specs; using a simple 'definition of done' checklist before integrating. Predictable AI outputs.",
+    tags: ["Clear Specs", "Definition of Done", "Repeatable"]
+  },
+  "2-2": {
+    level: "SAE L2 Partial",
+    stage: "Integrator",
+    title: "Outputs fit tokens/layout/a11y",
+    description: "Outputs fit a known integration pattern (tokens/layout/a11y); prompts + inputs are traceable from request → result → final. Quality-controlled generation.",
+    tags: ["Design Tokens", "A11y", "Traceability"]
+  },
+  "2-3": {
+    level: "SAE L2 Partial",
+    stage: "Architect",
+    title: "Prompt packs + component templates",
+    description: "Reusable component/flow templates + prompt packs that teammates can run and get consistent results. Scalable AI-assisted design.",
+    tags: ["Prompt Packs", "Templates", "Consistent Results"]
+  },
+  "2-4": {
+    level: "SAE L2 Partial",
+    stage: "Steward",
+    title: "Defines safe automation boundaries",
+    description: "Team norms for what to automate at L2 (safe chunks vs risky ones); mentors others on integration + QA; governs usage and review expectations.",
+    tags: ["Safe Boundaries", "Risk Assessment", "QA Governance"]
+  },
+  
+  // SAE L3 - Guided Automation
+  "3-0": {
+    level: "SAE L3 Guided",
+    stage: "Explorer",
+    title: "Learning IDE + context rules",
+    description: "Moving work into an IDE (VS Code/Cursor); learning basic context rules; multi-step runs are inconsistent and fragile. Crossing into code territory.",
+    tags: ["VS Code", "Cursor", "IDE", "Context Rules"]
+  },
+  "3-1": {
+    level: "SAE L3 Guided",
+    stage: "Practitioner",
+    title: "Multi-step runs w/ checkpoints",
+    description: "Running reliable multi-step workflows inside the IDE with explicit checkpoints (plan → generate → review → revise); lightweight evals by default.",
+    tags: ["Checkpoints", "Multi-step", "Evals"]
+  },
+  "3-2": {
+    level: "SAE L3 Guided",
+    stage: "Integrator",
+    title: "Human-AI approval model",
+    description: "Clear decision framing for IDE-run workflows: what AI executes, what humans approve, and when to intervene; failure modes documented.",
+    tags: ["Approval Gates", "Intervention Points", "Failure Modes"]
+  },
+  "3-3": {
+    level: "SAE L3 Guided",
+    stage: "Architect",
+    title: "Shared IDE workflows + evals",
+    description: "Shared IDE-invoked workflows: Skills/MCP tools, context libraries (brand, design system, constraints), and reusable eval templates teammates can run.",
+    tags: ["Skills", "MCP Tools", "Context Libraries"]
+  },
+  "3-4": {
+    level: "SAE L3 Guided",
+    stage: "Steward",
+    title: "Org standards for context + safety",
+    description: "Org standards for IDE-based AI work (safety, quality, traceability); mentorship on context engineering; maintains shared Skills/MCP used from IDEs.",
+    tags: ["Org Standards", "Context Engineering", "Safety"]
+  },
+  
+  // SAE L4 - Mostly Automated
+  "4-0": {
+    level: "SAE L4 Mostly",
+    stage: "Explorer",
+    title: "Testing agent pipelines",
+    description: "Experimenting with autonomous harnesses and agent pipelines; results require heavy validation and manual debugging. Early autonomous exploration.",
+    tags: ["Agent Pipelines", "Harnesses", "Validation"]
+  },
+  "4-1": {
+    level: "SAE L4 Mostly",
+    stage: "Practitioner",
+    title: "Reliable eval + retry patterns",
+    description: "Operating harnesses with repeatable execution patterns; evals, retries, and escalation paths are consistently applied. Reliable autonomous execution.",
+    tags: ["Evals", "Retries", "Escalation Paths"]
+  },
+  "4-2": {
+    level: "SAE L4 Mostly",
+    stage: "Integrator",
+    title: "Autonomous workflows w/ recovery",
+    description: "End-to-end workflows run autonomously; comprehensive eval suites validate outputs; exception classes and recovery paths documented.",
+    tags: ["E2E Autonomous", "Exception Handling", "Recovery"]
+  },
+  "4-3": {
+    level: "SAE L4 Mostly",
+    stage: "Architect",
+    title: "Production agent infrastructure",
+    description: "Built production-grade agent infrastructure others operate: self-improving harnesses, shared skill libraries, eval-driven pipelines.",
+    tags: ["Production-Grade", "Self-Improving", "Infrastructure"]
+  },
+  "4-4": {
+    level: "SAE L4 Mostly",
+    stage: "Steward",
+    title: "Defines autonomy governance",
+    description: "Governance for autonomous systems at scale; defines risk thresholds, approval gates, and accountability; maintains org-level eval and autonomy infrastructure.",
+    tags: ["Governance", "Risk Thresholds", "Accountability"]
+  },
+  
+  // SAE L5 - Full Automation
+  "5-0": {
+    level: "SAE L5 Full",
+    stage: "Explorer",
+    title: "Exploring goal-based AI",
+    description: "Exploring goal-setting interfaces for autonomous AI; exception handling is unclear. The AGI frontier—still theoretical.",
+    tags: ["Goal-Setting", "Theoretical", "AGI"]
+  },
+  "5-1": {
+    level: "SAE L5 Full",
+    stage: "Practitioner",
+    title: "Consistent approval gates",
+    description: "Setting approval gates and quality bars consistently; routine review of autonomous outputs. Governance over fully autonomous systems.",
+    tags: ["Approval Gates", "Quality Bars", "Routine Review"]
+  },
+  "5-2": {
+    level: "SAE L5 Full",
+    stage: "Integrator",
+    title: "Exception-driven autonomy",
+    description: "Autonomous workflows validated with exception handling systems; clear escalation paths documented. Humans handle exceptions, not execution.",
+    tags: ["Exception Handling", "Escalation", "Hands-Off"]
+  },
+  "5-3": {
+    level: "SAE L5 Full",
+    stage: "Architect",
+    title: "Goal frameworks others trust",
+    description: "Designed goal-setting and approval systems that others trust; reusable governance frameworks. Building the future of AI governance.",
+    tags: ["Goal Systems", "Trust", "Governance Frameworks"]
+  },
+  "5-4": {
+    level: "SAE L5 Full",
+    stage: "Steward",
+    title: "Org-wide AI governance",
+    description: "Enterprise governance for fully autonomous AI; set approval frameworks; organizational AI risk and trust standards. Shaping AI's role in the org.",
+    tags: ["Enterprise Governance", "Risk Standards", "Trust Standards"]
+  }
+};
+
+// Store checkbox states
+let checkboxStates = {};
+
+// Initialize: load from localStorage or set empty
+function loadStates() {
+  const saved = localStorage.getItem('gameboard-states');
+  if (saved) {
+    checkboxStates = JSON.parse(saved);
+  }
+  applyStates();
+}
+
+// Save states to localStorage
+function saveStates() {
+  localStorage.setItem('gameboard-states', JSON.stringify(checkboxStates));
+}
+
+// Apply states to all checkboxes
+function applyStates() {
+  document.querySelectorAll('.checkbox[data-cell]').forEach(cb => {
+    const cell = cb.getAttribute('data-cell');
+    if (checkboxStates[cell]) {
+      cb.classList.add('checked');
+    } else {
+      cb.classList.remove('checked');
+    }
+  });
+}
+
+// Handle checkbox clicks
+function handleCheckboxClick(e) {
+  const cb = e.target.closest('.checkbox[data-cell]');
+  if (!cb) return;
+  
+  const cell = cb.getAttribute('data-cell');
+  checkboxStates[cell] = !checkboxStates[cell];
+  saveStates();
+  applyStates(); // Sync all checkboxes with same data-cell
+}
+
+// Add click listeners to all checkboxes
+document.querySelectorAll('.checkbox[data-cell]').forEach(cb => {
+  cb.addEventListener('click', handleCheckboxClick);
+});
+
+// Modal functions
+function openModal(cellId) {
+  const data = cellData[cellId];
+  if (!data) return;
+  
+  document.getElementById('modal-badge').textContent = data.level + ' × ' + data.stage;
+  document.getElementById('modal-title').textContent = data.title;
+  document.getElementById('modal-description').textContent = data.description;
+  
+  const metaContainer = document.getElementById('modal-meta');
+  metaContainer.innerHTML = data.tags.map(tag => `<span class="modal-tag">${tag}</span>`).join('');
+  
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeModal();
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal();
+  }
+});
+
+// Add info icons to all cell labels
+function addInfoIcons() {
+  document.querySelectorAll('.cell-content').forEach(cell => {
+    const checkbox = cell.querySelector('.checkbox[data-cell]');
+    const label = cell.querySelector('.cell-label');
+    if (!checkbox || !label) return;
+    
+    const cellId = checkbox.getAttribute('data-cell');
+    if (!cellData[cellId]) return;
+    
+    // Check if we already wrapped this label
+    if (label.parentElement.classList.contains('cell-label-wrapper')) return;
+    
+    // Wrap the label with info icon
+    const wrapper = document.createElement('div');
+    wrapper.className = 'cell-label-wrapper';
+    
+    const infoIcon = document.createElement('span');
+    infoIcon.className = 'info-icon';
+    infoIcon.textContent = 'i';
+    infoIcon.setAttribute('role', 'button');
+    infoIcon.setAttribute('aria-label', 'More info about ' + cellData[cellId].title);
+    infoIcon.setAttribute('tabindex', '0');
+    infoIcon.onclick = function(e) {
+      e.stopPropagation();
+      openModal(cellId);
+    };
+    infoIcon.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(cellId);
+      }
+    };
+    
+    label.parentNode.insertBefore(wrapper, label);
+    wrapper.appendChild(label);
+    wrapper.appendChild(infoIcon);
+  });
+}
+
+// Add event listeners to level info icons
+function addLevelInfoListeners() {
+  document.querySelectorAll('.info-icon[data-level]').forEach(icon => {
+    const levelId = icon.getAttribute('data-level');
+    if (!cellData[levelId]) return;
+    
+    icon.onclick = function(e) {
+      e.stopPropagation();
+      openModal(levelId);
+    };
+    icon.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(levelId);
+      }
+    };
+  });
+}
+
+// Add event listeners to stage (EPIAS) info icons
+function addStageInfoListeners() {
+  document.querySelectorAll('.info-icon[data-stage]').forEach(icon => {
+    const stageId = icon.getAttribute('data-stage');
+    if (!cellData[stageId]) return;
+    
+    icon.onclick = function(e) {
+      e.stopPropagation();
+      openModal(stageId);
+    };
+    icon.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openModal(stageId);
+      }
+    };
+  });
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+}
+
+function toggleView() {
+  const html = document.documentElement;
+  const currentView = html.getAttribute('data-view');
+  const newView = currentView === 'full' ? 'compact' : 'full';
+  html.setAttribute('data-view', newView);
+  localStorage.setItem('view', newView);
+  
+  // Update all button labels
+  document.querySelectorAll('.btn-label').forEach(label => {
+    label.textContent = newView === 'full' ? 'Compact' : 'Expand';
+  });
+  
+  // Re-apply checkbox states after view switch
+  applyStates();
+  
+  // Re-add info icons and level listeners (needed for compact view elements)
+  setTimeout(function() {
+    addInfoIcons();
+    addLevelInfoListeners();
+    addStageInfoListeners();
+  }, 10);
+}
+
+// Load saved preferences on page load
+(function() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+  
+  const savedView = localStorage.getItem('view');
+  if (savedView) {
+    document.documentElement.setAttribute('data-view', savedView);
+    document.querySelectorAll('.btn-label').forEach(label => {
+      label.textContent = savedView === 'full' ? 'Compact' : 'Expand';
+    });
+  }
+  
+  // Load checkbox states
+  loadStates();
+  
+  // Add info icons to all cells
+  addInfoIcons();
+  
+  // Add event listeners to level info icons
+  addLevelInfoListeners();
+  
+  // Add event listeners to stage (EPIAS) info icons
+  addStageInfoListeners();
+})();
+</script>
+
+</body>
+</html>
