@@ -2,7 +2,7 @@
   "model": "text-embedding-3-large",
   "dimensions": 3072,
   "shape": [
-    62,
+    90,
     3072
   ],
   "chunks": [
@@ -636,12 +636,12 @@
     {
       "chunk_id": 43,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "AI Upskilling for Product Designers: The E-P-I-A-S × SAE Framework",
+      "section_title": "AI Upskilling for Product Designers: The SAE × E-P-I-A-S Framework",
       "heading_hierarchy": [
-        "AI Upskilling for Product Designers: The E-P-I-A-S × SAE Framework"
+        "AI Upskilling for Product Designers: The SAE × E-P-I-A-S Framework"
       ],
-      "text": "I made this system after being asked for one. And I know that by the time I publish it, it's not going to be perfectly correct. That said, something is better than nothing right now — so here it is.\n\nI'm presenting this as part of the [Design in Tech Report 2026: From UX to AX](https://schedule.sxsw.com/2026/events/PP1148536) at SXSW, but I wanted to open source it sooner rather than later. If you're a product designer trying to figure out where you stand with AI — or a design leader trying to upskill your team — I hope this gives you a useful frame.\n\nThis will be subject to more than a few changes this year. I know that for sure ;-). —JM\n\n---",
-      "token_count": 162,
+      "text": "I made this system after being asked for one. And I know that by the time I publish it, it's not going to be perfectly correct. That said, something is better than nothing right now, so here it is.\n\nI'm presenting this as part of the [Design in Tech Report 2026: From UX to AX](https://schedule.sxsw.com/2026/events/PP1148536) at SXSW, but I wanted to open source it sooner rather than later. If you're a product designer trying to figure out where you stand with AI, or a design leader trying to upskill your team, I hope this gives you a useful frame.\n\nThis will be subject to more than a few changes this year. I know that for sure ;-). —JM\n\n> NEW: Try out the simple mapper https://johnmaeda.github.io/dit26-ai-upskilling-gameboard/\n\n---",
+      "token_count": 188,
       "sae_level": null,
       "epias_stage": null,
       "chunk_type": "prose"
@@ -651,11 +651,11 @@
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "How to Use This",
       "heading_hierarchy": [
-        "AI Upskilling for Product Designers: The E-P-I-A-S × SAE Framework",
+        "AI Upskilling for Product Designers: The SAE × E-P-I-A-S Framework",
         "How to Use This"
       ],
-      "text": "This framework has two axes. The first is \"E-P-I-A-S\" which is a maturity progression that describes how deeply you've internalized a skill, from Explorer (trying things out) to Steward (setting standards for others). \n\n| ❶ E: Explorer | ❷ P: Practitioner | ❸ I: Integrator | ❹ A: Architect | ❺ S: Steward |\n| --- | --- | --- | --- | --- |\n| Trying things; learning basics | Building consistent habits | Making it part of workflow | Building systems others use | Setting standards; teaching others |\n\nYou naturally progress ❶ E → ❷ P → ❸ I → ❹ A → ❺ S. \n\nThe second is the SAE Level which is adapted from the automotive industry's levels of driving automation — which describes how much of your design workflow AI is responsible for.\n\n![](https://users.ece.cmu.edu/~koopman/j3016/J3016_table.jpg)\n\nvia [CMU](https://users.ece.cmu.edu/~koopman/j3016/#overview)\n\nTogether they form a matrix. Here's how to navigate it:\n\n1. Start by finding your SAE Level. Use the self-assessment checklist to identify where your current AI usage falls — from L0 (fully manual) to L4 (mostly automated). Be honest. Most product designers in early 2026 are somewhere between L1 and L2.\n\n2. Then find your E-P-I-A-S maturity within that level. Are you just experimenting (Explorer)? Running consistent workflows (Practitioner)? Building systems others rely on (Architect)? Your maturity at your current level matters more than which level you're at.",
-      "token_count": 362,
+      "text": "This framework has two axes:\n\n**E-P-I-A-S** describes how deeply you've internalized a skill, from Explorer (trying things out) to Steward (setting standards for others).\n\n| ❶ E: Explorer | ❷ P: Practitioner | ❸ I: Integrator | ❹ A: Architect | ❺ S: Steward |\n| --- | --- | --- | --- | --- |\n| Trying things; learning basics | Building consistent habits | Making it part of workflow | Building systems others use | Setting standards; teaching others |\n\nYou naturally progress ❶ E → ❷ P → ❸ I → ❹ A → ❺ S.\n\n**SAE Level** describes how much responsibility AI holds in your workflow. It's adapted from the automotive industry's levels of driving automation.\n\n![](https://users.ece.cmu.edu/~koopman/j3016/J3016_table.jpg)\n\nvia [CMU](https://users.ece.cmu.edu/~koopman/j3016/#overview)\n\nTogether they form a matrix. Here's how to navigate it:\n\n1. **Situate your E-P-I-A-S maturity stage, which will vary depending on the level you are pursuing.** Are you just experimenting (Explorer)? Running consistent workflows (Practitioner)? Building systems others rely on (Architect)? Your maturity at your current level matters more than which level you're at.\n\n2. **Find your SAE Level(s) that you are pursuing in this AI revolution.** Use the self-assessment to identify where your current AI usage falls, from L0 (fully manual) to L4 (mostly automated). Be honest. Most product designers in early 2026 are somewhere between L1 and L2.",
+      "token_count": 366,
       "sae_level": null,
       "epias_stage": null,
       "chunk_type": "table"
@@ -665,11 +665,11 @@
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "How to Use This",
       "heading_hierarchy": [
-        "AI Upskilling for Product Designers: The E-P-I-A-S × SAE Framework",
+        "AI Upskilling for Product Designers: The SAE × E-P-I-A-S Framework",
         "How to Use This"
       ],
-      "text": "3. Use the matrix to plan your growth. You can grow in two directions — deeper (E→S within your current SAE level) or wider (moving up an SAE level). Both are valuable. Going deeper at L1 before jumping to L3 is often the smarter path, because the judgment and habits you build carry forward.\n\nBONUS: If you're a design leader, use this to map your team. You'll likely find people spread across multiple SAE levels and maturity stages. That's normal and healthy. The framework helps you have concrete conversations about where people are and where they want to go — without it becoming a race to the highest SAE number.\n\nOne important thing to internalize: an S-Steward at SAE L1 (someone who's built organizational standards for ChatGPT usage) is more mature and more valuable than an E-Explorer at SAE L4 (someone fumbling with advanced toolchains). Depth of judgment beats breadth of tooling every time.\n\n---",
-      "token_count": 203,
+      "text": "3. **Use the SAE matrix to plan your growth.** You can grow in two directions: deeper (E→S within your current SAE level) or wider (moving up an SAE level). Both are valuable. Going deeper at L1 before jumping to L3 is often the smarter path, because the judgment and habits you build carry forward.\n\n**BONUS:** If you're a design leader, use this to map your team. You'll likely find people spread across multiple SAE levels and maturity stages. That's normal and healthy. The framework helps you have concrete conversations about where people are and where they want to go, without it becoming a race to the highest SAE number.\n\nOne important thing to internalize: **an S-Steward at SAE L1 (someone who's built organizational standards for ChatGPT/Microsoft Copilot usage) is more mature and more valuable than an E-Explorer at SAE L4 (someone fumbling with advanced toolchains).** Depth of judgment beats breadth of tooling every time.\n\n---",
+      "token_count": 214,
       "sae_level": null,
       "epias_stage": null,
       "chunk_type": "table"
@@ -677,65 +677,9 @@
     {
       "chunk_id": 46,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE Levels of Driving Automation (SAEJ3016 est 2014)",
+      "section_title": "Step 1: Get Familiar With E-P-I-A-S Learning Stages",
       "heading_hierarchy": [
-        "Step 1: Find your SAE level",
-        "SAE Levels of Driving Automation (SAEJ3016 est 2014)"
-      ],
-      "text": "Let's take learnings for how AI's progression is being tracked best: the automotive industry. The official SAE (Society of Automotive Engineers) levels of driving automation describe who is responsible for driving — the human or the vehicle — across perception, decision-making, and control.\n\n| SAE Level | Name | Who Drives / Is Responsible | Plain-English Explanation | Everyday Examples |\n| --- | --- | --- | --- | --- |\n| SAE L0 <br>🚗💨 | No Automation | Human does everything | No driving automation; the system may warn but never controls the car | Basic alerts, lane-departure warnings |\n| SAE L1 <br>🚗➕ | Driver Assistance | Human drives; system assists one function | The car can help *either* steering *or* speed, but not both at once | Adaptive cruise control, lane keeping assist |\n| SAE L2 <br>🚗🧠 | Partial Automation | Human supervises; system controls steering *and* speed | The car can steer and control speed together, but *you must watch and intervene* | Tesla Autopilot, GM Super Cruise (hands-on variants) |\n| SAE L3 <br>🚗😴 | Conditional Automation | System drives *within conditions*; human is fallback | The car drives itself *sometimes*, but may ask you to take over | Traffic-jam pilots, limited highway autonomy |\n| SAE L4 <br>🚕🤖 | High Automation | System drives; no human needed *within defined areas* | The car drives itself in specific places or conditions; no driver attention required | Robotaxis in geofenced cities |\n| SAE L5 <br>🚗✨ | Full Automation | System drives everywhere | No steering wheel required; the car can drive anywhere a human can | Fully autonomous vehicles (not yet real) |",
-      "token_count": 397,
-      "sae_level": null,
-      "epias_stage": null,
-      "chunk_type": "table"
-    },
-    {
-      "chunk_id": 47,
-      "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE Levels of Driving Automation (SAEJ3016 est 2014)",
-      "heading_hierarchy": [
-        "Step 1: Find your SAE level",
-        "SAE Levels of Driving Automation (SAEJ3016 est 2014)"
-      ],
-      "text": "Key clarifications (why confusion happens):\n\n- L2 ≠ self-driving — the *human* is still legally responsible.\n- The big legal shift happens between L2 and L3 (who must pay attention).\n- L4 works today, but only in constrained environments.\n- L5 is theoretical — it does not currently exist in production.\n\n---",
-      "token_count": 69,
-      "sae_level": null,
-      "epias_stage": null,
-      "chunk_type": "table"
-    },
-    {
-      "chunk_id": 48,
-      "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "Self-Assess Your Current SAE Level",
-      "heading_hierarchy": [
-        "Step 1: Find your SAE level",
-        "Self-Assess Your Current SAE Level"
-      ],
-      "text": "| SAE Level                                   | AI Usage Examples                                                                                                                                                                                                             | AI Tooling Examples (Not Exhaustive)                                                                                                |\n| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| **SAE L0** <br>Manual <br>🚗💨              | “I do my design work without AI; I'm open to using the latest tool, but in general I prefer doing things as manually as possible.”                                                                                            | None                                                                                                                                |\n| **SAE L1** <br>AI-Assisted <br>🚗➕          | “I use {tools} to generate ideas, copy, or visuals, but I direct each step and manually verify and refine everything.”                                                                                                        | ChatGPT, Midjourney, Figma Make, Krea, Adobe Firefly, Canva, DALL-E, Replicate, …                                                   |\n| **SAE L2** <br>Partially Automated <br>🚗🧠 | “I use {app-builders} to generate bounded chunks (screens, components, small flows) from clear instructions, then I manually integrate and QA the results.”                                                                   | Lovable, Bolt.new, Framer, Vercel v0, Replit, GitHub Spark, …                                                                       |\n| **SAE L3** <br>Guided Automation <br>🚗😴   | “In {my IDE}, I run orchestrated, multi-step workflows with basic context engineering, using subagents/skills/MCP tools to generate large pieces of work, with human-led QA and eval checkpoints.”                            | VS Code (w/ GitHub Copilot), Cursor, OpenAI API/Tools, Anthropic Claude API, Microsoft Foundry, Gemini AI Studio, LangChain, n8n, … |\n| **SAE L4** <br>Mostly Automated <br>🚕🤖    | “In {my IDE/ADE/CLI}, I operate advanced context, tuned harnesses, and eval suites, using subagents/skills/MCP tools to generate, refine, and QA features end-to-end, with humans handling exceptions rather than execution.” | Claude Code CLI, Conductor, GitHub Copilot CLI, LangSmith, LangGraph, Braintrust, Weights & Biases, HuggingFace, Unsloth, …         |\n| **SAE L5** <br>Full Autonomy <br>🚗✨        | “AI runs most of the workflow by default and self-corrects; I set the goals, constraints, quality bar, and approval gates, then review outcomes and exceptions.”                                                              | None                                                                                                                                |",
-      "token_count": 543,
-      "sae_level": null,
-      "epias_stage": null,
-      "chunk_type": "table"
-    },
-    {
-      "chunk_id": 49,
-      "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "Self-Assess Your Current SAE Level",
-      "heading_hierarchy": [
-        "Step 1: Find your SAE level",
-        "Self-Assess Your Current SAE Level"
-      ],
-      "text": "Note that SAE L2, L3, L4 are all getting blurrier with each other every day as the various tools/systems are vertically consuming each other's capabilities. SAE L5 is aspirational and hasn't happened, yet.\n\n---",
-      "token_count": 51,
-      "sae_level": null,
-      "epias_stage": null,
-      "chunk_type": "table"
-    },
-    {
-      "chunk_id": 50,
-      "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "Step 2: Find Your E-P-I-A-S Maturity Stage At Your SAE Level",
-      "heading_hierarchy": [
-        "Step 2: Find Your E-P-I-A-S Maturity Stage At Your SAE Level"
+        "Step 1: Get Familiar With E-P-I-A-S Learning Stages"
       ],
       "text": "We start with a generic maturity progression for a learner. HT Monty Hammontree for his advice on this instrument that I changed a teense to create the catchy acronym E-P-I-A-S.",
       "token_count": 41,
@@ -744,11 +688,11 @@
       "chunk_type": "prose"
     },
     {
-      "chunk_id": 51,
+      "chunk_id": 47,
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "Learner Maturity Stages As E-P-I-A-S",
       "heading_hierarchy": [
-        "Step 2: Find Your E-P-I-A-S Maturity Stage At Your SAE Level",
+        "Step 1: Get Familiar With E-P-I-A-S Learning Stages",
         "Learner Maturity Stages As E-P-I-A-S"
       ],
       "text": "| ❶ E: Explorer | ❷ P: Practitioner | ❸ I: Integrator | ❹ A: Architect | ❺ S: Steward |\n| --- | --- | --- | --- | --- |\n| Trying things; learning basics | Building consistent habits | Making it part of workflow | Building systems others use | Setting standards; teaching others |\n\nYou naturally progress ❶ E → ❷ P → ❸ I → ❹ A → ❺ S. Let's apply this to the conventional non-AI product designer's progression in skillsets.",
@@ -758,11 +702,11 @@
       "chunk_type": "table"
     },
     {
-      "chunk_id": 52,
+      "chunk_id": 48,
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "Non-AI Product Designer Skillset Progression",
       "heading_hierarchy": [
-        "Step 2: Find Your E-P-I-A-S Maturity Stage At Your SAE Level",
+        "Step 1: Get Familiar With E-P-I-A-S Learning Stages",
         "Non-AI Product Designer Skillset Progression"
       ],
       "text": "| ❶ E: Explorer | ❷ P: Practitioner | ❸ I: Integrator | ❹ A: Architect | ❺ S: Steward |\n| --- | --- | --- | --- | --- |\n| Learning design fundamentals; quality varies, needs guidance | Consistent design process; repeatable methods and quality checks | Design embedded end-to-end in product development; clear rationale and validation | Building design systems, processes, and frameworks that others adopt | Setting organizational design standards; mentoring designers; maintaining shared systems |\n\nThis bears a parallel to the career progression \"ladder\" in product design today.",
@@ -772,11 +716,11 @@
       "chunk_type": "table"
     },
     {
-      "chunk_id": 53,
+      "chunk_id": 49,
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "Conventional Product Design Career Progression",
       "heading_hierarchy": [
-        "Step 2: Find Your E-P-I-A-S Maturity Stage At Your SAE Level",
+        "Step 1: Get Familiar With E-P-I-A-S Learning Stages",
         "Conventional Product Design Career Progression"
       ],
       "text": "| ❶ E: Explorer | ❷ P: Practitioner | ❸ I: Integrator | ❹ A: Architect | ❺ S: Steward |\n| --- | --- | --- | --- | --- |\n| Junior Designer | Designer/Mid-level | Senior Designer | Staff/Principal Designer | Director/Design Lead |\n\nKeep in mind that a director or lead can still behave like an \"Explorer\" by having a beginner's mind. Right? They truly need to have that right now in the age of AI.\n\nDo you get the idea of E-P-I-A-S? Awesome! Now locate your SAE level of operating in the AI era, and situate the stage you might be in right now.\n\n---",
@@ -786,110 +730,250 @@
       "chunk_type": "table"
     },
     {
-      "chunk_id": 54,
+      "chunk_id": 50,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
+      "section_title": "SAE Levels of Driving Automation (SAEJ3016 est 2014)",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage"
+        "Step 2: Find Your SAE Level",
+        "SAE Levels of Driving Automation (SAEJ3016 est 2014)"
       ],
-      "text": "The goal of AI as embedded in product design work mirrors the evolution of the automotive industry and its levels of automation. SAE L0 is simply \"manual\" mode for product designers. The goal isn't necessarily to move up automation levels as it depends upon the kind of work you're tasked to do. That said, I think it's always useful to see what kind of work is done at \"higher\" levels up the food chain.",
-      "token_count": 89,
+      "text": "Let's take learnings for how AI's progression is being tracked best: the automotive industry. The official SAE (Society of Automotive Engineers) levels of driving automation describe who is responsible for driving (the human or the vehicle) across perception, decision-making, and control.\n\n| SAE Level | Name | Who Drives / Is Responsible | Plain-English Explanation | Everyday Examples |\n| --- | --- | --- | --- | --- |\n| SAE L0 <br/>🚗💨 | No Automation | Human does everything | No driving automation; the system may warn but never controls the car | Basic alerts, lane-departure warnings |\n| SAE L1 <br/>🚗➕ | Driver Assistance | Human drives; system assists one function | The car can help *either* steering *or* speed, but not both at once | Adaptive cruise control, lane keeping assist |\n| SAE L2 <br/>🚗🧠 | Partial Automation | Human supervises; system controls steering *and* speed | The car can steer and control speed together, but *you must watch and intervene* | Tesla Autopilot, GM Super Cruise (hands-on variants) |\n| SAE L3 <br/>🚗😴 | Conditional Automation | System drives *within conditions*; human is fallback | The car drives itself *sometimes*, but may ask you to take over | Traffic-jam pilots, limited highway autonomy |\n| SAE L4 <br/>🚕🤖 | High Automation | System drives; no human needed *within defined areas* | The car drives itself in specific places or conditions; no driver attention required | Robotaxis in geofenced cities |\n| SAE L5 <br/>🚗✨ | Full Automation | System drives everywhere | No steering wheel required; the car can drive anywhere a human can | Fully autonomous vehicles (not yet real) |",
+      "token_count": 397,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 51,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "SAE Levels of Driving Automation (SAEJ3016 est 2014)",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "SAE Levels of Driving Automation (SAEJ3016 est 2014)"
+      ],
+      "text": "Key clarifications (why confusion happens):\n\n- L2 ≠ self-driving. The *human* is still legally responsible.\n- The big legal shift happens between L2 and L3 (who must pay attention).\n- L4 works today, but only in constrained environments.\n- L5 is theoretical and does not currently exist in production.\n\n---",
+      "token_count": 68,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 52,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "Tools Don't Define Levels. Responsibility Does.",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Tools Don't Define Levels. Responsibility Does."
+      ],
+      "text": "One of the biggest misconceptions designers have is:\n\n> \"Advanced tools = higher maturity.\"\n\nThat's not how SAE works. **The level is defined by who holds responsibility over time**, not which tool you're using.\n\nThat said, tools *do* matter. They shape where work happens and what kinds of responsibility transfers become possible. Think in terms of **environments**:\n\n* **Assistive Environments** Short-lived AI help. Context resets easily. Humans stay continuously involved. Examples: Chat tools, visual generators, canvas AI, even IDE chat panels. \n\n> These environments dominate at L1–L2 because responsibility never leaves you.\n\n* **Workspace Environments (IDE)** Where workflows persist over time: files, history, diffs, checkpoints. IDEs become important at L3 not because they're \"advanced\" but because _your work spans time and must survive interruptions_. If you close your laptop at L3, the work pauses but doesn't vanish. \n\n> *Why this matters now:* Today, the real differentiation for a product designer is whether they can make a real PR by themselves. That requires being close to code. Cursor, VS Code + Copilot, and similar tools aren't just \"advanced.\" They're where the responsibility shift to L3 actually happens. This may change as web app builders evolve, but right now the IDE is the threshold.\n\n* **Autonomous Environments (ADE / State-Of-The-Art (SOTA) \"Harnesses\")** Execution continues without constant human presence: background agents, harnesses, eval-driven pipelines. Refer to the Anthropic [piece](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) on harnesses and \"long-running\" agents to learn more.\n\n> These define L4 because responsibility shifts from steps to rules. You're not reviewing work-in-progress; you're reviewing outcomes.",
+      "token_count": 387,
       "sae_level": null,
       "epias_stage": null,
       "chunk_type": "prose"
     },
     {
+      "chunk_id": 53,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "Tools Don't Define Levels. Responsibility Does.",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Tools Don't Define Levels. Responsibility Does."
+      ],
+      "text": "Confusing? Probably. Just keep in mind that the core shift as you go across levels feels like:\n\n```\nAssistive  → Workspace  → Autonomous\n\"moment\"     \"workflow\"   \"rules\"\n```\n\nOr said differently:\n\n```\nL0     L1        L2        L3         L4         L5\ndo → direct → assemble → approve → constrain → govern\n\nL0 — You own everything (no AI).\nL1 — You own every AI moment.\nL2 — You own every AI's integration.\nL3 — You own the AI's checkpoints.\nL4 — You own the AI's rules.\nL5 — You own the AI's goals.\n```\n\n---",
+      "token_count": 144,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 54,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "Self-Assess Your Current SAE Level",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Self-Assess Your Current SAE Level"
+      ],
+      "text": "| SAE Level | What Your Work Looks Like | Where This Work Typically Happens |\n| --- | --- | --- |\n| **SAE L0** <br/>Manual <br/>🚗💨 | \"I do my design work without AI; I'm open to using the latest tool, but in general I prefer doing things as manually as possible.\" | Figma, Sketch (old skool), pen and paper (OG old skool), manual paper prototyping (OG IDEO skool) |\n| **SAE L1** <br/>AI-Assisted <br/>🚗➕ | \"I use AI to generate ideas, copy, or visuals, but I direct each step and manually verify and refine everything.\" | ChatGPT, Microsoft Copilot, Midjourney, Microsoft Copilot, Figma Make, Krea, Adobe Firefly, Canva, DALL-E, Replicate, … |\n| **SAE L2** <br/>Partially Automated <br/>🚗🧠 | \"I use AI app-builders and hybrid design↔code canvases to generate bounded chunks (screens, components, flows, or small apps) from clear instructions, then I manually integrate and QA the results.\" | Lovable, Bolt.new, MagicPath, Pencil.dev (canvas mode), Vercel v0, Framer AI, Replit, GitHub Spark, … |\n| **SAE L3** <br/>Guided Automation <br/>🚗😴 | \"In my IDE, I run orchestrated, multi-step workflows with context engineering, using subagents/skills/MCP tools to generate large pieces of work, with human-led QA and eval checkpoints.\" | VS Code (w/ GitHub Copilot), Cursor, Codex, Claude in IDE, API playgrounds with persistence, … |\n| **SAE L4** <br/>Mostly Automated <br/>🚕🤖 | \"In my IDE/ADE/CLI, I operate advanced context, tuned harnesses, and eval suites, using subagents/skills/MCP tools to generate, refine, and QA features end-to-end, with humans handling exceptions rather than execution.\" | Claude Code CLI, Conductor, GitHub Copilot CLI, LangSmith, LangGraph, Braintrust, Weights & Biases, … |\n| **SAE L5** <br/>Full Autonomy <br/>🚗✨ | \"AI runs most of the workflow by default and self-corrects; I set the goals, constraints, quality bar, and approval gates, then review outcomes and exceptions.\" | Aspirational, not yet real |",
+      "token_count": 552,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
       "chunk_id": 55,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L0: 🚗💨 Manual",
+      "section_title": "Self-Assess Your Current SAE Level",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
-        "E-P-I-A-S at Each SAE Level",
-        "SAE L0: 🚗💨 Manual"
+        "Step 2: Find Your SAE Level",
+        "Self-Assess Your Current SAE Level"
       ],
-      "text": "*Human-only execution*\n> You do the work. Tools don’t decide or generate.\n\n| E: <br>Explorer <br>❶→                                                             | P: <br>Practitioner <br>❷→                                                 | I: <br>Integrator <br>❸→                                                                               | A: <br>Architect <br>❹→                                                           | S: <br>Steward <br>→❺                                                                                              |\n| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |\n| Exploring craft fundamentals; learning manual techniques with inconsistent results | Consistent manual practice with developed habits and repeatable techniques | Manual workflow fully integrated with validation steps, traceability, and clear decision documentation | Built reusable manual systems, templates, and processes that others on team adopt | Set organizational standards for craft quality; mentor others in manual techniques; maintain shared design systems |",
-      "token_count": 186,
-      "sae_level": 0,
+      "text": "Note: L2, L3, and L4 tooling is getting blurrier every day as systems vertically absorb each other's capabilities. The boundaries are about responsibility, not features. Hybrid design↔code canvas tools typically live at SAE L2, and only enter SAE L3 when embedded into persistent IDE workflows (e.g., Pencil.dev driving Claude Code inside a repo, Cursor visual editor modifying real code, etc.).\n\n---",
+      "token_count": 89,
+      "sae_level": null,
       "epias_stage": null,
       "chunk_type": "table"
     },
     {
       "chunk_id": 56,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L1: 🚗➕ AI-Assisted",
+      "section_title": "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
-        "E-P-I-A-S at Each SAE Level",
-        "SAE L1: 🚗➕ AI-Assisted"
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level"
       ],
-      "text": "*AI suggests; human decides*\n> AI helps you think and draft, but never owns outcomes.\n\n| E: <br>Explorer <br>❶→                                                                                 | P: <br>Practitioner <br>❷→                                                                         | I: <br>Integrator <br>❸→                                                                                                             | A: <br>Architect <br>❹→                                                                   | S: <br>Steward <br>→❺                                                                                                            |\n| --- | --- | --- | --- | --- |\n| Trying ChatGPT, Midjourney, Firefly for ideas or drafts; outputs are hit-or-miss and heavily rewritten | Using AI daily with saved prompts; consistent structure, tone, and basic quality checks before use | AI embedded across a full task (research → ideation → draft → refine) with sources noted, decisions explained, and manual validation | Shared prompt libraries, review checklists, and example outputs teammates can reuse and trust | Team standards for AI-assisted work (what’s allowed, how it’s reviewed); mentors others on prompting and judgment; governs usage |",
-      "token_count": 228,
-      "sae_level": 1,
+      "text": "The goal of AI as embedded in product design work mirrors the evolution of the automotive industry and its levels of automation. SAE L0 is simply \"manual\" mode for product designers. The goal isn't necessarily to move up automation levels; it depends upon the kind of work you're tasked to do. That said, it's always useful to see what kind of work is done at \"higher\" levels up the food chain.\n\n---",
+      "token_count": 88,
+      "sae_level": null,
       "epias_stage": null,
-      "chunk_type": "table"
+      "chunk_type": "prose"
     },
     {
       "chunk_id": 57,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L2: 🚗🧠 Partially Automated",
+      "section_title": "SAE L0: 🚗💨 Manual",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
         "E-P-I-A-S at Each SAE Level",
-        "SAE L2: 🚗🧠 Partially Automated"
+        "SAE L0: 🚗💨 Manual"
       ],
-      "text": "*AI builds bounded chunks; human integrates*\n> AI produces usable pieces, but you assemble and verify.\n\n| E: <br>Explorer <br>❶→                                                                                           | P: <br>Practitioner <br>❷→                                                                                       | I: <br>Integrator <br>❸→                                                                                                   | A: <br>Architect <br>❹→                                                                            | S: <br>Steward <br>→❺                                                                                                                        |\n| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| Trying app-builders (Bolt/Lovable/v0/Framer) to generate screens/components; lots of manual stitching and rework | Getting repeatable components from clear specs; using a simple “definition of done” checklist before integrating | Outputs fit a known integration pattern (tokens/layout/a11y); prompts + inputs are traceable from request → result → final | Reusable component/flow templates + prompt packs that teammates can run and get consistent results | Team norms for what to automate at L2 (safe chunks vs risky ones); mentors others on integration + QA; governs usage and review expectations |\n\n---",
-      "token_count": 239,
-      "sae_level": 2,
+      "text": "#### CLASSICAL DESIGNER (🚫 AI) | No Automation | Craft fundamentals (and they still matter)\n\n*Human-only execution*\n\n> You do the work. Tools don't decide or generate.\n\n**Environment:** Traditional design tools (Figma, Sketch, etc.)\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Exploring craft fundamentals; learning manual techniques with inconsistent results | Consistent manual practice with developed habits and repeatable techniques | Manual workflow fully integrated with validation steps, traceability, and clear decision documentation | Built reusable manual systems, templates, and processes that others on team adopt | Set organizational standards for craft quality; mentor others in manual techniques; maintain shared design systems |\n\n**Architect bonus:** Design systems and templates so clear that engineers and PMs can make basic design decisions without a designer in the room.\n\n---",
+      "token_count": 213,
+      "sae_level": 0,
       "epias_stage": null,
       "chunk_type": "table"
     },
     {
       "chunk_id": 58,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L3: 🚗😴 Guided Automation",
+      "section_title": "SAE L1: 🚗➕ AI-Assisted",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
         "E-P-I-A-S at Each SAE Level",
-        "SAE L3: 🚗😴 Guided Automation"
+        "SAE L1: 🚗➕ AI-Assisted"
       ],
-      "text": "*IDE-centric, human-in-the-loop execution*\n> *If you close your laptop, the system stops.*\n\n| E: <br>Explorer <br>❶→                                                                                               | P: <br>Practitioner <br>❷→                                                                                                                         | I: <br>Integrator <br>❸→                                                                                                             | A: <br>Architect <br>❹→                                                                                                                              | S: <br>Steward <br>→❺                                                                                                                                    |\n| -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Moving work into an IDE (VS Code/Cursor); learning basic context rules; multi-step runs are inconsistent and fragile | Running reliable multi-step workflows *inside the IDE* with explicit checkpoints (plan → generate → review → revise); lightweight evals by default | Clear decision framing for IDE-run workflows: what AI executes, what humans approve, and when to intervene; failure modes documented | Shared IDE-invoked workflows: Skills/MCP tools, context libraries (brand, design system, constraints), and reusable eval templates teammates can run | Org standards for **IDE-based AI work** (safety, quality, traceability); mentorship on context engineering; maintains shared Skills/MCP used *from* IDEs |\n\n**Key L3 signal:**\n\n\n---",
-      "token_count": 275,
-      "sae_level": 3,
+      "text": "#### MARKETING DESIGNER × AI | Better thinking (and draft assets in minutes)\n\n*AI suggests; human decides*\n\n> AI helps you think and draft, but never owns outcomes.\n\n**Environment:** Assistive (chat, generators, canvas AI)\n\n**Responsibility:** You own every moment. AI reduces cognitive load, not responsibility.\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Trying ChatGPT, Microsoft Copilot, Midjourney, Firefly for ideas or drafts; outputs are hit-or-miss and heavily rewritten | Using AI daily with saved prompts; consistent structure, tone, and basic quality checks before use | AI embedded across a full task (research → ideation → draft → refine) with sources noted, decisions explained, and manual validation | Shared prompt libraries, review checklists, and example outputs teammates can reuse and trust | Team standards for AI-assisted work (what's allowed, how it's reviewed); mentors others on prompting and judgment; governs usage |\n\n**Architect bonus:** Prompt libraries and examples that let PMs, writers, or engineers produce design-quality drafts that only need light review.\n\n**How you know AI is helping at L1:**\n- Reduces time-to-first-draft\n- Expands ideation breadth\n- Catches things you'd miss\n- But: you still rewrite most outputs\n\n---",
+      "token_count": 318,
+      "sae_level": 1,
       "epias_stage": null,
       "chunk_type": "table"
     },
     {
       "chunk_id": 59,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L4: 🚕🤖 Mostly Automated",
+      "section_title": "SAE L2: 🚗🧠 Partially Automated",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
         "E-P-I-A-S at Each SAE Level",
-        "SAE L4: 🚕🤖 Mostly Automated"
+        "SAE L2: 🚗🧠 Partially Automated"
       ],
-      "text": "*Harness-centric, system-run execution*\n> *Work completes while you’re asleep — and you trust the results unless alerted.*\n\n| E: <br>Explorer <br>❶→                                                                                             | P: <br>Practitioner <br>❷→                                                                                            | I: <br>Integrator <br>❸→                                                                                                           | A: <br>Architect <br>❹→                                                                                                             | S: <br>Steward <br>→❺                                                                                                                                         |\n| ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Experimenting with autonomous harnesses and agent pipelines; results require heavy validation and manual debugging | Operating harnesses with repeatable execution patterns; evals, retries, and escalation paths are consistently applied | End-to-end workflows run autonomously; comprehensive eval suites validate outputs; exception classes and recovery paths documented | Built production-grade agent infrastructure others operate: self-improving harnesses, shared skill libraries, eval-driven pipelines | Governance for autonomous systems at scale; defines risk thresholds, approval gates, and accountability; maintains org-level eval and autonomy infrastructure |",
-      "token_count": 234,
-      "sae_level": 4,
+      "text": "#### PRODUCT DESIGNER × AI | Bigger thinking (and non-production prototypes in hours)\n\n*AI builds bounded chunks; human integrates*\n\n> AI produces usable pieces, but you assemble and verify.\n\nNew hybrid design↔code canvas tools (Lovable, MagicPath,  Pencil.dev, v0, Bolt, [YC startups](https://www.ycombinator.com/companies/industry/design-tools), etc.) live primarily at L2. They generate larger, more integrated UI chunks — sometimes full apps — but responsibility for integration, correctness, and shipping still sits with the human.\n\n**Environment:** Assistive + early Workspace (app-builders, component generators)\n\n**Responsibility:** You own every integration. You spend more time integrating than fixing.\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Trying app-builders (Bolt/Lovable/v0/Framer) to generate screens/components; lots of manual stitching and rework | Getting repeatable components from clear specs; using a simple \"definition of done\" checklist before integrating | Outputs fit a known integration pattern (tokens/layout/a11y); prompts + inputs are traceable from request → result → final | Reusable component/flow templates + prompt packs that teammates can run and get consistent results | Team norms for what to automate at L2 (safe chunks vs risky ones); mentors others on integration + QA; governs usage and review expectations |\n\n**Architect bonus:** Component specs and prompt packs that let non-designers generate on-brand UI that passes design review.",
+      "token_count": 353,
+      "sae_level": 2,
       "epias_stage": null,
       "chunk_type": "table"
     },
     {
       "chunk_id": 60,
       "source_file": "ai-upskilling-for-product-designers.md",
-      "section_title": "SAE L5: 🚗✨ Fully Automated",
+      "section_title": "SAE L2: 🚗🧠 Partially Automated",
       "heading_hierarchy": [
-        "Step 3: Use Your Current E-P-I-A-S Stage Within An SAE Level To Plot A Path To The Next Stage",
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
         "E-P-I-A-S at Each SAE Level",
-        "SAE L5: 🚗✨ Fully Automated"
+        "SAE L2: 🚗🧠 Partially Automated"
       ],
-      "text": "_Science-fiction, might happen some day_\n\n>This is the AGI dream.\n\n| E: <br>Explorer <br>❶→                                                             | P: <br>Practitioner <br>❷→                                                 | I: <br>Integrator <br>❸→                                                                               | A: <br>Architect <br>❹→                                                           | S: <br>Steward <br>→❺                                                                                              |\n| --- | --- | --- | --- | --- |\n| Exploring goal-setting interfaces for autonomous AI; exception handling is unclear | Setting approval gates and quality bars consistently; routine review of autonomous outputs | Autonomous workflows validated with exception handling systems; clear escalation paths documented | Designed goal-setting and approval systems that others trust; reusable governance frameworks | Enterprise governance for fully autonomous AI; set approval frameworks; organizational AI risk and trust standards |\n\n---",
-      "token_count": 181,
-      "sae_level": 5,
+      "text": "**How you know AI is helping at L2:**\n- Generated components ship with minimal rework\n- You have repeatable specs that produce consistent results\n- Integration time drops as you develop patterns\n- But: you still manually connect everything\n\n---",
+      "token_count": 51,
+      "sae_level": 2,
       "epias_stage": null,
       "chunk_type": "table"
     },
     {
       "chunk_id": 61,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "SAE L3: 🚗😴 Guided Automation",
+      "heading_hierarchy": [
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
+        "E-P-I-A-S at Each SAE Level",
+        "SAE L3: 🚗😴 Guided Automation"
+      ],
+      "text": "#### DESIGN ENGINEER × AI | Persistent workflows (and real production PRs)\n\n*IDE-centric, human-in-the-loop execution*\n\n> If you close your laptop, the system pauses, but the work persists.\n\n**Environment:** Workspace (IDE with persistence, history, checkpoints)\n\n**Responsibility:** You own the checkpoints. Work spans time, not just prompts.\n\n**Why the IDE matters now:** This is where designers cross the threshold into being able to ship real PRs. The IDE isn't just \"advanced tooling.\" It's where context persists across sessions, where you can run multi-step workflows, and where the code actually lives. Today, Cursor/VS Code + GitHub Copilot are the environments where this responsibility shift happens. This may evolve as app-builders mature, but right now the IDE is the gate.\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Moving work into an IDE (VS Code/Cursor); learning basic context rules; multi-step runs are inconsistent and fragile | Running reliable multi-step workflows *inside the IDE* with explicit checkpoints (plan → generate → review → revise); lightweight evals by default | Clear decision framing for IDE-run workflows: what AI executes, what humans approve, and when to intervene; failure modes documented | Shared IDE-invoked workflows: Skills/MCP tools, context libraries (brand, design system, constraints), and reusable eval templates teammates can run | Org standards for IDE-based AI work (safety, quality, traceability); mentorship on context engineering; maintains shared Skills/MCP used from IDEs |\n\n**Architect BONUS:** Created a \"mini\" version of production codebase for PMs and designers to experiment with their ideas.",
+      "token_count": 386,
+      "sae_level": 3,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 62,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "SAE L3: 🚗😴 Guided Automation",
+      "heading_hierarchy": [
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
+        "E-P-I-A-S at Each SAE Level",
+        "SAE L3: 🚗😴 Guided Automation"
+      ],
+      "text": "**How you know AI is helping at L3:**\n- You can leave and come back without losing context\n- Multi-step workflows complete without constant intervention\n- You review at checkpoints, not every step\n- You can ship PRs that you couldn't have written manually\n- But: you still supervise every workflow run\n\n---",
+      "token_count": 67,
+      "sae_level": 3,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 63,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "SAE L4: 🚕🤖 Mostly Automated",
+      "heading_hierarchy": [
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
+        "E-P-I-A-S at Each SAE Level",
+        "SAE L4: 🚕🤖 Mostly Automated"
+      ],
+      "text": "#### SUPER DESIGN ENGINEER × AI | Autonomous execution (your work done while you sleep)\n\n*Harness-centric, system-run execution*\n\n> Work completes while you're asleep, and you trust the results unless alerted.\n\n**Environment:** System (ADE, CLI, harnesses, eval pipelines)\n\n**Responsibility:** You own the rules. You review outcomes, not steps.\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Experimenting with autonomous harnesses and agent pipelines; results require heavy validation and manual debugging | Operating harnesses with repeatable execution patterns; evals, retries, and escalation paths are consistently applied | End-to-end workflows run autonomously; comprehensive eval suites validate outputs; exception classes and recovery paths documented | Built production-grade agent infrastructure others operate: self-improving harnesses, shared skill libraries, eval-driven pipelines | Governance for autonomous systems at scale; defines risk thresholds, approval gates, and accountability; maintains org-level eval and autonomy infrastructure |\n\n**Architect bonus:** Built interfaces where PMs and designers can trigger agent workflows, monitor progress, and approve outputs—without ever opening a terminal.\n\n**How you know AI is helping at L4:**\n- Systems run without your attention\n- You're alerted to exceptions, not asked for approvals\n- Eval suites catch problems before you do\n- But: you still define what \"good\" means\n\n---",
+      "token_count": 320,
+      "sae_level": 4,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 64,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "SAE L5: 🚗✨ Fully Automated",
+      "heading_hierarchy": [
+        "Step 3: Determine Your E-P-I-A-S Stage Within Any SAE Level",
+        "E-P-I-A-S at Each SAE Level",
+        "SAE L5: 🚗✨ Fully Automated"
+      ],
+      "text": "#### AI × AI | Goal-setting only (and we're not there yet)\n\n*Science-fiction, might happen some day*\n\n> This is the AGI dream.\n\n**Environment:** Theoretical\n\n| E: Explorer ❶→ | P: Practitioner ❷→ | I: Integrator ❸→ | A: Architect ❹→ | S: Steward →❺ |\n| --- | --- | --- | --- | --- |\n| Exploring goal-setting interfaces for autonomous AI; exception handling is unclear | Setting approval gates and quality bars consistently; routine review of autonomous outputs | Autonomous workflows validated with exception handling systems; clear escalation paths documented | Designed goal-setting and approval systems that others trust; reusable governance frameworks | Enterprise governance for fully autonomous AI; set approval frameworks; organizational AI risk and trust standards |\n\n**Architect bonus:** Governance frameworks where cross-functional teams can set AI goals and constraints together, not just at the engineering level.\n\n---",
+      "token_count": 195,
+      "sae_level": 5,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 65,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "How Designers Know AI Is Actually Helping",
+      "heading_hierarchy": [
+        "How Designers Know AI Is Actually Helping"
+      ],
+      "text": "Across all levels, AI is helping if it:\n\n- **Reduces cognitive load:** you think about fewer things at once\n- **Reduces cycle time:** you ship faster\n- **Reduces rework:** outputs need less fixing\n- **Improves consistency:** quality varies less\n- **Improves handoff clarity:** others understand your work better\n\nIf none of those improve, you're exploring, not progressing. That's fine! Exploring is stage one. But don't confuse tool novelty with workflow improvement.\n\n---",
+      "token_count": 107,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 66,
+      "source_file": "ai-upskilling-for-product-designers.md",
+      "section_title": "The Big Takeaway",
+      "heading_hierarchy": [
+        "The Big Takeaway"
+      ],
+      "text": "SAE maturity is not about using more advanced tools. It's about who holds responsibility over time.\n\nRight now, the jump to L3 and L4 usually means working closer to code. That's not arbitrary. Code is where context persists, where workflows can be versioned and resumed, and where you can actually ship a PR that changes production. IDEs and ADEs aren't \"advanced tools\" so much as environments where the responsibility transfer to AI becomes structurally possible. But this is a snapshot of 2026, not a permanent truth. As app-builders get smarter, as agents get better at maintaining state, and as the boundaries between \"design tool\" and \"development environment\" keep blurring, the specific tooling that defines each level will shift. What won't change is the underlying question: who owns the work at any given moment? The tools are just where that ownership gets enacted.\n\n```\nWithout AI:\nL0 — craft fundamentals (and they still matter)\n\nWith AI:\nL1 — better thinking (and first drafts in minutes)\nL2 — reusable outputs (and non-production prototypes in hours)\nL3 — persistent workflows (and real production PRs)\nL4 — autonomous execution (your work done while you sleep)\nL5 — goal-setting only (and we're not there yet)\n```\n\nDesigners don't need to race toward L4. They need to go deep wherever they are.\n\nAn S-Steward at L1 who's built organizational standards and repeatable habits for responsible AI-assisted design is more valuable than an E-Explorer fumbling with agent harnesses they don't understand. Even if that Explorer looks cooler at the demo. ;-)\n\nGo deep before you go wide.\n\n---",
+      "token_count": 351,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 67,
       "source_file": "ai-upskilling-for-product-designers.md",
       "section_title": "Congratulations!",
       "heading_hierarchy": [
@@ -897,6 +981,313 @@
       ],
       "text": "Do you feel a little better now? I hope so! I spent three weekends working on this ... but also have spent the last few decades on this problem, too. I don't expect to fully solve it before I kick the bucket, but I'll keep on trying to improve this system!\n\n---\n\n*This framework is part of the [Design in Tech Report 2026](https://schedule.sxsw.com/2026/events/PP1148536). It will be presented at SXSW 2026. Feedback and contributions welcome.*",
       "token_count": 110,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 68,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "AI Upskilling for UX Researchers: The SAE × E-P-I-A-S Framework",
+      "heading_hierarchy": [
+        "AI Upskilling for UX Researchers: The SAE × E-P-I-A-S Framework"
+      ],
+      "text": "Adapted from the [Product Designer AI Upskilling Framework](https://johnmaeda.github.io/dit26-ai-upskilling-gameboard/) for UX Research. This framework recognizes that UXR has distinct accountability structures around **evidence integrity, methodological rigor, and participant protection**. Built on UXR expertise and insights from Jake Rhodes and Monty Hammontree.\n\n> Note: This is **not** a test, and it’s **not** a judgment. Most teams are early in automation. That’s normal. The point is to give you a shared language for “what’s happening” and “what’s next.”\n\n---",
+      "token_count": 132,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 69,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "1) **E-P-I-A-S** = how deeply you’ve internalized a skill",
+      "heading_hierarchy": [
+        "AI Upskilling for UX Researchers: The SAE × E-P-I-A-S Framework",
+        "How to Use This",
+        "1) **E-P-I-A-S** = how deeply you’ve internalized a skill"
+      ],
+      "text": "| ❶ E: Explorer                  | ❷ P: Practitioner          | ❸ I: Integrator            | ❹ A: Architect              | ❺ S: Steward                       |\n| ------------------------------ | -------------------------- | -------------------------- | --------------------------- | ---------------------------------- |\n| Trying things; learning basics | Building consistent habits | Making it part of workflow | Building systems others use | Setting standards; teaching others |",
+      "token_count": 89,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 70,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "2) **SAE Level** = how much responsibility AI holds in your workflow",
+      "heading_hierarchy": [
+        "AI Upskilling for UX Researchers: The SAE × E-P-I-A-S Framework",
+        "How to Use This",
+        "2) **SAE Level** = how much responsibility AI holds in your workflow"
+      ],
+      "text": "> To reduce “forced syntax” without losing SAE: think of SAE as your **autonomy envelope** — *how far the work can go without you touching the wheel.*\n> (We’ll still use SAE L0–L5 so it stays compatible with the original framework.)\n\nFor UXR, the “driving stack” maps to:\n\n| Driving Domain  | UXR Equivalent                                     |\n| --------------- | -------------------------------------------------- |\n| Perception      | Evidence intake (data collection, what’s observed) |\n| Decision-making | Inference + judgment (what it means, what to do)   |\n| Control         | Execution (study ops, analysis, delivery)          |",
+      "token_count": 139,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 71,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "How to navigate",
+      "heading_hierarchy": [
+        "AI Upskilling for UX Researchers: The SAE × E-P-I-A-S Framework",
+        "How to Use This",
+        "How to navigate"
+      ],
+      "text": "1. **Find your E-P-I-A-S stage.** Are you experimenting, running consistent workflows, or building systems others can operate?\n2. **Find your SAE Level.** L0 (manual) → L4 (mostly automated). *Most UXRs in early 2026 are L1–L2.*\n3. **Plan growth.** Go deeper (E→S within your level) or wider (move up a level). In UXR, **depth usually wins**.\n\n**Key difference from product design:** UXR carries heightened accountability for evidence integrity and participant protection. An **S-Steward at L1** with solid verification habits beats an **E-Explorer at L4** running pipelines they can’t validate.\n\n---",
+      "token_count": 152,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 72,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Non-AI UX Researcher Progression",
+      "heading_hierarchy": [
+        "Step 1: E-P-I-A-S Stages",
+        "Non-AI UX Researcher Progression"
+      ],
+      "text": "| ❶ Explorer                                         | ❷ Practitioner                                            | ❸ Integrator                                                  | ❹ Architect                            | ❺ Steward                                                    |\n| -------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------ |\n| Learning methods; variable quality; needs guidance | Consistent process; repeatable methods; reliable evidence | Research embedded in product decisions; clear evidence chains | Building research systems others adopt | Setting org standards; mentoring; maintaining infrastructure |",
+      "token_count": 96,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 73,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Career Ladder Parallel (Approximate)",
+      "heading_hierarchy": [
+        "Step 1: E-P-I-A-S Stages",
+        "Career Ladder Parallel (Approximate)"
+      ],
+      "text": "| ❶ Explorer           | ❷ Practitioner | ❸ Integrator      | ❹ Architect     | ❺ Steward     |\n| -------------------- | -------------- | ----------------- | --------------- | ------------- |\n| Associate Researcher | UX Researcher  | Senior Researcher | Staff/Principal | Director/Lead |\n\n---",
+      "token_count": 71,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 74,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "SAE Levels for UXR",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "SAE Levels for UXR"
+      ],
+      "text": "> “Make it safe” framing: If you read these and think *“wow, we are nowhere near this”* — good. You’re paying attention. Most teams are early. The goal is **clarity**, not guilt.\n\n| Level   | Name                   | Who’s Responsible                          | Plain English                                             | Examples                                                    |\n| ------- | ---------------------- | ------------------------------------------ | --------------------------------------------------------- | ----------------------------------------------------------- |\n| L0 🔬   | No Automation          | Human does everything                      | AI may organize, but doesn’t generate research outputs    | Manual coding, spreadsheets, slides                         |\n| L1 🔬➕  | Research Assistance    | Human drives; AI assists one function      | AI drafts/summarizes; you verify everything               | Summarize an interview; draft a screener                    |\n| L2 🔬🧠 | Partial Automation     | Human supervises; AI does multi-step work  | AI synthesizes across sources; you validate in-loop       | Feed 10 transcripts → themes + quotes + draft readout       |\n| L3 🔬😴 | Conditional Automation | AI drives within bounds; human is fallback | AI runs end-to-end inside rules; escalates when uncertain | Bounded synthesis with codebook; escalates on thin evidence |\n| L4 🔬🤖 | High Automation        | AI drives within bounds; no human standby  | AI executes unattended; humans audit periodically         | Weekly insight digests; auto-tagging; exception alerts      |\n| L5 🔬✨  | Full Automation        | AI drives everywhere                       | AI handles novel studies, methods, ethics, org politics   | **Theoretical only**                                        |",
+      "token_count": 346,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 75,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Key Clarifications (less ambiguous, more concrete)",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Key Clarifications (less ambiguous, more concrete)"
+      ],
+      "text": "* **L2 ≠ autonomous research.** You still supervise, validate, and own the interpretation.\n* **Big shift is L2 → L3:** you go from *“watching every run”* to *“trusting runs unless escalated.”*\n* **L4 only works in constrained domains** with stable methods and measurable gates (e.g., tagging support tickets, aggregating survey verbatims).\n* **L5 is theoretical.** We’re nowhere close.",
+      "token_count": 97,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 76,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "What do we mean by “production” in UXR?",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Key Clarifications (less ambiguous, more concrete)",
+        "What do we mean by “production” in UXR?"
+      ],
+      "text": "This is a common confusion, so we’ll be explicit:\n\n* **Not “production”**: building a Qualtrics-class product, a platform, or a public-facing tool.\n* **“Production” here means**: a research workflow that is **team-reliable**:\n\n  * someone else can run it,\n  * it has **documentation**,\n  * it has **monitoring or checks**,\n  * it produces outputs that are **traceable** back to evidence.\n\n> Example: a shared prompt pack + verification checklist can count as “production-quality,” even if it’s just a doc.",
+      "token_count": 123,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 77,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "What’s a “Research ODD”?",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Key Clarifications (less ambiguous, more concrete)",
+        "What’s a “Research ODD”?"
+      ],
+      "text": "ODD = Operational Design Domain. The **safe operating zone** for AI work.\n\n> If “ODD” feels like forced syntax: treat it as your **research autonomy envelope** — *the boundaries that keep automation safe.*\n\n| Component              | Example                                                                |\n| ---------------------- | ---------------------------------------------------------------------- |\n| Study type constraints | “Only synthesize existing interviews; no novel method selection”       |\n| Inputs allowed         | Approved transcripts, tagged repository, prior codebook                |\n| Decision boundaries    | Roadmap prioritization → escalate; sensitive segments → escalate       |\n| Quality gates          | 25% transcript spot-checks; contradiction checks; hallucination checks |\n| Traceability           | Every claim links to quotes; confidence labels required                |\n| Risk boundaries        | Privacy, medical, financial, minors, legal → always escalate           |\n\n---",
+      "token_count": 170,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 78,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Simple Self-Assessment",
+      "heading_hierarchy": [
+        "Step 2: Find Your SAE Level",
+        "Simple Self-Assessment"
+      ],
+      "text": "| Level                      | What your work looks like                                                               | Where it happens                             |\n| -------------------------- | --------------------------------------------------------------------------------------- | -------------------------------------------- |\n| **L0** Manual              | “I do research manually. Tools store data but don’t generate interpretations.”          | Docs, spreadsheets, Miro, slides             |\n| **L1** AI-Assisted         | “I use AI for one task at a time (summaries, screeners). I verify against source.”      | ChatGPT, Claude, Granola, transcription tools         |\n| **L2** Partially Automated | “AI does multi-step synthesis. I supervise in-loop and correct before it ships.”        | Marvin, Looppanel, Dovetail AI               |\n| **L3** Guided Automation   | “I define a Research ODD (autonomy envelope). AI runs until ambiguity, then escalates.” | Repository workflows with verification gates |\n| **L4** Mostly Automated    | “In bounded areas, AI produces outputs without me present. I audit periodically.”       | Automated pipelines, eval suites             |\n\n---",
+      "token_count": 222,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 79,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L0: Manual 🔬",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L0: Manual 🔬"
+      ],
+      "text": "*Human-only execution. Tools don’t interpret or generate.*\n\n| Explorer                           | Practitioner                               | Integrator                                                  | Architect                           | Steward                          |\n| ---------------------------------- | ------------------------------------------ | ----------------------------------------------------------- | ----------------------------------- | -------------------------------- |\n| Learning methods; variable quality | Consistent practice; repeatable techniques | Workflow integrated with product dev; clear evidence chains | Built reusable systems others adopt | Set org standards; mentor others |\n\n---",
+      "token_count": 86,
+      "sae_level": 0,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 80,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L1: AI-Assisted 🔬➕",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L1: AI-Assisted 🔬➕"
+      ],
+      "text": "*AI suggests; human decides. AI reduces cognitive load, not responsibility.*\n\n**Tools:** ChatGPT, Claude, Granola, Otter, Looppanel, Dovetail, Great Question\n\n**AI helps with:** Summarizing interviews, drafting screeners/guides, rewriting for audiences, transcription\n\n**You still:** Verify every synthesis against source\n\n| Explorer                                                      | Practitioner                                                   | Integrator                                                        | Architect                                                       | Steward                                                      |\n| ------------------------------------------------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------ |\n| Trying AI for summaries; heavy rewriting; ad hoc verification | Daily AI use; saved prompts; always verify against transcripts | AI embedded across full task with sources noted and claims linked | Shared prompt libraries and verification templates others trust | Team standards for AI-assisted work; mentors on verification |\n\n**Critical habits:**\n\n* Always verify AI summaries against original transcripts\n* Never trust AI quotes without checking source\n* Document when AI assisted and what you verified\n\n---",
+      "token_count": 200,
+      "sae_level": 1,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 81,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L2: Partially Automated 🔬🧠",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L2: Partially Automated 🔬🧠"
+      ],
+      "text": "*AI builds bounded synthesis; human validates.*\n\n**Tools:** Marvin, Looppanel, Dovetail AI, Condens, Great Question, Maze AI\n\n**AI helps with:** Multi-interview synthesis, theme proposals with quotes, draft readouts, tagging\n\n**You still:** Validate every theme against source evidence\n\n| Explorer                                            | Practitioner                                                        | Integrator                                                     | Architect                                   | Steward                                  |\n| --------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------- |\n| Trying synthesis tools; lots of manual verification | Repeatable themes from clear inputs; “definition of done” checklist | AI synthesis fits known patterns; full traceability documented | Reusable templates + verification protocols | Team norms for safe vs. risky automation |\n\n**Critical habits:**\n\n* Sample-verify 20–30% of AI themes against transcripts\n* Look for contradicting evidence\n* Check that quoted text actually exists\n* Mark insight confidence levels\n* Maintain claim→source links\n\n**Reality check (grounded):** Many synthesis tools in 2026 are primarily **text-based**. They don’t “see” usability behavior (hesitation, misclicks, confusion) unless you explicitly capture it in notes.\n\n---",
+      "token_count": 247,
+      "sae_level": 2,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 82,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L3: Guided Automation 🔬😴",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L3: Guided Automation 🔬😴"
+      ],
+      "text": "*Repository-centric, human-at-checkpoints execution.*\n\n**Environment:** Persistent research infrastructure with verification gates\n\n**You own:** The checkpoints. Work spans studies, not just sessions.\n\n| Explorer                                               | Practitioner                                             | Integrator                                                 | Architect                                  | Steward                                        |\n| ------------------------------------------------------ | -------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------ | ---------------------------------------------- |\n| Learning to define Research ODDs; inconsistent results | Reliable multi-study workflows with explicit checkpoints | Clear decision framing: what AI does, what humans validate | Shared repository workflows others can run | Org standards for repository-based AI research |\n\n**Verification systems:**\n\n* Inter-rater reliability (AI vs. human coding)\n* Contradiction detection across studies\n* Confidence scoring (automated + human)\n* Audit trails for every synthesis decision\n* Clear escalation triggers\n\n---",
+      "token_count": 167,
+      "sae_level": 3,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 83,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L4: Mostly Automated 🔬🤖",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L4: Mostly Automated 🔬🤖"
+      ],
+      "text": "*Pipeline-centric, system-run execution. You audit outcomes, not steps.*\n\n| Explorer                                              | Practitioner                                 | Integrator                                   | Architect                                              | Steward                                     |\n| ----------------------------------------------------- | -------------------------------------------- | -------------------------------------------- | ------------------------------------------------------ | ------------------------------------------- |\n| Experimenting with pipelines; heavy validation needed | Operating pipelines with repeatable patterns | End-to-end workflows for bounded study types | Built production-quality infrastructure others operate | Governance for autonomous research at scale |\n\n**What L4 looks like (concrete examples):**\n\n* Weekly automated insight digests for **instrumented** product areas (support, feedback, surveys)\n* Always-on tagging across support tickets and feedback\n* Automated quality gates before human review\n* Exception-based workflow: humans intervene only when rules trigger\n\n---",
+      "token_count": 154,
+      "sae_level": 4,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 84,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "L5: Full Automation 🔬✨",
+      "heading_hierarchy": [
+        "Step 3: E-P-I-A-S at Each SAE Level",
+        "L5: Full Automation 🔬✨"
+      ],
+      "text": "*Theoretical. AI handles novel studies, methods, ethics, org politics end-to-end.*\n\nNot a credible operating mode in 2026.\n\n---",
+      "token_count": 31,
+      "sae_level": 5,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 85,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Evidence Integrity Hierarchy",
+      "heading_hierarchy": [
+        "Evidence Integrity Hierarchy"
+      ],
+      "text": "| Layer                | What it is                         | AI role                      |\n| -------------------- | ---------------------------------- | ---------------------------- |\n| Source material      | Original transcripts, recordings   | Never modified by AI         |\n| Extracted data       | Quotes, timestamps, coded segments | AI-assisted, human-verified  |\n| Synthesized themes   | Patterns across sources            | AI-assisted, human-validated |\n| Interpreted insights | Meaning and implications           | Human-led, AI-assisted       |\n| Recommendations      | Actions to take                    | Human-owned                  |\n\n---",
+      "token_count": 114,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 86,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "AI-Moderated Interviews (2026 Reality Check)",
+      "heading_hierarchy": [
+        "AI-Moderated Interviews (2026 Reality Check)"
+      ],
+      "text": "| Strengths                    | Weaknesses                            |\n| ---------------------------- | ------------------------------------- |\n| Scale (hundreds of sessions) | Misses non-verbal cues                |\n| 24/7 across time zones       | Clunky turn-taking                    |\n| Language accessibility       | High fraud rates                      |\n| Consistent delivery          | Can’t adapt to unexpected revelations |\n| Lower cost                   | Loses depth on sensitive topics       |\n\n**Best practice:** Think of AI moderation as “smarter surveys with follow-ups,” not replacement for human moderation.\n\n---",
+      "token_count": 111,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 87,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "How to Know AI Is Helping",
+      "heading_hierarchy": [
+        "How to Know AI Is Helping"
+      ],
+      "text": "AI is helping if it:\n\n* Reduces time-to-insight **without sacrificing validity**\n* Increases evidence coverage\n* Improves claim→source traceability\n* Surfaces patterns you might have missed\n* Frees time for interpretation\n\nIf none of those improve, you’re exploring — which is fine. Don’t confuse tool novelty with research improvement.\n\n---",
+      "token_count": 73,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "prose"
+    },
+    {
+      "chunk_id": 88,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "Progress Markers",
+      "heading_hierarchy": [
+        "Progress Markers"
+      ],
+      "text": "| Transition | Threshold                                                                            |\n| ---------- | ------------------------------------------------------------------------------------ |\n| L0 → L1    | You safely delegate one bounded function with basic verification habits              |\n| L1 → L2    | You can chain tasks with consistent quality using repeatable prompts + spot-checking |\n| L2 → L3    | You define a Research ODD with explicit constraints and escalation triggers          |\n| L3 → L4    | You harden the safety case: traceability, validation gates, predictable escalation   |\n\n---",
+      "token_count": 105,
+      "sae_level": null,
+      "epias_stage": null,
+      "chunk_type": "table"
+    },
+    {
+      "chunk_id": 89,
+      "source_file": "ai-upskilling-for-uxr.md",
+      "section_title": "The Big Takeaway",
+      "heading_hierarchy": [
+        "The Big Takeaway"
+      ],
+      "text": "SAE maturity is about **who holds responsibility** for evidence validity and judgment — not which tools you use.\n\n```\nL0: research fundamentals (still matter)\nL1: better thinking (first drafts in minutes)\nL2: broader synthesis (verified themes in hours)\nL3: persistent verification (scaled insights across studies)\nL4: autonomous monitoring (pipelines run while you sleep)\nL5: goal-setting only (not there yet)\n```\n\n**Go deep before you go wide.**\n\nAn S-Steward at L1 with solid verification habits beats an E-Explorer at L4 who can’t validate their pipeline.\n\n---\n\n*Part of the [Design in Tech Report 2026](https://schedule.sxsw.com/2026/events/PP1148536). Feedback welcome.*",
+      "token_count": 162,
       "sae_level": null,
       "epias_stage": null,
       "chunk_type": "prose"

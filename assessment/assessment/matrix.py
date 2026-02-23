@@ -241,7 +241,7 @@ def get_full_matrix() -> dict:
 
     return {
         "levels": list(range(6)),
-        "level_names": {str(k): v for k, v in {0: "L0: Manual", 1: "L1: AI-Assisted", 2: "L2: Partially Automated", 3: "L3: Guided Automation", 4: "L4: Mostly Automated", 5: "L5: Full Automation"}.items()},
+        "level_names": {str(k): v for k, v in {0: "L0: Classical Designer", 1: "L1: Marketing Designer \u00d7 AI", 2: "L2: Product Designer \u00d7 AI", 3: "L3: Design Engineer \u00d7 AI", 4: "L4: Super Design Engineer \u00d7 AI", 5: "L5: AI \u00d7 AI"}.items()},
         "stages": ["E", "P", "I", "A", "S"],
         "stage_names": {"E": "Explorer", "P": "Practitioner", "I": "Integrator", "A": "Architect", "S": "Steward"},
         "cells": cells,
