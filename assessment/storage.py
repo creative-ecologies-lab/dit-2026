@@ -2,6 +2,9 @@
 
 Uses Firestore when FIRESTORE_ENABLED=true, otherwise falls back to
 an in-memory list (useful for local dev and demo deployments).
+
+Test cohorts are stored in a separate collection so the global heatmap
+only shows real assessment data. Test cohort heatmaps still work.
 """
 
 import os
@@ -14,11 +17,42 @@ def _is_enabled():
 
 
 COLLECTION = "assessment_results"
+TEST_COLLECTION = "assessment_results_test"
+
+# Cohort codes that route to the test collection.
+# Configure via TEST_COHORTS env var (comma-separated) or hardcode here.
+_DEFAULT_TEST_COHORTS = {
+    "sxsw-2026", "config-2026", "webex-summit", "spotify-design",
+    "google-ux", "agency-creatives", "fintech-design", "startup-ai-native",
+    "mit-media-lab", "risd-design", "hci-bootcamp", "global-south-design",
+    "design-leadership", "ai-engineers", "gov-digital",
+    "linkedin-maeda", "sxsw-livestream",
+    "test", "demo", "dev",
+}
+
+
+def _get_test_cohorts():
+    env = os.environ.get("TEST_COHORTS", "").strip()
+    if env:
+        return {c.strip().lower() for c in env.split(",") if c.strip()}
+    return _DEFAULT_TEST_COHORTS
+
+
+def _is_test_cohort(cohort: Optional[str]) -> bool:
+    if not cohort:
+        return False
+    return cohort.strip().lower() in _get_test_cohorts()
+
+
+def _collection_for(cohort: Optional[str]) -> str:
+    return TEST_COLLECTION if _is_test_cohort(cohort) else COLLECTION
+
 
 _client = None
 
-# In-memory fallback store — persists across requests within the process
+# In-memory fallback stores — one for real, one for test
 _memory_store: list[dict] = []
+_memory_store_test: list[dict] = []
 
 
 def _get_client():
@@ -41,6 +75,8 @@ def store_result(
     if cohort:
         cohort = cohort.strip().lower()
 
+    collection = _collection_for(cohort)
+
     record = {
         "sae_level": sae_level,
         "epias_stage": epias_stage,
@@ -55,20 +91,24 @@ def store_result(
         from google.cloud import firestore as fs
         db = _get_client()
         record["timestamp"] = fs.SERVER_TIMESTAMP
-        db.collection(COLLECTION).add(record)
+        db.collection(collection).add(record)
     else:
         record["timestamp"] = datetime.now(timezone.utc).isoformat()
-        _memory_store.append(record)
+        store = _memory_store_test if collection == TEST_COLLECTION else _memory_store
+        store.append(record)
 
 
 def get_heatmap_data(cohort: Optional[str] = None) -> dict:
     """Aggregate results into a 6x5 count grid.
 
     When cohort is provided, only results matching that cohort are counted.
+    The global heatmap (no cohort) only includes real data, never test data.
     """
     # Normalize cohort filter
     if cohort:
         cohort = cohort.strip().lower()
+
+    collection = _collection_for(cohort)
 
     counts = {}
     for level in range(6):
@@ -79,7 +119,7 @@ def get_heatmap_data(cohort: Optional[str] = None) -> dict:
 
     if _is_enabled():
         db = _get_client()
-        query = db.collection(COLLECTION)
+        query = db.collection(collection)
         if cohort:
             query = query.where("cohort", "==", cohort)
         docs = query.select(["cell_key"]).stream()
@@ -89,7 +129,8 @@ def get_heatmap_data(cohort: Optional[str] = None) -> dict:
                 counts[key] += 1
                 total += 1
     else:
-        for record in _memory_store:
+        store = _memory_store_test if collection == TEST_COLLECTION else _memory_store
+        for record in store:
             if cohort and record.get("cohort") != cohort:
                 continue
             key = record.get("cell_key")
@@ -103,3 +144,25 @@ def get_heatmap_data(cohort: Optional[str] = None) -> dict:
         "cohort": cohort,
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
+
+
+def clear_test_data() -> int:
+    """Delete all documents in the test collection. Returns count deleted."""
+    if not _is_enabled():
+        count = len(_memory_store_test)
+        _memory_store_test.clear()
+        return count
+
+    db = _get_client()
+    docs = db.collection(TEST_COLLECTION).select([]).stream()
+    count = 0
+    batch = db.batch()
+    for doc in docs:
+        batch.delete(doc.reference)
+        count += 1
+        if count % 500 == 0:
+            batch.commit()
+            batch = db.batch()
+    if count % 500 != 0:
+        batch.commit()
+    return count
