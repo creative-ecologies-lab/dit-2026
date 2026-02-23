@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# Documentation (not needed in image)
+*.md
+!v-0.0.1/*.md
+LICENSE
+docs/
+
+# CI/CD configs (not needed in image)
+.github/
+cloudbuild.yaml
+service.yaml
+render.yaml
+
+# Scripts and evaluation (dev-only)
+assessment/scripts/
+assessment/evaluation/
+assessment/__pycache__/
