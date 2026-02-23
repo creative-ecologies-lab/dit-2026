@@ -1,5 +1,6 @@
 /**
  * Heatmap visualization — fetches aggregated results and renders a colored 6x5 grid.
+ * Supports cohort-scoped views with live polling and QR code generation.
  */
 (function() {
     'use strict';
@@ -11,6 +12,8 @@
     };
     const STAGES = ['E', 'P', 'I', 'A', 'S'];
     const STAGE_NAMES = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
+
+    const POLL_INTERVAL = 12000; // 12 seconds for live cohort pages
 
     function cellColor(count, maxCount) {
         if (count === 0) return '#f8fafc';
@@ -52,12 +55,43 @@
         container.innerHTML = html;
     }
 
-    fetch('/api/heatmap')
-        .then(r => r.json())
-        .then(renderHeatmap)
-        .catch(err => {
-            console.error('Failed to load heatmap:', err);
-            document.getElementById('heatmapContainer').innerHTML =
-                '<p style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
-        });
+    // Build API URL with optional cohort filter
+    function apiUrl() {
+        if (typeof HEATMAP_COHORT !== 'undefined' && HEATMAP_COHORT) {
+            return '/api/heatmap?cohort=' + encodeURIComponent(HEATMAP_COHORT);
+        }
+        return '/api/heatmap';
+    }
+
+    function fetchAndRender() {
+        fetch(apiUrl())
+            .then(r => r.json())
+            .then(renderHeatmap)
+            .catch(err => {
+                console.error('Failed to load heatmap:', err);
+                document.getElementById('heatmapContainer').innerHTML =
+                    '<p style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
+            });
+    }
+
+    // Initial fetch
+    fetchAndRender();
+
+    // Live polling for cohort pages
+    if (typeof HEATMAP_COHORT !== 'undefined' && HEATMAP_COHORT) {
+        setInterval(fetchAndRender, POLL_INTERVAL);
+
+        // Generate QR code pointing to the assessment with cohort pre-filled
+        var joinUrl = window.location.origin + '/assess?cohort=' + encodeURIComponent(HEATMAP_COHORT);
+        var urlEl = document.getElementById('cohortJoinUrl');
+        if (urlEl) urlEl.textContent = joinUrl;
+
+        var qrEl = document.getElementById('qrCode');
+        if (qrEl && typeof qrcode !== 'undefined') {
+            var qr = qrcode(0, 'M');
+            qr.addData(joinUrl);
+            qr.make();
+            qrEl.innerHTML = qr.createSvgTag(6, 0);
+        }
+    }
 })();

@@ -14,8 +14,11 @@
         saeAnswers: {},
         epiasAnswers: {},
         saeLevel: null,
-        stage: 'sae', // 'sae' or 'epias'
+        stage: 'intake', // 'intake', 'sae', or 'epias'
         epiasQuestions: [],
+        cohort: '',
+        ageRange: '',
+        role: '',
     };
 
     const totalSaeQuestions = SAE_QUESTIONS.length;
@@ -30,6 +33,9 @@
             saeLevel: state.saeLevel,
             stage: state.stage,
             epiasQuestions: state.epiasQuestions,
+            cohort: state.cohort,
+            ageRange: state.ageRange,
+            role: state.role,
         }));
     }
 
@@ -42,8 +48,11 @@
             state.saeAnswers = parsed.saeAnswers || {};
             state.epiasAnswers = parsed.epiasAnswers || {};
             state.saeLevel = parsed.saeLevel;
-            state.stage = parsed.stage || 'sae';
+            state.stage = parsed.stage || 'intake';
             state.epiasQuestions = parsed.epiasQuestions || [];
+            state.cohort = parsed.cohort || '';
+            state.ageRange = parsed.ageRange || '';
+            state.role = parsed.role || '';
             return true;
         } catch { return false; }
     }
@@ -58,15 +67,19 @@
         state.saeAnswers = {};
         state.epiasAnswers = {};
         state.saeLevel = null;
-        state.stage = 'sae';
+        state.stage = 'intake';
         state.epiasQuestions = [];
+        state.cohort = '';
+        state.ageRange = '';
+        state.role = '';
 
         document.getElementById('completedStage').style.display = 'none';
-        document.getElementById('saeStage').style.display = '';
+        document.getElementById('saeStage').style.display = 'none';
         document.getElementById('epiasStage').style.display = 'none';
-        document.querySelector('.progress-bar').style.display = '';
-        document.getElementById('progressText').style.display = '';
-        renderSaeQuestion(0);
+        document.getElementById('intakeStage').style.display = '';
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('progressText').style.display = 'none';
+        initIntake();
     }
 
     // ---- Rendering ----
@@ -320,13 +333,19 @@
         document.getElementById('epiasStage').style.display = 'none';
         document.getElementById('loadingStage').style.display = 'block';
 
-        const answers = {...state.saeAnswers, ...state.epiasAnswers};
+        const payload = {
+            ...state.saeAnswers,
+            ...state.epiasAnswers,
+        };
+        if (state.cohort) payload.cohort = state.cohort;
+        if (state.ageRange) payload.age_range = state.ageRange;
+        if (state.role) payload.role = state.role;
 
         try {
             const resp = await fetch('/api/assess', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(answers),
+                body: JSON.stringify(payload),
             });
             const result = await resp.json();
 
@@ -340,6 +359,41 @@
             document.getElementById('epiasStage').style.display = '';
             alert('Failed to submit assessment. Please try again.');
         }
+    }
+
+    // ---- Intake Stage ----
+
+    function initIntake() {
+        const cohortInput = document.getElementById('intakeCohort');
+        const ageSelect = document.getElementById('intakeAge');
+        const roleInput = document.getElementById('intakeRole');
+
+        // Pre-fill cohort from URL param
+        if (URL_COHORT) {
+            cohortInput.value = URL_COHORT;
+        }
+
+        document.getElementById('intakeStart').addEventListener('click', () => {
+            state.cohort = (cohortInput.value || '').trim().toLowerCase();
+            state.ageRange = ageSelect.value || '';
+            state.role = (roleInput.value || '').trim();
+            transitionToSae();
+        });
+
+        document.getElementById('intakeSkip').addEventListener('click', () => {
+            transitionToSae();
+        });
+    }
+
+    function transitionToSae() {
+        state.stage = 'sae';
+        state.currentQuestion = 0;
+        saveState();
+        document.getElementById('intakeStage').style.display = 'none';
+        document.getElementById('saeStage').style.display = '';
+        document.getElementById('progressBar').style.display = '';
+        document.getElementById('progressText').style.display = '';
+        renderSaeQuestion(0);
     }
 
     // ---- Event Handlers ----
@@ -394,23 +448,35 @@
     const hasResults = sessionStorage.getItem('ditResult');
     if (hasResults) {
         // Already completed — show prompt
+        document.getElementById('intakeStage').style.display = 'none';
         document.getElementById('saeStage').style.display = 'none';
         document.getElementById('completedStage').style.display = 'block';
-        document.querySelector('.progress-bar').style.display = 'none';
+        document.getElementById('progressBar').style.display = 'none';
         document.getElementById('progressText').style.display = 'none';
     } else if (restoreState()) {
         // Resume in-progress assessment
         if (state.stage === 'epias' && state.epiasQuestions.length > 0) {
+            document.getElementById('intakeStage').style.display = 'none';
             document.getElementById('saeStage').style.display = 'none';
             document.getElementById('epiasStage').style.display = '';
             document.getElementById('identifiedLevel').textContent =
                 SAE_NAMES[state.saeLevel] || `SAE L${state.saeLevel}`;
             renderEpiasQuestion(state.currentQuestion);
-        } else {
+        } else if (state.stage === 'sae') {
+            document.getElementById('intakeStage').style.display = 'none';
+            document.getElementById('saeStage').style.display = '';
             renderSaeQuestion(state.currentQuestion);
+        } else {
+            // intake stage — show intake form
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('progressText').style.display = 'none';
+            initIntake();
         }
     } else {
-        renderSaeQuestion(0);
+        // Fresh start — show intake
+        document.getElementById('progressBar').style.display = 'none';
+        document.getElementById('progressText').style.display = 'none';
+        initIntake();
     }
 
 })();

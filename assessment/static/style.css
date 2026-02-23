@@ -930,6 +930,88 @@ body {
     display: inline-block;
 }
 
+/* Intake Form */
+.intake-field {
+    margin-bottom: 1rem;
+}
+.intake-field label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    color: var(--text);
+}
+.intake-field input,
+.intake-field select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    background: var(--surface);
+    color: var(--text);
+}
+.intake-field input:focus,
+.intake-field select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+.optional-label {
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Cohort QR Section */
+.cohort-qr-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.cohort-join-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    max-width: 320px;
+}
+.cohort-join-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+.cohort-join-card #qrCode {
+    margin: 0 auto 0.75rem;
+}
+.cohort-join-card #qrCode svg {
+    display: block;
+    margin: 0 auto;
+}
+.cohort-join-url {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    word-break: break-all;
+    margin: 0;
+}
+
+/* Live Dot (pulsing indicator for cohort heatmaps) */
+.heatmap-live-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: var(--success);
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+    animation: live-pulse 2s ease-in-out infinite;
+}
+@keyframes live-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
+
 /* Heatmap */
 .heatmap-cell {
     transition: all 0.2s;

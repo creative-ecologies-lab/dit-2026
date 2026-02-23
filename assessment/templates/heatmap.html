@@ -1,11 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Community Heatmap — DIT 2026{% endblock %}
+{% block title %}{% if cohort %}{{ cohort }} Heatmap{% else %}Community Heatmap{% endif %} — DIT 2026{% endblock %}
 
 {% block content %}
 <div class="results-container">
     <div class="result-header">
+        {% if cohort %}
+        <h1><span class="heatmap-live-dot"></span> {{ cohort }}</h1>
+        <p class="stage-desc">Live cohort heatmap &mdash; <strong id="totalCount">0</strong> responses so far.</p>
+        {% else %}
         <h1>Community Heatmap</h1>
         <p class="stage-desc">Where everyone lands on the E-P-I-A-S &times; SAE grid. <strong id="totalCount">0</strong> assessments recorded.</p>
+        {% endif %}
     </div>
     <div class="matrix-section">
         <div id="heatmapContainer"></div>
@@ -15,6 +20,21 @@
         <div class="heatmap-legend-bar"></div>
         <span>More</span>
     </div>
+    {% if cohort %}
+    <div class="cohort-qr-section">
+        <div class="cohort-join-card">
+            <h3>Join this cohort</h3>
+            <div id="qrCode"></div>
+            <p class="cohort-join-url" id="cohortJoinUrl"></p>
+        </div>
+    </div>
+    {% endif %}
 </div>
+<script>
+    const HEATMAP_COHORT = {{ (cohort or '') | tojson }};
+</script>
+{% if cohort %}
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+{% endif %}
 <script src="{{ url_for('static', filename='heatmap.js') }}"></script>
 {% endblock %}

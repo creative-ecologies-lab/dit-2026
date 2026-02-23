@@ -70,6 +70,16 @@
         chunksContainer.appendChild(card);
     });
 
+    // Cohort heatmap link
+    if (result.cohort) {
+        const cohortBtn = document.createElement('a');
+        cohortBtn.href = '/heatmap/' + encodeURIComponent(result.cohort);
+        cohortBtn.className = 'btn btn-secondary';
+        cohortBtn.textContent = 'View Cohort Heatmap';
+        const actions = document.querySelector('.result-actions');
+        if (actions) actions.appendChild(cohortBtn);
+    }
+
     // Chat link visibility (check if LLM is available)
     fetch('/api/providers')
         .then(r => r.json())

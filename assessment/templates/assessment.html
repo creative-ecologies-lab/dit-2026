@@ -3,13 +3,50 @@
 
 {% block content %}
 <div class="assessment-container">
-    <div class="progress-bar">
+    <div class="progress-bar" id="progressBar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
     <div class="progress-text" id="progressText">Step 1 of 2 &mdash; Finding your SAE Level</div>
 
+    <!-- Stage 0: Intake (cohort + demographics) -->
+    <div id="intakeStage" class="stage">
+        <div style="max-width: 520px; margin: 0 auto;">
+            <div class="question-card">
+                <h2 style="margin-bottom: 0.25rem;">Before You Begin</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.9rem;">
+                    All fields are optional. Enter a cohort code if you were given one.
+                </p>
+                <div class="intake-field">
+                    <label for="intakeCohort">Cohort Code</label>
+                    <input type="text" id="intakeCohort" placeholder="e.g. sxsw-2026, spotify26"
+                           autocomplete="off" spellcheck="false">
+                </div>
+                <div class="intake-field">
+                    <label for="intakeAge">Age Range <span class="optional-label">(optional)</span></label>
+                    <select id="intakeAge">
+                        <option value="">Prefer not to say</option>
+                        <option value="under-25">Under 25</option>
+                        <option value="25-34">25&ndash;34</option>
+                        <option value="35-44">35&ndash;44</option>
+                        <option value="45-54">45&ndash;54</option>
+                        <option value="55+">55+</option>
+                    </select>
+                </div>
+                <div class="intake-field">
+                    <label for="intakeRole">Your Role / Title <span class="optional-label">(optional)</span></label>
+                    <input type="text" id="intakeRole" placeholder="e.g. Product Designer, UX Researcher"
+                           autocomplete="off">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center;">
+                    <button id="intakeStart" class="btn btn-primary">Start Assessment</button>
+                    <button id="intakeSkip" class="btn btn-secondary">Skip</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Stage 1: SAE Level Questions -->
-    <div id="saeStage" class="stage">
+    <div id="saeStage" class="stage" style="display:none;">
         <div class="stage-sidebar">
             <h2>Step 1: Find Your SAE Level</h2>
             <p class="stage-desc">Pick the statement that best describes you <em>today</em>.</p>
@@ -62,6 +99,7 @@
 <script>
     // Pass questions from server
     const SAE_QUESTIONS = {{ questions | tojson }};
+    const URL_COHORT = {{ (cohort or '') | tojson }};
 </script>
 <script src="{{ url_for('static', filename='assessment.js') }}"></script>
 {% endblock %}

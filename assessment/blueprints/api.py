@@ -50,9 +50,13 @@ def get_matrix():
 
 @bp.route('/heatmap')
 def heatmap_data():
-    """Return aggregated assessment results for the heatmap."""
+    """Return aggregated assessment results for the heatmap.
+
+    Optional query param: ?cohort=<code> to filter by cohort.
+    """
     from storage import get_heatmap_data
-    return jsonify(get_heatmap_data())
+    cohort = request.args.get('cohort', '').strip().lower() or None
+    return jsonify(get_heatmap_data(cohort=cohort))
 
 
 @bp.route('/usage')

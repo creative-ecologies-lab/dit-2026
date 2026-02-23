@@ -15,22 +15,33 @@ def index():
 def assess():
     from assessment.questions import get_all_sae_questions
     questions = get_all_sae_questions()
-    return render_template('assessment.html', questions=questions)
+    cohort = request.args.get('cohort', '').strip().lower() or ''
+    return render_template('assessment.html', questions=questions, cohort=cohort)
 
 
 @bp.route('/api/assess', methods=['POST'])
 def submit_assessment():
     from assessment.scorer import score_assessment
     from assessment.matrix import get_placement
-    answers = request.get_json()
-    score = score_assessment(answers)
+    data = request.get_json()
+    # Separate intake fields from assessment answers
+    cohort = data.pop('cohort', None)
+    age_range = data.pop('age_range', None)
+    role = data.pop('role', None)
+    score = score_assessment(data)
     placement = get_placement(score)
     # Store anonymous result (fire-and-forget)
     try:
         from storage import store_result
-        store_result(score['sae_level'], score['epias_stage'])
+        store_result(
+            score['sae_level'], score['epias_stage'],
+            cohort=cohort, age_range=age_range, role=role,
+        )
     except Exception as e:
         current_app.logger.warning(f"Failed to store result: {e}")
+    # Include cohort in response so results page can link to cohort heatmap
+    if cohort:
+        placement['cohort'] = cohort.strip().lower()
     # Find relevant growth path chunks via search
     query = f"growth path for SAE L{placement['sae_level']} {placement['epias_stage']}"
     chunks = current_app.search_engine.search(query, top_k=5)
@@ -44,8 +55,11 @@ def results():
 
 
 @bp.route('/heatmap')
-def heatmap():
-    return render_template('heatmap.html')
+@bp.route('/heatmap/<cohort_code>')
+def heatmap(cohort_code=None):
+    if cohort_code:
+        cohort_code = cohort_code.strip().lower()
+    return render_template('heatmap.html', cohort=cohort_code or '')
 
 
 @bp.route('/settings')
@@ -61,6 +75,7 @@ _FRAMEWORK_DOCS = [
     ('ai-upskilling-for-product-designers-L1-to-L2.md', 'L1 to L2'),
     ('ai-upskilling-for-product-designers-L2-to-L3.md', 'L2 to L3'),
     ('ai-upskilling-for-product-designers-L3-L4.md', 'L3 to L4'),
+    ('ai-upskilling-for-uxr.md', 'UX Research'),
 ]
 
 _OVERVIEW_HTML = """
@@ -70,12 +85,12 @@ _OVERVIEW_HTML = """
     <div class="axis">
         <h3>SAE Levels (Automation)</h3>
         <table class="mini-table">
-            <tr><td><strong>L0</strong></td><td>Manual &mdash; no AI</td></tr>
-            <tr><td><strong>L1</strong></td><td>AI-Assisted &mdash; AI suggests, you decide</td></tr>
-            <tr><td><strong>L2</strong></td><td>Partially Automated &mdash; AI builds chunks</td></tr>
-            <tr><td><strong>L3</strong></td><td>Guided Automation &mdash; IDE-centric workflows</td></tr>
-            <tr><td><strong>L4</strong></td><td>Mostly Automated &mdash; harness-centric</td></tr>
-            <tr><td><strong>L5</strong></td><td>Full Automation &mdash; aspirational</td></tr>
+            <tr><td><strong>L0</strong></td><td>Manual &mdash; Classical Designer</td></tr>
+            <tr><td><strong>L1</strong></td><td>AI-Assisted &mdash; Marketing Designer &times; AI</td></tr>
+            <tr><td><strong>L2</strong></td><td>Partially Automated &mdash; Product Designer &times; AI</td></tr>
+            <tr><td><strong>L3</strong></td><td>Guided Automation &mdash; Design Engineer &times; AI</td></tr>
+            <tr><td><strong>L4</strong></td><td>Mostly Automated &mdash; Super Design Engineer &times; AI</td></tr>
+            <tr><td><strong>L5</strong></td><td>Full Automation &mdash; AI &times; AI (aspirational)</td></tr>
         </table>
     </div>
     <div class="axis">
