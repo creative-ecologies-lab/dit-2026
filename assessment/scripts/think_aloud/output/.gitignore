@@ -1,0 +1,8 @@
+# Session data and screenshots are generated artifacts — don't track in git
+screenshots/
+sessions/
+v1_baseline/
+analysis.json
+
+# Keep report.md — it's the human-readable summary
+!report.md

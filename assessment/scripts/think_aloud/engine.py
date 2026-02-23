@@ -1,9 +1,21 @@
-"""LLM think-aloud engine using Claude API."""
+"""LLM think-aloud engine using Claude API.
+
+v2: Dual-loop architecture (fast observe + slow reflect-and-act),
+SUS scoring, and self-consistency support.
+"""
 
 import json
 import anthropic
-from .config import DEFAULT_MODEL, INPUT_COST_PER_MTOK, OUTPUT_COST_PER_MTOK, MAX_BUDGET_USD
-from .prompts import build_observe_and_act_prompt, build_reflection_prompt
+from .config import (
+    DEFAULT_MODEL, INPUT_COST_PER_MTOK, OUTPUT_COST_PER_MTOK,
+    MAX_BUDGET_USD, SUS_GRADE_THRESHOLDS,
+)
+from .prompts import (
+    build_observe_prompt,
+    build_reflect_and_act_prompt,
+    build_reflection_prompt,
+    build_sus_prompt,
+)
 
 
 class ThinkAloudEngine:
@@ -47,6 +59,8 @@ class ThinkAloudEngine:
         self.call_count += 1
         return response.content[0].text
 
+    # ── v1 method (kept for backward compat during transition) ──
+
     def observe_and_act(
         self,
         persona: dict,
@@ -56,10 +70,64 @@ class ThinkAloudEngine:
         action_history: list[str],
         journey_context: str,
     ) -> dict:
-        """Generate think-aloud observations and decide next action."""
-        prompt = build_observe_and_act_prompt(
+        """v1: Combined observation + action in one call."""
+        # Build a v1-compatible prompt using the new slow-loop prompt
+        # with a synthetic fast reaction
+        fast_reaction = {
+            "first_impression": "Observing the page",
+            "clarity_score": 3,
+            "emotional_reaction": "neutral",
+            "cognitive_walkthrough": {
+                "will_try_right_effect": True,
+                "notices_correct_action": True,
+                "associates_action_with_goal": True,
+                "sees_progress": True,
+            },
+        }
+        prompt = build_reflect_and_act_prompt(
             persona, page_state, url, interactive_elements,
-            action_history, journey_context,
+            action_history, journey_context, fast_reaction,
+        )
+        raw = self._call(prompt, max_tokens=1200)
+        return _parse_json(raw)
+
+    # ── v2 dual-loop methods ──
+
+    def observe_fast(
+        self,
+        persona: dict,
+        page_state: str,
+        url: str,
+        journey_context: str,
+    ) -> dict:
+        """FAST LOOP: Capture immediate reaction + cognitive walkthrough.
+
+        Quick, reactive observation — System 1 thinking (Kahneman).
+        Returns first_impression, clarity_score, emotional_reaction, CW answers.
+        """
+        prompt = build_observe_prompt(persona, page_state, url, journey_context)
+        raw = self._call(prompt, max_tokens=500)
+        return _parse_json(raw)
+
+    def reflect_and_act(
+        self,
+        persona: dict,
+        page_state: str,
+        url: str,
+        interactive_elements: str,
+        action_history: list[str],
+        journey_context: str,
+        fast_reaction: dict,
+    ) -> dict:
+        """SLOW LOOP: Deep analysis with heuristics + action decision.
+
+        Takes the fast reaction as input and adds deliberate analysis —
+        System 2 thinking (Kahneman). Includes Nielsen heuristic tagging,
+        PCL self-questioning, and hesitation modeling.
+        """
+        prompt = build_reflect_and_act_prompt(
+            persona, page_state, url, interactive_elements,
+            action_history, journey_context, fast_reaction,
         )
         raw = self._call(prompt, max_tokens=1200)
         return _parse_json(raw)
@@ -69,6 +137,40 @@ class ThinkAloudEngine:
         prompt = build_reflection_prompt(persona, transcript_summary)
         raw = self._call(prompt, max_tokens=600)
         return _parse_json(raw)
+
+    def score_sus(self, persona: dict, transcript_summary: str) -> dict:
+        """Score the assessment using the System Usability Scale (Brooke 1996).
+
+        Returns 10 Likert scores + computed SUS total (0-100) + grade.
+        SUS formula: ((sum_odd_items - 5) + (25 - sum_even_items)) * 2.5
+        """
+        prompt = build_sus_prompt(persona, transcript_summary)
+        raw = self._call(prompt, max_tokens=300)
+        result = _parse_json(raw)
+
+        # Compute SUS score from the 10 items
+        scores = result.get("sus_scores", [])
+        if len(scores) == 10 and all(isinstance(s, (int, float)) for s in scores):
+            odd_items = sum(scores[i] for i in range(0, 10, 2))   # Q1,3,5,7,9
+            even_items = sum(scores[i] for i in range(1, 10, 2))  # Q2,4,6,8,10
+            sus_total = ((odd_items - 5) + (25 - even_items)) * 2.5
+            sus_total = max(0, min(100, sus_total))
+
+            # Assign grade
+            grade = "F"
+            for g, threshold in sorted(SUS_GRADE_THRESHOLDS.items(),
+                                       key=lambda x: -x[1]):
+                if sus_total >= threshold:
+                    grade = g
+                    break
+
+            result["sus_total"] = round(sus_total, 1)
+            result["sus_grade"] = grade
+        else:
+            result["sus_total"] = None
+            result["sus_grade"] = None
+
+        return result
 
     def usage_summary(self) -> dict:
         return {
