@@ -2,14 +2,14 @@
 {% block title %}Self-Assessment — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="assessment-container">
-    <div class="progress-bar" id="progressBar">
+<div class="assessment-container" role="main" aria-label="DIT 2026 Self-Assessment">
+    <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Assessment progress">
         <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div class="progress-text" id="progressText">Step 1 of 2 &mdash; Finding your SAE Level</div>
+    <div class="progress-text" id="progressText" aria-live="polite">Step 1 of 2 &mdash; Finding your SAE Level</div>
 
     <!-- Stage 0: Intake (cohort + demographics) -->
-    <div id="intakeStage" class="stage">
+    <div id="intakeStage" class="stage" role="region" aria-label="Intake: optional demographics">
         <div style="max-width: 520px; margin: 0 auto;">
             <div class="question-card">
                 <h2 style="margin-bottom: 0.25rem;">Before You Begin</h2>
@@ -19,11 +19,13 @@
                 <div class="intake-field">
                     <label for="intakeCohort">Cohort Code</label>
                     <input type="text" id="intakeCohort" placeholder="e.g. sxsw-2026, spotify26"
-                           autocomplete="off" spellcheck="false">
+                           autocomplete="off" spellcheck="false"
+                           aria-describedby="cohortHelp">
+                    <span id="cohortHelp" class="sr-only">Enter the cohort code shared by your event organizer</span>
                 </div>
                 <div class="intake-field">
                     <label for="intakeAge">Age Range <span class="optional-label">(optional)</span></label>
-                    <select id="intakeAge">
+                    <select id="intakeAge" aria-label="Age range">
                         <option value="">Prefer not to say</option>
                         <option value="under-25">Under 25</option>
                         <option value="25-34">25&ndash;34</option>
@@ -35,62 +37,62 @@
                 <div class="intake-field">
                     <label for="intakeRole">Your Role / Title <span class="optional-label">(optional)</span></label>
                     <input type="text" id="intakeRole" placeholder="e.g. Product Designer, UX Researcher"
-                           autocomplete="off">
+                           autocomplete="off" aria-label="Your job role or title">
                 </div>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center;">
-                    <button id="intakeStart" class="btn btn-primary">Start Assessment</button>
-                    <button id="intakeSkip" class="btn btn-secondary">Skip</button>
+                    <button id="intakeStart" class="btn btn-primary" aria-label="Start the assessment">Start Assessment</button>
+                    <button id="intakeSkip" class="btn btn-secondary" aria-label="Skip intake and start assessment">Skip</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Stage 1: SAE Level Questions -->
-    <div id="saeStage" class="stage" style="display:none;">
+    <div id="saeStage" class="stage" style="display:none;" role="region" aria-label="Step 1: SAE Level Questions">
         <div class="stage-sidebar">
             <h2>Step 1: Find Your SAE Level</h2>
             <p class="stage-desc">Pick the statement that best describes you <em>today</em>.</p>
         </div>
         <div class="stage-main">
-            <div id="saeQuestions"></div>
-            <div class="nav-buttons">
-                <button id="saePrev" class="btn btn-secondary" disabled>Previous</button>
-                <button id="saeNext" class="btn btn-primary">Next</button>
+            <div id="saeQuestions" role="radiogroup" aria-label="SAE level question"></div>
+            <div class="nav-buttons" role="navigation" aria-label="Question navigation">
+                <button id="saePrev" class="btn btn-secondary" disabled aria-label="Previous question">Previous</button>
+                <button id="saeNext" class="btn btn-primary" aria-label="Next question">Next</button>
             </div>
         </div>
     </div>
 
     <!-- Stage 2: EPIAS Maturity Questions -->
-    <div id="epiasStage" class="stage" style="display:none;">
+    <div id="epiasStage" class="stage" style="display:none;" role="region" aria-label="Step 2: EPIAS Maturity Questions">
         <div class="stage-sidebar">
             <h2>Step 2: Find Your Maturity Stage</h2>
             <p class="stage-desc">You're at <strong id="identifiedLevel"></strong>. Now find your maturity stage within that level.</p>
         </div>
         <div class="stage-main">
-            <div id="epiasQuestions"></div>
-            <div class="nav-buttons">
-                <button id="epiasPrev" class="btn btn-secondary">Previous</button>
-                <button id="epiasNext" class="btn btn-primary">Next</button>
+            <div id="epiasQuestions" role="radiogroup" aria-label="EPIAS maturity question"></div>
+            <div class="nav-buttons" role="navigation" aria-label="Question navigation">
+                <button id="epiasPrev" class="btn btn-secondary" aria-label="Previous question">Previous</button>
+                <button id="epiasNext" class="btn btn-primary" aria-label="Next question">Next</button>
             </div>
         </div>
     </div>
 
     <!-- Already Completed -->
-    <div id="completedStage" class="stage" style="display:none;">
+    <div id="completedStage" class="stage" style="display:none;" role="region" aria-label="Assessment already completed">
         <div style="text-align:center; padding: 2rem 0;">
             <h2>Assessment Complete</h2>
             <p style="color:var(--text-muted); margin: 0.5rem 0 1.5rem;">You've already completed the assessment.</p>
             <div style="display:flex; gap:1rem; justify-content:center;">
-                <a href="/results" class="btn btn-primary">View Results</a>
-                <button id="retakeBtn" class="btn btn-secondary">Retake Assessment</button>
+                <a href="/results" class="btn btn-primary" aria-label="View your results">View Results</a>
+                <button id="retakeBtn" class="btn btn-secondary" aria-label="Retake the assessment from scratch">Retake Assessment</button>
             </div>
         </div>
     </div>
 
     <!-- Loading -->
-    <div id="loadingStage" class="stage" style="display:none;">
+    <div id="loadingStage" class="stage" style="display:none;" role="status" aria-label="Analyzing your responses" aria-live="assertive">
         <div class="loading-spinner">
-            <div class="spinner"></div>
+            <div class="spinner" aria-hidden="true"></div>
             <p>Analyzing your responses...</p>
         </div>
     </div>

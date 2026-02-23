@@ -30,3 +30,7 @@ def create_app() -> Flask:
         return {'has_llm': bool(available)}
 
     return app
+
+
+# Module-level app instance for gunicorn (Cloud Run uses `app:app`)
+app = create_app()

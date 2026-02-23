@@ -20,6 +20,19 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Screen-reader only (visually hidden, accessible to assistive tech + a11y tree) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: var(--bg);
@@ -963,20 +976,29 @@ body {
     color: var(--text-muted);
 }
 
-/* Cohort QR Section */
-.cohort-qr-section {
+/* Heatmap Layout (side-by-side grid + QR) */
+.heatmap-layout {
     display: flex;
-    justify-content: center;
-    margin-top: 2rem;
+    gap: 2rem;
+    align-items: flex-start;
+}
+.heatmap-main {
+    flex: 1;
+    min-width: 0;
+}
+.heatmap-sidebar {
+    flex-shrink: 0;
+    width: 240px;
+    position: sticky;
+    top: 80px;
 }
 .cohort-join-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.5rem 2rem;
+    padding: 1.25rem;
     text-align: center;
     box-shadow: var(--shadow);
-    max-width: 320px;
 }
 .cohort-join-card h3 {
     margin-bottom: 1rem;
@@ -1053,6 +1075,8 @@ body {
 
 /* Responsive — Tablet */
 @media (max-width: 768px) {
+    .heatmap-layout { flex-direction: column; }
+    .heatmap-sidebar { width: 100%; position: static; }
     .mode-cards, .framework-axes { grid-template-columns: 1fr; }
     #saeStage, #epiasStage { grid-template-columns: 1fr; }
     .option-list { gap: 0.35rem; }

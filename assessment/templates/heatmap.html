@@ -12,23 +12,27 @@
         <p class="stage-desc">Where everyone lands on the E-P-I-A-S &times; SAE grid. <strong id="totalCount">0</strong> assessments recorded.</p>
         {% endif %}
     </div>
-    <div class="matrix-section">
-        <div id="heatmapContainer"></div>
-    </div>
-    <div class="heatmap-legend">
-        <span>Fewer</span>
-        <div class="heatmap-legend-bar"></div>
-        <span>More</span>
-    </div>
-    {% if cohort %}
-    <div class="cohort-qr-section">
-        <div class="cohort-join-card">
-            <h3>Join this cohort</h3>
-            <div id="qrCode"></div>
-            <p class="cohort-join-url" id="cohortJoinUrl"></p>
+    <div class="heatmap-layout">
+        <div class="heatmap-main">
+            <div class="matrix-section">
+                <div id="heatmapContainer"></div>
+            </div>
+            <div class="heatmap-legend">
+                <span>Fewer</span>
+                <div class="heatmap-legend-bar"></div>
+                <span>More</span>
+            </div>
         </div>
+        {% if cohort %}
+        <div class="heatmap-sidebar">
+            <div class="cohort-join-card">
+                <h3>Join this cohort</h3>
+                <div id="qrCode"></div>
+                <p class="cohort-join-url" id="cohortJoinUrl"></p>
+            </div>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 </div>
 <script>
     const HEATMAP_COHORT = {{ (cohort or '') | tojson }};

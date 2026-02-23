@@ -2,14 +2,14 @@
 {% block title %}Your Results — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="results-container">
+<div class="results-container" role="main" aria-label="Assessment Results">
     <div id="resultsContent" style="display:none;">
         <!-- Placement Summary -->
-        <div class="result-header">
+        <div class="result-header" role="region" aria-label="Your placement">
             <h1>Your Designer Profile</h1>
-            <div class="placement-badge">
-                <span class="badge-level" id="badgeLevel"></span>
-                <span class="badge-stage" id="badgeStage"></span>
+            <div class="placement-badge" aria-label="Assessment result badges">
+                <span class="badge-level" id="badgeLevel" role="status"></span>
+                <span class="badge-stage" id="badgeStage" role="status"></span>
             </div>
         </div>
 

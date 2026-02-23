@@ -87,15 +87,18 @@
     function renderSaeQuestion(idx) {
         const q = SAE_QUESTIONS[idx];
         const container = document.getElementById('saeQuestions');
+        container.setAttribute('aria-label', `SAE question ${idx + 1} of ${totalSaeQuestions}: ${q.question}`);
         container.innerHTML = `
-            <div class="question-card">
-                <h3>Question ${idx + 1} of ${totalSaeQuestions}</h3>
-                <p style="margin-bottom: 0.75rem; font-weight: 500;">${q.question}</p>
-                <div class="option-list">
+            <div class="question-card" role="group" aria-labelledby="sae-q-heading-${idx}">
+                <h3 id="sae-q-heading-${idx}">Question ${idx + 1} of ${totalSaeQuestions}</h3>
+                <p style="margin-bottom: 0.75rem; font-weight: 500;" id="sae-q-text-${idx}">${q.question}</p>
+                <div class="option-list" role="radiogroup" aria-labelledby="sae-q-text-${idx}">
                     ${q.options.map(opt => `
                         <label class="option-item ${state.saeAnswers[q.id] === opt.level ? 'selected' : ''}"
-                               data-qid="${q.id}" data-value="${opt.level}">
-                            <input type="radio" name="${q.id}" value="${opt.level}">
+                               data-qid="${q.id}" data-value="${opt.level}"
+                               role="radio" aria-checked="${state.saeAnswers[q.id] === opt.level}"
+                               aria-label="Level ${opt.level}: ${opt.text}" tabindex="0">
+                            <input type="radio" name="${q.id}" value="${opt.level}" aria-hidden="true">
                             ${opt.text}
                         </label>
                     `).join('')}
@@ -131,15 +134,19 @@
     function renderEpiasQuestion(idx) {
         const q = state.epiasQuestions[idx];
         const container = document.getElementById('epiasQuestions');
+        const stageNames = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
+        container.setAttribute('aria-label', `EPIAS question ${idx + 1} of ${state.epiasQuestions.length}: ${q.question}`);
         container.innerHTML = `
-            <div class="question-card">
-                <h3>Question ${idx + 1} of ${state.epiasQuestions.length}</h3>
-                <p style="margin-bottom: 0.75rem; font-weight: 500;">${q.question}</p>
-                <div class="option-list">
+            <div class="question-card" role="group" aria-labelledby="epias-q-heading-${idx}">
+                <h3 id="epias-q-heading-${idx}">Question ${idx + 1} of ${state.epiasQuestions.length}</h3>
+                <p style="margin-bottom: 0.75rem; font-weight: 500;" id="epias-q-text-${idx}">${q.question}</p>
+                <div class="option-list" role="radiogroup" aria-labelledby="epias-q-text-${idx}">
                     ${q.options.map(opt => `
                         <label class="option-item ${state.epiasAnswers[q.id] === opt.stage ? 'selected' : ''}"
-                               data-qid="${q.id}" data-value="${opt.stage}">
-                            <input type="radio" name="${q.id}" value="${opt.stage}">
+                               data-qid="${q.id}" data-value="${opt.stage}"
+                               role="radio" aria-checked="${state.epiasAnswers[q.id] === opt.stage}"
+                               aria-label="${stageNames[opt.stage] || opt.stage}: ${opt.text}" tabindex="0">
+                            <input type="radio" name="${q.id}" value="${opt.stage}" aria-hidden="true">
                             ${opt.text}
                         </label>
                     `).join('')}

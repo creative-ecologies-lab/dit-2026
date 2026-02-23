@@ -27,6 +27,7 @@ _DEFAULT_TEST_COHORTS = {
     "mit-media-lab", "risd-design", "hci-bootcamp", "global-south-design",
     "design-leadership", "ai-engineers", "gov-digital",
     "linkedin-maeda", "sxsw-livestream",
+    "think-aloud-test",
     "test", "demo", "dev",
 }
 
