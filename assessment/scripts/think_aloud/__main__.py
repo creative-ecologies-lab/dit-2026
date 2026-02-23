@@ -8,6 +8,7 @@ Usage:
     cd assessment
     python -m scripts.think_aloud                                # dry-run, 3 sessions
     python -m scripts.think_aloud --sessions 50                  # full run
+    python -m scripts.think_aloud --sessions 50 --parallel 10    # 10 concurrent sessions
     python -m scripts.think_aloud --persona daily_user -n 1      # single persona debug
     python -m scripts.think_aloud --analyze-only                 # re-run analysis
     python -m scripts.think_aloud --target http://localhost:5002  # local server
@@ -42,10 +43,12 @@ async def _dual_loop_observe(
     journey_context: str,
     screenshot_path: str,
     rng: random.Random,
+    use_async: bool = False,
 ):
     """Run dual-loop observation: fast reaction → slow analysis + action.
 
     Returns (response, fast_reaction, behavioral_events) tuple.
+    When use_async=True, uses async engine methods for parallel execution.
     """
     state = await driver.get_page_state(page)
     await driver.save_screenshot(page, screenshot_path)
@@ -53,9 +56,14 @@ async def _dual_loop_observe(
     behavioral_events = []
 
     # ── FAST LOOP: immediate gut reaction + CW ──
-    fast_reaction = engine.observe_fast(
-        persona, state["a11y_text"], state["url"], journey_context,
-    )
+    if use_async:
+        fast_reaction = await engine.observe_fast_async(
+            persona, state["a11y_text"], state["url"], journey_context,
+        )
+    else:
+        fast_reaction = engine.observe_fast(
+            persona, state["a11y_text"], state["url"], journey_context,
+        )
 
     # ── Behavioral realism: reading speed delay ──
     reading_speed = persona.get("reading_speed", 1.0)
@@ -65,11 +73,18 @@ async def _dual_loop_observe(
         behavioral_events.append("slow_reader_delay")
 
     # ── SLOW LOOP: deep analysis + action decision ──
-    response = engine.reflect_and_act(
-        persona, state["a11y_text"], state["url"],
-        state["interactive_elements"], recorder.action_history,
-        journey_context, fast_reaction,
-    )
+    if use_async:
+        response = await engine.reflect_and_act_async(
+            persona, state["a11y_text"], state["url"],
+            state["interactive_elements"], recorder.action_history,
+            journey_context, fast_reaction,
+        )
+    else:
+        response = engine.reflect_and_act(
+            persona, state["a11y_text"], state["url"],
+            state["interactive_elements"], recorder.action_history,
+            journey_context, fast_reaction,
+        )
 
     # ── Behavioral realism: hesitation ──
     hesitation = response.get("action", {}).get("hesitation", "none")
@@ -101,6 +116,7 @@ async def run_session(
     session_num: int = 0,
     total_sessions: int = 1,
     seed: int = 42,
+    use_async: bool = False,
 ):
     """Run a single think-aloud session with one persona."""
     from playwright.async_api import async_playwright
@@ -132,7 +148,7 @@ async def run_session(
             response, _, _ = await _dual_loop_observe(
                 page, persona, engine, recorder,
                 "You just arrived at the landing page. You're here to take the self-assessment.",
-                ss_path, rng,
+                ss_path, rng, use_async=use_async,
             )
             print(f"{prefix}: Landing page observed")
 
@@ -154,7 +170,7 @@ async def run_session(
             response, _, _ = await _dual_loop_observe(
                 page, persona, engine, recorder,
                 "You're on the intake page. Fill in optional demographics or skip to start.",
-                ss_path, rng,
+                ss_path, rng, use_async=use_async,
             )
 
             # Fill intake
@@ -192,7 +208,7 @@ async def run_session(
                 response, fast_rx, b_events = await _dual_loop_observe(
                     page, persona, engine, recorder,
                     f"SAE Question {q_idx+1} of 6. Pick the automation level that best describes YOUR work.",
-                    ss_path, rng,
+                    ss_path, rng, use_async=use_async,
                 )
 
                 # Execute the LLM's chosen action
@@ -251,7 +267,7 @@ async def run_session(
                 response, fast_rx, b_events = await _dual_loop_observe(
                     page, persona, engine, recorder,
                     f"EPIAS Question {q_idx+1} of 5. Pick the maturity stage that best describes HOW you work.",
-                    ss_path, rng,
+                    ss_path, rng, use_async=use_async,
                 )
 
                 action = response.get("action", {})
@@ -312,7 +328,7 @@ async def run_session(
             response, _, _ = await _dual_loop_observe(
                 page, persona, engine, recorder,
                 "You're viewing your results. React to your placement and the growth path suggestions.",
-                ss_path, rng,
+                ss_path, rng, use_async=use_async,
             )
 
             # Capture the actual result from sessionStorage
@@ -328,12 +344,18 @@ async def run_session(
 
             # ── Final reflection ──
             summary = recorder.transcript_summary()
-            reflection = engine.reflect(persona, summary)
+            if use_async:
+                reflection = await engine.reflect_async(persona, summary)
+            else:
+                reflection = engine.reflect(persona, summary)
             recorder.record_reflection(reflection)
             print(f"{prefix}: Reflection generated")
 
             # ── SUS Questionnaire ──
-            sus_data = engine.score_sus(persona, summary)
+            if use_async:
+                sus_data = await engine.score_sus_async(persona, summary)
+            else:
+                sus_data = engine.score_sus(persona, summary)
             recorder.record_sus(sus_data)
             sus_score = sus_data.get("sus_total", "?")
             sus_grade = sus_data.get("sus_grade", "?")
@@ -367,6 +389,8 @@ async def main():
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     parser.add_argument("--budget", type=float, default=MAX_BUDGET_USD,
                         help="Budget cap in USD")
+    parser.add_argument("--parallel", "-p", type=int, default=1,
+                        help="Max concurrent sessions (default: 1 = sequential)")
     args = parser.parse_args()
 
     # Analysis-only mode
@@ -409,24 +433,60 @@ async def main():
     print(f"  Model: {args.model}")
     print(f"  Cohort: {args.cohort}")
     print(f"  Budget: ${args.budget:.2f}")
+    concurrency = max(1, args.parallel)
     print(f"  Architecture: Dual-loop (fast observe -> slow reflect)")
+    print(f"  Concurrency: {concurrency} {'(parallel)' if concurrency > 1 else '(sequential)'}")
     print()
 
     engine = ThinkAloudEngine(model=args.model, budget=args.budget)
 
-    for i, persona in enumerate(personas):
-        try:
-            await run_session(
-                persona, args.target, args.cohort, engine,
-                headless=args.headless, session_num=i,
-                total_sessions=len(personas), seed=args.seed,
-            )
-        except BudgetExceeded:
-            print(f"\nBudget exceeded after {i+1} sessions. Stopping.")
-            break
-        except Exception as e:
-            print(f"Session {i+1} failed: {e}")
-            continue
+    if concurrency == 1:
+        # Sequential execution (original behavior)
+        for i, persona in enumerate(personas):
+            try:
+                await run_session(
+                    persona, args.target, args.cohort, engine,
+                    headless=args.headless, session_num=i,
+                    total_sessions=len(personas), seed=args.seed,
+                )
+            except BudgetExceeded:
+                print(f"\nBudget exceeded after {i+1} sessions. Stopping.")
+                break
+            except Exception as e:
+                print(f"Session {i+1} failed: {e}")
+                continue
+    else:
+        # Parallel execution with semaphore-limited concurrency
+        semaphore = asyncio.Semaphore(concurrency)
+        completed = 0
+        failed = 0
+        budget_hit = False
+
+        async def _run_one(i, persona):
+            nonlocal completed, failed, budget_hit
+            if budget_hit:
+                return
+            async with semaphore:
+                if budget_hit:
+                    return
+                try:
+                    await run_session(
+                        persona, args.target, args.cohort, engine,
+                        headless=args.headless, session_num=i,
+                        total_sessions=len(personas), seed=args.seed,
+                        use_async=True,
+                    )
+                    completed += 1
+                except BudgetExceeded:
+                    budget_hit = True
+                    print(f"\nBudget exceeded. Stopping new sessions.")
+                except Exception as e:
+                    failed += 1
+                    print(f"Session {i+1} failed: {e}")
+
+        tasks = [_run_one(i, p) for i, p in enumerate(personas)]
+        await asyncio.gather(*tasks)
+        print(f"\nParallel run complete: {completed} succeeded, {failed} failed")
 
     # Usage summary
     usage = engine.usage_summary()
