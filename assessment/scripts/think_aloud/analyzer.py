@@ -43,6 +43,10 @@ def analyze(sessions: list[dict]) -> dict:
         results["convergence_analysis"] = _convergence_analysis(sessions)
         results["behavioral_realism"] = _behavioral_realism(sessions)
 
+    # v2.1 analyses — accessibility metrics (only if ARIA data present)
+    if any(s.get("protocol_version", "1.0") >= "2.1" for s in sessions):
+        results["accessibility_analysis"] = _accessibility_analysis(sessions)
+
     return results
 
 
@@ -252,7 +256,7 @@ def _heuristic_analysis(sessions: list[dict]) -> dict:
 
     return {
         "heuristics_covered": len(heuristic_counts),
-        "total_heuristics": 10,
+        "total_heuristics": len(NIELSEN_HEURISTICS),
         "citation_rate": round(with_heuristic / max(total_usability, 1), 2),
         "counts": dict(heuristic_counts.most_common()),
         "by_archetype": {k: dict(v) for k, v in heuristic_by_archetype.items()},
@@ -272,6 +276,7 @@ def _cw_failure_points(sessions: list[dict]) -> dict:
         "notices_correct_action",
         "associates_action_with_goal",
         "sees_progress",
+        "understands_page_structure",
     ]
 
     failures = []
@@ -303,6 +308,7 @@ def _cw_failure_points(sessions: list[dict]) -> dict:
                             "notices_correct_action": "notices_why",
                             "associates_action_with_goal": "associates_why",
                             "sees_progress": "progress_why",
+                            "understands_page_structure": "structure_why",
                         }
                         why = cw.get(why_map.get(q, ""), "")
                         failures.append({
@@ -485,6 +491,71 @@ def _behavioral_realism(sessions: list[dict]) -> dict:
     }
 
 
+def _accessibility_analysis(sessions: list[dict]) -> dict:
+    """Analyze ARIA-related accessibility metrics (v2.1+).
+
+    Tracks: structure understanding (CW Q5), accessibility rating (reflection),
+    and accessibility thought type frequency.
+    """
+    # Structure understanding from CW
+    structure_total = 0
+    structure_pass = 0
+    by_page = defaultdict(lambda: {"total": 0, "pass": 0})
+
+    for s in sessions:
+        for page in s.get("pages", []):
+            fr = page.get("fast_reaction", {})
+            cw = fr.get("cognitive_walkthrough", {})
+            val = cw.get("understands_page_structure")
+            if val is not None:
+                url = page.get("url", "").split("/")[-1] or "home"
+                structure_total += 1
+                by_page[url]["total"] += 1
+                if val is True:
+                    structure_pass += 1
+                    by_page[url]["pass"] += 1
+
+    # Accessibility ratings from reflection
+    ratings = []
+    by_archetype = defaultdict(list)
+    for s in sessions:
+        rating = s.get("reflection", {}).get("accessibility_rating")
+        if rating is not None and isinstance(rating, (int, float)):
+            ratings.append(rating)
+            by_archetype[s["persona"]["archetype"]].append(rating)
+
+    # Count accessibility thought type
+    a11y_thoughts = 0
+    for s in sessions:
+        for page in s.get("pages", []):
+            for thought in page.get("thoughts", []):
+                if thought.get("type") == "accessibility":
+                    a11y_thoughts += 1
+
+    archetype_results = []
+    for arch, arch_ratings in sorted(by_archetype.items()):
+        archetype_results.append({
+            "archetype": arch,
+            "mean_rating": round(statistics.mean(arch_ratings), 1),
+            "count": len(arch_ratings),
+        })
+
+    return {
+        "structure_understanding_rate": round(
+            structure_pass / max(structure_total, 1), 2),
+        "structure_total": structure_total,
+        "by_page": {page: round(d["pass"] / max(d["total"], 1), 2)
+                    for page, d in sorted(by_page.items())},
+        "accessibility_rating_mean": round(
+            statistics.mean(ratings), 1) if ratings else None,
+        "accessibility_rating_std": round(
+            statistics.stdev(ratings), 1) if len(ratings) > 1 else 0.0,
+        "accessibility_rating_by_archetype": sorted(
+            archetype_results, key=lambda x: x["mean_rating"]),
+        "accessibility_thoughts_count": a11y_thoughts,
+    }
+
+
 def write_report(analysis: dict, output_dir: str):
     """Write markdown report from analysis results."""
     report_path = Path(output_dir) / "report.md"
@@ -528,7 +599,7 @@ def write_report(analysis: dict, output_dir: str):
     if "heuristic_analysis" in analysis:
         h = analysis["heuristic_analysis"]
         lines.append("## Nielsen Heuristic Analysis")
-        lines.append(f"**Coverage:** {h['heuristics_covered']}/10 heuristics cited | "
+        lines.append(f"**Coverage:** {h['heuristics_covered']}/{h.get('total_heuristics', 10)} heuristics cited | "
                      f"**Citation rate:** {h['citation_rate']:.0%}")
         lines.append("")
         if h.get("counts"):
@@ -575,6 +646,27 @@ def write_report(analysis: dict, output_dir: str):
             for a in b["by_archetype"]:
                 lines.append(f"| {a['archetype']} | {a['avg_events']} | "
                              f"{a.get('confusion_prob', '?')} |")
+            lines.append("")
+
+    # ── v2.1: Accessibility Analysis ──
+    if "accessibility_analysis" in analysis:
+        acc = analysis["accessibility_analysis"]
+        lines.append("## Accessibility Analysis (v2.1)")
+        lines.append(f"**Structure understanding rate:** {acc['structure_understanding_rate']:.0%} | "
+                     f"**Accessibility rating:** {acc.get('accessibility_rating_mean', '?')}/5 | "
+                     f"**Accessibility thoughts:** {acc['accessibility_thoughts_count']}")
+        lines.append("")
+        if acc.get("by_page"):
+            lines.append("| Page | Structure Understanding |")
+            lines.append("|------|----------------------|")
+            for page, rate in acc["by_page"].items():
+                lines.append(f"| {page} | {rate:.0%} |")
+            lines.append("")
+        if acc.get("accessibility_rating_by_archetype"):
+            lines.append("| Archetype | Accessibility Rating |")
+            lines.append("|-----------|---------------------|")
+            for a in acc["accessibility_rating_by_archetype"]:
+                lines.append(f"| {a['archetype']} | {a['mean_rating']}/5 |")
             lines.append("")
 
     # Usability issues
@@ -701,20 +793,27 @@ def compare_models(dirs: dict[str, str], output_path: str) -> str:
 
     # Heuristics
     if any("heuristic_analysis" in a["analysis"] for a in arms.values()):
-        _row("Heuristics covered", lambda a: f"{a['analysis'].get('heuristic_analysis', {}).get('heuristics_covered', '?')}/10")
+        _row("Heuristics covered", lambda a: f"{a['analysis'].get('heuristic_analysis', {}).get('heuristics_covered', '?')}/{a['analysis'].get('heuristic_analysis', {}).get('total_heuristics', 10)}")
         _row("Heuristic citation rate", lambda a: f"{a['analysis'].get('heuristic_analysis', {}).get('citation_rate', 0):.0%}")
 
     # CW failures
     if any("cw_failure_points" in a["analysis"] for a in arms.values()):
         _row("CW total failures", lambda a: a["analysis"].get("cw_failure_points", {}).get("total_failures", "?"))
         for q in ["will_try_right_effect", "notices_correct_action",
-                   "associates_action_with_goal", "sees_progress"]:
+                   "associates_action_with_goal", "sees_progress",
+                   "understands_page_structure"]:
             _row(f"CW: {q}", lambda a, q=q: f"{a['analysis'].get('cw_failure_points', {}).get('failure_rate', {}).get(q, '?'):.0%}"
                  if isinstance(a["analysis"].get("cw_failure_points", {}).get("failure_rate", {}).get(q), (int, float)) else "?")
 
     # Behavioral realism
     if any("behavioral_realism" in a["analysis"] for a in arms.values()):
         _row("Behavioral events/session", lambda a: a["analysis"].get("behavioral_realism", {}).get("events_per_session", "?"))
+
+    # Accessibility (v2.1)
+    if any("accessibility_analysis" in a["analysis"] for a in arms.values()):
+        _row("Structure understanding", lambda a: f"{a['analysis'].get('accessibility_analysis', {}).get('structure_understanding_rate', '?'):.0%}"
+             if isinstance(a["analysis"].get("accessibility_analysis", {}).get("structure_understanding_rate"), (int, float)) else "-")
+        _row("Accessibility rating", lambda a: a["analysis"].get("accessibility_analysis", {}).get("accessibility_rating_mean", "-"))
 
     lines.append("")
 
@@ -834,12 +933,13 @@ def compare_models(dirs: dict[str, str], output_path: str) -> str:
         lines.append(f"- **Cost savings:** {savings_pct:.0f}%")
         lines.append(f"- **SUS delta:** {sus_delta:+.1f} pts {'(within 1 SD)' if within_1sd else '(OUTSIDE 1 SD)'}")
         lines.append(f"- **NPS delta:** {nps_delta:+.1f}")
-        lines.append(f"- **Heuristic coverage:** {heuristics}/10 vs {baseline_heuristics}/10")
+        total_h = len(NIELSEN_HEURISTICS)
+        lines.append(f"- **Heuristic coverage:** {heuristics}/{total_h} vs {baseline_heuristics}/{total_h}")
 
         if within_1sd and heuristics >= 8:
             lines.append(f"- **Verdict: RECOMMENDED** -- quality within tolerance at {savings_pct:.0f}% savings")
         elif heuristics < 8:
-            lines.append(f"- **Verdict: NOT RECOMMENDED** -- heuristic coverage too low ({heuristics}/10)")
+            lines.append(f"- **Verdict: NOT RECOMMENDED** -- heuristic coverage too low ({heuristics}/{total_h})")
         else:
             lines.append(f"- **Verdict: MARGINAL** -- SUS drop outside 1 SD, review qualitatively")
         lines.append("")
@@ -858,6 +958,7 @@ def compare_models(dirs: dict[str, str], output_path: str) -> str:
             "heuristics": arm_data["analysis"].get("heuristic_analysis"),
             "cw": arm_data["analysis"].get("cw_failure_points"),
             "behavioral": arm_data["analysis"].get("behavioral_realism"),
+            "accessibility": arm_data["analysis"].get("accessibility_analysis"),
             "thought_quality": _thought_stats(arm_data),
         }
     json_path = report_file.with_suffix(".json")

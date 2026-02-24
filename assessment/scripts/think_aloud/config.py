@@ -1,6 +1,6 @@
 """Configuration for think-aloud protocol test."""
 
-PROTOCOL_VERSION = "2.0"
+PROTOCOL_VERSION = "2.1"
 
 DEFAULT_TARGET = "https://dit-maeda.noahratzan.com"
 DEFAULT_MODEL = "claude-sonnet-4-20250514"
@@ -51,6 +51,7 @@ NIELSEN_HEURISTICS = [
     "minimalist_design",
     "error_recovery",
     "help_documentation",
+    "accessibility_structure",
 ]
 
 # ── v2: SUS Benchmarking (Brooke, 1996) ──

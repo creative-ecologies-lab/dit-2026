@@ -30,7 +30,7 @@ image = (
 
 # ── All constants (inlined from config.py) ──
 
-PROTOCOL_VERSION = "2.0"
+PROTOCOL_VERSION = "2.1"
 DEFAULT_TARGET = "https://dit-maeda.noahratzan.com"
 DEFAULT_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_COHORT = "think-aloud-test"
@@ -59,6 +59,19 @@ PERSONA PSYCHOLOGY:
 - Thinking style: {persona['think_style']}
 - Confusion likelihood: {confusion_prob:.0%} — how often this persona encounters something unclear
 
+READING THE ACCESSIBILITY TREE:
+The tree below uses WAI-ARIA roles. Key roles:
+- [navigation] = site/page nav area
+- [region] "label" = a named section (like a chapter heading)
+- [main] = primary content area
+- [radiogroup] / [radio] = mutually exclusive options
+- [progressbar] value=N = progress indicator (0-100)
+- [status] = dynamically updating content (live region)
+- [tablist] / [tab] / [tabpanel] = tabbed interface
+- [log] = chronological message feed (e.g., chat)
+- [alert] = important message demanding attention
+Use landmarks to orient yourself on the page before looking at individual elements.
+
 CURRENT PAGE (accessibility tree):
 ---
 {page_state}
@@ -82,7 +95,9 @@ Respond in this EXACT JSON format (no markdown fences):
     "associates_action_with_goal": <true_OR_false>,
     "associates_why": "Does the label match what you're trying to accomplish?",
     "sees_progress": <true_OR_false>,
-    "progress_why": "After acting, will you know it worked?"
+    "progress_why": "After acting, will you know it worked?",
+    "understands_page_structure": <true_OR_false>,
+    "structure_why": "Can you tell what the main sections of this page are? Do the labels help you orient?"
   }}
 }}
 
@@ -109,7 +124,8 @@ def build_reflect_and_act_prompt(persona, page_state, url, interactive_elements,
         f"CW - Will try right effect: {fast_reaction.get('cognitive_walkthrough', {}).get('will_try_right_effect', '?')}\n"
         f"CW - Notices correct action: {fast_reaction.get('cognitive_walkthrough', {}).get('notices_correct_action', '?')}\n"
         f"CW - Associates with goal: {fast_reaction.get('cognitive_walkthrough', {}).get('associates_action_with_goal', '?')}\n"
-        f"CW - Sees progress: {fast_reaction.get('cognitive_walkthrough', {}).get('sees_progress', '?')}"
+        f"CW - Sees progress: {fast_reaction.get('cognitive_walkthrough', {}).get('sees_progress', '?')}\n"
+        f"CW - Understands structure: {fast_reaction.get('cognitive_walkthrough', {}).get('understands_page_structure', '?')}"
     )
     return f"""You are {persona['role']} with {persona['years']} years of experience in {persona['industry']}.
 
@@ -144,6 +160,7 @@ NIELSEN HEURISTIC REFERENCE (cite ONE per usability thought — use the BEST mat
   minimalist_design — "Too many elements competing for attention"
   error_recovery — "I made a wrong choice and there's no way to correct it"
   help_documentation — "I don't know what 'maturity stage' means and there's no tooltip"
+  accessibility_structure — "The page sections are clearly labeled so I can orient myself" / "I can't tell which part of the page I'm in"
 Try to cite DIFFERENT heuristics across pages — don't repeat the same one every time.
 
 Now REFLECT MORE CAREFULLY. First, question yourself as your persona:
@@ -165,7 +182,8 @@ Respond in this EXACT JSON format (no markdown fences):
     {{"type": "decision", "thought": "What you'll do next and WHY from your persona's perspective.", "element": null}},
     {{"type": "emotion", "thought": "How this makes you feel — engaged, bored, anxious, validated, frustrated? Connect to your motivation.", "element": null}},
     {{"type": "self_awareness", "thought": "Reflection about yourself — 'I'm not as advanced as I thought', 'This assumes daily AI use', etc.", "element": null}},
-    {{"type": "usability", "thought": "UX issue or strength you noticed.", "heuristic": "PICK ONE: visibility_of_system_status | match_real_world | user_control_freedom | consistency_standards | error_prevention | recognition_over_recall | flexibility_efficiency | minimalist_design | error_recovery | help_documentation", "element": null}}
+    {{"type": "usability", "thought": "UX issue or strength you noticed.", "heuristic": "PICK ONE: visibility_of_system_status | match_real_world | user_control_freedom | consistency_standards | error_prevention | recognition_over_recall | flexibility_efficiency | minimalist_design | error_recovery | help_documentation | accessibility_structure", "element": null}},
+    {{"type": "accessibility", "thought": "Did the page structure (sections, labels, progress indicators) help or hinder finding what you need?", "element": null}}
   ],
   "action": {{
     "type": "click|type|select|scroll|navigate",
@@ -217,7 +235,9 @@ Respond in this EXACT JSON format (no markdown fences):
   "nps_reason": "Connect your score to specific moments in your experience.",
   "strongest_moment": "The single moment that resonated most (positive or negative)",
   "would_share": <true_OR_false>,
-  "share_reason": "Why you would or wouldn't share this"
+  "share_reason": "Why you would or wouldn't share this",
+  "accessibility_rating": <INTEGER_1_TO_5>,
+  "accessibility_note": "Did the page structure (sections, labels, progress indicators) help you navigate? 1=confusing structure, 5=clear and well-organized"
 }}
 
 IMPORTANT: Your nps_score must be an integer 0-10 that authentically reflects THIS persona's experience. Do NOT default to 7."""
@@ -309,18 +329,21 @@ INTERACTIVE_JS = """() => {
                 id: el.id || null,
                 classes: el.className.substring(0, 100),
                 href: el.href || null,
+                ariaLabel: el.getAttribute('aria-label') || null,
+                role: el.getAttribute('role') || null,
             });
         }
     });
-    document.querySelectorAll('label.option-item').forEach(el => {
+    document.querySelectorAll('button.q-option').forEach(el => {
         if (el.offsetParent !== null) {
-            const input = el.querySelector('input');
             elements.push({
-                tag: 'option-item',
+                tag: 'q-option',
                 text: el.textContent.trim().substring(0, 120),
-                value: input ? input.value : null,
-                name: input ? input.name : null,
+                value: el.dataset.value || null,
+                qid: el.dataset.qid || null,
                 selected: el.classList.contains('selected'),
+                ariaLabel: el.getAttribute('aria-label') || null,
+                ariaChecked: el.getAttribute('aria-checked') || null,
             });
         }
     });
@@ -341,6 +364,7 @@ INTERACTIVE_JS = """() => {
             text: el.textContent.trim(),
             href: el.href,
             active: el.classList.contains('active'),
+            ariaCurrent: el.getAttribute('aria-current') || null,
         });
     });
     return elements;
@@ -512,7 +536,7 @@ class AsyncEngine:
         return _parse_json(raw)
 
     async def reflect(self, persona, transcript_summary):
-        raw = await self._call(build_reflection_prompt(persona, transcript_summary), 600)
+        raw = await self._call(build_reflection_prompt(persona, transcript_summary), 1000)
         return _parse_json(raw)
 
     async def score_sus(self, persona, transcript_summary):
@@ -723,7 +747,7 @@ async def run_one_session(
                         cv = action.get("value", "")
                         if cv.isdigit():
                             wv = str(max(0, min(5, int(cv) + rng.choice([-1, 1]))))
-                            await page.click(f'label.option-item:has(input[value="{wv}"])', timeout=2000)
+                            await page.click(f'button.q-option[data-value="{wv}"]', timeout=2000)
                             await page.wait_for_timeout(MISCLICK_RECOVERY_MS)
                             behavioral_events_all.append({"event": "misclick_corrected", "url": page.url})
                     except Exception:
@@ -732,7 +756,7 @@ async def run_one_session(
                 if err:
                     sae_val = max(0, min(5, round(rng.gauss(persona["sae_center"], persona["sae_spread"]))))
                     try:
-                        await page.click(f'label.option-item:has(input[value="{sae_val}"])', timeout=3000)
+                        await page.click(f'button.q-option[data-value="{sae_val}"]', timeout=3000)
                         await page.wait_for_timeout(WAIT_AFTER_CLICK_MS)
                     except Exception:
                         pass
@@ -760,7 +784,7 @@ async def run_one_session(
                         if cv in epias_letters:
                             idx = epias_letters.index(cv)
                             wi = max(0, min(4, idx + rng.choice([-1, 1])))
-                            await page.click(f'label.option-item:has(input[value="{epias_letters[wi]}"])', timeout=2000)
+                            await page.click(f'button.q-option[data-value="{epias_letters[wi]}"]', timeout=2000)
                             await page.wait_for_timeout(MISCLICK_RECOVERY_MS)
                             behavioral_events_all.append({"event": "misclick_corrected", "url": page.url})
                     except Exception:
@@ -769,7 +793,7 @@ async def run_one_session(
                 if err:
                     idx = max(0, min(4, round(rng.gauss(persona["epias_center"] - 1, persona["epias_spread"]))))
                     try:
-                        await page.click(f'label.option-item:has(input[value="{epias_letters[idx]}"])', timeout=3000)
+                        await page.click(f'button.q-option[data-value="{epias_letters[idx]}"]', timeout=3000)
                         await page.wait_for_timeout(WAIT_AFTER_CLICK_MS)
                     except Exception:
                         pass

@@ -225,7 +225,7 @@ async def run_session(
                             wrong_val = str(max(0, min(5,
                                 int(correct_val) + rng.choice([-1, 1]))))
                             await page.click(
-                                f'label.option-item:has(input[value="{wrong_val}"])',
+                                f'button.q-option[data-value="{wrong_val}"]',
                                 timeout=2000)
                             await page.wait_for_timeout(MISCLICK_RECOVERY_MS)
                             misclick_events.append("misclick_corrected")
@@ -244,7 +244,7 @@ async def run_session(
                         persona["sae_center"], persona["sae_spread"]))))
                     try:
                         await page.click(
-                            f'label.option-item:has(input[value="{sae_val}"])',
+                            f'button.q-option[data-value="{sae_val}"]',
                             timeout=3000)
                         await page.wait_for_timeout(driver.WAIT_AFTER_CLICK_MS)
                     except Exception:
@@ -283,7 +283,7 @@ async def run_session(
                             wrong_idx = max(0, min(4, idx + rng.choice([-1, 1])))
                             wrong_val = epias_letters[wrong_idx]
                             await page.click(
-                                f'label.option-item:has(input[value="{wrong_val}"])',
+                                f'button.q-option[data-value="{wrong_val}"]',
                                 timeout=2000)
                             await page.wait_for_timeout(MISCLICK_RECOVERY_MS)
                             misclick_events.append("misclick_corrected")
@@ -303,7 +303,7 @@ async def run_session(
                     letter = epias_letters[idx]
                     try:
                         await page.click(
-                            f'label.option-item:has(input[value="{letter}"])',
+                            f'button.q-option[data-value="{letter}"]',
                             timeout=3000)
                         await page.wait_for_timeout(driver.WAIT_AFTER_CLICK_MS)
                     except Exception:

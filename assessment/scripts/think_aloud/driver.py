@@ -70,16 +70,16 @@ async def get_page_state(page: Page) -> dict:
                 });
             }
         });
-        // Radio/option items
-        document.querySelectorAll('label.option-item').forEach(el => {
+        // Question option buttons
+        document.querySelectorAll('button.q-option').forEach(el => {
             if (el.offsetParent !== null) {
-                const input = el.querySelector('input');
                 elements.push({
-                    tag: 'option-item',
+                    tag: 'q-option',
                     text: el.textContent.trim().substring(0, 120),
-                    value: input ? input.value : null,
-                    name: input ? input.name : null,
+                    value: el.dataset.value || null,
+                    qid: el.dataset.qid || null,
                     selected: el.classList.contains('selected'),
+                    ariaChecked: el.getAttribute('aria-checked') || null,
                 });
             }
         });
