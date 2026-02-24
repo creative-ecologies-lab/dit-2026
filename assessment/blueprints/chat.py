@@ -27,15 +27,17 @@ def _check_rate_limit(ip: str) -> bool:
 @bp.route('/')
 def chat_page():
     providers = current_app.llm_registry.get_available_providers()
-    simple = os.environ.get("CHAT_SIMPLE_MODE", "").lower() in ("1", "true")
+    available = [p for p in providers if p["available"]]
+    # Auto-detect simple mode: single provider, or env override
+    simple = (
+        len(available) <= 1
+        or os.environ.get("CHAT_SIMPLE_MODE", "").lower() in ("1", "true")
+    )
     # In simple mode, resolve the display label for the fixed model
     model_label = None
-    if simple:
-        for p in providers:
-            if p["available"]:
-                info = get_model_info(p["model"])
-                model_label = info["label"] if info else p["model"]
-                break
+    if simple and available:
+        info = get_model_info(available[0]["model"])
+        model_label = info["label"] if info else available[0]["model"]
     return render_template('chat.html', providers=providers,
                            simple_mode=simple, model_label=model_label)
 

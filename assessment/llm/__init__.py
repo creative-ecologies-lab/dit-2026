@@ -20,8 +20,7 @@ class ProviderRegistry:
                     return provider
             raise RuntimeError(
                 "No LLM providers available. "
-                "Set OPENAI_API_KEY, ANTHROPIC_API_KEY, or GOOGLE_API_KEY in .env, "
-                "or run Ollama locally."
+                "Set GROQ_API_KEY in .env to enable chat."
             )
         if name not in self._providers:
             raise ValueError(f"Unknown provider: {name}. Available: {list(self._providers.keys())}")
@@ -61,36 +60,47 @@ class ProviderRegistry:
 
 
 def create_provider_registry() -> ProviderRegistry:
-    """Create and populate the provider registry."""
+    """Create and populate the provider registry.
+
+    Only Groq (Qwen3-32B) is registered for production use.
+    Other providers are kept as commented-out fallbacks.
+    """
     registry = ProviderRegistry()
 
-    # Register providers with graceful import fallback
+    # Primary: Groq (open-source Qwen3-32B on LPU hardware)
     try:
-        from llm.openai_provider import OpenAIProvider
-        registry.register(OpenAIProvider())
+        from llm.groq_provider import GroqProvider
+        registry.register(GroqProvider())
     except ImportError:
         pass
 
-    try:
-        from llm.anthropic_provider import AnthropicProvider
-        registry.register(AnthropicProvider())
-    except ImportError:
-        pass
-
-    try:
-        from llm.google_provider import GoogleProvider
-        registry.register(GoogleProvider())
-    except ImportError:
-        pass
-
-    try:
-        from llm.ollama_provider import OllamaProvider
-        from config import settings
-        registry.register(OllamaProvider(
-            base_url=settings.ollama_base_url,
-            model=settings.ollama_model,
-        ))
-    except ImportError:
-        pass
+    # Fallback providers (disabled for production — uncomment to re-enable)
+    # try:
+    #     from llm.openai_provider import OpenAIProvider
+    #     registry.register(OpenAIProvider())
+    # except ImportError:
+    #     pass
+    #
+    # try:
+    #     from llm.anthropic_provider import AnthropicProvider
+    #     registry.register(AnthropicProvider())
+    # except ImportError:
+    #     pass
+    #
+    # try:
+    #     from llm.google_provider import GoogleProvider
+    #     registry.register(GoogleProvider())
+    # except ImportError:
+    #     pass
+    #
+    # try:
+    #     from llm.ollama_provider import OllamaProvider
+    #     from config import settings
+    #     registry.register(OllamaProvider(
+    #         base_url=settings.ollama_base_url,
+    #         model=settings.ollama_model,
+    #     ))
+    # except ImportError:
+    #     pass
 
     return registry

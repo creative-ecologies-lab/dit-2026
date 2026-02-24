@@ -45,14 +45,14 @@ EXPOSE 8080
 
 # Gunicorn with:
 #   - 2 workers (Cloud Run vCPU is shared; 2 is optimal for 1 vCPU)
-#   - 4 threads per worker (handles concurrent LLM callback waits)
-#   - 300s timeout (LLM API calls can be slow)
+#   - 32 threads per worker (64 total — handles 50+ concurrent Groq API waits)
+#   - 120s timeout (Groq LPU is fast; no need for 300s)
 #   - Bind to 0.0.0.0:$PORT (Cloud Run injects PORT)
 CMD exec gunicorn \
     --bind 0.0.0.0:$PORT \
     --workers 2 \
-    --threads 4 \
-    --timeout 300 \
+    --threads 32 \
+    --timeout 120 \
     --access-logfile - \
     --error-logfile - \
     "app:create_app()"

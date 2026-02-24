@@ -132,6 +132,13 @@ MODEL_CATALOG = {
         "reasoning_options": ["minimal", "low", "medium", "high"],
         "reasoning_default": "medium",
     },
+    # ── Groq (OpenAI-compatible, LPU hardware) ───────────────────────
+    "qwen/qwen3-32b": {
+        "provider": "groq",
+        "label": "Qwen3 32B",
+        "description": "Open-source 32B model on Groq — fast inference, 131K context",
+        "reasoning_param": None,
+    },
 }
 
 

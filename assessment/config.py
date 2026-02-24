@@ -13,11 +13,12 @@ class Settings(BaseSettings):
     port: int = 5002
 
     # LLM provider keys
+    groq_api_key: Optional[str] = None
     openai_api_key: Optional[str] = None
     anthropic_api_key: Optional[str] = None
     google_api_key: Optional[str] = None
 
-    # Ollama
+    # Ollama (disabled — kept for local dev fallback)
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "llama3.2"
 
