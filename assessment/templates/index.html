@@ -2,17 +2,10 @@
 {% block title %}DIT 2026 — Where Do You Stand with AI?{% endblock %}
 
 {% block content %}
-<div class="hero">
+<div class="hero hero-compact">
     <h1>Where Do You Stand with AI?</h1>
-    <p class="subtitle">Map your AI adoption using the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>. Find your automation level, maturity stage, and a concrete growth path.</p>
-    <p class="hero-audience">For designers, engineers, researchers, students, and anyone curious about where they stand with AI.</p>
-    <p class="hero-context">11 questions &middot; about 5 minutes &middot; anonymous &middot; no sign-up</p>
-    <p class="hero-privacy">Your responses are anonymous &mdash; we only store your placement for the community heatmap.</p>
-    <div class="quick-links">
-        <a href="/framework">What does the framework measure?</a>
-        <span class="quick-links-sep">&middot;</span>
-        <a href="https://github.com/aji-ai/dit-2026" target="_blank">View on GitHub</a>
-    </div>
+    <p class="subtitle">Map your AI adoption on the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>.</p>
+    <p class="hero-context">11 questions &middot; ~5 min &middot; anonymous &middot; no sign-up &middot; <a href="/framework">Learn more</a></p>
 </div>
 
 {% if error %}
@@ -20,55 +13,75 @@
 {% endif %}
 
 {% if heatmap_total > 0 %}
-<div class="heatmap-teaser">
-    <h2>{{ heatmap_total }} {{ 'person has' if heatmap_total == 1 else 'people have' }} taken the assessment</h2>
-    <p class="teaser-subtitle">Where will you land on the grid?</p>
-    <div class="mini-heatmap" aria-label="Community heatmap preview">
-        {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
-        {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
-        {% for level in range(6) %}
-        <div class="mini-row">
-            <span class="mini-label">L{{ level }}</span>
-            {% for stage in stages %}
-            {% set key = level | string + '_' + stage %}
-            {% set count = heatmap_counts.get(key, 0) %}
-            {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
-            <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }}"></div>
+<div class="heatmap-teaser teaser-horizontal">
+    <div class="teaser-grid-side">
+        <div class="mini-heatmap" aria-label="Community heatmap preview">
+            {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
+            {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
+            {% for level in range(6) %}
+            <div class="mini-row">
+                <span class="mini-label">L{{ level }}</span>
+                {% for stage in stages %}
+                {% set key = level | string + '_' + stage %}
+                {% set count = heatmap_counts.get(key, 0) %}
+                {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
+                <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }}"></div>
+                {% endfor %}
+            </div>
             {% endfor %}
-        </div>
-        {% endfor %}
-        <div class="mini-row mini-header">
-            <span class="mini-label"></span>
-            {% for stage in stages %}
-            <span class="mini-stage-label">{{ stage }}</span>
-            {% endfor %}
+            <div class="mini-row mini-header">
+                <span class="mini-label"></span>
+                {% for stage in stages %}
+                <span class="mini-stage-label">{{ stage }}</span>
+                {% endfor %}
+            </div>
         </div>
     </div>
-    <a href="/heatmap" class="teaser-link">View full community heatmap &rarr;</a>
+    <div class="teaser-action-side">
+        <p class="teaser-count"><strong>{{ heatmap_total }}</strong> {{ 'person has' if heatmap_total == 1 else 'people have' }} mapped their position</p>
+        <p class="teaser-hook">Where will you land?</p>
+        <a href="/assess" class="btn btn-primary btn-lg">Take the Assessment</a>
+        <div class="teaser-cohort">
+            <label for="cohortInput">Have a cohort code?</label>
+            <div class="cohort-form">
+                <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false">
+                <button class="btn btn-secondary btn-sm" id="cohortGoBtn">Go</button>
+            </div>
+        </div>
+        <div id="cohortResult" style="display:none;">
+            <div id="cohortQR"></div>
+            <p class="cohort-url" id="cohortURL"></p>
+        </div>
+        <a href="/heatmap" class="teaser-link">View full heatmap &rarr;</a>
+    </div>
+</div>
+{% else %}
+<div class="landing-cta">
+    <a href="/assess" class="btn btn-primary btn-lg">Take the Assessment</a>
+    <p class="hero-context" style="margin-top: 0.5rem;">For designers, engineers, researchers, students &mdash; anyone curious about AI.</p>
 </div>
 {% endif %}
 
 <div class="mode-cards">
     <div class="mode-card mode-card-primary">
         <h2><span class="mode-icon">&#x1F50D;</span> Self-Assessment</h2>
-        <p>Answer 11 questions to discover your SAE automation level (L0&ndash;L5) and your E-P-I-A-S maturity stage (Explorer&nbsp;to&nbsp;Steward).</p>
+        <p>Discover your SAE automation level (L0&ndash;L5) and E-P-I-A-S maturity stage.</p>
         <ul class="features">
-            <li>6 questions to find your SAE level</li>
-            <li>5 questions to find your maturity stage</li>
-            <li>Interactive matrix visualization</li>
+            <li>6 automation level questions</li>
+            <li>5 maturity stage questions</li>
+            <li>Matrix visualization</li>
             <li>Personalized growth path</li>
         </ul>
-        <p class="hint">No expertise required&mdash;take it at any level.</p>
-        <a href="/assess" class="btn btn-primary">Take the Assessment</a>
+        <a href="/assess" class="btn btn-primary">Start Now</a>
     </div>
 
     <div class="mode-card {% if not has_llm %}disabled{% endif %}">
         <h2><span class="mode-icon">&#x1F4AC;</span> Chat with the Framework</h2>
-        <p>Ask questions and get personalized growth advice, powered by RAG.</p>
+        <p>Get personalized advice grounded in the framework text.</p>
         <ul class="features">
-            <li>Semantic search over framework content</li>
+            <li>Semantic search over content</li>
             <li>Personalized growth advice</li>
-            <li>Source citations from the report</li>
+            <li>Source citations</li>
             <li>Conversation history</li>
         </ul>
         {% if has_llm %}
@@ -80,36 +93,24 @@
     </div>
 </div>
 
-<div class="cohort-section">
-    <h3>Running a workshop or class?</h3>
-    <p>Enter a cohort code to generate a shareable link and QR code for your group.</p>
-    <div class="cohort-form">
-        <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false">
-        <button class="btn btn-primary" id="cohortGoBtn">Generate QR</button>
-    </div>
-    <div id="cohortResult" style="display:none;">
-        <div id="cohortQR"></div>
-        <p class="cohort-url" id="cohortURL"></p>
-    </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
 (function() {
-    const input = document.getElementById('cohortInput');
-    const btn = document.getElementById('cohortGoBtn');
-    const result = document.getElementById('cohortResult');
-    const qrEl = document.getElementById('cohortQR');
-    const urlEl = document.getElementById('cohortURL');
+    var input = document.getElementById('cohortInput');
+    if (!input) return;
+    var btn = document.getElementById('cohortGoBtn');
+    var result = document.getElementById('cohortResult');
+    var qrEl = document.getElementById('cohortQR');
+    var urlEl = document.getElementById('cohortURL');
 
     function generate() {
-        const code = (input.value || '').trim().toLowerCase();
+        var code = (input.value || '').trim().toLowerCase();
         if (!code) return;
-        const url = location.origin + '/assess?cohort=' + encodeURIComponent(code);
-        const qr = qrcode(0, 'M');
+        var url = location.origin + '/assess?cohort=' + encodeURIComponent(code);
+        var qr = qrcode(0, 'M');
         qr.addData(url);
         qr.make();
-        qrEl.innerHTML = qr.createSvgTag(6, 0);
+        qrEl.innerHTML = qr.createSvgTag(5, 0);
         urlEl.textContent = url;
         result.style.display = '';
     }
