@@ -23,15 +23,51 @@
     };
     const stageNames = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
 
+    const levelExplanations = {
+        0: 'You do all your work manually, without AI tools.',
+        1: 'You use AI for ideas and drafts but direct every step yourself.',
+        2: 'You use AI tools to generate deliverables from specs.',
+        3: 'You work in IDE-based multi-step AI workflows with checkpoints.',
+        4: 'You run autonomous AI agent harnesses with eval suites.',
+        5: 'AI runs most of your workflow; you set goals and review exceptions.',
+    };
+    const stageExplanations = {
+        E: 'Still experimenting and building intuition at this level.',
+        P: 'Consistent habits and reliable practices established.',
+        I: 'AI is fully integrated into your workflow with documented decisions.',
+        A: 'You have built reusable systems that others adopt.',
+        S: 'You set organizational standards and mentor others.',
+    };
+
     // Badge
     document.getElementById('badgeLevel').textContent =
         `SAE L${result.sae_level}: ${result.sae_name || saeNames[result.sae_level] || ''}`;
     document.getElementById('badgeStage').textContent =
         `${stageNames[result.epias_stage] || result.epias_stage} (${result.epias_stage})`;
 
+    // Summary explanations
+    document.getElementById('summaryLevel').textContent =
+        `L${result.sae_level}: ${saeNames[result.sae_level] || ''}`;
+    document.getElementById('summaryLevelExplain').textContent =
+        levelExplanations[result.sae_level] || '';
+    document.getElementById('summaryStage').textContent =
+        stageNames[result.epias_stage] || result.epias_stage;
+    document.getElementById('summaryStageExplain').textContent =
+        stageExplanations[result.epias_stage] || '';
+
     // Cell description
     document.getElementById('cellDescription').textContent =
         result.cell_description || 'No description available.';
+
+    // Community heatmap link
+    const communityLink = document.getElementById('communityLink');
+    if (communityLink) {
+        const heatmapUrl = result.cohort
+            ? '/heatmap/' + encodeURIComponent(result.cohort)
+            : '/heatmap';
+        document.getElementById('viewHeatmapBtn').href = heatmapUrl;
+        communityLink.style.display = '';
+    }
 
     // Matrix
     renderMatrix('matrixContainer', result);

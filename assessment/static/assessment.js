@@ -147,6 +147,7 @@
                                role="radio" aria-checked="${state.epiasAnswers[q.id] === opt.stage}"
                                aria-label="${stageNames[opt.stage] || opt.stage}: ${opt.text}" tabindex="0">
                             <input type="radio" name="${q.id}" value="${opt.stage}" aria-hidden="true">
+                            <span class="stage-badge stage-${opt.stage}">${opt.stage}</span>
                             ${opt.text}
                         </label>
                     `).join('')}
@@ -179,6 +180,16 @@
         updateButtons();
     }
 
+    function updateStepIndicator(activeStage) {
+        const stageOrder = ['intake', 'sae', 'epias', 'results'];
+        const activeIdx = stageOrder.indexOf(activeStage);
+        document.querySelectorAll('.step-dot').forEach(dot => {
+            const dotIdx = stageOrder.indexOf(dot.dataset.step);
+            dot.classList.toggle('active', dotIdx === activeIdx);
+            dot.classList.toggle('completed', dotIdx < activeIdx);
+        });
+    }
+
     function updateProgress() {
         const fill = document.getElementById('progressFill');
         const text = document.getElementById('progressText');
@@ -186,13 +197,15 @@
         if (state.stage === 'sae') {
             const pct = ((state.currentQuestion + 1) / (totalSaeQuestions + state.epiasQuestions.length || 5)) * 100;
             fill.style.width = Math.min(pct, 50) + '%';
-            text.textContent = `Step 1 of 2 — Question ${state.currentQuestion + 1} of ${totalSaeQuestions}`;
+            text.textContent = `Automation Level — Question ${state.currentQuestion + 1} of ${totalSaeQuestions}`;
+            updateStepIndicator('sae');
         } else {
             const baseP = 50;
             const total = state.epiasQuestions.length || 5;
             const pct = baseP + ((state.currentQuestion + 1) / total) * 50;
             fill.style.width = pct + '%';
-            text.textContent = `Step 2 of 2 — Question ${state.currentQuestion + 1} of ${total}`;
+            text.textContent = `Maturity Stage — Question ${state.currentQuestion + 1} of ${total}`;
+            updateStepIndicator('epias');
         }
     }
 
@@ -400,6 +413,7 @@
         document.getElementById('saeStage').style.display = '';
         document.getElementById('progressBar').style.display = '';
         document.getElementById('progressText').style.display = '';
+        updateStepIndicator('sae');
         renderSaeQuestion(0);
     }
 

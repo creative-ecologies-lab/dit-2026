@@ -3,11 +3,11 @@
 SAE_QUESTIONS = [
     {
         "id": "sae_tools",
-        "question": "Which best describes the AI tools in your design workflow?",
+        "question": "Which best describes the AI tools in your workflow?",
         "options": [
-            {"level": 0, "text": "I don't use AI tools \u2014 all my design work is manual."},
+            {"level": 0, "text": "I don't use AI tools \u2014 all my work is manual."},
             {"level": 1, "text": "I use ChatGPT or Midjourney for ideas and drafts, but I direct every step."},
-            {"level": 2, "text": "I use app-builders (Bolt, v0, Framer) to generate screens or components from specs."},
+            {"level": 2, "text": "I use AI tools to generate deliverables (documents, screens, code) from specs."},
             {"level": 3, "text": "I work in an IDE with multi-step AI workflows, checkpoints, and context engineering."},
             {"level": 4, "text": "I run automated agent harnesses with eval suites that execute autonomously."},
             {"level": 5, "text": "AI runs most of my workflow \u2014 I set goals and review exceptions."},
@@ -19,7 +19,7 @@ SAE_QUESTIONS = [
         "options": [
             {"level": 0, "text": "N/A \u2014 I don't use AI in my work."},
             {"level": 1, "text": "I manually review and heavily rewrite everything AI produces."},
-            {"level": 2, "text": "I run a checklist (design-system fit, accessibility, tone) before integrating AI output."},
+            {"level": 2, "text": "I run a checklist (consistency, quality standards, tone) before integrating AI output."},
             {"level": 3, "text": "I have lightweight evals and explicit review gates in my workflows."},
             {"level": 4, "text": "Automated eval suites decide pass, retry, or escalate without my input."},
             {"level": 5, "text": "Self-correcting systems handle QA \u2014 I only review flagged exceptions."},
@@ -29,12 +29,12 @@ SAE_QUESTIONS = [
         "id": "sae_laptop",
         "question": "What happens when you close your laptop?",
         "options": [
-            {"level": 0, "text": "All work stops \u2014 everything is manual."},
-            {"level": 1, "text": "All work stops \u2014 AI only runs when I'm actively prompting."},
-            {"level": 2, "text": "All work stops \u2014 I manually assemble generated pieces later."},
-            {"level": 3, "text": "All work stops \u2014 my IDE workflows only run while I'm present."},
-            {"level": 4, "text": "Work continues \u2014 my harnesses run, eval, and retry autonomously."},
-            {"level": 5, "text": "Work continues indefinitely \u2014 I'm only needed for exceptions."},
+            {"level": 0, "text": "N/A \u2014 I don't use AI, so nothing changes."},
+            {"level": 1, "text": "Everything pauses \u2014 AI only works when I'm actively prompting."},
+            {"level": 2, "text": "Everything pauses \u2014 I manually assemble AI-generated pieces when I return."},
+            {"level": 3, "text": "Everything pauses \u2014 my workflows need me to review and approve."},
+            {"level": 4, "text": "Work continues \u2014 my harnesses run, evaluate, and retry on their own."},
+            {"level": 5, "text": "Work continues indefinitely \u2014 I only review flagged exceptions."},
         ]
     },
     {
@@ -51,11 +51,11 @@ SAE_QUESTIONS = [
     },
     {
         "id": "sae_outputs",
-        "question": "What kind of design artifacts does AI help you produce?",
+        "question": "What kind of work artifacts does AI help you produce?",
         "options": [
             {"level": 0, "text": "None \u2014 I produce everything manually."},
-            {"level": 1, "text": "Ideas, copy drafts, and visual concepts that I heavily refine."},
-            {"level": 2, "text": "Usable screens, components, and small flows from clear specs."},
+            {"level": 1, "text": "Ideas, copy drafts, and concepts that I heavily refine."},
+            {"level": 2, "text": "Usable outputs (screens, documents, code) from clear specs."},
             {"level": 3, "text": "Large features via orchestrated multi-step workflows with human QA checkpoints."},
             {"level": 4, "text": "End-to-end features that are generated, tested, and QA'd automatically."},
             {"level": 5, "text": "Complete products with autonomous iteration and self-correction."},
@@ -83,7 +83,7 @@ EPIAS_QUESTIONS = {
         {
             "id": "epias_l0_craft",
             "dimension": "craft_maturity",
-            "question": "How would you describe your manual design craft?",
+            "question": "How would you describe your manual craft and practice?",
             "options": [
                 {"stage": "E", "text": "I'm exploring fundamentals \u2014 my quality varies and I need guidance."},
                 {"stage": "P", "text": "I have consistent practice with repeatable techniques and habits."},
@@ -199,7 +199,7 @@ EPIAS_QUESTIONS = {
                 {"stage": "P", "text": "I share tips and tricks that work for me."},
                 {"stage": "I", "text": "I demonstrate full AI-assisted workflows with clear rationale."},
                 {"stage": "A", "text": "Others routinely ask to use my AI workflows and libraries."},
-                {"stage": "S", "text": "I mentor designers on AI judgment and maintain shared systems."},
+                {"stage": "S", "text": "I mentor others on AI judgment and maintain shared systems."},
             ]
         },
     ],
@@ -207,7 +207,7 @@ EPIAS_QUESTIONS = {
         {
             "id": "epias_l2_specs",
             "dimension": "specification_quality",
-            "question": "How clear are the specs you give AI app-builders?",
+            "question": "How clear are the specs you give AI generation tools?",
             "options": [
                 {"stage": "E", "text": "Vague \u2014 lots of manual stitching and rework needed."},
                 {"stage": "P", "text": "Clear enough for repeatable components with a definition-of-done checklist."},
@@ -222,7 +222,7 @@ EPIAS_QUESTIONS = {
             "question": "How do you integrate AI-generated components?",
             "options": [
                 {"stage": "E", "text": "Copy-paste and heavily modify by hand."},
-                {"stage": "P", "text": "I check design-system fit, accessibility, and tone before integrating."},
+                {"stage": "P", "text": "I check consistency, quality standards, and tone before integrating."},
                 {"stage": "I", "text": "I have repeatable integration patterns with explicit handoff notes."},
                 {"stage": "A", "text": "I've built generate-check-refine bundles others use."},
                 {"stage": "S", "text": "I govern which chunks are safe to automate and set review expectations."},
@@ -246,7 +246,7 @@ EPIAS_QUESTIONS = {
             "question": "How do you ensure quality of AI-generated output?",
             "options": [
                 {"stage": "E", "text": "Visual inspection and gut feel."},
-                {"stage": "P", "text": "A checklist: design-system fit, accessibility, tone."},
+                {"stage": "P", "text": "A checklist: consistency, quality standards, tone."},
                 {"stage": "I", "text": "Documented QA process with traceability from request to final."},
                 {"stage": "A", "text": "Shared QA bundles with prompt templates for consistent review."},
                 {"stage": "S", "text": "I set and maintain review standards for all AI-generated UI."},

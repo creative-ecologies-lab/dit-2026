@@ -1,13 +1,15 @@
 {% extends "base.html" %}
-{% block title %}DIT 2026 — What Kind of Designer Am I?{% endblock %}
+{% block title %}DIT 2026 — Where Do You Stand with AI?{% endblock %}
 
 {% block content %}
 <div class="hero">
-    <h1>What Kind of AI-Augmented Designer Are You?</h1>
-    <p class="subtitle">Discover where you are on the E-P-I-A-S &times; SAE Framework from the <strong>Design in Tech Report 2026</strong>.</p>
-    <p class="hero-context">11 questions &middot; takes about 5 minutes &middot; no sign-up required</p>
+    <h1>Where Do You Stand with AI?</h1>
+    <p class="subtitle">Map your AI adoption using the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>. Find your automation level, maturity stage, and a concrete growth path.</p>
+    <p class="hero-audience">For designers, engineers, researchers, students, and anyone curious about where they stand with AI.</p>
+    <p class="hero-context">11 questions &middot; about 5 minutes &middot; anonymous &middot; no sign-up</p>
+    <p class="hero-privacy">Your responses are anonymous &mdash; we only store your placement for the community heatmap.</p>
     <div class="quick-links">
-        <a href="/framework">Review the framework</a>
+        <a href="/framework">What does the framework measure?</a>
         <span class="quick-links-sep">&middot;</span>
         <a href="https://github.com/aji-ai/dit-2026" target="_blank">View on GitHub</a>
     </div>
@@ -15,6 +17,35 @@
 
 {% if error %}
 <div class="alert alert-warning">{{ error }}</div>
+{% endif %}
+
+{% if heatmap_total > 0 %}
+<div class="heatmap-teaser">
+    <h2>{{ heatmap_total }} {{ 'person has' if heatmap_total == 1 else 'people have' }} taken the assessment</h2>
+    <p class="teaser-subtitle">Where will you land on the grid?</p>
+    <div class="mini-heatmap" aria-label="Community heatmap preview">
+        {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
+        {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
+        {% for level in range(6) %}
+        <div class="mini-row">
+            <span class="mini-label">L{{ level }}</span>
+            {% for stage in stages %}
+            {% set key = level | string + '_' + stage %}
+            {% set count = heatmap_counts.get(key, 0) %}
+            {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
+            <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }}"></div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <div class="mini-row mini-header">
+            <span class="mini-label"></span>
+            {% for stage in stages %}
+            <span class="mini-stage-label">{{ stage }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="/heatmap" class="teaser-link">View full community heatmap &rarr;</a>
+</div>
 {% endif %}
 
 <div class="mode-cards">
@@ -36,7 +67,7 @@
         <p>Ask questions and get personalized growth advice, powered by RAG.</p>
         <ul class="features">
             <li>Semantic search over framework content</li>
-            <li>Multi-provider LLM support</li>
+            <li>Personalized growth advice</li>
             <li>Source citations from the report</li>
             <li>Conversation history</li>
         </ul>
@@ -49,4 +80,44 @@
     </div>
 </div>
 
+<div class="cohort-section">
+    <h3>Running a workshop or class?</h3>
+    <p>Enter a cohort code to generate a shareable link and QR code for your group.</p>
+    <div class="cohort-form">
+        <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false">
+        <button class="btn btn-primary" id="cohortGoBtn">Generate QR</button>
+    </div>
+    <div id="cohortResult" style="display:none;">
+        <div id="cohortQR"></div>
+        <p class="cohort-url" id="cohortURL"></p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+(function() {
+    const input = document.getElementById('cohortInput');
+    const btn = document.getElementById('cohortGoBtn');
+    const result = document.getElementById('cohortResult');
+    const qrEl = document.getElementById('cohortQR');
+    const urlEl = document.getElementById('cohortURL');
+
+    function generate() {
+        const code = (input.value || '').trim().toLowerCase();
+        if (!code) return;
+        const url = location.origin + '/assess?cohort=' + encodeURIComponent(code);
+        const qr = qrcode(0, 'M');
+        qr.addData(url);
+        qr.make();
+        qrEl.innerHTML = qr.createSvgTag(6, 0);
+        urlEl.textContent = url;
+        result.style.display = '';
+    }
+
+    btn.addEventListener('click', generate);
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') generate();
+    });
+})();
+</script>
 {% endblock %}

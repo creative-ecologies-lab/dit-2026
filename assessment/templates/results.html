@@ -6,12 +6,27 @@
     <div id="resultsContent" style="display:none;">
         <!-- Hero Placement — above the fold -->
         <div class="result-hero" role="region" aria-label="Your placement">
-            <p class="result-hero-label">Your Designer Profile</p>
+            <p class="result-hero-label">Your AI Adoption Profile</p>
             <div class="placement-badge" aria-label="Assessment result badges">
                 <span class="badge-level" id="badgeLevel" role="status"></span>
                 <span class="badge-stage" id="badgeStage" role="status"></span>
             </div>
+            <div class="result-summary" id="resultSummary">
+                <div class="summary-item">
+                    <span class="summary-label">Automation Level</span>
+                    <span class="summary-value" id="summaryLevel"></span>
+                    <span class="summary-explain" id="summaryLevelExplain"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Maturity Stage</span>
+                    <span class="summary-value" id="summaryStage"></span>
+                    <span class="summary-explain" id="summaryStageExplain"></span>
+                </div>
+            </div>
             <div class="result-description" id="cellDescription"></div>
+            <div class="result-community-link" id="communityLink" style="display:none;">
+                <a href="/heatmap" class="btn btn-secondary" id="viewHeatmapBtn">See where you fit in the community</a>
+            </div>
         </div>
 
         <!-- Matrix Visualization -->

@@ -8,7 +8,19 @@ bp = Blueprint('assessment', __name__)
 @bp.route('/')
 def index():
     has_llm = bool([p for p in current_app.llm_registry.get_available_providers() if p['available']])
-    return render_template('index.html', has_llm=has_llm)
+    # Fetch global heatmap for teaser
+    heatmap_total = 0
+    heatmap_counts = {}
+    try:
+        from storage import get_heatmap_data
+        hm = get_heatmap_data()
+        heatmap_total = hm.get('total', 0)
+        heatmap_counts = hm.get('counts', {})
+    except Exception:
+        pass
+    return render_template('index.html', has_llm=has_llm,
+                           heatmap_total=heatmap_total,
+                           heatmap_counts=heatmap_counts)
 
 
 @bp.route('/assess')

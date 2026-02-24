@@ -3,10 +3,19 @@
 
 {% block content %}
 <div class="assessment-container" role="main" aria-label="DIT 2026 Self-Assessment">
+    <div class="step-indicator" id="stepIndicator" aria-label="Assessment progress steps">
+        <div class="step-dot active" data-step="intake"><span class="step-num">1</span><span class="step-name">About You</span></div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="sae"><span class="step-num">2</span><span class="step-name">Automation Level</span></div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="epias"><span class="step-num">3</span><span class="step-name">Maturity Stage</span></div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="results"><span class="step-num">4</span><span class="step-name">Results</span></div>
+    </div>
     <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Assessment progress">
         <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div class="progress-text" id="progressText" aria-live="polite">Step 1 of 2 &mdash; Finding your SAE Level</div>
+    <div class="progress-text" id="progressText" aria-live="polite">Automation Level &mdash; Question 1 of 6</div>
 
     <!-- Stage 0: Intake (cohort + demographics) -->
     <div id="intakeStage" class="stage" role="region" aria-label="Intake: optional demographics">
@@ -14,15 +23,16 @@
             <div class="question-card">
                 <h2 style="margin-bottom: 0.25rem;">Before You Begin</h2>
                 <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.9rem;">
-                    All fields are optional&mdash;skip anything you&rsquo;d rather not share.
-                    Enter a cohort code if you were given one.
+                    These optional fields help us understand who&rsquo;s taking the assessment.
+                    Your responses are anonymous and used only for community heatmaps.
+                    <strong>Nothing here affects your results.</strong>
                 </p>
                 <div class="intake-field">
-                    <label for="intakeCohort">Cohort Code</label>
+                    <label for="intakeCohort">Cohort Code <span class="optional-label">(optional)</span></label>
                     <input type="text" id="intakeCohort" placeholder="e.g. sxsw-2026, spotify26"
                            autocomplete="off" spellcheck="false"
                            aria-describedby="cohortHelp">
-                    <span id="cohortHelp" class="sr-only">Enter the cohort code shared by your event organizer</span>
+                    <p id="cohortHelp" class="field-help">If you&rsquo;re at an event or in a class, your organizer may have shared a code. This groups your result with your cohort&rsquo;s heatmap.</p>
                 </div>
                 <div class="intake-field">
                     <label for="intakeAge">Age Range <span class="optional-label">(optional)</span></label>
@@ -42,8 +52,9 @@
                 </div>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center;">
                     <button id="intakeStart" class="btn btn-primary" aria-label="Start the assessment">Start Assessment</button>
-                    <button id="intakeSkip" class="btn btn-secondary" aria-label="Skip intake and start assessment">Skip</button>
+                    <button id="intakeSkip" class="btn btn-secondary" aria-label="Skip intake and start assessment">Skip to questions</button>
                 </div>
+                <p class="intake-privacy">Only your SAE level, EPIAS stage, and optional cohort are stored. Age and role are anonymous for research only.</p>
             </div>
         </div>
     </div>
@@ -70,6 +81,16 @@
             <h2>Step 2: Find Your Maturity Stage</h2>
             <p class="stage-desc">You&rsquo;re at <strong id="identifiedLevel"></strong>. Now find your maturity stage within that level.</p>
             <p class="stage-reassurance">Almost done&mdash;5 more questions.</p>
+            <details class="epias-glossary">
+                <summary>What do the stages mean?</summary>
+                <ul class="glossary-list">
+                    <li><span class="stage-badge stage-E">E</span> <strong>Explorer</strong> &mdash; trying things, building intuition</li>
+                    <li><span class="stage-badge stage-P">P</span> <strong>Practitioner</strong> &mdash; consistent habits, reliable results</li>
+                    <li><span class="stage-badge stage-I">I</span> <strong>Integrator</strong> &mdash; embedded in workflow, documented decisions</li>
+                    <li><span class="stage-badge stage-A">A</span> <strong>Architect</strong> &mdash; built reusable systems others adopt</li>
+                    <li><span class="stage-badge stage-S">S</span> <strong>Steward</strong> &mdash; sets standards, mentors others</li>
+                </ul>
+            </details>
         </div>
         <div class="stage-main">
             <div id="epiasQuestions" role="radiogroup" aria-label="EPIAS maturity question"></div>
