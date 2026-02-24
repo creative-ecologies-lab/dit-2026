@@ -639,3 +639,229 @@ def write_report(analysis: dict, output_dir: str):
         json.dump(analysis, f, indent=2, ensure_ascii=False)
 
     return str(report_path)
+
+
+# ── Model Comparison ──
+
+
+def compare_models(dirs: dict[str, str], output_path: str) -> str:
+    """Compare think-aloud sessions across different models.
+
+    Args:
+        dirs: {"Sonnet 4": "path/to/sessions", "Haiku 3.5": "path/to/sessions", ...}
+        output_path: Where to write the comparison report.
+    Returns:
+        Path to the written report.
+    """
+    arms = {}
+    for label, dir_path in dirs.items():
+        sessions = load_sessions(dir_path)
+        if sessions:
+            arms[label] = {"sessions": sessions, "analysis": analyze(sessions)}
+
+    if not arms:
+        return ""
+
+    lines = ["# Model Comparison Report", ""]
+    lines.append(f"**Arms:** {', '.join(arms.keys())}")
+    lines.append("")
+
+    # ── Summary table ──
+    lines.append("## Summary")
+    lines.append("")
+    headers = ["Metric"] + list(arms.keys())
+    lines.append("| " + " | ".join(headers) + " |")
+    lines.append("|" + "|".join("---" for _ in headers) + "|")
+
+    def _row(label, fn):
+        vals = [fn(arms[k]) for k in arms]
+        lines.append(f"| {label} | " + " | ".join(str(v) for v in vals) + " |")
+
+    _row("Sessions", lambda a: a["analysis"]["summary"]["total_sessions"])
+    _row("Avg NPS", lambda a: a["analysis"]["summary"]["avg_nps"])
+    _row("NPS Std Dev", lambda a: a["analysis"]["summary"].get("nps_std_dev", "?"))
+    _row("Pages/session", lambda a: a["analysis"]["summary"]["pages_per_session"])
+    _row("Completion rate", lambda a: f"{a['analysis']['flow_completion']['completion_rate']:.0%}")
+
+    # Cost
+    def _avg_cost(a):
+        costs = [s.get("engine_usage", {}).get("cost_usd", 0) for s in a["sessions"]]
+        return f"${sum(costs) / max(len(costs), 1):.3f}" if costs else "?"
+    _row("Avg cost/session", _avg_cost)
+
+    def _total_cost(a):
+        return f"${sum(s.get('engine_usage', {}).get('cost_usd', 0) for s in a['sessions']):.2f}"
+    _row("Total cost", _total_cost)
+
+    # SUS
+    if any("sus_analysis" in a["analysis"] for a in arms.values()):
+        _row("Avg SUS", lambda a: a["analysis"].get("sus_analysis", {}).get("overall_mean", "?"))
+        _row("SUS Grade", lambda a: a["analysis"].get("sus_analysis", {}).get("overall_grade", "?"))
+        _row("SUS Std Dev", lambda a: a["analysis"].get("sus_analysis", {}).get("overall_std", "?"))
+
+    # Heuristics
+    if any("heuristic_analysis" in a["analysis"] for a in arms.values()):
+        _row("Heuristics covered", lambda a: f"{a['analysis'].get('heuristic_analysis', {}).get('heuristics_covered', '?')}/10")
+        _row("Heuristic citation rate", lambda a: f"{a['analysis'].get('heuristic_analysis', {}).get('citation_rate', 0):.0%}")
+
+    # CW failures
+    if any("cw_failure_points" in a["analysis"] for a in arms.values()):
+        _row("CW total failures", lambda a: a["analysis"].get("cw_failure_points", {}).get("total_failures", "?"))
+        for q in ["will_try_right_effect", "notices_correct_action",
+                   "associates_action_with_goal", "sees_progress"]:
+            _row(f"CW: {q}", lambda a, q=q: f"{a['analysis'].get('cw_failure_points', {}).get('failure_rate', {}).get(q, '?'):.0%}"
+                 if isinstance(a["analysis"].get("cw_failure_points", {}).get("failure_rate", {}).get(q), (int, float)) else "?")
+
+    # Behavioral realism
+    if any("behavioral_realism" in a["analysis"] for a in arms.values()):
+        _row("Behavioral events/session", lambda a: a["analysis"].get("behavioral_realism", {}).get("events_per_session", "?"))
+
+    lines.append("")
+
+    # ── Thought quality ──
+    lines.append("## Thought Quality")
+    lines.append("")
+    headers2 = ["Metric"] + list(arms.keys())
+    lines.append("| " + " | ".join(headers2) + " |")
+    lines.append("|" + "|".join("---" for _ in headers2) + "|")
+
+    def _thought_stats(a):
+        lengths = []
+        type_counts = Counter()
+        parse_errors = 0
+        for s in a["sessions"]:
+            for p in s.get("pages", []):
+                for t in p.get("thoughts", []):
+                    text = t.get("thought", "")
+                    lengths.append(len(text))
+                    type_counts[t.get("type", "unknown")] += 1
+                fr = p.get("fast_reaction", {})
+                if fr.get("error"):
+                    parse_errors += 1
+        return {
+            "avg_length": round(statistics.mean(lengths)) if lengths else 0,
+            "type_diversity": len(type_counts),
+            "total_thoughts": len(lengths),
+            "parse_errors": parse_errors,
+        }
+
+    thought_data = {k: _thought_stats(v) for k, v in arms.items()}
+
+    for metric in ["avg_length", "type_diversity", "total_thoughts", "parse_errors"]:
+        label = metric.replace("_", " ").title()
+        vals = [str(thought_data[k][metric]) for k in arms]
+        lines.append(f"| {label} | " + " | ".join(vals) + " |")
+
+    lines.append("")
+
+    # ── SUS by archetype ──
+    if any("sus_analysis" in a["analysis"] for a in arms.values()):
+        lines.append("## SUS by Archetype")
+        lines.append("")
+        # Collect all archetypes
+        all_archs = set()
+        for a in arms.values():
+            for entry in a["analysis"].get("sus_analysis", {}).get("by_archetype", []):
+                all_archs.add(entry["archetype"])
+        all_archs = sorted(all_archs)
+
+        headers3 = ["Archetype"] + list(arms.keys())
+        lines.append("| " + " | ".join(headers3) + " |")
+        lines.append("|" + "|".join("---" for _ in headers3) + "|")
+
+        for arch in all_archs:
+            vals = []
+            for k in arms:
+                found = [e for e in arms[k]["analysis"].get("sus_analysis", {}).get("by_archetype", [])
+                         if e["archetype"] == arch]
+                if found:
+                    vals.append(f"{found[0]['mean_sus']} ({found[0]['grade']})")
+                else:
+                    vals.append("-")
+            lines.append(f"| {arch} | " + " | ".join(vals) + " |")
+        lines.append("")
+
+    # ── NPS by archetype ──
+    lines.append("## NPS by Archetype")
+    lines.append("")
+    all_archs_nps = set()
+    for a in arms.values():
+        for entry in a["analysis"].get("persona_satisfaction", []):
+            all_archs_nps.add(entry["archetype"])
+    all_archs_nps = sorted(all_archs_nps)
+
+    headers4 = ["Archetype"] + list(arms.keys())
+    lines.append("| " + " | ".join(headers4) + " |")
+    lines.append("|" + "|".join("---" for _ in headers4) + "|")
+    for arch in all_archs_nps:
+        vals = []
+        for k in arms:
+            found = [e for e in arms[k]["analysis"].get("persona_satisfaction", [])
+                     if e["archetype"] == arch]
+            if found:
+                vals.append(f"{found[0]['avg_nps']}")
+            else:
+                vals.append("-")
+        lines.append(f"| {arch} | " + " | ".join(vals) + " |")
+    lines.append("")
+
+    # ── Cost-quality verdict ──
+    lines.append("## Cost-Quality Verdict")
+    lines.append("")
+
+    baseline_key = list(arms.keys())[0]  # First arm is baseline
+    baseline_sus = arms[baseline_key]["analysis"].get("sus_analysis", {}).get("overall_mean", 0)
+    baseline_sus_std = arms[baseline_key]["analysis"].get("sus_analysis", {}).get("overall_std", 0)
+    baseline_nps = arms[baseline_key]["analysis"]["summary"]["avg_nps"]
+    baseline_heuristics = arms[baseline_key]["analysis"].get("heuristic_analysis", {}).get("heuristics_covered", 0)
+
+    for label, arm_data in list(arms.items())[1:]:
+        sus_mean = arm_data["analysis"].get("sus_analysis", {}).get("overall_mean", 0)
+        nps_mean = arm_data["analysis"]["summary"]["avg_nps"]
+        heuristics = arm_data["analysis"].get("heuristic_analysis", {}).get("heuristics_covered", 0)
+
+        costs_arm = [s.get("engine_usage", {}).get("cost_usd", 0) for s in arm_data["sessions"]]
+        costs_base = [s.get("engine_usage", {}).get("cost_usd", 0) for s in arms[baseline_key]["sessions"]]
+        avg_cost_arm = sum(costs_arm) / max(len(costs_arm), 1)
+        avg_cost_base = sum(costs_base) / max(len(costs_base), 1)
+        savings_pct = (1 - avg_cost_arm / max(avg_cost_base, 0.001)) * 100
+
+        sus_delta = (sus_mean or 0) - (baseline_sus or 0)
+        nps_delta = nps_mean - baseline_nps
+        within_1sd = abs(sus_delta) <= (baseline_sus_std or 999)
+
+        lines.append(f"### {label} vs {baseline_key}")
+        lines.append(f"- **Cost savings:** {savings_pct:.0f}%")
+        lines.append(f"- **SUS delta:** {sus_delta:+.1f} pts {'(within 1 SD)' if within_1sd else '(OUTSIDE 1 SD)'}")
+        lines.append(f"- **NPS delta:** {nps_delta:+.1f}")
+        lines.append(f"- **Heuristic coverage:** {heuristics}/10 vs {baseline_heuristics}/10")
+
+        if within_1sd and heuristics >= 8:
+            lines.append(f"- **Verdict: RECOMMENDED** -- quality within tolerance at {savings_pct:.0f}% savings")
+        elif heuristics < 8:
+            lines.append(f"- **Verdict: NOT RECOMMENDED** -- heuristic coverage too low ({heuristics}/10)")
+        else:
+            lines.append(f"- **Verdict: MARGINAL** -- SUS drop outside 1 SD, review qualitatively")
+        lines.append("")
+
+    report_text = "\n".join(lines)
+    report_file = Path(output_path)
+    report_file.parent.mkdir(parents=True, exist_ok=True)
+    report_file.write_text(report_text, encoding="utf-8")
+
+    # Also save raw comparison data
+    comparison_data = {}
+    for label, arm_data in arms.items():
+        comparison_data[label] = {
+            "summary": arm_data["analysis"]["summary"],
+            "sus": arm_data["analysis"].get("sus_analysis"),
+            "heuristics": arm_data["analysis"].get("heuristic_analysis"),
+            "cw": arm_data["analysis"].get("cw_failure_points"),
+            "behavioral": arm_data["analysis"].get("behavioral_realism"),
+            "thought_quality": _thought_stats(arm_data),
+        }
+    json_path = report_file.with_suffix(".json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(comparison_data, f, indent=2, ensure_ascii=False)
+
+    return str(report_file)

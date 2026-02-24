@@ -5,3 +5,5 @@ __pycache__/
 .env
 .env.*
 .mypy_cache/
+nul
+assessment/results_export.json

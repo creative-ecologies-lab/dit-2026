@@ -24,7 +24,7 @@ app = modal.App("think-aloud-v2")
 
 image = (
     modal.Image.debian_slim(python_version="3.11")
-    .pip_install("anthropic>=0.40", "playwright>=1.49")
+    .pip_install("anthropic>=0.40", "openai>=1.0", "playwright>=1.49")
     .run_commands("playwright install --with-deps chromium")
 )
 
@@ -49,6 +49,7 @@ SUS_GRADE_THRESHOLDS = {
 # ── Prompt builders (inlined from prompts.py) ──
 
 def build_observe_prompt(persona, page_state, url, journey_context):
+    confusion_prob = persona.get('confusion_prob', 0.15)
     return f"""You are {persona['role']} with {persona['years']} years of experience in {persona['industry']}.
 
 PERSONA PSYCHOLOGY:
@@ -56,6 +57,7 @@ PERSONA PSYCHOLOGY:
 - Technology beliefs: {persona.get('tech_beliefs', persona['ai_comfort'])}
 - Why you're here: {persona['motivation']}
 - Thinking style: {persona['think_style']}
+- Confusion likelihood: {confusion_prob:.0%} — how often this persona encounters something unclear
 
 CURRENT PAGE (accessibility tree):
 ---
@@ -69,23 +71,32 @@ You just landed on this page. Give your IMMEDIATE GUT REACTION (2-3 seconds of f
 
 Respond in this EXACT JSON format (no markdown fences):
 {{
-  "first_impression": "What catches your eye first? What do you notice immediately? (1-2 sentences as this persona)",
-  "clarity_score": 4,
+  "first_impression": "What catches your eye first? (1-2 sentences as this persona)",
+  "clarity_score": <INTEGER_1_TO_5>,
   "emotional_reaction": "One word or short phrase capturing your gut feeling",
   "cognitive_walkthrough": {{
-    "will_try_right_effect": true,
-    "will_try_why": "Brief: Will I know what to do on this page to accomplish my goal?",
-    "notices_correct_action": true,
-    "notices_why": "Brief: Can I see/find the right button or option?",
-    "associates_action_with_goal": true,
-    "associates_why": "Brief: Does the action label/appearance suggest it'll do what I want?",
-    "sees_progress": true,
-    "progress_why": "Brief: After acting, will I know it worked?"
+    "will_try_right_effect": <true_OR_false>,
+    "will_try_why": "Will you know what to do here? Be honest about uncertainty.",
+    "notices_correct_action": <true_OR_false>,
+    "notices_why": "Can you find the right button or option? Or is it hidden?",
+    "associates_action_with_goal": <true_OR_false>,
+    "associates_why": "Does the label match what you're trying to accomplish?",
+    "sees_progress": <true_OR_false>,
+    "progress_why": "After acting, will you know it worked?"
   }}
 }}
 
-IMPORTANT: clarity_score is 1-5 (1=very confused, 5=crystal clear).
-Answer the cognitive walkthrough questions HONESTLY as your persona — if something is genuinely confusing, say false."""
+COGNITIVE WALKTHROUGH RULES:
+- clarity_score: 1=very confused, 5=crystal clear. Score honestly for your persona.
+- If clarity_score <= 3, at LEAST 2 of your CW answers must be false.
+- If clarity_score <= 2, at LEAST 3 of your CW answers must be false.
+- Your persona has {confusion_prob:.0%} confusion likelihood. A confused persona doesn't answer all true.
+- Answer false if you would hesitate, re-read, or feel uncertain. true only if confidently clear.
+
+EXAMPLES OF FALSE ANSWERS:
+- Career changer: "notices_correct_action": false — "I see buttons but I'm not sure which one starts the assessment vs just shows info."
+- Traditional craftsperson: "associates_action_with_goal": false — "The label says 'automation level' but I don't work with automation."
+- Student: "sees_progress": false — "I clicked something but the page didn't change or confirm anything happened.\""""
 
 
 def build_reflect_and_act_prompt(persona, page_state, url, interactive_elements,
@@ -121,6 +132,19 @@ PAGE URL: {url}
 JOURNEY CONTEXT: {journey_context}
 RECENT ACTIONS:
 {history_text}
+
+NIELSEN HEURISTIC REFERENCE (cite ONE per usability thought — use the BEST match):
+  visibility_of_system_status — "I can't tell if my click registered" / "No loading indicator"
+  match_real_world — "The question assumes I'm an engineer, but I'm a designer"
+  user_control_freedom — "I can't go back to fix my Q2 answer" / "No undo option"
+  consistency_standards — "This page uses different button styles than the last page"
+  error_prevention — "I could accidentally submit blank fields with no warning"
+  recognition_over_recall — "The options are clearly labeled so I know what each means"
+  flexibility_efficiency — "No keyboard shortcuts for power users"
+  minimalist_design — "Too many elements competing for attention"
+  error_recovery — "I made a wrong choice and there's no way to correct it"
+  help_documentation — "I don't know what 'maturity stage' means and there's no tooltip"
+Try to cite DIFFERENT heuristics across pages — don't repeat the same one every time.
 
 Now REFLECT MORE CAREFULLY. First, question yourself as your persona:
 - Given who I am, what would I find confusing here?
@@ -171,16 +195,32 @@ You just completed the DIT 2026 assessment. Here's a summary of your experience:
 
 {transcript_summary}
 
-Provide a final reflection as this persona. Respond in this EXACT JSON format (no markdown fences):
+Provide a final reflection as this persona.
+
+NPS SCORING GUIDE (0-10 scale):
+  0-3 = Detractor: Would actively discourage others from using this
+  4-6 = Passive: Neutral, wouldn't go out of your way to recommend
+  7-8 = Promoter: Would recommend to colleagues
+  9-10 = Strong Promoter: Would enthusiastically advocate for this
+
+Consider your persona's experience honestly:
+- Did you find it confusing or frustrating? → Score lower (3-5)
+- Was it useful but had issues? → Score mid-range (5-7)
+- Did you find it genuinely valuable? → Score higher (7-9)
+Your score should match the tone of your reflection, not default to any number.
+
+Respond in this EXACT JSON format (no markdown fences):
 {{
-  "overall_reflection": "2-3 sentences capturing your overall experience. Was it worthwhile? Did you learn something? Would you share it?",
-  "usability_issues": ["List of 1-4 specific usability issues you encountered, if any"],
-  "nps_score": 7,
-  "nps_reason": "Brief reason for your NPS score (0-10, would you recommend this?)",
+  "overall_reflection": "2-3 sentences capturing your overall experience.",
+  "usability_issues": ["List 1-4 specific usability issues"],
+  "nps_score": <YOUR_SCORE_0_TO_10>,
+  "nps_reason": "Connect your score to specific moments in your experience.",
   "strongest_moment": "The single moment that resonated most (positive or negative)",
-  "would_share": true,
-  "share_reason": "Why you would or wouldn't share this with colleagues"
-}}"""
+  "would_share": <true_OR_false>,
+  "share_reason": "Why you would or wouldn't share this"
+}}
+
+IMPORTANT: Your nps_score must be an integer 0-10 that authentically reflects THIS persona's experience. Do NOT default to 7."""
 
 
 def build_sus_prompt(persona, transcript_summary):
@@ -214,13 +254,19 @@ Rate your agreement with each statement on a scale of 1-5:
 Answer AS YOUR PERSONA — your personality and tech comfort should influence your ratings.
 A skeptical traditional craftsperson would rate differently than an enthusiastic explorer.
 
+SCORING NOTES:
+- Odd questions (1,3,5,7,9) are POSITIVE — higher = better experience
+- Even questions (2,4,6,8,10) are NEGATIVE — higher = worse experience
+- Your ratings must be CONSISTENT with your persona's confusion level and comfort
+- A frustrated career_changer and an enthusiastic explorer should NOT give similar scores
+
 Respond in this EXACT JSON format (no markdown fences):
 {{
-  "sus_scores": [4, 2, 5, 1, 4, 2, 5, 1, 4, 1],
+  "sus_scores": [<Q1>, <Q2>, <Q3>, <Q4>, <Q5>, <Q6>, <Q7>, <Q8>, <Q9>, <Q10>],
   "sus_notes": "1-2 sentences explaining your overall impression that drove these ratings"
 }}
 
-IMPORTANT: sus_scores must be exactly 10 numbers, each 1-5, in the order of questions 1-10."""
+IMPORTANT: sus_scores must be exactly 10 integers, each 1-5, in the order of questions 1-10. Replace each <Qn> with your actual rating."""
 
 
 # ── Driver functions (inlined from driver.py) ──
@@ -389,35 +435,69 @@ class BudgetExceeded(Exception):
 
 
 class AsyncEngine:
-    """Lightweight async-only engine for Modal containers."""
+    """Lightweight async-only engine for Modal containers.
 
-    def __init__(self, model, budget):
-        import anthropic
-        self.client = anthropic.AsyncAnthropic()
+    Supports two backends:
+      - Anthropic (default): uses anthropic.AsyncAnthropic()
+      - OpenAI-compatible (vLLM): uses openai.AsyncOpenAI(base_url=...)
+    """
+
+    def __init__(self, model, budget, input_cost=INPUT_COST_PER_MTOK,
+                 output_cost=OUTPUT_COST_PER_MTOK, api_base=""):
         self.model = model
         self.budget = budget
+        self.input_cost = input_cost
+        self.output_cost = output_cost
         self.total_input_tokens = 0
         self.total_output_tokens = 0
         self.call_count = 0
 
+        if api_base:
+            from openai import AsyncOpenAI
+            self.client = AsyncOpenAI(base_url=api_base, api_key="not-needed")
+            self._backend = "openai"
+        else:
+            import anthropic
+            self.client = anthropic.AsyncAnthropic()
+            self._backend = "anthropic"
+
     @property
     def cost_usd(self):
         return (
-            self.total_input_tokens * INPUT_COST_PER_MTOK / 1_000_000
-            + self.total_output_tokens * OUTPUT_COST_PER_MTOK / 1_000_000
+            self.total_input_tokens * self.input_cost / 1_000_000
+            + self.total_output_tokens * self.output_cost / 1_000_000
         )
 
     async def _call(self, prompt, max_tokens=1200):
         if self.cost_usd >= self.budget:
             raise BudgetExceeded(f"${self.cost_usd:.2f} / ${self.budget:.2f}")
-        response = await self.client.messages.create(
-            model=self.model, max_tokens=max_tokens,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        self.total_input_tokens += response.usage.input_tokens
-        self.total_output_tokens += response.usage.output_tokens
-        self.call_count += 1
-        return response.content[0].text
+
+        if self._backend == "openai":
+            response = await self.client.chat.completions.create(
+                model=self.model, max_tokens=max_tokens,
+                messages=[
+                    {"role": "system", "content": "Respond with the requested JSON only. No reasoning, no <think> tags."},
+                    {"role": "user", "content": prompt},
+                ],
+            )
+            self.total_input_tokens += response.usage.prompt_tokens
+            self.total_output_tokens += response.usage.completion_tokens
+            self.call_count += 1
+            text = response.choices[0].message.content
+            # Strip Qwen3 <think>...</think> tags if present despite instruction
+            if text and "<think>" in text:
+                import re
+                text = re.sub(r"<think>.*?</think>\s*", "", text, flags=re.DOTALL)
+            return text
+        else:
+            response = await self.client.messages.create(
+                model=self.model, max_tokens=max_tokens,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            self.total_input_tokens += response.usage.input_tokens
+            self.total_output_tokens += response.usage.output_tokens
+            self.call_count += 1
+            return response.content[0].text
 
     async def observe_fast(self, persona, page_state, url, journey_context):
         raw = await self._call(build_observe_prompt(persona, page_state, url, journey_context), 500)
@@ -474,6 +554,9 @@ async def run_one_session(
     model: str,
     seed: int,
     budget_per_session: float,
+    input_cost: float = INPUT_COST_PER_MTOK,
+    output_cost: float = OUTPUT_COST_PER_MTOK,
+    api_base: str = "",
 ) -> dict:
     """Run a single think-aloud session inside a Modal container.
 
@@ -491,7 +574,9 @@ async def run_one_session(
     prefix = f"[{session_num+1}/{total_sessions}] {archetype}"
     print(f"{prefix}: Starting session {session_id}")
 
-    engine = AsyncEngine(model=model, budget=budget_per_session)
+    engine = AsyncEngine(model=model, budget=budget_per_session,
+                         input_cost=input_cost, output_cost=output_cost,
+                         api_base=api_base)
 
     # Session data accumulator (replaces SessionRecorder)
     pages = []
@@ -744,6 +829,7 @@ async def run_one_session(
 
     session_data = {
         "protocol_version": PROTOCOL_VERSION,
+        "model": model,
         "session_id": session_id,
         "persona": persona_out,
         "journey": "primary",
@@ -780,6 +866,8 @@ def main(
     target: str = DEFAULT_TARGET,
     cohort: str = DEFAULT_COHORT,
     model: str = DEFAULT_MODEL,
+    output_dir: str = "",
+    api_base: str = "",
 ):
     import json as _json
     import sys
@@ -790,8 +878,25 @@ def main(
     from scripts.think_aloud.personas import ARCHETYPES, instantiate_personas
     from scripts.think_aloud.analyzer import load_sessions, analyze, write_report
 
-    output_dir = str(Path(__file__).resolve().parent / "output")
-    sessions_dir = Path(output_dir) / "sessions"
+    # Auto-detect pricing from model name
+    model_pricing = {
+        "claude-sonnet-4-20250514": (3.0, 15.0),
+        "claude-3-5-haiku-20241022": (0.80, 4.0),
+        "claude-haiku-4-5-20251001": (1.0, 5.0),
+    }
+    if api_base:
+        # Self-hosted: cost is GPU-time based, not per-token API pricing
+        # Use zero token cost — actual cost is tracked via Modal dashboard
+        input_cost, output_cost = (0.0, 0.0)
+    else:
+        input_cost, output_cost = model_pricing.get(model, (INPUT_COST_PER_MTOK, OUTPUT_COST_PER_MTOK))
+
+    # Output directory: custom or default
+    if output_dir:
+        out_root = str(Path(__file__).resolve().parent / output_dir)
+    else:
+        out_root = str(Path(__file__).resolve().parent / "output")
+    sessions_dir = Path(out_root) / "sessions"
     sessions_dir.mkdir(parents=True, exist_ok=True)
 
     # Build persona list
@@ -805,17 +910,26 @@ def main(
 
     budget_per = budget / len(personas)
 
+    backend = "vLLM (OpenAI-compat)" if api_base else "Anthropic API"
     print(f"Modal Think-Aloud v2")
     print(f"  Target: {target}")
     print(f"  Sessions: {len(personas)}")
     print(f"  Model: {model}")
+    print(f"  Backend: {backend}")
+    if api_base:
+        print(f"  API base: {api_base}")
+        print(f"  Pricing: GPU-time (tracked via Modal dashboard)")
+    else:
+        print(f"  Pricing: ${input_cost}/MTok in, ${output_cost}/MTok out")
     print(f"  Budget: ${budget:.2f} (${budget_per:.2f}/session)")
+    print(f"  Output: {out_root}")
     print(f"  Concurrency: {len(personas)} (all at once)")
     print()
 
     # Fan out all sessions in parallel
     args_list = [
-        (p, i, len(personas), target, cohort, model, seed, budget_per)
+        (p, i, len(personas), target, cohort, model, seed, budget_per,
+         input_cost, output_cost, api_base)
         for i, p in enumerate(personas)
     ]
 
@@ -851,12 +965,12 @@ def main(
     print(f"  Cost per session: ${total_cost / max(succeeded, 1):.3f}")
     print()
 
-    # Run analysis on all sessions (including any pre-existing)
-    all_sessions = load_sessions(output_dir)
+    # Run analysis on sessions in this output dir
+    all_sessions = load_sessions(out_root)
     if all_sessions:
         print(f"Analyzing {len(all_sessions)} sessions...")
         analysis = analyze(all_sessions)
-        report_path = write_report(analysis, output_dir)
+        report_path = write_report(analysis, out_root)
         print(f"Report: {report_path}")
         s = analysis["summary"]
         print(f"  Avg NPS: {s['avg_nps']} | Std Dev: {s.get('nps_std_dev', '?')}")

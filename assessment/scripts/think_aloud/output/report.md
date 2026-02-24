@@ -1,196 +1,213 @@
 # Think-Aloud Protocol Report
 
-**Protocol:** v2.0 (10) | **Sessions:** 10 | **Avg NPS:** 6.8 | **NPS Std Dev:** 0.92 | **Pages/session:** 14.0
+**Protocol:** v2.0 (60) | **Sessions:** 60 | **Avg NPS:** 6.4 | **NPS Std Dev:** 1.07 | **Pages/session:** 14.0
 
 ## Persona Coverage
-- agency_creative_director: 1 sessions
-- ai_native_engineer: 1 sessions
-- app_builder: 2 sessions
-- curious_explorer: 1 sessions
-- design_leader: 1 sessions
-- student_non_designer: 1 sessions
-- traditional_craftsperson: 2 sessions
-- ux_researcher: 1 sessions
+- agency_creative_director: 6 sessions
+- ai_native_engineer: 6 sessions
+- app_builder: 7 sessions
+- career_changer: 5 sessions
+- curious_explorer: 6 sessions
+- daily_user: 5 sessions
+- design_leader: 6 sessions
+- student_non_designer: 6 sessions
+- traditional_craftsperson: 7 sessions
+- ux_researcher: 6 sessions
 
 ## SUS Scores (System Usability Scale)
-**Overall:** 60.8 (Grade C) | **Std Dev:** 13.4 | **Range:** 40.0 pts | **vs Benchmark (68):** below
+**Overall:** 58.5 (Grade C) | **Std Dev:** 13.8 | **Range:** 57.5 pts | **vs Benchmark (68):** below
 
 | Archetype | Mean SUS | Grade | Range |
 |-----------|----------|-------|-------|
-| agency_creative_director | 37.5 | D | 37.5-37.5 |
-| ux_researcher | 42.5 | D | 42.5-42.5 |
-| traditional_craftsperson | 57.5 | D | 47.5-67.5 |
-| student_non_designer | 62.5 | C | 62.5-62.5 |
-| ai_native_engineer | 65.0 | C | 65.0-65.0 |
-| design_leader | 67.5 | C | 67.5-67.5 |
-| app_builder | 70.0 | B | 70.0-70.0 |
-| curious_explorer | 77.5 | B | 77.5-77.5 |
+| career_changer | 34.0 | F | 25.0-42.5 |
+| traditional_craftsperson | 47.9 | D | 35.0-67.5 |
+| agency_creative_director | 49.5 | C | 37.5-60.0 |
+| student_non_designer | 52.9 | D | 42.5-67.5 |
+| ux_researcher | 53.3 | D | 42.5-67.5 |
+| design_leader | 64.2 | C | 60.0-67.5 |
+| daily_user | 67.0 | C | 57.5-70.0 |
+| ai_native_engineer | 67.5 | B | 65.0-70.0 |
+| app_builder | 68.9 | C | 67.5-70.0 |
+| curious_explorer | 75.8 | B | 70.0-82.5 |
 
 ## Nielsen Heuristic Analysis
 **Coverage:** 10/10 heuristics cited | **Citation rate:** 100%
 
 | Heuristic | Count |
 |-----------|-------|
-| Recognition Over Recall | 45 |
-| Match Real World | 36 |
-| Error Prevention | 13 |
-| Visibility Of System Status | 13 |
-| Help Documentation | 8 |
-| Consistency Standards | 8 |
-| Minimalist Design | 8 |
-| User Control Freedom | 7 |
-| Flexibility Efficiency | 1 |
-| Error Recovery | 1 |
+| Match Real World | 268 |
+| Recognition Over Recall | 245 |
+| Visibility Of System Status | 150 |
+| User Control Freedom | 42 |
+| Help Documentation | 40 |
+| Consistency Standards | 32 |
+| Minimalist Design | 25 |
+| Error Prevention | 23 |
+| Flexibility Efficiency | 7 |
+| Error Recovery | 7 |
 
 ## Cognitive Walkthrough Failure Points
-**Total failures:** 157 | **Unique pages with failures:** 3
+**Total failures:** 1849 | **Unique pages with failures:** 3
 
 | CW Question | Failure Rate |
 |-------------|-------------|
-| Will Try Right Effect | 24% |
-| Notices Correct Action | 28% |
-| Associates Action With Goal | 41% |
-| Sees Progress | 19% |
+| Will Try Right Effect | 53% |
+| Notices Correct Action | 61% |
+| Associates Action With Goal | 66% |
+| Sees Progress | 40% |
 
-### assess?cohort=think-aloud-test (125 failures)
-  Questions failed: notices_correct_action, associates_action_with_goal, sees_progress, will_try_right_effect
-  Archetypes: ux_researcher, design_leader, traditional_craftsperson, curious_explorer, agency_creative_director, student_non_designer, app_builder, ai_native_engineer
-  - [traditional_craftsperson] will_try_right_effect: I can't see any form fields or clear instructions about what demographics to fill in or how to skip
-  - [traditional_craftsperson] notices_correct_action: Without the accessibility tree, I can't identify any buttons or actionable elements on this page
-  - [traditional_craftsperson] associates_action_with_goal: Can't evaluate what actions are available or if they relate to filling demographics or starting the assessment
+### assess?cohort=think-aloud-test (1457 failures)
+  Questions failed: associates_action_with_goal, notices_correct_action, sees_progress, will_try_right_effect
+  Archetypes: traditional_craftsperson, student_non_designer, ai_native_engineer, curious_explorer, daily_user, ux_researcher, design_leader, agency_creative_director, career_changer, app_builder
+  - [app_builder] will_try_right_effect: Can't see the actual page content due to accessibility tree being unavailable - no clear understanding of what actions are available
+  - [app_builder] notices_correct_action: Without visual access to the interface, can't identify specific buttons or form elements to interact with
+  - [app_builder] associates_action_with_goal: Can't evaluate action labels or visual cues since the page content isn't visible
 
-### results (19 failures)
-  Questions failed: notices_correct_action, associates_action_with_goal, sees_progress, will_try_right_effect
-  Archetypes: ux_researcher, traditional_craftsperson, agency_creative_director, app_builder, ai_native_engineer
-  - [traditional_craftsperson] will_try_right_effect: I have no idea what to do because I can't see any content on this results page
-  - [traditional_craftsperson] notices_correct_action: There are no visible buttons, options, or interactive elements to notice
-  - [traditional_craftsperson] associates_action_with_goal: Can't associate any actions with goals when nothing is visible on the page
+### results (201 failures)
+  Questions failed: associates_action_with_goal, notices_correct_action, sees_progress, will_try_right_effect
+  Archetypes: traditional_craftsperson, student_non_designer, ai_native_engineer, curious_explorer, daily_user, ux_researcher, design_leader, agency_creative_director, career_changer, app_builder
+  - [app_builder] will_try_right_effect: No content is visible, so I have no idea what my goal should be or what actions are available
+  - [app_builder] notices_correct_action: Can't identify any interactive elements or navigation options without the accessibility tree
+  - [app_builder] associates_action_with_goal: Without seeing any UI elements, there's no way to connect actions to intended outcomes
 
-### home (13 failures)
-  Questions failed: notices_correct_action, associates_action_with_goal, sees_progress, will_try_right_effect
-  Archetypes: ux_researcher, student_non_designer, traditional_craftsperson, app_builder
-  - [traditional_craftsperson] will_try_right_effect: Without seeing the page structure, I can't identify clear entry points or navigation for the self-assessment
-  - [traditional_craftsperson] notices_correct_action: Can't locate obvious CTAs or assessment buttons - the page content isn't visible to me
-  - [traditional_craftsperson] associates_action_with_goal: Unable to evaluate if any actions relate to taking a self-assessment without seeing interface elements
+### home (191 failures)
+  Questions failed: associates_action_with_goal, notices_correct_action, sees_progress, will_try_right_effect
+  Archetypes: traditional_craftsperson, student_non_designer, ai_native_engineer, curious_explorer, daily_user, ux_researcher, design_leader, agency_creative_director, career_changer, app_builder
+  - [app_builder] will_try_right_effect: Can't see the page content due to accessibility tree being unavailable - this is a UX friction point that would make me bounce
+  - [app_builder] notices_correct_action: No visible interface elements to interact with, can't locate the assessment entry point
+  - [app_builder] associates_action_with_goal: Without seeing any CTAs or navigation, I can't map actions to my goal of taking the self-assessment
 
 ## Behavioral Realism
-**Events/session:** 39.8 | **Total events:** 398
+**Events/session:** 41.3 | **Total events:** 2479
 
 | Archetype | Avg Events | Confusion Prob |
 |-----------|-----------|----------------|
-| student_non_designer | 67 | 0.354 |
-| design_leader | 55 | 0.056 |
-| ux_researcher | 52 | 0.039 |
-| traditional_craftsperson | 41.5 | 0.164 |
-| ai_native_engineer | 36 | 0.04 |
-| curious_explorer | 34 | 0.31 |
-| agency_creative_director | 32 | 0.094 |
-| app_builder | 19.5 | 0.022 |
+| career_changer | 77 | 0.413 |
+| student_non_designer | 67 | 0.323 |
+| design_leader | 53.7 | 0.051 |
+| ux_researcher | 52.8 | 0.12 |
+| traditional_craftsperson | 41.1 | 0.164 |
+| curious_explorer | 37.7 | 0.259 |
+| agency_creative_director | 26.8 | 0.097 |
+| ai_native_engineer | 26 | 0.077 |
+| daily_user | 21.6 | 0.147 |
+| app_builder | 16.3 | 0.016 |
 
 ## Usability Issues (by frequency)
 
-### assess?cohort=think-aloud-test (120 mentions)
-  Heuristics: recognition_over_recall (40), match_real_world (36), error_prevention (13), user_control_freedom (7), consistency_standards (7), help_documentation (6), visibility_of_system_status (6), minimalist_design (3), flexibility_efficiency (1), error_recovery (1)
-- The role field has a helpful placeholder showing expected format, though it seems geared toward digital roles and might not capture the breadth of design disciplines.
-- The options are well-structured and easy to understand, but the framing implies a hierarchy where manual work is 'level 0' rather than a legitimate professional choice.
-- The options are well-structured with clear progression from no AI use to full automation, making it easy to identify where I fit without feeling like I need to stretch the truth.
+### assess?cohort=think-aloud-test (723 mentions)
+  Heuristics: match_real_world (266), recognition_over_recall (240), visibility_of_system_status (68), user_control_freedom (39), help_documentation (35), consistency_standards (30), error_prevention (22), minimalist_design (12), error_recovery (7), flexibility_efficiency (4)
+- Good that they pre-filled the cohort parameter from the URL and made demographics optional with a clear skip option. Reduces friction while still collecting useful data.
+- Good use of concrete examples rather than abstract descriptions - makes it easy to self-identify without ambiguity about what each level means in practice.
+- Good progressive disclosure - each option builds on the previous with clear technical distinctions. No ambiguity about what each level means in practice.
 
-### reflection (35 mentions)
-- Accessibility tree frequently unavailable, making content invisible until reload
-- Results page doesn't display actual results inline - forces additional download action
-- Questions heavily biased toward software development workflows rather than design disciplines
+### reflection (224 mentions)
+- Accessibility tree frequently unavailable, making interface evaluation impossible
+- No visual feedback on selected options - couldn't tell if clicks registered
+- Results page didn't prominently display actual assessment outcomes
 
-### home (10 mentions)
-  Heuristics: recognition_over_recall (5), visibility_of_system_status (4), help_documentation (1)
-- The navigation structure is clear with distinct sections, but I'm missing crucial context about what this tool does and why I should invest my time in it.
-- The page uses acronyms (E-P-I-A-S, SAE) without immediate definition, which could be confusing for users unfamiliar with the framework. The 'Review the framework' link helps, but key terms should be more accessible upfront.
-- The page gives clear expectations about what the assessment includes (question counts, output types) which helps me understand the commitment before starting.
+### home (60 mentions)
+  Heuristics: visibility_of_system_status (33), minimalist_design (8), recognition_over_recall (5), help_documentation (4), flexibility_efficiency (3), user_control_freedom (3), match_real_world (2), error_prevention (1), consistency_standards (1)
+- The landing page doesn't give me enough system context - what am I assessing, how long will it take, what's the output?
+- The 'Take the Assessment' button is prominently displayed and clearly labeled, which helps direct me to my primary goal without confusion.
+- The accessibility tree being unavailable suggests potential accessibility issues or technical problems that could exclude users with disabilities - this is a critical concern in fintech where regulatory compliance matters.
 
-### results (10 mentions)
-  Heuristics: minimalist_design (5), visibility_of_system_status (3), help_documentation (1), consistency_standards (1)
-- The results page doesn't show the actual results content inline, forcing users to take additional actions to see what they came for. This violates the principle that users should immediately see the system status and outcomes.
-- The framework excerpts provide good context but feel overwhelming at the bottom. The key insight about depth beating breadth could be highlighted better since it's the core philosophy that changes how leaders think about AI adoption.
-- The framework excerpts provide good context for understanding the assessment logic, but they're quite text-heavy. The concrete next steps are helpful but I need more specificity about what 'eval checks' means in a design context.
+### results (56 mentions)
+  Heuristics: visibility_of_system_status (49), minimalist_design (5), help_documentation (1), consistency_standards (1)
+- The results page doesn't show me my actual results prominently - I have to infer from action buttons what my next steps might be. This violates basic feedback principles.
+- The system isn't clearly showing me the most important information - my actual results. I can see action buttons but not the core content I came here for.
+- The system isn't clearly communicating my status or results - I can see action buttons but no visual feedback about where I placed or what my results mean.
 
 ## Question Confusion Analysis
 
-**input[name='epias_l1_judgment'][value='E']** (5 confusion signals)
-  Archetypes affected: curious_explorer, agency_creative_director
-  - Hmm, this is making me think about my actual AI knowledge. I'm definitely enthusiastic and use AI tools, but honestly I'm still learning what works we
-  - I think I'm somewhere between Explorer and Practitioner. I have some sense of when AI might help, but I'm definitely still figuring out the boundaries
-  - The question feels more personal and introspective than the previous ones. 'How well do you know when AI helps versus hurts?' cuts right to the heart 
+**[value='P']** (35 confusion signals)
+  Archetypes affected: traditional_craftsperson, agency_creative_director, ai_native_engineer, curious_explorer, ux_researcher, design_leader, career_changer, app_builder
+  - Pleasantly surprised - this question actually captures the operational reality of production AI systems. The distinction between having escalation pat
+  - I realize I'm somewhere between the cowboy 'trust my judgment' approach and formal enterprise governance. At a startup, you need enough process to not
+  - Looking at these options, I realize I'm probably somewhere between 'hit-or-miss' and 'predictable.' I'm not advanced enough to have full task workflow
 
-**input[name='epias_l3_ownership'][value='P']** (4 confusion signals)
-  Archetypes affected: student_non_designer, app_builder
-  - This is the final question of the assessment, asking about 'division of work between human and AI'. The options progress from individual confusion to 
-  - I need to think about my actual research workflow with AI models. When I'm training models or using tools like GitHub Copilot, do I have clear boundar
-  - The progression from personal confusion to organizational leadership is clear and logical. Each option builds naturally on the previous one in terms o
+**[value='1']** (29 confusion signals)
+  Archetypes affected: student_non_designer, agency_creative_director, curious_explorer, ux_researcher, design_leader, career_changer
+  - The question framing 'when laptop is closed' is confusing for UX research work. As a researcher, most of my AI-assisted work happens during active ana
+  - The options don't map well to research workflows - they assume output types that don't exist in UX research. This is a fundamental mismatch between th
+  - The progression from manual to automated is logical and the language clearly distinguishes between different levels of human oversight versus system a
 
-**input[name='sae_reuse'][value='1']** (3 confusion signals)
-  Archetypes affected: design_leader, agency_creative_director
-  - Final question about workflow reusability - this is the most enterprise-relevant question so far. The progression from 'save prompts' to 'production-g
-  - Looking at my actual usage, I'm somewhere between level 1 and 2. I save prompts for design reviews and user research, sometimes with basic templates, 
-  - The progression from Level 1 to Level 5 feels like it jumps skill categories entirely - from basic user behaviors to technical infrastructure manageme
+**[value='4']** (26 confusion signals)
+  Archetypes affected: ai_native_engineer, app_builder
+  - I need to pick between level 3 (IDE with multi-step workflows) and level 4 (automated agent harnesses with eval suites). Level 3 mentions context engi
+  - I'm somewhere between level 3 and 4. I do work in IDEs with multi-step workflows and context engineering, but I also build autonomous agent systems wi
+  - I need to pick between options 3, 4, and 5. Option 4 'Automated eval suites decide pass, retry, or escalate without my input' best matches my LangGrap
 
-**input[name='sae_qa'][value='3']** (3 confusion signals)
-  Archetypes affected: student_non_designer, app_builder, ai_native_engineer
-  - I need to map my actual QA process to these options. I do use evaluation metrics and have structured review processes in my research workflows, but th
-  - I'm genuinely between Level 3 and 4. I do have explicit evals and review gates, but not quite full automation deciding pass/retry/escalate without my 
-  - The radio options progress from manual to fully automated QA, which maps well to actual development maturity levels. The wording is specific enough to
+**[value='3']** (21 confusion signals)
+  Archetypes affected: ux_researcher, ai_native_engineer, app_builder, student_non_designer
+  - Actually impressed - this question captures the nuance between basic AI assistance and full automation. Option 3 perfectly describes modern agent orch
+  - I was wrong to dismiss this as overly simplistic. The distinction between options 2, 3, and 4 actually maps well to the reality of current AI developm
+  - I can see this is about QA/automation levels in AI work. The options range from manual review to self-correcting systems. The progression looks more s
 
-**input[name='epias_l1_accountability'][value='P']** (3 confusion signals)
-  Archetypes affected: curious_explorer, agency_creative_director
-  - Hmm, accountability... I'm realizing I probably fall somewhere between Explorer and Practitioner. I do try to check AI output, but I'm not super syste
-  - I'm realizing I'm somewhere between Practitioner and Integrator. I do manually verify everything - my design eye won't let me just accept AI output. B
-  - The options create a clear maturity progression, but I'm noticing the gap between Practitioner (manual verification) and Integrator (documentation) fe
+**option-item[value='3']** (20 confusion signals)
+  Archetypes affected: app_builder, student_non_designer, ai_native_engineer
+  - Actually impressed - this question gets at real implementation details rather than surface-level AI usage. Shows they understand the difference betwee
+  - I'm somewhere between options 2 and 3. I don't run full checklists every time, but I do have review gates for production code. Option 3 better reflect
+  - I'm realizing I'm probably between levels 3 and 4. I use AI heavily in my IDE and ship AI-generated components daily, but I don't have fully autonomou
 
-**input[name='sae_prompting'][value='4']** (3 confusion signals)
-  Archetypes affected: app_builder, ai_native_engineer
-  - I'm between Level 4 and 5. I do build harness configs with evals and retry logic in my LangGraph workflows, but Level 5's description feels incomplete
-  - Clean progression from basic prompting to full automation. The levels are well-defined and I can see clear technical distinctions between each tier.
-  - This question hits the sweet spot - it's asking about actual implementation patterns I work with. Finally something that distinguishes between people 
+**option-item[value='P']** (19 confusion signals)
+  Archetypes affected: daily_user, app_builder, student_non_designer, ai_native_engineer
+  - Looking at these options, I need to honestly assess where I am. I build with Cursor/Claude daily and ship components, but this is specifically about r
+  - This question is about ownership/decision boundaries between human and AI. The options range from 'Blurry' (E) to organizational norm-setting (S). The
+  - The question framing was initially confusing because 'maturity stage' sounded like business jargon, but the actual options are technically precise and
 
-**input[name='sae_reuse'][value='4']** (3 confusion signals)
-  Archetypes affected: app_builder, ai_native_engineer
-  - I need to pick between Level 4 and 5 here. I build production-grade agent infrastructure with LangGraph that others in my startup use, but I wouldn't 
-  - I'm realizing there's a gap between my day-to-day AI tooling fluency and building truly autonomous systems. I ship AI components but haven't built the
-  - Good that this is the final question and the levels feel measurable rather than subjective. The distinction between 4 and 5 is clear - operational vs 
+**option-item[value='1']** (15 confusion signals)
+  Archetypes affected: daily_user, career_changer, student_non_designer
+  - The options are clearly laid out in progressive order from no AI to full automation, making it easy to understand the spectrum, but seeing all the adv
+  - The question assumes I have professional work experience, but as a bootcamp student transitioning careers, I don't have established UX work patterns y
+  - I need to be honest about where I actually am, even though it feels vulnerable. I'm probably between 'None' and 'Ideas, copy drafts, and visual concep
 
-**input[name='sae_tools'][value='1']** (2 confusion signals)
-  Archetypes affected: design_leader, curious_explorer
-  - The progression from Level 0 to Level 5 is clear, but the jump from Level 1 (ChatGPT/Midjourney) to Level 2 (app-builders) to Level 3 (IDE workflows) 
-  - I'm definitely somewhere between Level 1 and Level 2. I use ChatGPT for brainstorming and ideation, and I've dabbled with Midjourney for mood boards, 
+**[value='I']** (13 confusion signals)
+  Archetypes affected: ux_researcher, ai_native_engineer, app_builder
+  - Good that we're on the final question and the progression feels logical. However, still frustrated by the inaccessible accessibility tree making it ha
+  - This question actually feels more relevant than the previous ones - it's getting at real operational maturity rather than just technical knowledge. I 
+  - I realize there's a difference between my technical sophistication with AI and my organizational reach. I might be an expert user but not necessarily 
 
 ## Persona Satisfaction (NPS by archetype)
 | Archetype | Avg NPS | Range | Share Rate |
 |-----------|---------|-------|------------|
-| traditional_craftsperson | 5.5 | 5-6 | 50% |
-| ux_researcher | 6.0 | 6-6 | 100% |
-| agency_creative_director | 7.0 | 7-7 | 100% |
+| student_non_designer | 5.3 | 4-7 | 67% |
+| traditional_craftsperson | 5.3 | 4-6 | 57% |
+| ux_researcher | 5.7 | 4-6 | 100% |
+| agency_creative_director | 6.0 | 4-7 | 80% |
+| design_leader | 6.2 | 5-8 | 100% |
+| career_changer | 6.8 | 6-7 | 100% |
 | ai_native_engineer | 7.0 | 7-7 | 100% |
-| app_builder | 7.0 | 7-7 | 100% |
-| student_non_designer | 7.0 | 7-7 | 100% |
-| curious_explorer | 8.0 | 8-8 | 100% |
-| design_leader | 8.0 | 8-8 | 100% |
+| daily_user | 7.0 | 7-7 | 100% |
+| app_builder | 7.1 | 7-8 | 100% |
+| curious_explorer | 7.5 | 7-8 | 100% |
 
 ## Flow Completion
-- Completion rate: 100% (10/10)
+- Completion rate: 98% (59/60)
 
 ## Self-Consistency Convergence
-**Overall convergence rate:** 0.0
-**Archetypes analyzed:** 2
+**Overall convergence rate:** 0.02
+**Archetypes analyzed:** 10
 
-- **traditional_craftsperson**: 0 robust / 28 total (0% convergence)
-- **app_builder**: 0 robust / 27 total (0% convergence)
+- **app_builder**: 1 robust / 96 total (1% convergence)
+- **career_changer**: 2 robust / 68 total (3% convergence)
+- **ux_researcher**: 0 robust / 84 total (0% convergence)
+- **student_non_designer**: 4 robust / 80 total (5% convergence)
+- **ai_native_engineer**: 1 robust / 83 total (1% convergence)
+- **agency_creative_director**: 1 robust / 82 total (1% convergence)
+- **design_leader**: 0 robust / 84 total (0% convergence)
+- **curious_explorer**: 3 robust / 80 total (4% convergence)
+- **traditional_craftsperson**: 1 robust / 97 total (1% convergence)
+- **daily_user**: 1 robust / 69 total (1% convergence)
 
 ## Notable Self-Awareness Moments
-- **traditional_craftsperson**: I'm being methodical as usual - I never jump into assessments without understanding what they're evaluating. This careful approach has served me well in my career, even if others think I'm slow to adopt new things.
-- **traditional_craftsperson**: I'm being very particular about this simple form, but that's who I am - I notice design details because it's my craft. Even intake forms should show care in their execution.
-- **traditional_craftsperson**: This assessment clearly assumes AI adoption is inevitable and measures people on a spectrum from zero to full automation. As someone who values traditional craft, I recognize I'm being positioned at the 'beginner' end, which doesn't feel accurate to my expertise level.
-- **traditional_craftsperson**: Looking at these options makes me realize how far the industry has moved toward AI integration. The fact that there are 4 levels of AI-assisted QA processes shows I'm definitely in the minority by not using it at all.
-- **traditional_craftsperson**: This assessment clearly wasn't written for designers. Terms like 'IDE workflows' and 'harnesses' are programming concepts. I barely use AI tools, so most of these options don't even apply to my daily practice of logo design, typography, and print layout.
-- **traditional_craftsperson**: This reinforces my position as someone who has built expertise through traditional methods. I'm not behind or wrong for not adopting AI — it's a legitimate choice based on my craft-focused approach to design.
-- **traditional_craftsperson**: This question makes me realize how far removed I am from the automation spectrum - while others might be using AI for concepts or components, I'm still doing everything by hand because I believe that's where quality comes from.
-- **traditional_craftsperson**: Looking at these options makes me realize how far removed I am from this whole AI workflow world. Terms like 'production-grade agent infrastructure' and 'self-improving harnesses' feel like a different language entirely.
-- **traditional_craftsperson**: Looking at these maturity levels, I recognize I'm definitely not at the 'exploring fundamentals' stage - I've clearly moved beyond that with my 15 years of experience. I do have consistent practices and have developed templates my team uses, so I'm solidly in the 'Advanced' category.
-- **traditional_craftsperson**: I know I'm meticulous and have developed strong processes over the years. I don't just wing it - I have methods that ensure consistent quality. But I'm not sure I document every single decision rationale.
+- **app_builder**: My impatience with unclear interfaces is showing - I'm already wanting to peek at the Framework section to understand what this assesses, but I'll stick to the direct path for now.
+- **app_builder**: I'm wondering if 'Creative Technologist' will be understood by their system, or if I should use something more standard like 'Full Stack Developer' - but I'll stick with my actual title.
+- **app_builder**: Looking at these options, I'm definitely in the 'fluent' category but not at the full automation end. I'm hands-on with multi-step workflows but not running fully autonomous agent harnesses yet.
+- **app_builder**: I'm somewhere between options 2 and 3. I don't run full checklists every time, but I do have review gates for production code. Option 3 better reflects having systematic but lightweight processes.
+- **app_builder**: I'm realizing I'm probably between levels 3 and 4. I use AI heavily in my IDE and ship AI-generated components daily, but I don't have fully autonomous systems running yet. Most of my AI work requires my presence and oversight.
+- **app_builder**: I'm solidly in the 'engineer context blocks' camp. I build system prompts with examples and rules for my components, but I haven't built full harness systems with retry logic yet. That's probably the next level up.
+- **app_builder**: This is making me realize I'm probably not as automated as I sometimes think. I use AI heavily but I'm still the one designing the workflows, doing the integration work, and catching the edge cases. Level 3 seems right - large features through orchestrated workflows with my QA checkpoints.
+- **app_builder**: This question actually captures my work well - I'm definitely in that sweet spot of maintaining shared workflows and context libraries rather than just ad-hoc prompting or full production infrastructure.
+- **app_builder**: Honestly, while I'm fluent with AI tools, my multi-step workflows do sometimes break. I'm probably at the 'reliable with checkpoints' stage - I have a process but it's not yet foolproof with clear intervention points.
+- **app_builder**: I'm realizing this assessment is getting pretty specific about AI workflow maturity. I'm probably in that intermediate zone - beyond basics but not yet at the architect level where I'm building reusable systems.

@@ -1,6 +1,14 @@
 """Prompt templates for think-aloud protocol simulation.
 
-v2: Dual-loop architecture (UXAgent, CHI 2025) with:
+v3: Engineered for open-source model quality (Qwen3-32B parity with Haiku 4.5).
+- Placeholder values instead of literal examples (prevents copy-paste behavior)
+- Confusion probability surfaced in observe prompt
+- CW honesty constraints (clarity_score ≤ 3 → at least 2 false answers)
+- Nielsen heuristic few-shot examples for all 10 heuristics
+- NPS scoring guide with anti-default-7 instruction
+- SUS scoring notes with odd/even polarity explanation
+
+v2 base: Dual-loop architecture (UXAgent, CHI 2025) with:
 - Fast loop: immediate gut reaction + cognitive walkthrough (Zhong et al. 2025)
 - Slow loop: deep analysis with Nielsen heuristics + PCL self-questioning (ACL 2025)
 - SUS questionnaire: standardized usability scoring (Brooke 1996)
@@ -17,7 +25,10 @@ def build_observe_prompt(
 
     This captures System 1 (Kahneman) thinking: gut impressions,
     first thing noticed, and the 4 cognitive walkthrough questions.
+
+    v3: Placeholder values, confusion_prob, CW honesty constraints.
     """
+    confusion_prob = persona.get('confusion_prob', 0.15)
     return f"""You are {persona['role']} with {persona['years']} years of experience in {persona['industry']}.
 
 PERSONA PSYCHOLOGY:
@@ -25,6 +36,7 @@ PERSONA PSYCHOLOGY:
 - Technology beliefs: {persona.get('tech_beliefs', persona['ai_comfort'])}
 - Why you're here: {persona['motivation']}
 - Thinking style: {persona['think_style']}
+- Confusion likelihood: {confusion_prob:.0%} — how often this persona encounters something unclear
 
 CURRENT PAGE (accessibility tree):
 ---
@@ -38,23 +50,32 @@ You just landed on this page. Give your IMMEDIATE GUT REACTION (2-3 seconds of f
 
 Respond in this EXACT JSON format (no markdown fences):
 {{
-  "first_impression": "What catches your eye first? What do you notice immediately? (1-2 sentences as this persona)",
-  "clarity_score": 4,
+  "first_impression": "What catches your eye first? (1-2 sentences as this persona)",
+  "clarity_score": <INTEGER_1_TO_5>,
   "emotional_reaction": "One word or short phrase capturing your gut feeling",
   "cognitive_walkthrough": {{
-    "will_try_right_effect": true,
-    "will_try_why": "Brief: Will I know what to do on this page to accomplish my goal?",
-    "notices_correct_action": true,
-    "notices_why": "Brief: Can I see/find the right button or option?",
-    "associates_action_with_goal": true,
-    "associates_why": "Brief: Does the action label/appearance suggest it'll do what I want?",
-    "sees_progress": true,
-    "progress_why": "Brief: After acting, will I know it worked?"
+    "will_try_right_effect": <true_OR_false>,
+    "will_try_why": "Will you know what to do here? Be honest about uncertainty.",
+    "notices_correct_action": <true_OR_false>,
+    "notices_why": "Can you find the right button or option? Or is it hidden?",
+    "associates_action_with_goal": <true_OR_false>,
+    "associates_why": "Does the label match what you're trying to accomplish?",
+    "sees_progress": <true_OR_false>,
+    "progress_why": "After acting, will you know it worked?"
   }}
 }}
 
-IMPORTANT: clarity_score is 1-5 (1=very confused, 5=crystal clear).
-Answer the cognitive walkthrough questions HONESTLY as your persona — if something is genuinely confusing, say false."""
+COGNITIVE WALKTHROUGH RULES:
+- clarity_score: 1=very confused, 5=crystal clear. Score honestly for your persona.
+- If clarity_score <= 3, at LEAST 2 of your CW answers must be false.
+- If clarity_score <= 2, at LEAST 3 of your CW answers must be false.
+- Your persona has {confusion_prob:.0%} confusion likelihood. A confused persona doesn't answer all true.
+- Answer false if you would hesitate, re-read, or feel uncertain. true only if confidently clear.
+
+EXAMPLES OF FALSE ANSWERS:
+- Career changer: "notices_correct_action": false — "I see buttons but I'm not sure which one starts the assessment vs just shows info."
+- Traditional craftsperson: "associates_action_with_goal": false — "The label says 'automation level' but I don't work with automation."
+- Student: "sees_progress": false — "I clicked something but the page didn't change or confirm anything happened.\""""
 
 
 def build_reflect_and_act_prompt(
@@ -106,6 +127,19 @@ JOURNEY CONTEXT: {journey_context}
 RECENT ACTIONS:
 {history_text}
 
+NIELSEN HEURISTIC REFERENCE (cite ONE per usability thought — use the BEST match):
+  visibility_of_system_status — "I can't tell if my click registered" / "No loading indicator"
+  match_real_world — "The question assumes I'm an engineer, but I'm a designer"
+  user_control_freedom — "I can't go back to fix my Q2 answer" / "No undo option"
+  consistency_standards — "This page uses different button styles than the last page"
+  error_prevention — "I could accidentally submit blank fields with no warning"
+  recognition_over_recall — "The options are clearly labeled so I know what each means"
+  flexibility_efficiency — "No keyboard shortcuts for power users"
+  minimalist_design — "Too many elements competing for attention"
+  error_recovery — "I made a wrong choice and there's no way to correct it"
+  help_documentation — "I don't know what 'maturity stage' means and there's no tooltip"
+Try to cite DIFFERENT heuristics across pages — don't repeat the same one every time.
+
 Now REFLECT MORE CAREFULLY. First, question yourself as your persona:
 - Given who I am, what would I find confusing here?
 - What would I try first? Why?
@@ -145,7 +179,10 @@ AVAILABLE INTERACTIVE ELEMENTS:
 
 
 def build_reflection_prompt(persona: dict, transcript_summary: str) -> str:
-    """Build final reflection prompt after completing the assessment."""
+    """Build final reflection prompt after completing the assessment.
+
+    v3: Placeholder NPS value, scoring guide, anti-default-7 instruction.
+    """
 
     return f"""You are {persona['role']} ({persona['years']} years, {persona['industry']}).
 AI comfort: {persona['ai_comfort']}
@@ -157,16 +194,32 @@ You just completed the DIT 2026 assessment. Here's a summary of your experience:
 
 {transcript_summary}
 
-Provide a final reflection as this persona. Respond in this EXACT JSON format (no markdown fences):
+Provide a final reflection as this persona.
+
+NPS SCORING GUIDE (0-10 scale):
+  0-3 = Detractor: Would actively discourage others from using this
+  4-6 = Passive: Neutral, wouldn't go out of your way to recommend
+  7-8 = Promoter: Would recommend to colleagues
+  9-10 = Strong Promoter: Would enthusiastically advocate for this
+
+Consider your persona's experience honestly:
+- Did you find it confusing or frustrating? → Score lower (3-5)
+- Was it useful but had issues? → Score mid-range (5-7)
+- Did you find it genuinely valuable? → Score higher (7-9)
+Your score should match the tone of your reflection, not default to any number.
+
+Respond in this EXACT JSON format (no markdown fences):
 {{
-  "overall_reflection": "2-3 sentences capturing your overall experience. Was it worthwhile? Did you learn something? Would you share it?",
-  "usability_issues": ["List of 1-4 specific usability issues you encountered, if any"],
-  "nps_score": 7,
-  "nps_reason": "Brief reason for your NPS score (0-10, would you recommend this?)",
+  "overall_reflection": "2-3 sentences capturing your overall experience.",
+  "usability_issues": ["List 1-4 specific usability issues"],
+  "nps_score": <YOUR_SCORE_0_TO_10>,
+  "nps_reason": "Connect your score to specific moments in your experience.",
   "strongest_moment": "The single moment that resonated most (positive or negative)",
-  "would_share": true,
-  "share_reason": "Why you would or wouldn't share this with colleagues"
-}}"""
+  "would_share": <true_OR_false>,
+  "share_reason": "Why you would or wouldn't share this"
+}}
+
+IMPORTANT: Your nps_score must be an integer 0-10 that authentically reflects THIS persona's experience. Do NOT default to 7."""
 
 
 def build_sus_prompt(persona: dict, transcript_summary: str) -> str:
@@ -206,10 +259,16 @@ Rate your agreement with each statement on a scale of 1-5:
 Answer AS YOUR PERSONA — your personality and tech comfort should influence your ratings.
 A skeptical traditional craftsperson would rate differently than an enthusiastic explorer.
 
+SCORING NOTES:
+- Odd questions (1,3,5,7,9) are POSITIVE — higher = better experience
+- Even questions (2,4,6,8,10) are NEGATIVE — higher = worse experience
+- Your ratings must be CONSISTENT with your persona's confusion level and comfort
+- A frustrated career_changer and an enthusiastic explorer should NOT give similar scores
+
 Respond in this EXACT JSON format (no markdown fences):
 {{
-  "sus_scores": [4, 2, 5, 1, 4, 2, 5, 1, 4, 1],
+  "sus_scores": [<Q1>, <Q2>, <Q3>, <Q4>, <Q5>, <Q6>, <Q7>, <Q8>, <Q9>, <Q10>],
   "sus_notes": "1-2 sentences explaining your overall impression that drove these ratings"
 }}
 
-IMPORTANT: sus_scores must be exactly 10 numbers, each 1-5, in the order of questions 1-10."""
+IMPORTANT: sus_scores must be exactly 10 integers, each 1-5, in the order of questions 1-10. Replace each <Qn> with your actual rating."""

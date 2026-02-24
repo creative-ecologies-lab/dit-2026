@@ -1,0 +1,1066 @@
+{
+  "Sonnet 4 (baseline)": {
+    "summary": {
+      "total_sessions": 60,
+      "archetypes": {
+        "app_builder": 7,
+        "career_changer": 5,
+        "ux_researcher": 6,
+        "student_non_designer": 6,
+        "ai_native_engineer": 6,
+        "agency_creative_director": 6,
+        "design_leader": 6,
+        "curious_explorer": 6,
+        "traditional_craftsperson": 7,
+        "daily_user": 5
+      },
+      "avg_nps": 6.4,
+      "nps_range": [
+        4,
+        8
+      ],
+      "nps_std_dev": 1.07,
+      "pages_per_session": 14.0,
+      "protocol_versions": {
+        "2.0": 60
+      }
+    },
+    "sus": {
+      "overall_mean": 58.5,
+      "overall_std": 13.8,
+      "overall_grade": "C",
+      "benchmark_comparison": "below",
+      "score_range": 57.5,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "mean_sus": 34.0,
+          "min": 25.0,
+          "max": 42.5,
+          "grade": "F",
+          "notes": "The assessment felt intimidating and made me anxious about my beginner status, with loading issues and unclear results display that left me feeling uncertain about whether I was using it correctly or understanding my outcomes."
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_sus": 47.9,
+          "min": 35.0,
+          "max": 67.5,
+          "grade": "D",
+          "notes": "The system worked adequately but felt generic and tech-focused rather than thoughtfully designed for diverse users like designers. Technical glitches and poor content visibility throughout the experience reinforced my skepticism about digital tools replacing human craft."
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_sus": 49.5,
+          "min": 37.5,
+          "max": 60.0,
+          "grade": "C",
+          "notes": "The assessment worked functionally but felt too tech-focused for creative professionals, with frequent loading issues and results that didn't feel particularly insightful for my actual AI usage patterns. I'd use it occasionally but it needs more nuance for creative workflows."
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_sus": 52.9,
+          "min": 42.5,
+          "max": 67.5,
+          "grade": "D",
+          "notes": "The assessment had interesting technical concepts but suffered from unclear terminology, display issues that prevented me from seeing content properly, and seemed designed for designers rather than technical researchers like me."
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_sus": 53.3,
+          "min": 42.5,
+          "max": 67.5,
+          "grade": "D",
+          "notes": "The assessment showed promise in its structured approach to measuring AI automation levels, but significant accessibility issues and design-focused bias made it feel incomplete for UX research contexts. While I could navigate it successfully, the technical problems and narrow domain focus reduced my confidence in its broader applicability."
+        },
+        {
+          "archetype": "design_leader",
+          "mean_sus": 64.2,
+          "min": 60.0,
+          "max": 67.5,
+          "grade": "C",
+          "notes": "The assessment was straightforward to complete but had some loading issues and felt more developer-focused than design-focused. While I could navigate it fine personally, I'm uncertain about rolling it out to my full team of 40 designers without better clarity on results interpretation and team application."
+        },
+        {
+          "archetype": "daily_user",
+          "mean_sus": 67.0,
+          "min": 57.5,
+          "max": 70.0,
+          "grade": "C",
+          "notes": "The assessment provided valuable insights into my AI maturity levels, but the inconsistent page loading and technical glitches created friction that prevented me from feeling fully confident in the experience. As someone who uses similar tools daily, I'd return for the useful calibration it provides despite the usability issues."
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "mean_sus": 67.5,
+          "min": 65.0,
+          "max": 70.0,
+          "grade": "B",
+          "notes": "While I was initially skeptical, the assessment surprised me with its technical depth and understanding of real AI engineering workflows - the questions about agent orchestration, eval suites, and infrastructure maturity showed genuine expertise. However, the broken accessibility issues and failure to show results properly indicate poor technical execution, which is ironic for something assessing AI competency."
+        },
+        {
+          "archetype": "app_builder",
+          "mean_sus": 68.9,
+          "min": 67.5,
+          "max": 70.0,
+          "grade": "C",
+          "notes": "The assessment content was sophisticated and well-designed for AI workflow evaluation, but the technical execution had persistent accessibility and state management issues that frustrated my daily workflow. As someone who ships AI components daily, I expect better technical polish in tools I'd use regularly."
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_sus": 75.8,
+          "min": 70.0,
+          "max": 82.5,
+          "grade": "B",
+          "notes": "I loved the concept and want to use it frequently, but the results page completely failed to show my actual scores which was super frustrating after completing the whole assessment! The questions were clear and engaging, but that major usability issue really hurt my confidence in the system."
+        }
+      ]
+    },
+    "heuristics": {
+      "heuristics_covered": 10,
+      "total_heuristics": 10,
+      "citation_rate": 1.0,
+      "counts": {
+        "match_real_world": 268,
+        "recognition_over_recall": 245,
+        "visibility_of_system_status": 150,
+        "user_control_freedom": 42,
+        "help_documentation": 40,
+        "consistency_standards": 32,
+        "minimalist_design": 25,
+        "error_prevention": 23,
+        "flexibility_efficiency": 7,
+        "error_recovery": 7
+      },
+      "by_archetype": {
+        "app_builder": {
+          "visibility_of_system_status": 18,
+          "flexibility_efficiency": 2,
+          "recognition_over_recall": 45,
+          "match_real_world": 15,
+          "error_prevention": 6,
+          "user_control_freedom": 6,
+          "minimalist_design": 5,
+          "consistency_standards": 1
+        },
+        "career_changer": {
+          "visibility_of_system_status": 11,
+          "help_documentation": 13,
+          "recognition_over_recall": 12,
+          "match_real_world": 27,
+          "minimalist_design": 1,
+          "error_prevention": 5,
+          "flexibility_efficiency": 1
+        },
+        "ux_researcher": {
+          "error_prevention": 2,
+          "user_control_freedom": 4,
+          "match_real_world": 31,
+          "visibility_of_system_status": 26,
+          "error_recovery": 2,
+          "minimalist_design": 2,
+          "recognition_over_recall": 10,
+          "consistency_standards": 6,
+          "help_documentation": 1
+        },
+        "student_non_designer": {
+          "visibility_of_system_status": 18,
+          "match_real_world": 34,
+          "recognition_over_recall": 16,
+          "help_documentation": 11,
+          "consistency_standards": 5
+        },
+        "ai_native_engineer": {
+          "match_real_world": 40,
+          "consistency_standards": 9,
+          "recognition_over_recall": 17,
+          "visibility_of_system_status": 13,
+          "user_control_freedom": 3,
+          "error_prevention": 2
+        },
+        "agency_creative_director": {
+          "minimalist_design": 6,
+          "user_control_freedom": 3,
+          "recognition_over_recall": 22,
+          "match_real_world": 36,
+          "visibility_of_system_status": 11,
+          "help_documentation": 2,
+          "flexibility_efficiency": 2,
+          "error_prevention": 1
+        },
+        "design_leader": {
+          "flexibility_efficiency": 1,
+          "user_control_freedom": 6,
+          "recognition_over_recall": 31,
+          "match_real_world": 23,
+          "consistency_standards": 7,
+          "visibility_of_system_status": 9,
+          "help_documentation": 2,
+          "error_prevention": 1,
+          "minimalist_design": 3,
+          "error_recovery": 1
+        },
+        "curious_explorer": {
+          "visibility_of_system_status": 10,
+          "user_control_freedom": 5,
+          "recognition_over_recall": 43,
+          "match_real_world": 15,
+          "help_documentation": 5,
+          "error_prevention": 3,
+          "minimalist_design": 2,
+          "consistency_standards": 1
+        },
+        "traditional_craftsperson": {
+          "help_documentation": 5,
+          "match_real_world": 33,
+          "recognition_over_recall": 18,
+          "user_control_freedom": 12,
+          "error_prevention": 3,
+          "visibility_of_system_status": 21,
+          "minimalist_design": 3,
+          "error_recovery": 1,
+          "consistency_standards": 2
+        },
+        "daily_user": {
+          "minimalist_design": 3,
+          "user_control_freedom": 3,
+          "recognition_over_recall": 31,
+          "match_real_world": 14,
+          "visibility_of_system_status": 13,
+          "error_recovery": 3,
+          "help_documentation": 1,
+          "flexibility_efficiency": 1,
+          "consistency_standards": 1
+        }
+      },
+      "examples": {
+        "visibility_of_system_status": [
+          {
+            "thought": "The landing page doesn't give me enough system context - what am I assessing, how long will it take, what's the output?",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The button text 'Select an answer' doesn't update to reflect that I'm interacting with options, giving no feedback about my selection state.",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The options are well-structured with clear progression, but I notice none are selected despite my previous clicks. That's concerning from a state mana",
+            "archetype": "app_builder"
+          }
+        ],
+        "flexibility_efficiency": [
+          {
+            "thought": "Good that they pre-filled the cohort parameter from the URL and made demographics optional with a clear skip option. Reduces friction while still coll",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "Good that there are multiple paths to the assessment (button and nav link), which reduces friction for users who scan differently.",
+            "archetype": "design_leader"
+          },
+          {
+            "thought": "Good that there are multiple pathways to the assessment (both button and nav link), but the landing page seems to have redundant navigation options.",
+            "archetype": "app_builder"
+          }
+        ],
+        "recognition_over_recall": [
+          {
+            "thought": "Good use of concrete examples rather than abstract descriptions - makes it easy to self-identify without ambiguity about what each level means in prac",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "Good progressive disclosure - each option builds on the previous with clear technical distinctions. No ambiguity about what each level means in practi",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The progression is clear and each level builds logically on the previous one. Easy to map my actual workflow to these descriptions without having to g",
+            "archetype": "app_builder"
+          }
+        ],
+        "match_real_world": [
+          {
+            "thought": "Good use of the SAE framework - it's a recognized standard that tech people will understand. The progression from manual to autonomous is clear and ea",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The options have good granularity and feel realistic to actual AI development work. They avoid both oversimplification and unnecessary complexity.",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "Good that they're asking about failure handling specifically - it's often overlooked but crucial for AI work. The progression from ad-hoc to systemati",
+            "archetype": "app_builder"
+          }
+        ],
+        "error_prevention": [
+          {
+            "thought": "Good that none of the options are pre-selected so I have to actively choose based on my actual practice rather than defaulting.",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The accessibility tree being unavailable suggests potential accessibility issues or technical problems that could exclude users with disabilities - th",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "The cohort field being pre-filled is helpful - it shows the system knows where I came from and I don't have to figure out what to put there.",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "help_documentation": [
+          {
+            "thought": "The form doesn't clearly explain why they need this information or how it will be used, which adds to my anxiety about sharing personal details.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The progression from beginner to expert is clear, but I wish there were some examples or context to help me better understand what each level actually",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The options are clearly laid out and seem to follow a logical progression from novice to expert, which helps me understand where I might fit. However,",
+            "archetype": "career_changer"
+          }
+        ],
+        "user_control_freedom": [
+          {
+            "thought": "Good use of visual hierarchy with the primary button being more prominent than the skip option. The form feels low-friction with optional fields clear",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "The skip option gives me good control - I appreciate not being forced through unnecessary steps, though I'm choosing to engage with the form anyway.",
+            "archetype": "agency_creative_director"
+          },
+          {
+            "thought": "The form provides good user control by making demographics truly optional with a clear skip path, but it would benefit from explaining why this data i",
+            "archetype": "agency_creative_director"
+          }
+        ],
+        "error_recovery": [
+          {
+            "thought": "Good that I can now see all the options clearly laid out, but the earlier accessibility tree failure is a serious concern for an assessment tool that ",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "The recovery from the broken state works well - the options are now clearly visible and the progression from novice to expert is intuitive.",
+            "archetype": "daily_user"
+          },
+          {
+            "thought": "The recovery from the loading issue was seamless - I can continue exactly where I left off without losing context.",
+            "archetype": "daily_user"
+          }
+        ],
+        "minimalist_design": [
+          {
+            "thought": "Good adherence to minimalist design principles - only collecting what seems necessary, clear primary and secondary action hierarchy with the button st",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "The progression from individual/beginner to team lead is clear, but it makes beginners like me feel behind. It would be helpful to frame the first opt",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "Good that the assessment CTA is prominently displayed and matches my goal, but having two equally weighted primary buttons creates decision paralysis.",
+            "archetype": "agency_creative_director"
+          }
+        ],
+        "consistency_standards": [
+          {
+            "thought": "The progression from 0-5 makes logical sense, but mixing design tools (Midjourney, Framer) with development workflows (IDE, agent harnesses) in the sa",
+            "archetype": "ai_native_engineer"
+          },
+          {
+            "thought": "The progression from 0-5 makes logical sense and the descriptions are clear enough to map my actual work to a level, even if the language feels a bit ",
+            "archetype": "ai_native_engineer"
+          },
+          {
+            "thought": "The assessment lacks clarity about whether it's evaluating personal skills or organizational needs - this inconsistency could lead to mismatched recom",
+            "archetype": "design_leader"
+          }
+        ]
+      },
+      "missing_heuristics": []
+    },
+    "cw": {
+      "total_failures": 1849,
+      "failure_rate": {
+        "will_try_right_effect": 0.53,
+        "notices_correct_action": 0.61,
+        "associates_action_with_goal": 0.66,
+        "sees_progress": 0.4
+      },
+      "by_page": {
+        "assess?cohort=think-aloud-test": {
+          "count": 1457,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "sees_progress",
+            "notices_correct_action",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "curious_explorer",
+            "traditional_craftsperson",
+            "app_builder",
+            "daily_user",
+            "career_changer",
+            "ux_researcher",
+            "ai_native_engineer",
+            "student_non_designer",
+            "design_leader"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "Can't see the actual page content due to accessibility tree being unavailable - no clear understanding of what actions are available",
+              "arch": "app_builder"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "Without visual access to the interface, can't identify specific buttons or form elements to interact with",
+              "arch": "app_builder"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "Can't evaluate action labels or visual cues since the page content isn't visible",
+              "arch": "app_builder"
+            }
+          ]
+        },
+        "results": {
+          "count": 201,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "sees_progress",
+            "notices_correct_action",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "curious_explorer",
+            "traditional_craftsperson",
+            "app_builder",
+            "daily_user",
+            "career_changer",
+            "ux_researcher",
+            "ai_native_engineer",
+            "student_non_designer",
+            "design_leader"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "No content is visible, so I have no idea what my goal should be or what actions are available",
+              "arch": "app_builder"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "Can't identify any interactive elements or navigation options without the accessibility tree",
+              "arch": "app_builder"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "Without seeing any UI elements, there's no way to connect actions to intended outcomes",
+              "arch": "app_builder"
+            }
+          ]
+        },
+        "home": {
+          "count": 191,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "sees_progress",
+            "notices_correct_action",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "curious_explorer",
+            "traditional_craftsperson",
+            "app_builder",
+            "daily_user",
+            "career_changer",
+            "ux_researcher",
+            "ai_native_engineer",
+            "student_non_designer",
+            "design_leader"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "Can't see the page content due to accessibility tree being unavailable - this is a UX friction point that would make me bounce",
+              "arch": "app_builder"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "No visible interface elements to interact with, can't locate the assessment entry point",
+              "arch": "app_builder"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "Without seeing any CTAs or navigation, I can't map actions to my goal of taking the self-assessment",
+              "arch": "app_builder"
+            }
+          ]
+        }
+      },
+      "unique_failure_pages": 3
+    },
+    "behavioral": {
+      "events_per_session": 41.3,
+      "total_events": 2479,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "avg_events": 77,
+          "confusion_prob": 0.413
+        },
+        {
+          "archetype": "student_non_designer",
+          "avg_events": 67,
+          "confusion_prob": 0.323
+        },
+        {
+          "archetype": "design_leader",
+          "avg_events": 53.7,
+          "confusion_prob": 0.051
+        },
+        {
+          "archetype": "ux_researcher",
+          "avg_events": 52.8,
+          "confusion_prob": 0.12
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "avg_events": 41.1,
+          "confusion_prob": 0.164
+        },
+        {
+          "archetype": "curious_explorer",
+          "avg_events": 37.7,
+          "confusion_prob": 0.259
+        },
+        {
+          "archetype": "agency_creative_director",
+          "avg_events": 26.8,
+          "confusion_prob": 0.097
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "avg_events": 26,
+          "confusion_prob": 0.077
+        },
+        {
+          "archetype": "daily_user",
+          "avg_events": 21.6,
+          "confusion_prob": 0.147
+        },
+        {
+          "archetype": "app_builder",
+          "avg_events": 16.3,
+          "confusion_prob": 0.016
+        }
+      ]
+    },
+    "thought_quality": {
+      "avg_length": 225,
+      "type_diversity": 5,
+      "total_thoughts": 4195,
+      "parse_errors": 0
+    }
+  },
+  "Haiku 4.5": {
+    "summary": {
+      "total_sessions": 10,
+      "archetypes": {
+        "student_non_designer": 1,
+        "ai_native_engineer": 1,
+        "traditional_craftsperson": 1,
+        "ux_researcher": 1,
+        "curious_explorer": 1,
+        "app_builder": 1,
+        "design_leader": 1,
+        "agency_creative_director": 1,
+        "career_changer": 1,
+        "daily_user": 1
+      },
+      "avg_nps": 6.2,
+      "nps_range": [
+        0,
+        8
+      ],
+      "nps_std_dev": 2.25,
+      "pages_per_session": 13.7,
+      "protocol_versions": {
+        "2.0": 10
+      }
+    },
+    "sus": {
+      "overall_mean": 68.5,
+      "overall_std": 18.5,
+      "overall_grade": "B",
+      "benchmark_comparison": "above",
+      "score_range": 65.0,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "mean_sus": 25.0,
+          "min": 25.0,
+          "max": 25.0,
+          "grade": "F",
+          "notes": "The assessment felt confusing and poorly calibrated for my situation as a bootcamp student—questions assumed professional work experience I don't have, the results page didn't display my actual results (which made me panic), and the overall experience reinforced my anxiety about being behind rather than helping me understand where I actually stand. The progress indicators helped, but the core functionality and clarity fell short of what I needed."
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_sus": 55.0,
+          "min": 55.0,
+          "max": 55.0,
+          "grade": "C",
+          "notes": "The system was navigable and the assessment itself was technically sound, but I spent significant cognitive effort decoding design-domain terminology that wasn't explained upfront. I'm confident I could use it again, but the lack of contextual onboarding for someone outside the design field created unnecessary friction—not cumbersome, just... inefficient for my mental model."
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_sus": 62.5,
+          "min": 62.5,
+          "max": 62.5,
+          "grade": "C",
+          "notes": "The interface is clean and respectful of my time—no aggressive design or unnecessary flourish—but it assumes AI adoption is universal and doesn't account for craft-based work like print/branding design. I'm confident using it because it's straightforward, but I wouldn't use it frequently because the assessment doesn't address my actual practice."
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_sus": 65.0,
+          "min": 65.0,
+          "max": 65.0,
+          "grade": "C",
+          "notes": "The assessment framework itself is methodologically sound and forces honest self-reflection, but the UX execution undermines confidence—missing accessibility trees, discipline-misaligned questions (engineering-focused for a researcher), and a results page I couldn't fully access create friction that a meticulous evaluator like me cannot ignore. I'd use this system again because the *instrument* is rigorous, but I'd want significant UX refinement before recommending it to less technically-oriented users."
+        },
+        {
+          "archetype": "app_builder",
+          "mean_sus": 72.5,
+          "min": 72.5,
+          "max": 72.5,
+          "grade": "B",
+          "notes": "The assessment itself was clear and well-calibrated to my workflow, but the UX had friction: missing visual feedback on selections, no visible results page, and a broken accessibility tree that forced me to fly blind. I'd use this again because the questions are substantive, but it needs polish before shipping to non-technical users."
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_sus": 75.0,
+          "min": 75.0,
+          "max": 75.0,
+          "grade": "B",
+          "notes": "The assessment itself was clear and well-structured—I respect the craft of the questions—but the results page felt incomplete and didn't justify the time investment. Good bones, poor execution. I'd use it again if the output matched the input quality, but right now it feels like a promising tool that lost confidence at the finish line."
+        },
+        {
+          "archetype": "design_leader",
+          "mean_sus": 75.0,
+          "min": 75.0,
+          "max": 75.0,
+          "grade": "B",
+          "notes": "The assessment itself is well-structured and the maturity framework is pragmatic, but the landing page and results presentation felt incomplete. As someone who leads through team capability, I need to see how this scales to 40 designers with varying comfort levels—right now I'm not sure this tool bridges that gap or just measures individual adoption."
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "mean_sus": 82.5,
+          "min": 82.5,
+          "max": 82.5,
+          "grade": "A",
+          "notes": "This assessment surprised me—it actually respects agent orchestration depth rather than reducing AI work to chatbot prompting, which earned my respect. But the results page UX failure and some vague question framing kept it from being excellent; I'd use it again to benchmark my team, but only if they fix the accessibility and clarify what 'maturity' actually means in a startup context where governance scales nonlinearly."
+        },
+        {
+          "archetype": "daily_user",
+          "mean_sus": 82.5,
+          "min": 82.5,
+          "max": 82.5,
+          "grade": "A",
+          "notes": "The assessment itself was well-designed—clear progression, honest calibration without judgment, and good UX patterns—but the initial accessibility failure and unclear results page knocked it down. As someone who uses AI daily and values practical tools, I'd use this again to track progress, but only if the onboarding and results visibility improve."
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_sus": 90.0,
+          "min": 90.0,
+          "max": 90.0,
+          "grade": "A+",
+          "notes": "I loved this assessment! The progression felt natural and the maturity scale (E-P-I-A-S) was really validating for someone just starting out. I'd definitely use this again—it helped me understand where I actually am with AI instead of where I think I 'should' be."
+        }
+      ]
+    },
+    "heuristics": {
+      "heuristics_covered": 9,
+      "total_heuristics": 10,
+      "citation_rate": 0.97,
+      "counts": {
+        "match_real_world": 70,
+        "visibility_of_system_status": 39,
+        "recognition_over_recall": 21,
+        "user_control_freedom": 4,
+        "flexibility_efficiency": 4,
+        "help_documentation": 3,
+        "consistency_standards": 3,
+        "minimalist_design": 2,
+        "error_prevention": 1
+      },
+      "by_archetype": {
+        "student_non_designer": {
+          "help_documentation": 2,
+          "visibility_of_system_status": 3,
+          "recognition_over_recall": 3,
+          "match_real_world": 4
+        },
+        "ai_native_engineer": {
+          "visibility_of_system_status": 2,
+          "user_control_freedom": 1,
+          "recognition_over_recall": 4,
+          "match_real_world": 6,
+          "flexibility_efficiency": 1
+        },
+        "traditional_craftsperson": {
+          "visibility_of_system_status": 8,
+          "consistency_standards": 1,
+          "match_real_world": 6,
+          "recognition_over_recall": 2
+        },
+        "ux_researcher": {
+          "visibility_of_system_status": 6,
+          "recognition_over_recall": 3,
+          "user_control_freedom": 1,
+          "flexibility_efficiency": 1,
+          "consistency_standards": 1,
+          "match_real_world": 6
+        },
+        "curious_explorer": {
+          "visibility_of_system_status": 2,
+          "match_real_world": 9,
+          "flexibility_efficiency": 1,
+          "help_documentation": 1
+        },
+        "app_builder": {
+          "flexibility_efficiency": 1,
+          "visibility_of_system_status": 7,
+          "recognition_over_recall": 3,
+          "match_real_world": 5
+        },
+        "design_leader": {
+          "visibility_of_system_status": 2,
+          "consistency_standards": 1,
+          "user_control_freedom": 1,
+          "match_real_world": 8,
+          "recognition_over_recall": 2
+        },
+        "agency_creative_director": {
+          "visibility_of_system_status": 3,
+          "minimalist_design": 2,
+          "match_real_world": 9,
+          "recognition_over_recall": 1
+        },
+        "career_changer": {
+          "visibility_of_system_status": 4,
+          "match_real_world": 9,
+          "recognition_over_recall": 1
+        },
+        "daily_user": {
+          "visibility_of_system_status": 2,
+          "user_control_freedom": 1,
+          "recognition_over_recall": 2,
+          "match_real_world": 8,
+          "error_prevention": 1
+        }
+      },
+      "examples": {
+        "help_documentation": [
+          {
+            "thought": "The navigation structure is clean, but there's no contextual help for a first-time visitor. No tagline under 'DIT', no tooltip, no 'What is this?' lin",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The option descriptions are descriptive and concrete — 'system prompts', 'evals', 'modular libraries' — which helps. But there's no definition of what",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The progression from E→P→I→A→S is really clear and helps me self-locate. The language is specific enough that I can distinguish between levels without",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "visibility_of_system_status": [
+          {
+            "thought": "Strength: The cohort field is auto-populated from the URL, which is smart—reduces friction. The form doesn't bombard me with required fields. Weakness",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The scale is clear once I understand it's a progression from 'unclear' to 'institutionalized'. But the question prompt 'HOW you work' could be clearer",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "Major issue: without the accessibility tree, I can't see the results content itself. But based on the available buttons and my persona, there's a visi",
+            "archetype": "student_non_designer"
+          }
+        ],
+        "recognition_over_recall": [
+          {
+            "thought": "The scale is well-structured and uses concrete examples (ChatGPT, Midjourney, Bolt, eval suites) which aids recognition over recall. However, the exam",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "Strong clarity here—each option is concrete and example-based, not abstract. 'I engineer context blocks' is more actionable than 'advanced prompting.'",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The option text is well-designed for someone like me — it uses concrete behavioral markers ('retry patterns,' 'common failure modes,' 'documented,' 'b",
+            "archetype": "student_non_designer"
+          }
+        ],
+        "match_real_world": [
+          {
+            "thought": "The options themselves are well-written and progressively complex. They move from 'none' → 'manual' → 'checklist' → 'lightweight structure' → 'fully a",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The scale is well-structured and internally consistent (each option builds on the previous in terms of autonomy/complexity), but it lacks context abou",
+            "archetype": "student_non_designer"
+          },
+          {
+            "thought": "The question title 'automation level' doesn't match the actual construct being measured (reusability maturity / infrastructure sophistication). This c",
+            "archetype": "student_non_designer"
+          }
+        ],
+        "user_control_freedom": [
+          {
+            "thought": "Strength: The 'Skip' button is visible and obvious. This respects user autonomy and doesn't force data collection. Weakness: The page structure assume",
+            "archetype": "ai_native_engineer"
+          },
+          {
+            "thought": "The 'Skip' button honors user control and flexibility — I can choose to provide demographics or not. This is a strength. It acknowledges that not all ",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "The 'Skip' button is visible and actionable, which is good — it respects user control. However, there's a subtle persuasion issue: 'Start Assessment' ",
+            "archetype": "design_leader"
+          }
+        ],
+        "flexibility_efficiency": [
+          {
+            "thought": "The repeated 'All work stops' phrasing is redundant and wastes cognitive load. A visual progression (0-5 scale shown as a slider or spectrum) would be",
+            "archetype": "ai_native_engineer"
+          },
+          {
+            "thought": "The scale lacks nuance for *selective* AI use. A researcher might use AI heavily for synthesis but avoid it entirely for analysis, or vice versa. The ",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "Strength: The five options form a clear maturity model progression (E→P→I→A→S). Each option is distinct and self-contained, making it easy to recogniz",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "consistency_standards": [
+          {
+            "thought": "The cohort field is pre-populated and appears read-only (or should be), which is smart for tracking. But as someone who reads carefully, I notice the ",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "Strength: The progression from 'no AI' → 'manual heavy-rewrite' → 'checklists' → 'lightweight evals' → 'automated suites' → 'self-correcting' is logic",
+            "archetype": "ux_researcher"
+          },
+          {
+            "thought": "Positive observation: The navigation is consistent and clear. I can see all major sections at a glance. If I understand what to look for, I can naviga",
+            "archetype": "design_leader"
+          }
+        ],
+        "minimalist_design": [
+          {
+            "thought": "The form violates minimalist design principles—not because it's minimal, but because it's *unclear*. Minimalism without clarity is just confusion. The",
+            "archetype": "agency_creative_director"
+          },
+          {
+            "thought": "The buttons available (Chat, Heatmap, Retake) are all secondary actions. There's no primary CTA that anchors to the actual results content. This sugge",
+            "archetype": "agency_creative_director"
+          }
+        ],
+        "error_prevention": [
+          {
+            "thought": "The option-items use clear, behavioral language ('I maintain', 'I reuse', 'Others rely on') that makes self-assessment easier. Each level builds logic",
+            "archetype": "daily_user"
+          }
+        ]
+      },
+      "missing_heuristics": [
+        "error_recovery"
+      ]
+    },
+    "cw": {
+      "total_failures": 210,
+      "failure_rate": {
+        "will_try_right_effect": 0.24,
+        "notices_correct_action": 0.54,
+        "associates_action_with_goal": 0.64,
+        "sees_progress": 0.12
+      },
+      "by_page": {
+        "assess?cohort=think-aloud-test": {
+          "count": 163,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "sees_progress",
+            "notices_correct_action",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "traditional_craftsperson",
+            "curious_explorer",
+            "app_builder",
+            "daily_user",
+            "career_changer",
+            "design_leader",
+            "ux_researcher",
+            "ai_native_engineer",
+            "student_non_designer"
+          ],
+          "examples": [
+            {
+              "q": "associates_action_with_goal",
+              "why": "Here's where it breaks down for me: I don't know if this intake data is *used* somewhere in the study design or if it's just metadata. As an academic, I want to know—does demographic data actually affect the task or interface I'm about to interact with? That's not communicated. It feels like busywork unless I understand the purpose.",
+              "arch": "student_non_designer"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "Here's where I'm stuck: 'automation level' is ambiguous to me. In my ML work, automation could mean model inference speed, training pipeline orchestration, or code generation. Without seeing the options, I don't know if this is asking about my *use* of AI tools, or the *design* of automated systems. The terminology doesn't map cleanly to how I think about my work.",
+              "arch": "student_non_designer"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "I can't assess if I can find the 'right' option until I see what the automation levels actually are. Without seeing the choices, I'm flying blind.",
+              "arch": "student_non_designer"
+            }
+          ]
+        },
+        "results": {
+          "count": 32,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "sees_progress",
+            "notices_correct_action",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "curious_explorer",
+            "app_builder",
+            "career_changer",
+            "design_leader",
+            "ux_researcher",
+            "ai_native_engineer",
+            "student_non_designer"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I don't have a clear mental model yet of what 'results' means in the context of design thinking. In academia, results usually mean quantified outcomes—but I don't know what was being measured here.",
+              "arch": "student_non_designer"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "Without understanding what the page is showing me, I can't identify what action I should take next. Are there buttons? Is this informational only? Do I need to click something to explore the growth path, or is it already displayed?",
+              "arch": "student_non_designer"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "My goal is to understand how designers adopt AI tools—but I don't yet see how this results page connects to that inquiry. Is this showing me a designer's profile? My own assessment? The relationship between those two things isn't obvious.",
+              "arch": "student_non_designer"
+            }
+          ]
+        },
+        "home": {
+          "count": 15,
+          "questions_failed": [
+            "associates_action_with_goal",
+            "notices_correct_action",
+            "sees_progress",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "agency_creative_director",
+            "daily_user",
+            "career_changer",
+            "design_leader",
+            "ux_researcher",
+            "student_non_designer"
+          ],
+          "examples": [
+            {
+              "q": "associates_action_with_goal",
+              "why": "Here's where I hesitate: the page doesn't clearly communicate *what* I'm assessing or *why*. The label might say 'Start Assessment' or similar, but context about the assessment's purpose — especially relevant to my research on AI adoption in design — is unclear to me right now. I'm clicking somewhat blind.",
+              "arch": "student_non_designer"
+            },
+            {
+              "q": "sees_progress",
+              "why": "This is where I'm uncertain—I don't yet know if the tool provides transparent progress tracking, methodology explanation, or if it just launches into questions. Without seeing the page, I can't assess whether the UX communicates *how* the assessment works or just *that* it works.",
+              "arch": "ux_researcher"
+            },
+            {
+              "q": "will_try_right_effect",
+              "why": "I can't see the accessibility tree, so I'm flying blind on what's actually on this page. I need to know: Is there a clear CTA? Is the assessment self-evident? Without that, I'm hesitant to proceed.",
+              "arch": "design_leader"
+            }
+          ]
+        }
+      },
+      "unique_failure_pages": 3
+    },
+    "behavioral": {
+      "events_per_session": 47.9,
+      "total_events": 479,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "avg_events": 78,
+          "confusion_prob": 0.372
+        },
+        {
+          "archetype": "ux_researcher",
+          "avg_events": 65,
+          "confusion_prob": 0.039
+        },
+        {
+          "archetype": "student_non_designer",
+          "avg_events": 60,
+          "confusion_prob": 0.36
+        },
+        {
+          "archetype": "design_leader",
+          "avg_events": 55,
+          "confusion_prob": 0.086
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "avg_events": 48,
+          "confusion_prob": 0.164
+        },
+        {
+          "archetype": "curious_explorer",
+          "avg_events": 39,
+          "confusion_prob": 0.272
+        },
+        {
+          "archetype": "agency_creative_director",
+          "avg_events": 38,
+          "confusion_prob": 0.098
+        },
+        {
+          "archetype": "daily_user",
+          "avg_events": 36,
+          "confusion_prob": 0.109
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "avg_events": 33,
+          "confusion_prob": 0.056
+        },
+        {
+          "archetype": "app_builder",
+          "avg_events": 27,
+          "confusion_prob": 0.022
+        }
+      ]
+    },
+    "thought_quality": {
+      "avg_length": 423,
+      "type_diversity": 5,
+      "total_thoughts": 718,
+      "parse_errors": 0
+    }
+  }
+}
