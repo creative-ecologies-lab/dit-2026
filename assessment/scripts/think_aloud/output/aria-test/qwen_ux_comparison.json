@@ -1,0 +1,1569 @@
+{
+  "Qwen Pre-ARIA": {
+    "summary": {
+      "total_sessions": 10,
+      "archetypes": {
+        "traditional_craftsperson": 1,
+        "daily_user": 1,
+        "student_non_designer": 1,
+        "ai_native_engineer": 1,
+        "career_changer": 1,
+        "ux_researcher": 1,
+        "design_leader": 1,
+        "curious_explorer": 1,
+        "agency_creative_director": 1,
+        "app_builder": 1
+      },
+      "avg_nps": 7.0,
+      "nps_range": [
+        7,
+        7
+      ],
+      "nps_std_dev": 0.0,
+      "pages_per_session": 12.6,
+      "protocol_versions": {
+        "2.0": 10
+      }
+    },
+    "sus": {
+      "overall_mean": 57.8,
+      "overall_std": 18.8,
+      "overall_grade": "C",
+      "benchmark_comparison": "below",
+      "score_range": 62.5,
+      "by_archetype": [
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_sus": 22.5,
+          "min": 22.5,
+          "max": 22.5,
+          "grade": "F",
+          "notes": "The system felt overly simplistic and lacked the depth or visual clarity I expect from a design-related tool. It assumed a comfort with AI that I don’t share, making it feel somewhat alienating despite its clean layout."
+        },
+        {
+          "archetype": "career_changer",
+          "mean_sus": 42.5,
+          "min": 42.5,
+          "max": 42.5,
+          "grade": "D",
+          "notes": "The system felt confusing at times due to the jargon and unclear instructions, which made me anxious. While the UI was clean, I needed more guidance to feel confident using it."
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "mean_sus": 47.5,
+          "min": 47.5,
+          "max": 47.5,
+          "grade": "D",
+          "notes": "The system feels overly simplistic for someone deeply embedded in agent workflows and lacks the depth needed to meaningfully assess advanced AI engineering practices."
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_sus": 52.5,
+          "min": 52.5,
+          "max": 52.5,
+          "grade": "C",
+          "notes": "The system is functional but relies heavily on design terminology that is unfamiliar to me. While the UI is clean, the lack of clarity around key terms and concepts made it harder to engage confidently."
+        },
+        {
+          "archetype": "design_leader",
+          "mean_sus": 62.5,
+          "min": 62.5,
+          "max": 62.5,
+          "grade": "C",
+          "notes": "The system is clean and structured, but lacks sufficient context and clarity in results to feel fully intuitive or immediately valuable for teams with varied AI experience."
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_sus": 65.0,
+          "min": 65.0,
+          "max": 65.0,
+          "grade": "C",
+          "notes": "The system felt clean and structured, but I remained skeptical of how it interpreted my creative process. It lacked depth in explaining AI's role, which made me cautious about its value for creative professionals."
+        },
+        {
+          "archetype": "app_builder",
+          "mean_sus": 67.5,
+          "min": 67.5,
+          "max": 67.5,
+          "grade": "C",
+          "notes": "The system is clean and minimal but lacks depth and actionable feedback, especially on the results page. While the assessment flow is straightforward, it feels underdeveloped for an experienced AI-native user."
+        },
+        {
+          "archetype": "daily_user",
+          "mean_sus": 75.0,
+          "min": 75.0,
+          "max": 75.0,
+          "grade": "B",
+          "notes": "The system is clean and minimal but lacks clear visual hierarchy and guidance in some areas, which made it feel slightly ambiguous in purpose. However, the interface was easy to navigate once I started, and I appreciated the practical focus of the questions."
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_sus": 85.0,
+          "min": 85.0,
+          "max": 85.0,
+          "grade": "A+",
+          "notes": "I found the system exciting and easy to use, but some parts felt slightly overwhelming due to the technical jargon. Overall, I’m eager to use it again and learn more about AI’s role in design."
+        }
+      ]
+    },
+    "heuristics": {
+      "heuristics_covered": 7,
+      "total_heuristics": 11,
+      "citation_rate": 1.0,
+      "counts": {
+        "recognition_over_recall": 49,
+        "visibility_of_system_status": 33,
+        "match_real_world": 27,
+        "user_control_freedom": 11,
+        "flexibility_efficiency": 4,
+        "minimalist_design": 1,
+        "consistency_standards": 1
+      },
+      "by_archetype": {
+        "traditional_craftsperson": {
+          "visibility_of_system_status": 5,
+          "user_control_freedom": 1,
+          "minimalist_design": 1,
+          "recognition_over_recall": 4,
+          "match_real_world": 1
+        },
+        "daily_user": {
+          "visibility_of_system_status": 2,
+          "consistency_standards": 1,
+          "recognition_over_recall": 6,
+          "match_real_world": 2,
+          "user_control_freedom": 1
+        },
+        "student_non_designer": {
+          "visibility_of_system_status": 3,
+          "recognition_over_recall": 6,
+          "match_real_world": 3
+        },
+        "ai_native_engineer": {
+          "visibility_of_system_status": 3,
+          "user_control_freedom": 2,
+          "match_real_world": 5,
+          "recognition_over_recall": 3,
+          "flexibility_efficiency": 1
+        },
+        "career_changer": {
+          "visibility_of_system_status": 2,
+          "user_control_freedom": 1,
+          "match_real_world": 7,
+          "recognition_over_recall": 2
+        },
+        "ux_researcher": {
+          "visibility_of_system_status": 4,
+          "match_real_world": 3,
+          "recognition_over_recall": 5
+        },
+        "design_leader": {
+          "visibility_of_system_status": 6,
+          "user_control_freedom": 1,
+          "recognition_over_recall": 4,
+          "match_real_world": 1
+        },
+        "curious_explorer": {
+          "visibility_of_system_status": 3,
+          "recognition_over_recall": 8,
+          "flexibility_efficiency": 1,
+          "match_real_world": 2
+        },
+        "agency_creative_director": {
+          "recognition_over_recall": 6,
+          "user_control_freedom": 4,
+          "match_real_world": 2,
+          "visibility_of_system_status": 1
+        },
+        "app_builder": {
+          "visibility_of_system_status": 4,
+          "recognition_over_recall": 5,
+          "match_real_world": 1,
+          "user_control_freedom": 1,
+          "flexibility_efficiency": 2
+        }
+      },
+      "examples": {
+        "visibility_of_system_status": [
+          {
+            "thought": "The 'Take the Assessment' button lacks a clear indication of what the next steps are, which could confuse users like me who prefer a more structured p",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clear in terms of language, but there's no visual indicator of progress within the question itself. This could be improved by showing ",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are presented clearly, but the lack of a clear system status or progress indicator makes it harder to feel confident in the process.",
+            "archetype": "traditional_craftsperson"
+          }
+        ],
+        "user_control_freedom": [
+          {
+            "thought": "The 'Start Assessment' button is clearly visible, which is good for user control and freedom.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The lack of visual feedback for the selected option makes it harder to confirm the choice.",
+            "archetype": "daily_user"
+          },
+          {
+            "thought": "The 'Start Assessment' button is clearly visible and labeled, which aligns with the user control and freedom heuristic.",
+            "archetype": "ai_native_engineer"
+          }
+        ],
+        "minimalist_design": [
+          {
+            "thought": "The interface lacks a clear visual hierarchy for the options, which could confuse users who value precision and clarity. Better grouping and visual em",
+            "archetype": "traditional_craftsperson"
+          }
+        ],
+        "recognition_over_recall": [
+          {
+            "thought": "The interface could improve by using clearer visual cues to show what selection is active or has been selected.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clear and use recognizable language for each level of automation, which helps with decision-making.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The lack of explanations for each option forces me to recall or infer their meaning, which is inefficient and leads to uncertainty.",
+            "archetype": "traditional_craftsperson"
+          }
+        ],
+        "match_real_world": [
+          {
+            "thought": "The interface violates the 'match_real_world' heuristic. The options don't map clearly to real-world workflows or experiences, especially for a design",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clearly labeled with real-world examples, which helps in making a decision.",
+            "archetype": "daily_user"
+          },
+          {
+            "thought": "The option labels are well-written and match real-world scenarios, making it easier to understand the automation levels. This supports the 'match_real",
+            "archetype": "daily_user"
+          }
+        ],
+        "consistency_standards": [
+          {
+            "thought": "The buttons 'Start Assessment' and 'Skip' could benefit from clearer visual differentiation to align with the heuristic of consistency_standards.",
+            "archetype": "daily_user"
+          }
+        ],
+        "flexibility_efficiency": [
+          {
+            "thought": "The interface lacks flexibility and efficiency for power users. It assumes a one-size-fits-all interaction pattern, which conflicts with my need for a",
+            "archetype": "ai_native_engineer"
+          },
+          {
+            "thought": "The lack of visual hierarchy between the options makes it harder to compare them quickly.",
+            "archetype": "curious_explorer"
+          },
+          {
+            "thought": "The interface allows for easy selection and feedback, making the interaction feel smooth and intuitive.",
+            "archetype": "app_builder"
+          }
+        ]
+      },
+      "missing_heuristics": [
+        "error_prevention",
+        "error_recovery",
+        "help_documentation",
+        "accessibility_structure"
+      ]
+    },
+    "cw": {
+      "total_failures": 75,
+      "failure_rate": {
+        "will_try_right_effect": 0.1,
+        "notices_correct_action": 0.1,
+        "associates_action_with_goal": 0.24,
+        "sees_progress": 0.15,
+        "understands_page_structure": 0.0
+      },
+      "by_page": {
+        "assess?cohort=think-aloud-test": {
+          "count": 53,
+          "questions_failed": [
+            "notices_correct_action",
+            "sees_progress",
+            "associates_action_with_goal",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "career_changer",
+            "student_non_designer",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "agency_creative_director",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don't clearly explain what each level means, making it hard to choose confidently.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "The buttons or options are not clearly labeled, making it hard to know what to choose.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don't clearly indicate what selecting them will do or how they relate to my work style.",
+              "arch": "traditional_craftsperson"
+            }
+          ]
+        },
+        "results": {
+          "count": 14,
+          "questions_failed": [
+            "notices_correct_action",
+            "sees_progress",
+            "associates_action_with_goal",
+            "will_try_right_effect"
+          ],
+          "archetypes": [
+            "career_changer",
+            "traditional_craftsperson",
+            "design_leader",
+            "app_builder"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I’m not immediately sure what action to take next or what my goal is on this page.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "The buttons or options aren’t clearly labeled to indicate what they’ll do.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don’t clearly connect to the outcome I might expect from them.",
+              "arch": "traditional_craftsperson"
+            }
+          ]
+        },
+        "home": {
+          "count": 8,
+          "questions_failed": [
+            "notices_correct_action",
+            "sees_progress",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "traditional_craftsperson",
+            "ux_researcher",
+            "daily_user"
+          ],
+          "examples": [
+            {
+              "q": "associates_action_with_goal",
+              "why": "The button label is direct, but I'm unsure if it leads to a meaningful or trustworthy process.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "sees_progress",
+              "why": "There's no immediate visual feedback or indication of what happens after clicking.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The label doesn't explain what the assessment is for, making it unclear if it aligns with my intent.",
+              "arch": "daily_user"
+            }
+          ]
+        }
+      },
+      "unique_failure_pages": 3
+    },
+    "behavioral": {
+      "events_per_session": 44.9,
+      "total_events": 449,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "avg_events": 81,
+          "confusion_prob": 0.372
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "avg_events": 67,
+          "confusion_prob": 0.164
+        },
+        {
+          "archetype": "student_non_designer",
+          "avg_events": 63,
+          "confusion_prob": 0.36
+        },
+        {
+          "archetype": "design_leader",
+          "avg_events": 56,
+          "confusion_prob": 0.086
+        },
+        {
+          "archetype": "ux_researcher",
+          "avg_events": 52,
+          "confusion_prob": 0.039
+        },
+        {
+          "archetype": "agency_creative_director",
+          "avg_events": 40,
+          "confusion_prob": 0.098
+        },
+        {
+          "archetype": "curious_explorer",
+          "avg_events": 39,
+          "confusion_prob": 0.272
+        },
+        {
+          "archetype": "daily_user",
+          "avg_events": 32,
+          "confusion_prob": 0.109
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "avg_events": 15,
+          "confusion_prob": 0.056
+        },
+        {
+          "archetype": "app_builder",
+          "avg_events": 4,
+          "confusion_prob": 0.022
+        }
+      ]
+    },
+    "accessibility": null,
+    "thought_quality": {
+      "avg_length": 158,
+      "type_diversity": 5,
+      "total_thoughts": 630,
+      "parse_errors": 0
+    }
+  },
+  "Qwen Post-ARIA v1": {
+    "summary": {
+      "total_sessions": 10,
+      "archetypes": {
+        "traditional_craftsperson": 1,
+        "daily_user": 1,
+        "career_changer": 1,
+        "curious_explorer": 1,
+        "ai_native_engineer": 1,
+        "ux_researcher": 1,
+        "app_builder": 1,
+        "student_non_designer": 1,
+        "design_leader": 1,
+        "agency_creative_director": 1
+      },
+      "avg_nps": 5.0,
+      "nps_range": [
+        3,
+        6
+      ],
+      "nps_std_dev": 1.15,
+      "pages_per_session": 12.7,
+      "protocol_versions": {
+        "2.1": 10
+      }
+    },
+    "sus": {
+      "overall_mean": 45.8,
+      "overall_std": 12.9,
+      "overall_grade": "D",
+      "benchmark_comparison": "below",
+      "score_range": 37.5,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "mean_sus": 27.5,
+          "min": 27.5,
+          "max": 27.5,
+          "grade": "F",
+          "notes": "The system felt unnecessarily complex and confusing, especially with the jargon and lack of guidance. I felt anxious throughout the assessment and unsure if I was making the right choices."
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "mean_sus": 30.0,
+          "min": 30.0,
+          "max": 30.0,
+          "grade": "F",
+          "notes": "The interface felt overly simplistic and unaligned with the complexity of agent orchestration workflows I work with daily. It lacks depth and fails to engage an expert user like myself."
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_sus": 35.0,
+          "min": 35.0,
+          "max": 35.0,
+          "grade": "F",
+          "notes": "The system felt unnecessarily complex and not tailored to my manual design approach. I found the lack of clear guidance and visual hierarchy frustrating, which made the experience cumbersome and unintuitive."
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_sus": 37.5,
+          "min": 37.5,
+          "max": 37.5,
+          "grade": "D",
+          "notes": "The assessment had a clear flow, but the design terminology was often unclear to me. I felt uncertain about how to interpret some questions and would benefit from more technical or neutral language."
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_sus": 47.5,
+          "min": 47.5,
+          "max": 47.5,
+          "grade": "D",
+          "notes": "The system felt clean and structured but lacked the depth and nuance I expect from a tool assessing creative AI maturity. It was easy to navigate but left me skeptical about how well it understood the creative process."
+        },
+        {
+          "archetype": "daily_user",
+          "mean_sus": 50.0,
+          "min": 50.0,
+          "max": 50.0,
+          "grade": "D",
+          "notes": "The assessment is functional and clean, but lacks clear guidance and visual cues for progress and next steps. As a practical user, I found it straightforward but slightly confusing in places."
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_sus": 50.0,
+          "min": 50.0,
+          "max": 50.0,
+          "grade": "D",
+          "notes": "The system has a clean interface and clear questions, but the lack of progress indicators and feedback made the experience feel fragmented. As a meticulous and cautious adopter, I found it difficult to fully trust or feel confident in the process without more clarity and support."
+        },
+        {
+          "archetype": "app_builder",
+          "mean_sus": 52.5,
+          "min": 52.5,
+          "max": 52.5,
+          "grade": "C",
+          "notes": "The system is functional but lacks clear guidance and visual hierarchy, leading to mild uncertainty. It assumes prior knowledge of AI workflows, which is reasonable for my role but may not be for all users."
+        },
+        {
+          "archetype": "design_leader",
+          "mean_sus": 62.5,
+          "min": 62.5,
+          "max": 62.5,
+          "grade": "C",
+          "notes": "The system is clean but lacks intuitive guidance for users with moderate AI comfort. It shows potential but needs clearer structure and accessibility cues for broader team adoption."
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_sus": 65.0,
+          "min": 65.0,
+          "max": 65.0,
+          "grade": "C",
+          "notes": "The system is engaging and easy to start using, but some parts felt a bit overwhelming and could use clearer guidance, especially for someone new to AI."
+        }
+      ]
+    },
+    "heuristics": {
+      "heuristics_covered": 9,
+      "total_heuristics": 11,
+      "citation_rate": 1.0,
+      "counts": {
+        "recognition_over_recall": 45,
+        "visibility_of_system_status": 28,
+        "help_documentation": 24,
+        "match_real_world": 22,
+        "user_control_freedom": 2,
+        "minimalist_design": 2,
+        "accessibility_structure": 2,
+        "flexibility_efficiency": 1,
+        "consistency_standards": 1
+      },
+      "by_archetype": {
+        "traditional_craftsperson": {
+          "visibility_of_system_status": 2,
+          "user_control_freedom": 1,
+          "recognition_over_recall": 4,
+          "match_real_world": 4,
+          "minimalist_design": 1
+        },
+        "daily_user": {
+          "visibility_of_system_status": 2,
+          "help_documentation": 3,
+          "recognition_over_recall": 5,
+          "match_real_world": 2
+        },
+        "career_changer": {
+          "visibility_of_system_status": 2,
+          "match_real_world": 3,
+          "help_documentation": 7,
+          "recognition_over_recall": 1
+        },
+        "curious_explorer": {
+          "accessibility_structure": 1,
+          "recognition_over_recall": 6,
+          "help_documentation": 3,
+          "visibility_of_system_status": 1
+        },
+        "ai_native_engineer": {
+          "visibility_of_system_status": 6,
+          "recognition_over_recall": 3,
+          "flexibility_efficiency": 1,
+          "match_real_world": 3,
+          "consistency_standards": 1
+        },
+        "ux_researcher": {
+          "visibility_of_system_status": 6,
+          "recognition_over_recall": 5,
+          "match_real_world": 2
+        },
+        "app_builder": {
+          "visibility_of_system_status": 3,
+          "help_documentation": 2,
+          "recognition_over_recall": 8
+        },
+        "student_non_designer": {
+          "recognition_over_recall": 4,
+          "match_real_world": 4,
+          "help_documentation": 3,
+          "minimalist_design": 1
+        },
+        "design_leader": {
+          "visibility_of_system_status": 4,
+          "user_control_freedom": 1,
+          "recognition_over_recall": 4,
+          "match_real_world": 1,
+          "help_documentation": 2,
+          "accessibility_structure": 1
+        },
+        "agency_creative_director": {
+          "recognition_over_recall": 5,
+          "visibility_of_system_status": 2,
+          "match_real_world": 3,
+          "help_documentation": 4
+        }
+      },
+      "examples": {
+        "visibility_of_system_status": [
+          {
+            "thought": "The primary action is not visually or hierarchically emphasized, which could lead to confusion. Users should not have to search for the next step.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The lack of a clear indicator for the selected option could lead to uncertainty or errors in selection. The interface should provide visual feedback t",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The page lacks a progress indicator, making it unclear how long the assessment will take or what to expect next.",
+            "archetype": "daily_user"
+          }
+        ],
+        "user_control_freedom": [
+          {
+            "thought": "The call to action is ambiguous — it's unclear if I can skip ahead or if the demographics are required. This creates unnecessary friction.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The presence of optional demographic fields without a clear way to skip them may confuse users who want to proceed directly. A better flow would allow",
+            "archetype": "design_leader"
+          }
+        ],
+        "recognition_over_recall": [
+          {
+            "thought": "The options are clearly labeled, so I understand what each level represents.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clearly labeled, which helps with understanding the range of automation levels. This supports recognition over recall.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clearly labeled and easy to understand, which helps in making an informed choice.",
+            "archetype": "traditional_craftsperson"
+          }
+        ],
+        "match_real_world": [
+          {
+            "thought": "The options are clearly labeled, but the phrasing assumes a level of AI integration that may not apply to everyone. This could lead to confusion.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The options are clearly labeled, but they assume prior knowledge of AI workflows. This could be confusing for someone like me who doesn’t use AI.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The labels for the options are ambiguous without tooltips or more context. Users may not know what each letter stands for without reading the full des",
+            "archetype": "traditional_craftsperson"
+          }
+        ],
+        "minimalist_design": [
+          {
+            "thought": "The page has too many elements competing for attention, making it hard to determine the primary action.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The lack of clear visual hierarchy makes it hard to identify the main action to take next.",
+            "archetype": "student_non_designer"
+          }
+        ],
+        "help_documentation": [
+          {
+            "thought": "It would be helpful to have a tooltip or brief explanation for each level to clarify what's being asked.",
+            "archetype": "daily_user"
+          },
+          {
+            "thought": "I don't know what 'maturity stage' means and there's no tooltip to explain it.",
+            "archetype": "daily_user"
+          },
+          {
+            "thought": "The question assumes I understand what 'maturity stage' means in this context without a definition or tooltip, which could cause confusion for users l",
+            "archetype": "daily_user"
+          }
+        ],
+        "accessibility_structure": [
+          {
+            "thought": "The page lacks clear indicators of where I am in the journey, which might make me feel lost later on.",
+            "archetype": "curious_explorer"
+          },
+          {
+            "thought": "The page doesn't provide a clear orientation to its structure or my position within it, which is confusing for someone who evaluates from a team deplo",
+            "archetype": "design_leader"
+          }
+        ],
+        "flexibility_efficiency": [
+          {
+            "thought": "The options are clearly labeled, but the lack of keyboard shortcuts or a more efficient input method for experienced users is a missed opportunity.",
+            "archetype": "ai_native_engineer"
+          }
+        ],
+        "consistency_standards": [
+          {
+            "thought": "The buttons are labeled clearly, but there's no visual or functional distinction between primary and secondary actions, which is confusing for experie",
+            "archetype": "ai_native_engineer"
+          }
+        ]
+      },
+      "missing_heuristics": [
+        "error_prevention",
+        "error_recovery"
+      ]
+    },
+    "cw": {
+      "total_failures": 358,
+      "failure_rate": {
+        "will_try_right_effect": 0.46,
+        "notices_correct_action": 0.61,
+        "associates_action_with_goal": 0.39,
+        "sees_progress": 0.77,
+        "understands_page_structure": 0.59
+      },
+      "by_page": {
+        "assess?cohort=think-aloud-test": {
+          "count": 297,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "ux_researcher",
+            "student_non_designer",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "app_builder",
+            "agency_creative_director",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "sees_progress",
+              "why": "I won't know if it worked until I click it. There's no indicator showing what happens after clicking the button.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "understands_page_structure",
+              "why": "The page lacks clear visual or landmark-based organization. Without seeing a [main] or [navigation] label, it's harder to orient myself.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "sees_progress",
+              "why": "There's no visible indicator of progress or confirmation after making a selection, so it's unclear if the action was registered.",
+              "arch": "traditional_craftsperson"
+            }
+          ]
+        },
+        "results": {
+          "count": 34,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "student_non_designer",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "agency_creative_director",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I'm not entirely sure what the correct action is. I might need to scan the page for clear instructions.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "The buttons or options aren't clearly labeled in a way that tells me what to do next.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don't clearly match what I'm trying to accomplish — I'm not sure if clicking something will show more results or take me to a new section.",
+              "arch": "traditional_craftsperson"
+            }
+          ]
+        },
+        "home": {
+          "count": 27,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "ux_researcher",
+            "student_non_designer",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "app_builder",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I'm not entirely sure what the correct action is. I might need to read further or look for a prominent button labeled 'Start' or 'Begin'.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "The correct action is not clearly labeled or highlighted. It's not obvious where to click to begin the assessment.",
+              "arch": "traditional_craftsperson"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels or options don't clearly align with the goal of taking the self-assessment. I need more direction to feel confident.",
+              "arch": "traditional_craftsperson"
+            }
+          ]
+        }
+      },
+      "unique_failure_pages": 3
+    },
+    "behavioral": {
+      "events_per_session": 47.4,
+      "total_events": 474,
+      "by_archetype": [
+        {
+          "archetype": "career_changer",
+          "avg_events": 90,
+          "confusion_prob": 0.372
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "avg_events": 66,
+          "confusion_prob": 0.164
+        },
+        {
+          "archetype": "design_leader",
+          "avg_events": 63,
+          "confusion_prob": 0.086
+        },
+        {
+          "archetype": "student_non_designer",
+          "avg_events": 63,
+          "confusion_prob": 0.36
+        },
+        {
+          "archetype": "ux_researcher",
+          "avg_events": 63,
+          "confusion_prob": 0.039
+        },
+        {
+          "archetype": "agency_creative_director",
+          "avg_events": 39,
+          "confusion_prob": 0.098
+        },
+        {
+          "archetype": "curious_explorer",
+          "avg_events": 33,
+          "confusion_prob": 0.272
+        },
+        {
+          "archetype": "daily_user",
+          "avg_events": 32,
+          "confusion_prob": 0.109
+        },
+        {
+          "archetype": "app_builder",
+          "avg_events": 16,
+          "confusion_prob": 0.022
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "avg_events": 9,
+          "confusion_prob": 0.056
+        }
+      ]
+    },
+    "accessibility": {
+      "structure_understanding_rate": 0.41,
+      "structure_total": 127,
+      "by_page": {
+        "assess?cohort=think-aloud-test": 0.4,
+        "home": 0.6,
+        "results": 0.3
+      },
+      "accessibility_rating_mean": 2.8,
+      "accessibility_rating_std": 0.4,
+      "accessibility_rating_by_archetype": [
+        {
+          "archetype": "ai_native_engineer",
+          "mean_rating": 2,
+          "count": 1
+        },
+        {
+          "archetype": "career_changer",
+          "mean_rating": 2,
+          "count": 1
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "app_builder",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "daily_user",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "design_leader",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_rating": 3,
+          "count": 1
+        }
+      ],
+      "accessibility_thoughts_count": 127
+    },
+    "thought_quality": {
+      "avg_length": 150,
+      "type_diversity": 6,
+      "total_thoughts": 762,
+      "parse_errors": 0
+    }
+  },
+  "Qwen Post-ARIA v2 (UX fixes)": {
+    "summary": {
+      "total_sessions": 10,
+      "archetypes": {
+        "career_changer": 1,
+        "curious_explorer": 1,
+        "ai_native_engineer": 1,
+        "app_builder": 1,
+        "daily_user": 1,
+        "traditional_craftsperson": 1,
+        "student_non_designer": 1,
+        "design_leader": 1,
+        "agency_creative_director": 1,
+        "ux_researcher": 1
+      },
+      "avg_nps": 5.0,
+      "nps_range": [
+        3,
+        7
+      ],
+      "nps_std_dev": 1.33,
+      "pages_per_session": 12.9,
+      "protocol_versions": {
+        "2.1": 10
+      }
+    },
+    "sus": {
+      "overall_mean": 45.2,
+      "overall_std": 19.3,
+      "overall_grade": "D",
+      "benchmark_comparison": "below",
+      "score_range": 65.0,
+      "by_archetype": [
+        {
+          "archetype": "ai_native_engineer",
+          "mean_sus": 10.0,
+          "min": 10.0,
+          "max": 10.0,
+          "grade": "F",
+          "notes": "The assessment felt simplistic and lacked the depth I expect from tools related to AI agent workflows. It didn't reflect the complexity or sophistication of advanced AI engineering practices."
+        },
+        {
+          "archetype": "career_changer",
+          "mean_sus": 25.0,
+          "min": 25.0,
+          "max": 25.0,
+          "grade": "F",
+          "notes": "The system felt overwhelming and confusing, with jargon and unclear labels. I felt anxious throughout and unsure if I was making the right choices."
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_sus": 32.5,
+          "min": 32.5,
+          "max": 32.5,
+          "grade": "F",
+          "notes": "The system feels overly focused on AI integration, which doesn't align with my manual design approach. It lacked clarity and a human-centric flow, making the experience frustrating rather than intuitive."
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_sus": 42.5,
+          "min": 42.5,
+          "max": 42.5,
+          "grade": "D",
+          "notes": "The system is clean but assumes familiarity with design terminology and concepts I’m not fully comfortable with. It’s functional but confusing in places due to jargon and lack of clear guidance."
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_sus": 47.5,
+          "min": 47.5,
+          "max": 47.5,
+          "grade": "D",
+          "notes": "The system is clean but lacks clarity in how it defines AI maturity stages and roles. I found it intuitive enough to use but frustrating in how it oversimplifies a nuanced creative process."
+        },
+        {
+          "archetype": "design_leader",
+          "mean_sus": 47.5,
+          "min": 47.5,
+          "max": 47.5,
+          "grade": "D",
+          "notes": "The system is clean but lacks clear guidance and accessibility cues, which made navigation feel uncertain. While the content was relevant, the absence of intuitive design and structure reduced confidence and ease of use."
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_sus": 47.5,
+          "min": 47.5,
+          "max": 47.5,
+          "grade": "D",
+          "notes": "The system has a clean structure but lacks clear visual feedback and progress indicators, which made me cautious and hesitant. I appreciated the clarity of some questions, but the overall experience felt inconsistent and unintuitive for a meticulous UX researcher."
+        },
+        {
+          "archetype": "daily_user",
+          "mean_sus": 57.5,
+          "min": 57.5,
+          "max": 57.5,
+          "grade": "C",
+          "notes": "The system was clean and functional, but lacked clear next steps and feedback, which made the experience feel incomplete. I appreciated the simplicity but wanted more guidance and clarity."
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_sus": 67.5,
+          "min": 67.5,
+          "max": 67.5,
+          "grade": "C",
+          "notes": "The system felt engaging and easy to use overall, but some parts were confusing without clear guidance. I was excited to learn and explore, which helped me push through the uncertainty."
+        },
+        {
+          "archetype": "app_builder",
+          "mean_sus": 75.0,
+          "min": 75.0,
+          "max": 75.0,
+          "grade": "B",
+          "notes": "The system is efficient and goal-oriented, aligning with my workflow preferences. It felt intuitive and avoided unnecessary complexity, though a few UI elements could improve clarity."
+        }
+      ]
+    },
+    "heuristics": {
+      "heuristics_covered": 9,
+      "total_heuristics": 11,
+      "citation_rate": 0.99,
+      "counts": {
+        "recognition_over_recall": 47,
+        "visibility_of_system_status": 36,
+        "match_real_world": 17,
+        "help_documentation": 16,
+        "user_control_freedom": 5,
+        "consistency_standards": 3,
+        "minimalist_design": 2,
+        "accessibility_structure": 1,
+        "flexibility_efficiency": 1
+      },
+      "by_archetype": {
+        "career_changer": {
+          "visibility_of_system_status": 2,
+          "recognition_over_recall": 1,
+          "help_documentation": 4,
+          "user_control_freedom": 1,
+          "match_real_world": 2
+        },
+        "curious_explorer": {
+          "accessibility_structure": 1,
+          "recognition_over_recall": 5,
+          "match_real_world": 2,
+          "visibility_of_system_status": 1,
+          "user_control_freedom": 2,
+          "help_documentation": 3
+        },
+        "ai_native_engineer": {
+          "visibility_of_system_status": 8,
+          "recognition_over_recall": 4,
+          "flexibility_efficiency": 1,
+          "match_real_world": 1
+        },
+        "app_builder": {
+          "recognition_over_recall": 9,
+          "user_control_freedom": 1,
+          "visibility_of_system_status": 1,
+          "help_documentation": 1,
+          "consistency_standards": 1
+        },
+        "daily_user": {
+          "recognition_over_recall": 5,
+          "visibility_of_system_status": 4,
+          "help_documentation": 2
+        },
+        "traditional_craftsperson": {
+          "visibility_of_system_status": 2,
+          "recognition_over_recall": 8,
+          "help_documentation": 1,
+          "match_real_world": 1,
+          "minimalist_design": 1
+        },
+        "student_non_designer": {
+          "match_real_world": 5,
+          "visibility_of_system_status": 5,
+          "recognition_over_recall": 2,
+          "help_documentation": 1
+        },
+        "design_leader": {
+          "visibility_of_system_status": 3,
+          "recognition_over_recall": 6,
+          "match_real_world": 2,
+          "help_documentation": 2,
+          "consistency_standards": 1
+        },
+        "agency_creative_director": {
+          "recognition_over_recall": 3,
+          "visibility_of_system_status": 1,
+          "match_real_world": 4,
+          "minimalist_design": 1,
+          "help_documentation": 2,
+          "consistency_standards": 1
+        },
+        "ux_researcher": {
+          "recognition_over_recall": 4,
+          "visibility_of_system_status": 9,
+          "user_control_freedom": 1
+        }
+      },
+      "examples": {
+        "visibility_of_system_status": [
+          {
+            "thought": "It would be helpful if the page had a progress indicator to show where I am in the process. As it is, I feel lost.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The page lacks a progress indicator, so I don't know if this is the final step or if there's more to do.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "There is no feedback when an option is selected, which makes me unsure if my choice is registered.",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "recognition_over_recall": [
+          {
+            "thought": "The button labels are not clear enough about what each option does, which can cause confusion for someone unfamiliar with the process.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The buttons are clearly labeled and distinguishable, which helps me understand what each action does without confusion.",
+            "archetype": "curious_explorer"
+          },
+          {
+            "thought": "The options are clearly labeled and explained, which helps me understand what each level entails.",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "help_documentation": [
+          {
+            "thought": "The labels for the automation levels are not clearly explained in layman's terms, making it hard for someone with low familiarity to understand.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The labels for the automation levels are not clear to someone who is new to AI. Terms like 'harnesses' or 'flagged exceptions' are jargon that I don't",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The lack of explanation for what each stage entails makes it hard to choose confidently.",
+            "archetype": "career_changer"
+          }
+        ],
+        "user_control_freedom": [
+          {
+            "thought": "The options are clearly labeled, which helps with understanding what each level means. However, there's no way to go back or undo a choice, which incr",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "I can't go back to fix my previous answer, and there's no clear indication of how to undo my choices.",
+            "archetype": "curious_explorer"
+          },
+          {
+            "thought": "I can't see a clear indicator showing that I can go back and change my answer if I make a mistake.",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "match_real_world": [
+          {
+            "thought": "The options are labeled clearly, but they assume a level of familiarity with AI workflows that I don’t have. This makes it hard to choose without feel",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "The question assumes familiarity with AI maturity stages, which I don’t have. There’s no explanation or tooltip to clarify what each term means.",
+            "archetype": "career_changer"
+          },
+          {
+            "thought": "I can tell the options are labeled clearly, which helps me understand the differences between each level, but I'm not sure if the labels fully reflect",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "accessibility_structure": [
+          {
+            "thought": "I'm not sure where I am on the page or how the sections are organized — this could make it harder to find what I need.",
+            "archetype": "curious_explorer"
+          }
+        ],
+        "flexibility_efficiency": [
+          {
+            "thought": "The lack of keyboard shortcuts or a clear 'undo' mechanism makes the interface feel inefficient for power users.",
+            "archetype": "ai_native_engineer"
+          }
+        ],
+        "consistency_standards": [
+          {
+            "thought": "The export options are clear and labeled well, but the presence of multiple similar buttons (e.g., two 'View Cohort Heatmap' links) is confusing and m",
+            "archetype": "app_builder"
+          },
+          {
+            "thought": "The buttons lack a clear visual hierarchy, which could confuse users who are not tech-savvy.",
+            "archetype": "design_leader"
+          },
+          {
+            "thought": "The buttons for exporting and navigating have inconsistent styles, which could confuse users about which actions are most important.",
+            "archetype": "agency_creative_director"
+          }
+        ],
+        "minimalist_design": [
+          {
+            "thought": "The buttons are labeled clearly, but the visual hierarchy is confusing — it's unclear which action is most important.",
+            "archetype": "traditional_craftsperson"
+          },
+          {
+            "thought": "The lack of visual hierarchy between the option items makes it harder to quickly identify which level I’m selecting, especially since the labels are d",
+            "archetype": "agency_creative_director"
+          }
+        ]
+      },
+      "missing_heuristics": [
+        "error_prevention",
+        "error_recovery"
+      ]
+    },
+    "cw": {
+      "total_failures": 345,
+      "failure_rate": {
+        "will_try_right_effect": 0.47,
+        "notices_correct_action": 0.5,
+        "associates_action_with_goal": 0.38,
+        "sees_progress": 0.79,
+        "understands_page_structure": 0.53
+      },
+      "by_page": {
+        "assess?cohort=think-aloud-test": {
+          "count": 293,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "student_non_designer",
+            "ux_researcher",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "app_builder",
+            "agency_creative_director",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I'm not confident about what the 'Skip to Start' button does exactly. I'm worried I might skip something important.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "There are a few buttons, and I'm not sure which one to click. It's unclear if I need to provide information or not.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don't clearly tell me what will happen if I click them. I'm afraid I'll make a mistake.",
+              "arch": "career_changer"
+            }
+          ]
+        },
+        "home": {
+          "count": 28,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "student_non_designer",
+            "ux_researcher",
+            "design_leader",
+            "ai_native_engineer",
+            "curious_explorer",
+            "app_builder",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I'm not confident which button to click. I might hesitate and second-guess myself.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "The buttons are there, but I'm not sure which one is the right one to start the self-assessment.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "sees_progress",
+              "why": "If I click a button, I'm not sure if there will be a clear indicator that it worked.",
+              "arch": "career_changer"
+            }
+          ]
+        },
+        "results": {
+          "count": 24,
+          "questions_failed": [
+            "sees_progress",
+            "understands_page_structure",
+            "will_try_right_effect",
+            "notices_correct_action",
+            "associates_action_with_goal"
+          ],
+          "archetypes": [
+            "career_changer",
+            "daily_user",
+            "student_non_designer",
+            "design_leader",
+            "ai_native_engineer",
+            "agency_creative_director",
+            "traditional_craftsperson"
+          ],
+          "examples": [
+            {
+              "q": "will_try_right_effect",
+              "why": "I'm not sure what the buttons do. I might hesitate and look for more context.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "notices_correct_action",
+              "why": "There are several buttons, and their labels aren't clear to me. I don't know which one I'm supposed to click.",
+              "arch": "career_changer"
+            },
+            {
+              "q": "associates_action_with_goal",
+              "why": "The labels don't clearly match what I'm trying to accomplish, which is understanding my results and what to do next.",
+              "arch": "career_changer"
+            }
+          ]
+        }
+      },
+      "unique_failure_pages": 3
+    },
+    "behavioral": {
+      "events_per_session": 46.4,
+      "total_events": 464,
+      "by_archetype": [
+        {
+          "archetype": "traditional_craftsperson",
+          "avg_events": 71,
+          "confusion_prob": 0.164
+        },
+        {
+          "archetype": "career_changer",
+          "avg_events": 70,
+          "confusion_prob": 0.372
+        },
+        {
+          "archetype": "student_non_designer",
+          "avg_events": 67,
+          "confusion_prob": 0.36
+        },
+        {
+          "archetype": "ux_researcher",
+          "avg_events": 67,
+          "confusion_prob": 0.039
+        },
+        {
+          "archetype": "design_leader",
+          "avg_events": 64,
+          "confusion_prob": 0.086
+        },
+        {
+          "archetype": "curious_explorer",
+          "avg_events": 39,
+          "confusion_prob": 0.272
+        },
+        {
+          "archetype": "agency_creative_director",
+          "avg_events": 32,
+          "confusion_prob": 0.098
+        },
+        {
+          "archetype": "daily_user",
+          "avg_events": 29,
+          "confusion_prob": 0.109
+        },
+        {
+          "archetype": "ai_native_engineer",
+          "avg_events": 15,
+          "confusion_prob": 0.056
+        },
+        {
+          "archetype": "app_builder",
+          "avg_events": 10,
+          "confusion_prob": 0.022
+        }
+      ]
+    },
+    "accessibility": {
+      "structure_understanding_rate": 0.47,
+      "structure_total": 129,
+      "by_page": {
+        "assess?cohort=think-aloud-test": 0.46,
+        "home": 0.5,
+        "results": 0.44
+      },
+      "accessibility_rating_mean": 2.8,
+      "accessibility_rating_std": 0.6,
+      "accessibility_rating_by_archetype": [
+        {
+          "archetype": "ai_native_engineer",
+          "mean_rating": 2,
+          "count": 1
+        },
+        {
+          "archetype": "career_changer",
+          "mean_rating": 2,
+          "count": 1
+        },
+        {
+          "archetype": "design_leader",
+          "mean_rating": 2,
+          "count": 1
+        },
+        {
+          "archetype": "agency_creative_director",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "curious_explorer",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "daily_user",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "student_non_designer",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "traditional_craftsperson",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "ux_researcher",
+          "mean_rating": 3,
+          "count": 1
+        },
+        {
+          "archetype": "app_builder",
+          "mean_rating": 4,
+          "count": 1
+        }
+      ],
+      "accessibility_thoughts_count": 129
+    },
+    "thought_quality": {
+      "avg_length": 147,
+      "type_diversity": 6,
+      "total_thoughts": 774,
+      "parse_errors": 0
+    }
+  }
+}
