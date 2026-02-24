@@ -2,6 +2,8 @@
  * DIT Assessment — Self-assessment questionnaire logic.
  * Handles two-stage assessment: SAE Level → EPIAS Maturity.
  * Persists progress in sessionStorage so users can navigate away and return.
+ *
+ * v3: Typeform-style centered one-question-per-page flow.
  */
 
 (function() {
@@ -22,6 +24,42 @@
     };
 
     const totalSaeQuestions = SAE_QUESTIONS.length;
+    const STAGE_NAMES = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
+
+    // Jargon glossary: term → plain-English tooltip
+    const JARGON = {
+        'agent harnesses': 'Automated systems that run AI tasks, check results, and retry if needed',
+        'harness configs': 'Settings files that control how automated AI pipelines run',
+        'harnesses': 'Automated systems that run AI tasks, check results, and retry if needed',
+        'eval suites': 'Automated tests that check if AI output meets quality standards',
+        'evals': 'Automated tests that check AI output quality',
+        'context engineering': 'Designing the instructions, examples, and rules given to an AI',
+        'context blocks': 'Structured sections of instructions given to an AI system',
+        'context libraries': 'Reusable collections of AI instructions and rules',
+        'MCP tools': 'Plugins that let AI connect to external data and services',
+        'IDE': 'Code editor or design tool (like VS Code, Figma, or Cursor)',
+        'agent infrastructure': 'Production systems that run AI tasks automatically for a team',
+        'agent pipelines': 'Multi-step automated AI workflows',
+        'maturity stage': 'How deeply you\'ve adopted a practice \u2014 from experimenting to setting standards',
+        'flagged exceptions': 'Problems the AI found but couldn\'t fix on its own',
+        'self-improving harnesses': 'AI systems that get better automatically based on past results',
+        'run-loop template': 'A reusable script that runs AI steps in order',
+        'RACI': 'A chart showing who is Responsible, Accountable, Consulted, and Informed',
+    };
+
+    /** Wrap known jargon terms in tooltip spans. */
+    function addTooltips(text) {
+        let result = text;
+        // Sort by length descending so longer phrases match first
+        const terms = Object.keys(JARGON).sort((a, b) => b.length - a.length);
+        for (const term of terms) {
+            const regex = new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+            result = result.replace(regex, (match) =>
+                `<span class="jargon" data-tip="${JARGON[term]}" tabindex="0">${match}</span>`
+            );
+        }
+        return result;
+    }
 
     // ---- State Persistence ----
 
@@ -77,8 +115,6 @@
         document.getElementById('saeStage').style.display = 'none';
         document.getElementById('epiasStage').style.display = 'none';
         document.getElementById('intakeStage').style.display = '';
-        document.getElementById('progressBar').style.display = 'none';
-        document.getElementById('progressText').style.display = 'none';
         initIntake();
     }
 
@@ -87,158 +123,196 @@
     function renderSaeQuestion(idx) {
         const q = SAE_QUESTIONS[idx];
         const container = document.getElementById('saeQuestions');
-        container.setAttribute('aria-label', `SAE question ${idx + 1} of ${totalSaeQuestions}: ${q.question}`);
+
+        // Update integrated progress counter
+        document.getElementById('saeProgress').textContent =
+            `Question ${idx + 1} of ${totalSaeQuestions}`;
+
         container.innerHTML = `
-            <div class="question-card" role="group" aria-labelledby="sae-q-heading-${idx}">
-                <h3 id="sae-q-heading-${idx}">Question ${idx + 1} of ${totalSaeQuestions}</h3>
-                <p style="margin-bottom: 0.75rem; font-weight: 500;" id="sae-q-text-${idx}">${q.question}</p>
-                <div class="option-list" role="radiogroup" aria-labelledby="sae-q-text-${idx}">
-                    ${q.options.map(opt => `
-                        <label class="option-item ${state.saeAnswers[q.id] === opt.level ? 'selected' : ''}"
-                               data-qid="${q.id}" data-value="${opt.level}"
-                               role="radio" aria-checked="${state.saeAnswers[q.id] === opt.level}"
-                               aria-label="Level ${opt.level}: ${opt.text}" tabindex="0">
-                            <input type="radio" name="${q.id}" value="${opt.level}" aria-hidden="true">
-                            ${opt.text}
-                        </label>
+            <div class="q-card" role="group" aria-labelledby="q-heading">
+                <p class="q-context">Pick the statement that best describes you today.</p>
+                <h2 id="q-heading" tabindex="-1">${q.question}</h2>
+                <div class="q-options" role="radiogroup" aria-labelledby="q-heading">
+                    ${q.options.map((opt, i) => `
+                        <button class="q-option ${state.saeAnswers[q.id] === opt.level ? 'selected' : ''}"
+                                data-qid="${q.id}" data-value="${opt.level}"
+                                role="radio" aria-checked="${state.saeAnswers[q.id] === opt.level}"
+                                aria-label="Level ${opt.level}: ${opt.text}">
+                            <span class="q-option-key">${String.fromCharCode(65 + i)}</span>
+                            <span class="q-option-text">${addTooltips(opt.text)}</span>
+                        </button>
                     `).join('')}
                 </div>
+                <div class="q-confirmation" id="confirmationMsg" role="status" aria-live="polite"></div>
             </div>
         `;
 
-        container.querySelectorAll('.option-item').forEach(el => {
-            el.addEventListener('click', () => {
-                const qid = el.dataset.qid;
-                const val = parseInt(el.dataset.value);
-                state.saeAnswers[qid] = val;
-                saveState();
-                renderSaeQuestion(idx);
-                updateButtons();
-                // Auto-advance after brief visual feedback
-                setTimeout(() => {
-                    if (idx < totalSaeQuestions - 1) {
-                        state.currentQuestion = idx + 1;
-                        saveState();
-                        renderSaeQuestion(state.currentQuestion);
-                    } else {
-                        transitionToEpias();
-                    }
-                }, 300);
+        container.querySelectorAll('.q-option').forEach(el => {
+            el.addEventListener('click', () => handleSaeSelect(el, idx));
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSaeSelect(el, idx);
+                }
             });
         });
 
-        updateProgress();
-        updateButtons();
+        updateNavButtons();
+        var heading = container.querySelector('h2');
+        if (heading) heading.focus();
+    }
+
+    function handleSaeSelect(el, idx) {
+        const qid = el.dataset.qid;
+        const val = parseInt(el.dataset.value);
+        state.saeAnswers[qid] = val;
+        saveState();
+
+        // Visual: mark selected, unmark others
+        el.closest('.q-options').querySelectorAll('.q-option').forEach(o => {
+            o.classList.remove('selected');
+            o.setAttribute('aria-checked', 'false');
+        });
+        el.classList.add('selected');
+        el.setAttribute('aria-checked', 'true');
+
+        // Confirmation message
+        const conf = document.getElementById('confirmationMsg');
+        const answered = Object.keys(state.saeAnswers).length;
+        conf.textContent = `Got it! (${answered} of ${totalSaeQuestions} answered)`;
+        conf.classList.add('visible');
+
+        updateNavButtons();
+
+        // Auto-advance after 800ms
+        setTimeout(() => {
+            conf.classList.remove('visible');
+            if (idx < totalSaeQuestions - 1) {
+                state.currentQuestion = idx + 1;
+                saveState();
+                renderSaeQuestion(state.currentQuestion);
+            } else {
+                transitionToEpias();
+            }
+        }, 800);
     }
 
     function renderEpiasQuestion(idx) {
         const q = state.epiasQuestions[idx];
+        const total = state.epiasQuestions.length;
         const container = document.getElementById('epiasQuestions');
-        const stageNames = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
-        container.setAttribute('aria-label', `EPIAS question ${idx + 1} of ${state.epiasQuestions.length}: ${q.question}`);
+
+        // Update integrated progress counter
+        document.getElementById('epiasProgress').textContent =
+            `Question ${idx + 1} of ${total}`;
+
         container.innerHTML = `
-            <div class="question-card" role="group" aria-labelledby="epias-q-heading-${idx}">
-                <h3 id="epias-q-heading-${idx}">Question ${idx + 1} of ${state.epiasQuestions.length}</h3>
-                <p style="margin-bottom: 0.75rem; font-weight: 500;" id="epias-q-text-${idx}">${q.question}</p>
-                <div class="option-list" role="radiogroup" aria-labelledby="epias-q-text-${idx}">
+            <div class="q-card" role="group" aria-labelledby="eq-heading">
+                <p class="q-context">Select the stage that best describes you.</p>
+                <h2 id="eq-heading" tabindex="-1">${q.question}</h2>
+                <div class="q-options" role="radiogroup" aria-labelledby="eq-heading">
                     ${q.options.map(opt => `
-                        <label class="option-item ${state.epiasAnswers[q.id] === opt.stage ? 'selected' : ''}"
-                               data-qid="${q.id}" data-value="${opt.stage}"
-                               role="radio" aria-checked="${state.epiasAnswers[q.id] === opt.stage}"
-                               aria-label="${stageNames[opt.stage] || opt.stage}: ${opt.text}" tabindex="0">
-                            <input type="radio" name="${q.id}" value="${opt.stage}" aria-hidden="true">
-                            <span class="stage-badge stage-${opt.stage}">${opt.stage}</span>
-                            ${opt.text}
-                        </label>
+                        <button class="q-option ${state.epiasAnswers[q.id] === opt.stage ? 'selected' : ''}"
+                                data-qid="${q.id}" data-value="${opt.stage}"
+                                role="radio" aria-checked="${state.epiasAnswers[q.id] === opt.stage}"
+                                aria-label="${STAGE_NAMES[opt.stage] || opt.stage}: ${opt.text}">
+                            <span class="q-option-key">${STAGE_NAMES[opt.stage] || opt.stage}</span>
+                            <span class="q-option-text">${addTooltips(opt.text)}</span>
+                        </button>
                     `).join('')}
                 </div>
+                <div class="q-confirmation" id="confirmationMsg" role="status" aria-live="polite"></div>
             </div>
         `;
 
-        container.querySelectorAll('.option-item').forEach(el => {
-            el.addEventListener('click', () => {
-                const qid = el.dataset.qid;
-                const val = el.dataset.value;
-                state.epiasAnswers[qid] = val;
-                saveState();
-                renderEpiasQuestion(idx);
-                updateButtons();
-                // Auto-advance after brief visual feedback
-                setTimeout(() => {
-                    if (idx < state.epiasQuestions.length - 1) {
-                        state.currentQuestion = idx + 1;
-                        saveState();
-                        renderEpiasQuestion(state.currentQuestion);
-                    } else {
-                        submitAssessment();
-                    }
-                }, 300);
+        container.querySelectorAll('.q-option').forEach(el => {
+            el.addEventListener('click', () => handleEpiasSelect(el, idx));
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleEpiasSelect(el, idx);
+                }
             });
         });
 
-        updateProgress();
-        updateButtons();
+        updateNavButtons();
+        var heading = container.querySelector('h2');
+        if (heading) heading.focus();
     }
 
-    function updateStepIndicator(activeStage) {
-        const stageOrder = ['intake', 'sae', 'epias', 'results'];
-        const activeIdx = stageOrder.indexOf(activeStage);
-        document.querySelectorAll('.step-dot').forEach(dot => {
-            const dotIdx = stageOrder.indexOf(dot.dataset.step);
-            dot.classList.toggle('active', dotIdx === activeIdx);
-            dot.classList.toggle('completed', dotIdx < activeIdx);
+    function handleEpiasSelect(el, idx) {
+        const qid = el.dataset.qid;
+        const val = el.dataset.value;
+        state.epiasAnswers[qid] = val;
+        saveState();
+
+        // Visual: mark selected, unmark others
+        el.closest('.q-options').querySelectorAll('.q-option').forEach(o => {
+            o.classList.remove('selected');
+            o.setAttribute('aria-checked', 'false');
         });
+        el.classList.add('selected');
+        el.setAttribute('aria-checked', 'true');
+
+        // Confirmation message
+        const conf = document.getElementById('confirmationMsg');
+        const answered = Object.keys(state.epiasAnswers).length;
+        const total = state.epiasQuestions.length;
+        conf.textContent = `Got it — ${STAGE_NAMES[val] || val}! (${answered} of ${total} answered)`;
+        conf.classList.add('visible');
+
+        updateNavButtons();
+
+        // Auto-advance after 800ms
+        setTimeout(() => {
+            conf.classList.remove('visible');
+            if (idx < total - 1) {
+                state.currentQuestion = idx + 1;
+                saveState();
+                renderEpiasQuestion(state.currentQuestion);
+            } else {
+                submitAssessment();
+            }
+        }, 800);
     }
 
-    function updateProgress() {
-        const fill = document.getElementById('progressFill');
-        const text = document.getElementById('progressText');
-
-        if (state.stage === 'sae') {
-            const pct = ((state.currentQuestion + 1) / (totalSaeQuestions + state.epiasQuestions.length || 5)) * 100;
-            fill.style.width = Math.min(pct, 50) + '%';
-            text.textContent = `Automation Level — Question ${state.currentQuestion + 1} of ${totalSaeQuestions}`;
-            updateStepIndicator('sae');
-        } else {
-            const baseP = 50;
-            const total = state.epiasQuestions.length || 5;
-            const pct = baseP + ((state.currentQuestion + 1) / total) * 50;
-            fill.style.width = pct + '%';
-            text.textContent = `Maturity Stage — Question ${state.currentQuestion + 1} of ${total}`;
-            updateStepIndicator('epias');
-        }
-    }
-
-    function updateButtons() {
+    function updateNavButtons() {
         if (state.stage === 'sae') {
             const prevBtn = document.getElementById('saePrev');
             const nextBtn = document.getElementById('saeNext');
+
+            // Hide prev on first question
             prevBtn.disabled = state.currentQuestion === 0;
 
             const currentQ = SAE_QUESTIONS[state.currentQuestion];
             const answered = state.saeAnswers[currentQ.id] !== undefined;
 
             if (state.currentQuestion === totalSaeQuestions - 1) {
-                nextBtn.textContent = answered ? 'Continue to Step 2' : 'Select an answer';
+                nextBtn.textContent = answered ? 'Continue \u2192' : '\u2192';
                 nextBtn.disabled = !answered;
+                nextBtn.setAttribute('aria-label', answered ? 'Continue to maturity stage' : 'Next question');
             } else {
-                nextBtn.textContent = 'Next';
+                nextBtn.textContent = '\u2192';
                 nextBtn.disabled = !answered;
+                nextBtn.setAttribute('aria-label', 'Next question');
             }
-        } else {
+        } else if (state.stage === 'epias') {
             const prevBtn = document.getElementById('epiasPrev');
             const nextBtn = document.getElementById('epiasNext');
+
             prevBtn.disabled = false;
 
             const currentQ = state.epiasQuestions[state.currentQuestion];
             const answered = state.epiasAnswers[currentQ.id] !== undefined;
 
             if (state.currentQuestion === state.epiasQuestions.length - 1) {
-                nextBtn.textContent = answered ? 'See Results' : 'Select an answer';
+                nextBtn.textContent = answered ? 'See Results \u2192' : '\u2192';
                 nextBtn.disabled = !answered;
+                nextBtn.setAttribute('aria-label', answered ? 'See your results' : 'Next question');
             } else {
-                nextBtn.textContent = 'Next';
+                nextBtn.textContent = '\u2192';
                 nextBtn.disabled = !answered;
+                nextBtn.setAttribute('aria-label', 'Next question');
             }
         }
     }
@@ -400,7 +474,8 @@
             transitionToSae();
         });
 
-        document.getElementById('intakeSkip').addEventListener('click', () => {
+        document.getElementById('intakeSkip').addEventListener('click', (e) => {
+            e.preventDefault();
             transitionToSae();
         });
     }
@@ -411,9 +486,6 @@
         saveState();
         document.getElementById('intakeStage').style.display = 'none';
         document.getElementById('saeStage').style.display = '';
-        document.getElementById('progressBar').style.display = '';
-        document.getElementById('progressText').style.display = '';
-        updateStepIndicator('sae');
         renderSaeQuestion(0);
     }
 
@@ -472,8 +544,6 @@
         document.getElementById('intakeStage').style.display = 'none';
         document.getElementById('saeStage').style.display = 'none';
         document.getElementById('completedStage').style.display = 'block';
-        document.getElementById('progressBar').style.display = 'none';
-        document.getElementById('progressText').style.display = 'none';
     } else if (restoreState()) {
         // Resume in-progress assessment
         if (state.stage === 'epias' && state.epiasQuestions.length > 0) {
@@ -488,15 +558,9 @@
             document.getElementById('saeStage').style.display = '';
             renderSaeQuestion(state.currentQuestion);
         } else {
-            // intake stage — show intake form
-            document.getElementById('progressBar').style.display = 'none';
-            document.getElementById('progressText').style.display = 'none';
             initIntake();
         }
     } else {
-        // Fresh start — show intake
-        document.getElementById('progressBar').style.display = 'none';
-        document.getElementById('progressText').style.display = 'none';
         initIntake();
     }
 

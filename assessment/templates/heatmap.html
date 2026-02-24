@@ -2,35 +2,35 @@
 {% block title %}{% if cohort %}{{ cohort }} Heatmap{% else %}Community Heatmap{% endif %} — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="results-container">
-    <div class="result-header">
+<div class="results-container" role="region" aria-label="{% if cohort %}{{ cohort }} cohort heatmap{% else %}Community heatmap{% endif %}">
+    <header class="result-header">
         {% if cohort %}
-        <h1><span class="heatmap-live-dot"></span> {{ cohort }}</h1>
-        <p class="stage-desc">Live cohort heatmap &mdash; <strong id="totalCount">0</strong> responses so far.</p>
+        <h1><span class="heatmap-live-dot" role="status" aria-label="Live updating"></span> {{ cohort }}</h1>
+        <p class="stage-desc" aria-live="polite">Live cohort heatmap &mdash; <strong id="totalCount" role="status">0</strong> responses so far.</p>
         {% else %}
         <h1>Community Heatmap</h1>
-        <p class="stage-desc">Where everyone lands on the E-P-I-A-S &times; SAE grid. <strong id="totalCount">0</strong> assessments recorded.</p>
+        <p class="stage-desc" aria-live="polite">Where everyone lands on the E-P-I-A-S &times; SAE grid. <strong id="totalCount" role="status">0</strong> assessments recorded.</p>
         {% endif %}
-    </div>
+    </header>
     <div class="heatmap-layout">
-        <div class="heatmap-main">
+        <div class="heatmap-main" role="region" aria-label="Heatmap visualization">
             <div class="matrix-section">
-                <div id="heatmapContainer"></div>
+                <div id="heatmapContainer" aria-live="polite" aria-atomic="true"></div>
             </div>
-            <div class="heatmap-legend">
-                <span>Fewer</span>
-                <div class="heatmap-legend-bar"></div>
-                <span>More</span>
-            </div>
+            <figure class="heatmap-legend" role="img" aria-label="Color intensity legend: lighter colors mean fewer responses, darker colors mean more responses">
+                <span aria-hidden="true">Fewer</span>
+                <div class="heatmap-legend-bar" aria-hidden="true"></div>
+                <span aria-hidden="true">More</span>
+            </figure>
         </div>
         {% if cohort %}
-        <div class="heatmap-sidebar">
+        <aside class="heatmap-sidebar" aria-label="Cohort join information">
             <div class="cohort-join-card">
                 <h3>Join this cohort</h3>
-                <div id="qrCode"></div>
-                <p class="cohort-join-url" id="cohortJoinUrl"></p>
+                <div id="qrCode" role="img" aria-label="QR code to join the {{ cohort }} cohort"></div>
+                <p class="cohort-join-url" id="cohortJoinUrl" aria-label="Direct link to join this cohort"></p>
             </div>
-        </div>
+        </aside>
         {% endif %}
     </div>
 </div>

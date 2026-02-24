@@ -19,6 +19,11 @@ function renderMatrix(containerId, placement) {
         5: 'L5\nFull\nAutomation',
     };
 
+    const levelAccessible = {
+        0: 'L0 Manual', 1: 'L1 AI-Assisted', 2: 'L2 Partially Automated',
+        3: 'L3 Guided Automation', 4: 'L4 Mostly Automated', 5: 'L5 Full Automation',
+    };
+
     const stageLabels = {
         'E': 'Explorer',
         'P': 'Practitioner',
@@ -39,24 +44,30 @@ function renderMatrix(containerId, placement) {
     const currentStage = placement.epias_stage;
     const nextStep = placement.growth_path && placement.growth_path.next;
 
-    let html = '<table class="matrix-table">';
+    var currentDesc = levelAccessible[currentLevel] + ', ' + stageLabels[currentStage];
+    var nextDesc = nextStep
+        ? levelAccessible[nextStep.sae_level] + ', ' + stageLabels[nextStep.epias_stage]
+        : '';
+
+    let html = '<table class="matrix-table" role="table" aria-label="Your position on the E-P-I-A-S by SAE framework matrix">';
+    html += '<caption class="sr-only">Framework matrix. Your current position: ' + currentDesc + '.' + (nextDesc ? ' Suggested next step: ' + nextDesc + '.' : '') + '</caption>';
 
     // Header row — EPIAS stages as columns
-    html += '<tr><th></th>';
+    html += '<thead><tr><th scope="col"><span class="sr-only">SAE Level</span></th>';
     stages.forEach(stage => {
         const isCurrent = stage === currentStage;
-        html += `<th style="${isCurrent ? 'background: #d1fae5; color: var(--success);' : ''}">
-            ${stageEmojis[stage]} ${stageLabels[stage]}
+        html += `<th scope="col" aria-label="${stageLabels[stage]}" style="${isCurrent ? 'background: #d1fae5; color: var(--success);' : ''}">
+            <span aria-hidden="true">${stageEmojis[stage]}</span> ${stageLabels[stage]}
         </th>`;
     });
-    html += '</tr>';
+    html += '</tr></thead><tbody>';
 
     // Data rows — SAE levels as rows
     levels.forEach(level => {
         const isLevelCurrent = level === currentLevel;
         const label = levelLabels[level].replace(/\n/g, '<br>');
         html += `<tr>`;
-        html += `<th style="${isLevelCurrent ? 'background: var(--primary-light); color: var(--primary);' : ''}">${label}</th>`;
+        html += `<th scope="row" aria-label="${levelAccessible[level]}" style="${isLevelCurrent ? 'background: var(--primary-light); color: var(--primary);' : ''}">${label}</th>`;
 
         stages.forEach(stage => {
             const isCurrent = level === currentLevel && stage === currentStage;
@@ -69,14 +80,22 @@ function renderMatrix(containerId, placement) {
             else if (isNext) classes += ' next-step';
 
             let title = '';
-            if (isCurrent) title = 'You are here';
-            else if (isNext) title = 'Next step';
-
-            html += `<td class="${classes}" title="${title}">`;
+            let ariaLabel = levelAccessible[level] + ', ' + stageLabels[stage];
             if (isCurrent) {
-                html += '<span style="font-size: 1.2rem;">You</span>';
+                title = 'You are here';
+                ariaLabel += ': Your current position';
             } else if (isNext) {
-                html += '<span style="font-size: 0.9rem; color: var(--success);">Next</span>';
+                title = 'Next step';
+                ariaLabel += ': Suggested next step';
+            }
+
+            html += `<td class="${classes}" title="${title}" role="cell" aria-label="${ariaLabel}"`;
+            if (isCurrent) html += ' aria-current="true"';
+            html += '>';
+            if (isCurrent) {
+                html += '<span style="font-size: 1.2rem;" aria-hidden="true">You</span>';
+            } else if (isNext) {
+                html += '<span style="font-size: 0.9rem; color: var(--success);" aria-hidden="true">Next</span>';
             }
             html += '</td>';
         });
@@ -84,13 +103,13 @@ function renderMatrix(containerId, placement) {
         html += '</tr>';
     });
 
-    html += '</table>';
+    html += '</tbody></table>';
 
     // Legend
     html += `
-        <div style="display: flex; gap: 1.5rem; margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);">
-            <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 2px; vertical-align: middle;"></span> Your position</span>
-            <span><span style="display: inline-block; width: 12px; height: 12px; background: #d1fae5; border: 2px dashed var(--success); border-radius: 2px; vertical-align: middle;"></span> Suggested next step</span>
+        <div style="display: flex; gap: 1.5rem; margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-muted);" role="img" aria-label="Legend: blue highlight is your position, green dashed is suggested next step">
+            <span aria-hidden="true"><span style="display: inline-block; width: 12px; height: 12px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 2px; vertical-align: middle;"></span> Your position</span>
+            <span aria-hidden="true"><span style="display: inline-block; width: 12px; height: 12px; background: #d1fae5; border: 2px dashed var(--success); border-radius: 2px; vertical-align: middle;"></span> Suggested next step</span>
         </div>
     `;
 

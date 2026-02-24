@@ -141,7 +141,7 @@ def framework(doc_index=0):
     tabs = [{'label': lbl, 'index': i, 'active': i == doc_index}
             for i, (_, lbl) in enumerate(_FRAMEWORK_DOCS)]
     return render_template('framework.html', tabs=tabs, content=html_content,
-                           current_label=label)
+                           current_label=label, active_index=doc_index)
 
 
 def _render_markdown(md: str) -> str:

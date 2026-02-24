@@ -2,52 +2,58 @@
 {% block title %}Settings — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="settings-container">
+<div class="settings-container" role="region" aria-label="API key settings">
     <h1>API Key Settings</h1>
     <p class="subtitle">Add your own API keys to enable the Chat feature. Keys are stored in memory only &mdash; they are never written to disk and are cleared when the server restarts.</p>
 
-    <div id="statusMessage" class="alert" style="display:none;"></div>
+    <div id="statusMessage" class="alert" style="display:none;" role="alert" aria-live="assertive"></div>
 
-    <div class="key-cards">
-        <div class="key-card">
+    <form class="key-cards" role="form" aria-label="API key configuration" onsubmit="event.preventDefault(); saveKeys();">
+        <fieldset class="key-card">
+            <legend class="sr-only">OpenAI API Key</legend>
             <div class="key-header">
-                <h3>OpenAI</h3>
-                <span class="key-badge" id="badge-openai">Not set</span>
+                <h3 id="openai-heading">OpenAI</h3>
+                <span class="key-badge" id="badge-openai" role="status" aria-label="OpenAI key status">Not set</span>
             </div>
-            <p class="key-model">GPT-5.1 &mdash; Best overall quality</p>
-            <input type="password" id="key-openai" placeholder="sk-..." autocomplete="off">
-            <p class="key-hint">Get a key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a></p>
-        </div>
+            <p class="key-model" id="openai-desc">GPT-5.1 &mdash; Best overall quality</p>
+            <label for="key-openai" class="sr-only">OpenAI API key</label>
+            <input type="password" id="key-openai" placeholder="sk-..." autocomplete="off" aria-labelledby="openai-heading" aria-describedby="openai-desc openai-hint">
+            <p class="key-hint" id="openai-hint">Get a key at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">platform.openai.com</a></p>
+        </fieldset>
 
-        <div class="key-card">
+        <fieldset class="key-card">
+            <legend class="sr-only">Anthropic API Key</legend>
             <div class="key-header">
-                <h3>Anthropic</h3>
-                <span class="key-badge" id="badge-anthropic">Not set</span>
+                <h3 id="anthropic-heading">Anthropic</h3>
+                <span class="key-badge" id="badge-anthropic" role="status" aria-label="Anthropic key status">Not set</span>
             </div>
-            <p class="key-model">Claude Sonnet 4 &mdash; Strong reasoning</p>
-            <input type="password" id="key-anthropic" placeholder="sk-ant-..." autocomplete="off">
-            <p class="key-hint">Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com</a></p>
-        </div>
+            <p class="key-model" id="anthropic-desc">Claude Sonnet 4 &mdash; Strong reasoning</p>
+            <label for="key-anthropic" class="sr-only">Anthropic API key</label>
+            <input type="password" id="key-anthropic" placeholder="sk-ant-..." autocomplete="off" aria-labelledby="anthropic-heading" aria-describedby="anthropic-desc anthropic-hint">
+            <p class="key-hint" id="anthropic-hint">Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">console.anthropic.com</a></p>
+        </fieldset>
 
-        <div class="key-card">
+        <fieldset class="key-card">
+            <legend class="sr-only">Google API Key</legend>
             <div class="key-header">
-                <h3>Google</h3>
-                <span class="key-badge" id="badge-google">Not set</span>
+                <h3 id="google-heading">Google</h3>
+                <span class="key-badge" id="badge-google" role="status" aria-label="Google key status">Not set</span>
             </div>
-            <p class="key-model">Gemini 2.5 Flash &mdash; Fast and affordable</p>
-            <input type="password" id="key-google" placeholder="AI..." autocomplete="off">
-            <p class="key-hint">Get a key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a></p>
-        </div>
-    </div>
+            <p class="key-model" id="google-desc">Gemini 2.5 Flash &mdash; Fast and affordable</p>
+            <label for="key-google" class="sr-only">Google API key</label>
+            <input type="password" id="key-google" placeholder="AI..." autocomplete="off" aria-labelledby="google-heading" aria-describedby="google-desc google-hint">
+            <p class="key-hint" id="google-hint">Get a key at <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">aistudio.google.com</a></p>
+        </fieldset>
+    </form>
 
     <div class="settings-actions">
-        <button class="btn btn-primary" id="saveBtn" onclick="saveKeys()">Save Keys</button>
+        <button class="btn btn-primary" id="saveBtn" onclick="saveKeys()" aria-label="Save API keys">Save Keys</button>
     </div>
 
-    <div class="settings-note">
+    <aside class="settings-note" aria-label="Alternative configuration method">
         <h3>Using a .env file instead</h3>
         <p>You can also set keys by creating a <code>.env</code> file in the project root (see <code>.env.example</code>). Keys set in the .env file are loaded on startup and persist across restarts.</p>
-    </div>
+    </aside>
 </div>
 
 <script>
@@ -63,6 +69,7 @@
                 if (info.set) {
                     badge.textContent = info.masked;
                     badge.classList.add('active');
+                    badge.setAttribute('aria-label', provider + ' key: configured');
                 }
             }
         });
@@ -84,6 +91,7 @@
         const btn = document.getElementById('saveBtn');
         btn.disabled = true;
         btn.textContent = 'Saving...';
+        btn.setAttribute('aria-busy', 'true');
 
         fetch('/api/keys', {
             method: 'POST',
@@ -104,9 +112,11 @@
                     if (p.available) {
                         badge.textContent = 'Active';
                         badge.classList.add('active');
+                        badge.setAttribute('aria-label', p.name + ' key: active');
                     } else {
                         badge.textContent = 'Not set';
                         badge.classList.remove('active');
+                        badge.setAttribute('aria-label', p.name + ' key: not set');
                     }
                 }
             });
@@ -120,6 +130,7 @@
         .finally(() => {
             btn.disabled = false;
             btn.textContent = 'Save Keys';
+            btn.removeAttribute('aria-busy');
         });
     };
 

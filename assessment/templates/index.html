@@ -2,95 +2,67 @@
 {% block title %}DIT 2026 — Where Do You Stand with AI?{% endblock %}
 
 {% block content %}
-<div class="hero hero-compact">
-    <h1>Where Do You Stand with AI?</h1>
-    <p class="subtitle">Map your AI adoption on the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>.</p>
-    <p class="hero-context">11 questions &middot; ~5 min &middot; anonymous &middot; no sign-up &middot; <a href="/framework">Learn more</a></p>
-</div>
+<div class="landing-page" role="region" aria-label="Landing page">
+    <header class="hero hero-compact">
+        <h1>Where Do You Stand with AI?</h1>
+        <p class="subtitle">Map your AI adoption on the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>.</p>
+        <p class="hero-context" aria-label="Assessment details: 11 questions, about 5 minutes, anonymous, no sign-up required">11 questions &middot; ~5 min &middot; anonymous &middot; no sign-up</p>
+    </header>
 
-{% if error %}
-<div class="alert alert-warning">{{ error }}</div>
-{% endif %}
+    {% if error %}
+    <div class="alert alert-warning" role="alert">{{ error }}</div>
+    {% endif %}
 
-{% if heatmap_total > 0 %}
-<div class="heatmap-teaser teaser-horizontal">
-    <div class="teaser-grid-side">
-        <div class="mini-heatmap" aria-label="Community heatmap preview">
-            {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
-            {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
-            {% for level in range(6) %}
-            <div class="mini-row">
-                <span class="mini-label">L{{ level }}</span>
-                {% for stage in stages %}
-                {% set key = level | string + '_' + stage %}
-                {% set count = heatmap_counts.get(key, 0) %}
-                {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
-                <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }}"></div>
+    {% if heatmap_total > 0 %}
+    <section class="heatmap-teaser teaser-horizontal" aria-label="Community results preview">
+        <div class="teaser-grid-side">
+            <div class="mini-heatmap" role="img" aria-label="Community heatmap preview showing {{ heatmap_total }} responses across the E-P-I-A-S and SAE grid">
+                {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
+                {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
+                {% for level in range(6) %}
+                <div class="mini-row" aria-hidden="true">
+                    <span class="mini-label">L{{ level }}</span>
+                    {% for stage in stages %}
+                    {% set key = level | string + '_' + stage %}
+                    {% set count = heatmap_counts.get(key, 0) %}
+                    {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
+                    <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }} responses"></div>
+                    {% endfor %}
+                </div>
                 {% endfor %}
-            </div>
-            {% endfor %}
-            <div class="mini-row mini-header">
-                <span class="mini-label"></span>
-                {% for stage in stages %}
-                <span class="mini-stage-label">{{ stage }}</span>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    <div class="teaser-action-side">
-        <p class="teaser-count"><strong>{{ heatmap_total }}</strong> {{ 'person has' if heatmap_total == 1 else 'people have' }} mapped their position</p>
-        <p class="teaser-hook">Where will you land?</p>
-        <a href="/assess" class="btn btn-primary btn-lg">Take the Assessment</a>
-        <div class="teaser-cohort">
-            <label for="cohortInput">Have a cohort code?</label>
-            <div class="cohort-form">
-                <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false">
-                <button class="btn btn-secondary btn-sm" id="cohortGoBtn">Go</button>
+                <div class="mini-row mini-header" aria-hidden="true">
+                    <span class="mini-label"></span>
+                    {% for stage in stages %}
+                    <span class="mini-stage-label">{{ stage }}</span>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-        <div id="cohortResult" style="display:none;">
-            <div id="cohortQR"></div>
-            <p class="cohort-url" id="cohortURL"></p>
+        <div class="teaser-action-side">
+            <p class="teaser-count" aria-live="polite"><strong>{{ heatmap_total }}</strong> {{ 'person has' if heatmap_total == 1 else 'people have' }} mapped their position</p>
+            <p class="teaser-hook" aria-hidden="true">Where will you land?</p>
+            <a href="/assess" class="btn btn-primary btn-lg" role="link" aria-label="Take the self-assessment">Take the Assessment</a>
+            <div class="teaser-cohort" role="search" aria-label="Cohort code lookup">
+                <label for="cohortInput">Have a cohort code?</label>
+                <div class="cohort-form">
+                    <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false" aria-describedby="cohortDesc">
+                    <button class="btn btn-secondary btn-sm" id="cohortGoBtn" aria-label="Generate cohort QR code">Go</button>
+                </div>
+                <span id="cohortDesc" class="sr-only">Enter a cohort code shared by your event organizer or instructor</span>
+            </div>
+            <div id="cohortResult" style="display:none;" role="region" aria-live="polite" aria-label="Cohort QR code result">
+                <div id="cohortQR" role="img" aria-label="QR code for cohort assessment link"></div>
+                <p class="cohort-url" id="cohortURL"></p>
+            </div>
+            <a href="/heatmap" class="teaser-link" aria-label="View the full community heatmap">View full heatmap &rarr;</a>
         </div>
-        <a href="/heatmap" class="teaser-link">View full heatmap &rarr;</a>
+    </section>
+    {% else %}
+    <div class="landing-cta" role="region" aria-label="Call to action">
+        <a href="/assess" class="btn btn-primary btn-lg" aria-label="Take the self-assessment">Take the Assessment</a>
+        <p class="hero-context" style="margin-top: 0.5rem;">For designers, engineers, researchers, students &mdash; anyone curious about AI.</p>
     </div>
-</div>
-{% else %}
-<div class="landing-cta">
-    <a href="/assess" class="btn btn-primary btn-lg">Take the Assessment</a>
-    <p class="hero-context" style="margin-top: 0.5rem;">For designers, engineers, researchers, students &mdash; anyone curious about AI.</p>
-</div>
-{% endif %}
-
-<div class="mode-cards">
-    <div class="mode-card mode-card-primary">
-        <h2><span class="mode-icon">&#x1F50D;</span> Self-Assessment</h2>
-        <p>Discover your SAE automation level (L0&ndash;L5) and E-P-I-A-S maturity stage.</p>
-        <ul class="features">
-            <li>6 automation level questions</li>
-            <li>5 maturity stage questions</li>
-            <li>Matrix visualization</li>
-            <li>Personalized growth path</li>
-        </ul>
-        <a href="/assess" class="btn btn-primary">Start Now</a>
-    </div>
-
-    <div class="mode-card {% if not has_llm %}disabled{% endif %}">
-        <h2><span class="mode-icon">&#x1F4AC;</span> Chat with the Framework</h2>
-        <p>Get personalized advice grounded in the framework text.</p>
-        <ul class="features">
-            <li>Semantic search over content</li>
-            <li>Personalized growth advice</li>
-            <li>Source citations</li>
-            <li>Conversation history</li>
-        </ul>
-        {% if has_llm %}
-        <a href="/chat" class="btn btn-primary">Start Chatting</a>
-        {% else %}
-        <div class="btn btn-disabled">Requires API Key</div>
-        <p class="hint">Run locally with your own API key to enable.</p>
-        {% endif %}
-    </div>
+    {% endif %}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>

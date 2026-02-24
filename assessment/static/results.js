@@ -8,14 +8,20 @@
 
     const data = sessionStorage.getItem('ditResult');
     if (!data) {
-        document.getElementById('noResults').style.display = 'block';
+        document.getElementById('noResults').style.display = '';
         document.getElementById('resultsContent').style.display = 'none';
         return;
     }
 
     const result = JSON.parse(data);
     document.getElementById('noResults').style.display = 'none';
-    document.getElementById('resultsContent').style.display = 'block';
+    const resultsEl = document.getElementById('resultsContent');
+    resultsEl.style.display = '';
+    const resultsHeading = document.getElementById('resultsHeading');
+    if (resultsHeading) resultsHeading.style.display = '';
+
+    // Init slideshow after content is visible (slides.js exposes window.initSlideshow)
+    if (window.initSlideshow) window.initSlideshow(resultsEl);
 
     const saeNames = {
         0: 'Manual', 1: 'AI-Assisted', 2: 'Partially Automated',
@@ -95,19 +101,6 @@
     // Key insight
     document.getElementById('keyInsight').innerHTML =
         `&ldquo;${result.key_insight || ''}&rdquo;<cite>&mdash; John Maeda, DIT 2026</cite>`;
-
-    // Related chunks
-    const chunksContainer = document.getElementById('relatedChunks');
-    chunksContainer.innerHTML = '';
-    (result.growth_chunks || []).forEach(chunk => {
-        const card = document.createElement('div');
-        card.className = 'chunk-card';
-        card.innerHTML = `
-            <div class="chunk-source">${escapeHtml(chunk.source || '')} &mdash; ${escapeHtml(chunk.section || '')}</div>
-            <div class="chunk-text">${renderChunkMarkdown(truncateChunk(chunk.text || '', 1200))}</div>
-        `;
-        chunksContainer.appendChild(card);
-    });
 
     // Cohort heatmap link
     if (result.cohort) {
@@ -230,57 +223,6 @@
             if (tableStart > 0) return lines.slice(0, tableStart + 1).join('\n');
         }
         return truncated;
-    }
-
-    /** Turn a markdown chunk into simple HTML. */
-    function renderChunkMarkdown(raw) {
-        const lines = raw.split('\n');
-        const out = [];
-        let inTable = false;
-        let headerDone = false;
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i];
-
-            if (line.trim().startsWith('|')) {
-                const cells = line.split('|').slice(1, -1).map(c => c.trim());
-                if (cells.every(c => /^[-:\s]+$/.test(c))) {
-                    headerDone = true;
-                    continue;
-                }
-                if (!inTable) {
-                    out.push('<table class="chunk-table">');
-                    inTable = true;
-                    headerDone = false;
-                }
-                if (!headerDone) {
-                    out.push('<thead><tr>' + cells.map(c => `<th>${escapeHtml(c)}</th>`).join('') + '</tr></thead><tbody>');
-                } else {
-                    out.push('<tr>' + cells.map(c => `<td>${escapeHtml(c)}</td>`).join('') + '</tr>');
-                }
-                continue;
-            }
-
-            if (inTable) {
-                out.push('</tbody></table>');
-                inTable = false;
-                headerDone = false;
-            }
-
-            if (line.trim() === '') {
-                out.push('<br>');
-                continue;
-            }
-
-            let safe = escapeHtml(line);
-            safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            safe = safe.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            safe = safe.replace(/`(.*?)`/g, '<code>$1</code>');
-            out.push('<p>' + safe + '</p>');
-        }
-
-        if (inTable) out.push('</tbody></table>');
-        return out.join('\n');
     }
 
 })();

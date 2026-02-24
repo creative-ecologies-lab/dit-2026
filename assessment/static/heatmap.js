@@ -33,20 +33,29 @@
         const container = document.getElementById('heatmapContainer');
         document.getElementById('totalCount').textContent = data.total;
 
-        let html = '<table class="matrix-table"><thead><tr><th></th>';
+        var cohortLabel = (typeof HEATMAP_COHORT !== 'undefined' && HEATMAP_COHORT)
+            ? HEATMAP_COHORT + ' cohort'
+            : 'Community';
+
+        let html = '<table class="matrix-table" role="table" aria-label="' + cohortLabel + ' heatmap: SAE automation levels versus E-P-I-A-S maturity stages">';
+        html += '<caption class="sr-only">' + cohortLabel + ' heatmap showing ' + data.total + ' responses across SAE levels (rows) and E-P-I-A-S stages (columns). Higher numbers indicate more people at that position.</caption>';
+        html += '<thead><tr><th scope="col"><span class="sr-only">SAE Level</span></th>';
         STAGES.forEach(s => {
-            html += `<th>${s}<br><small>${STAGE_NAMES[s]}</small></th>`;
+            html += `<th scope="col" aria-label="${STAGE_NAMES[s]} (${s})">${s}<br><small>${STAGE_NAMES[s]}</small></th>`;
         });
         html += '</tr></thead><tbody>';
 
         LEVELS.forEach(level => {
-            html += `<tr><th>${LEVEL_NAMES[level]}</th>`;
+            html += `<tr><th scope="row" aria-label="${LEVEL_NAMES[level]}">${LEVEL_NAMES[level]}</th>`;
             STAGES.forEach(stage => {
                 const key = `${level}_${stage}`;
                 const count = counts[key] || 0;
                 const bg = cellColor(count, maxCount);
                 const fg = textColor(count, maxCount);
-                html += `<td class="heatmap-cell" style="background:${bg};color:${fg}">${count || ''}</td>`;
+                const cellLabel = count > 0
+                    ? `${count} ${count === 1 ? 'person' : 'people'} at ${LEVEL_NAMES[level]}, ${STAGE_NAMES[stage]}`
+                    : `No responses at ${LEVEL_NAMES[level]}, ${STAGE_NAMES[stage]}`;
+                html += `<td class="heatmap-cell" style="background:${bg};color:${fg}" role="cell" aria-label="${cellLabel}">${count || ''}</td>`;
             });
             html += '</tr>';
         });
@@ -70,7 +79,7 @@
             .catch(err => {
                 console.error('Failed to load heatmap:', err);
                 document.getElementById('heatmapContainer').innerHTML =
-                    '<p style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
+                    '<p role="alert" style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
             });
     }
 
@@ -92,6 +101,12 @@
             qr.addData(joinUrl);
             qr.make();
             qrEl.innerHTML = qr.createSvgTag(6, 0);
+            // Add aria-label to generated SVG
+            var svg = qrEl.querySelector('svg');
+            if (svg) {
+                svg.setAttribute('role', 'img');
+                svg.setAttribute('aria-label', 'QR code to join ' + HEATMAP_COHORT + ' cohort assessment');
+            }
         }
     }
 })();

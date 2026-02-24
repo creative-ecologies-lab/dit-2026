@@ -2,84 +2,79 @@
 {% block title %}Your Results — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="results-container" role="main" aria-label="Assessment Results">
-    <div id="resultsContent" style="display:none;">
-        <!-- Hero Placement — above the fold -->
-        <div class="result-hero" role="region" aria-label="Your placement">
-            <p class="result-hero-label">Your AI Adoption Profile</p>
-            <div class="placement-badge" aria-label="Assessment result badges">
-                <span class="badge-level" id="badgeLevel" role="status"></span>
-                <span class="badge-stage" id="badgeStage" role="status"></span>
-            </div>
-            <div class="result-summary" id="resultSummary">
-                <div class="summary-item">
-                    <span class="summary-label">Automation Level</span>
-                    <span class="summary-value" id="summaryLevel"></span>
-                    <span class="summary-explain" id="summaryLevelExplain"></span>
+<div class="results-container" role="region" aria-label="Assessment Results">
+    <h1 class="results-page-heading" id="resultsHeading" style="display:none;">Your Results</h1>
+    <div id="resultsContent" style="display:none;" data-slideshow aria-label="Results slides">
+        <!-- Slide 1: Your Placement -->
+        <div class="slide" role="region" aria-label="Your placement">
+            <div class="result-hero">
+                <h2 class="result-hero-label">Your AI Adoption Profile</h2>
+                <div class="placement-badge" role="group" aria-label="Assessment result badges">
+                    <span class="badge-level" id="badgeLevel" role="status" aria-live="polite"></span>
+                    <span class="badge-stage" id="badgeStage" role="status" aria-live="polite"></span>
                 </div>
-                <div class="summary-item">
-                    <span class="summary-label">Maturity Stage</span>
-                    <span class="summary-value" id="summaryStage"></span>
-                    <span class="summary-explain" id="summaryStageExplain"></span>
+                <div class="result-summary" id="resultSummary" role="list" aria-label="Result summary">
+                    <div class="summary-item" role="listitem">
+                        <span class="summary-label" id="labelLevel">Automation Level</span>
+                        <span class="summary-value" id="summaryLevel" aria-labelledby="labelLevel"></span>
+                        <span class="summary-explain" id="summaryLevelExplain"></span>
+                    </div>
+                    <div class="summary-item" role="listitem">
+                        <span class="summary-label" id="labelStage">Maturity Stage</span>
+                        <span class="summary-value" id="summaryStage" aria-labelledby="labelStage"></span>
+                        <span class="summary-explain" id="summaryStageExplain"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="result-description" id="cellDescription"></div>
-            <div class="result-community-link" id="communityLink" style="display:none;">
-                <a href="/heatmap" class="btn btn-secondary" id="viewHeatmapBtn">See where you fit in the community</a>
+                <div class="result-description" id="cellDescription" role="note" aria-label="Placement description"></div>
             </div>
         </div>
 
-        <!-- Matrix Visualization -->
-        <div class="matrix-section">
+        <!-- Slide 2: Matrix Visualization -->
+        <div class="slide" role="region" aria-label="Framework position matrix">
             <h2>Your Position on the Framework</h2>
-            <div id="matrixContainer"></div>
+            <div id="matrixContainer" role="img" aria-label="E-P-I-A-S by SAE level matrix showing your current position"></div>
         </div>
 
-        <!-- Growth Path -->
-        <div class="growth-section">
+        <!-- Slide 3: Growth Path -->
+        <div class="slide" role="region" aria-label="Growth path recommendations">
             <h2>Your Growth Path</h2>
-            <div class="growth-card">
-                <div class="growth-next" id="growthNext"></div>
-                <div class="growth-signal">
+            <div class="growth-card" role="article" aria-label="Personalized growth recommendations">
+                <div class="growth-next" id="growthNext" role="heading" aria-level="3"></div>
+                <div class="growth-signal" role="region" aria-label="Level-up signal">
                     <strong>Signal you've leveled up:</strong>
                     <blockquote id="growthSignal"></blockquote>
                 </div>
-                <div class="growth-actions">
-                    <strong>Concrete next steps:</strong>
-                    <ul id="growthActions"></ul>
+                <div class="growth-actions" role="region" aria-label="Recommended next steps">
+                    <strong id="growthActionsLabel">Concrete next steps:</strong>
+                    <ul id="growthActions" aria-labelledby="growthActionsLabel"></ul>
                 </div>
             </div>
         </div>
 
-        <!-- Key Insight -->
-        <div class="insight-section">
-            <blockquote class="key-insight" id="keyInsight"></blockquote>
-        </div>
-
-        <!-- Related Framework Content -->
-        <div class="related-section">
-            <h2>Relevant Framework Excerpts</h2>
-            <div id="relatedChunks"></div>
-        </div>
-
-        <!-- Export & Actions -->
-        <div class="result-actions">
-            <div class="export-group">
-                <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
-                <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown">Export Markdown</button>
+        <!-- Slide 4: Insight & Actions -->
+        <div class="slide" role="region" aria-label="Key insight and actions">
+            <blockquote class="key-insight" id="keyInsight" role="figure" aria-label="Key framework insight"></blockquote>
+            <div class="result-community-link" id="communityLink" style="display:none;">
+                <a href="/heatmap" class="btn btn-secondary" id="viewHeatmapBtn" aria-label="See where you fit in the community heatmap">See where you fit in the community</a>
             </div>
-            <div class="action-group">
-                <a href="/assess" class="btn btn-secondary" id="retakeLink">Retake Assessment</a>
-                <a href="/chat" class="btn btn-primary" id="chatLink" style="display:none;">Chat About Your Results</a>
+            <div class="result-actions" role="group" aria-label="Result actions">
+                <div class="export-group" role="group" aria-label="Export options">
+                    <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
+                    <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown text file">Export Markdown</button>
+                </div>
+                <div class="action-group" role="group" aria-label="Next steps">
+                    <a href="/assess" class="btn btn-secondary" id="retakeLink" aria-label="Clear results and retake the assessment">Retake Assessment</a>
+                    <a href="/chat" class="btn btn-primary" id="chatLink" style="display:none;" aria-label="Chat with an AI about your results">Chat About Your Results</a>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- No Results -->
-    <div id="noResults">
+    <div id="noResults" role="alert" aria-label="No results found">
         <h2>No Assessment Results</h2>
         <p>Please complete the assessment first.</p>
-        <a href="/assess" class="btn btn-primary">Take the Assessment</a>
+        <a href="/assess" class="btn btn-primary" aria-label="Take the self-assessment">Take the Assessment</a>
     </div>
 </div>
 

@@ -2,35 +2,26 @@
 {% block title %}{{ current_label }} — DIT 2026{% endblock %}
 
 {% block content %}
-<div class="framework-reader">
-    <div class="author-banner">
-        <div class="author-attribution">
-            <strong>Written by John Maeda</strong>
-            <span class="author-detail">Design in Tech Report 2026: From UX to AX &mdash; presented at <a href="https://schedule.sxsw.com/2026/events/PP1148536" target="_blank">SXSW 2026</a></span>
-        </div>
-        <p class="author-note">All text below is the original, unedited work of John Maeda, open-sourced as part of the E-P-I-A-S &times; SAE Framework for AI upskilling product designers.</p>
-    </div>
-
-    <div class="reader-tabs">
+<div class="framework-reader" role="region" aria-label="Framework reader">
+    <nav class="reader-tabs" role="tablist" aria-label="Framework sections">
         {% for tab in tabs %}
-        <a href="/framework/{{ tab.index }}" class="reader-tab {% if tab.active %}active{% endif %}">{{ tab.label }}</a>
+        <a href="/framework/{{ tab.index }}"
+           class="reader-tab {% if tab.active %}active{% endif %}"
+           role="tab"
+           aria-selected="{{ 'true' if tab.active else 'false' }}"
+           aria-controls="framework-content"
+           id="tab-{{ tab.index }}">{{ tab.label }}</a>
         {% endfor %}
-    </div>
+        <span class="reader-tab-attr" aria-hidden="true">by John Maeda</span>
+    </nav>
 
-    <article class="reader-content">
+    <article class="reader-content"
+             id="framework-content"
+             role="tabpanel"
+             aria-labelledby="tab-{{ active_index | default(0) }}"
+             aria-label="{{ current_label }}"
+             data-slideshow="scroll">
         {{ content | safe }}
     </article>
-
-    <div class="reader-nav">
-        {% set prev = tabs | selectattr('active') | first %}
-        {% if prev.index > 0 %}
-        <a href="/framework/{{ prev.index - 1 }}" class="btn btn-secondary">&larr; {{ tabs[prev.index - 1].label }}</a>
-        {% else %}
-        <span></span>
-        {% endif %}
-        {% if prev.index < tabs | length - 1 %}
-        <a href="/framework/{{ prev.index + 1 }}" class="btn btn-secondary">{{ tabs[prev.index + 1].label }} &rarr;</a>
-        {% endif %}
-    </div>
 </div>
 {% endblock %}

@@ -114,6 +114,8 @@
     function addMessage(role, content) {
         const div = document.createElement('div');
         div.className = `message ${role}`;
+        div.setAttribute('role', 'article');
+        div.setAttribute('aria-label', (role === 'user' ? 'You' : 'Assistant') + ' message');
 
         const contentDiv = document.createElement('div');
         contentDiv.className = 'message-content';
@@ -134,13 +136,17 @@
         const div = document.createElement('div');
         div.className = 'message assistant';
         div.id = 'typingIndicator';
+        div.setAttribute('role', 'status');
+        div.setAttribute('aria-label', 'Assistant is typing');
+        div.setAttribute('aria-live', 'polite');
         div.innerHTML = `
             <div class="message-content">
-                <div class="typing-indicator">
+                <div class="typing-indicator" aria-hidden="true">
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
                     <div class="typing-dot"></div>
                 </div>
+                <span class="sr-only">Generating response...</span>
             </div>
         `;
         messagesEl.appendChild(div);
@@ -244,6 +250,7 @@
 
         isLoading = true;
         sendBtn.disabled = true;
+        sendBtn.setAttribute('aria-busy', 'true');
         inputEl.disabled = true;
 
         suggestionsEl.style.display = 'none';
@@ -291,6 +298,7 @@
         } finally {
             isLoading = false;
             sendBtn.disabled = false;
+            sendBtn.removeAttribute('aria-busy');
             inputEl.disabled = false;
             inputEl.focus();
         }

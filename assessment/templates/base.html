@@ -8,24 +8,23 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    <nav class="top-nav">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <nav class="top-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-brand">
-            <a href="/">DIT 2026 &mdash; E-P-I-A-S &times; SAE</a>
+            <a href="/" aria-label="DIT 2026 home">DIT 2026 &mdash; E-P-I-A-S &times; SAE</a>
         </div>
-        <div class="nav-links">
-            <a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a>
-            <a href="/framework" class="{% if '/framework' in request.path %}active{% endif %}">Framework</a>
-            <a href="/assess" class="{% if request.path == '/assess' %}active{% endif %}">Assess</a>
-            <a href="/chat" class="{% if '/chat' in request.path %}active{% endif %}">Chat</a>
-            <a href="/heatmap" class="{% if request.path == '/heatmap' %}active{% endif %}">Heatmap</a>
+        <div class="nav-links" role="list">
+            <a href="/" role="listitem" class="{% if request.path == '/' %}active{% endif %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Home</a>
+            <a href="/framework" role="listitem" class="{% if '/framework' in request.path %}active{% endif %}" {% if '/framework' in request.path %}aria-current="page"{% endif %}>Framework</a>
+            <a href="/assess" role="listitem" class="{% if request.path == '/assess' %}active{% endif %}" {% if request.path == '/assess' %}aria-current="page"{% endif %}>Assess</a>
+            <a href="/chat" role="listitem" class="{% if '/chat' in request.path %}active{% endif %}" {% if '/chat' in request.path %}aria-current="page"{% endif %}>Chat</a>
+            <a href="/heatmap" role="listitem" class="{% if request.path == '/heatmap' %}active{% endif %}" {% if request.path == '/heatmap' %}aria-current="page"{% endif %}>Heatmap</a>
         </div>
     </nav>
-    <main class="container">
+    <main id="main-content" class="container" role="main">
         {% block content %}{% endblock %}
     </main>
-    <footer class="site-footer">
-        <p>Made by Noah Ratzan</p>
-    </footer>
+    <script src="{{ url_for('static', filename='slides.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
