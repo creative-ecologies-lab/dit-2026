@@ -14,7 +14,8 @@
             <div class="question-card">
                 <h2 style="margin-bottom: 0.25rem;">Before You Begin</h2>
                 <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.9rem;">
-                    All fields are optional. Enter a cohort code if you were given one.
+                    All fields are optional&mdash;skip anything you&rsquo;d rather not share.
+                    Enter a cohort code if you were given one.
                 </p>
                 <div class="intake-field">
                     <label for="intakeCohort">Cohort Code</label>
@@ -36,7 +37,7 @@
                 </div>
                 <div class="intake-field">
                     <label for="intakeRole">Your Role / Title <span class="optional-label">(optional)</span></label>
-                    <input type="text" id="intakeRole" placeholder="e.g. Product Designer, UX Researcher"
+                    <input type="text" id="intakeRole" placeholder="e.g. Product Designer, Engineer, Researcher, Student"
                            autocomplete="off" aria-label="Your job role or title">
                 </div>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center;">
@@ -52,6 +53,7 @@
         <div class="stage-sidebar">
             <h2>Step 1: Find Your SAE Level</h2>
             <p class="stage-desc">Pick the statement that best describes you <em>today</em>.</p>
+            <p class="stage-reassurance">There&rsquo;s no wrong answer&mdash;just pick the one that feels closest.</p>
         </div>
         <div class="stage-main">
             <div id="saeQuestions" role="radiogroup" aria-label="SAE level question"></div>
@@ -66,7 +68,8 @@
     <div id="epiasStage" class="stage" style="display:none;" role="region" aria-label="Step 2: EPIAS Maturity Questions">
         <div class="stage-sidebar">
             <h2>Step 2: Find Your Maturity Stage</h2>
-            <p class="stage-desc">You're at <strong id="identifiedLevel"></strong>. Now find your maturity stage within that level.</p>
+            <p class="stage-desc">You&rsquo;re at <strong id="identifiedLevel"></strong>. Now find your maturity stage within that level.</p>
+            <p class="stage-reassurance">Almost done&mdash;5 more questions.</p>
         </div>
         <div class="stage-main">
             <div id="epiasQuestions" role="radiogroup" aria-label="EPIAS maturity question"></div>

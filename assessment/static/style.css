@@ -159,6 +159,7 @@ body {
     transition: box-shadow 0.2s;
 }
 .mode-card:hover { box-shadow: var(--shadow-lg); }
+.mode-card-primary { border-color: var(--primary); border-width: 2px; }
 .mode-card.disabled { opacity: 0.6; }
 .mode-icon { font-size: 1.5rem; margin-right: 0.4rem; vertical-align: middle; }
 .mode-card h2 { margin-bottom: 0.4rem; font-size: 1.15rem; }
@@ -217,6 +218,12 @@ body {
     font-size: 0.85rem;
     color: var(--text-muted);
     font-style: normal;
+}
+.hero-context {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0.15rem auto 0.4rem;
+    letter-spacing: 0.02em;
 }
 .quick-links {
     display: flex;
@@ -281,6 +288,12 @@ body {
 .stage-main {}
 .stage h2 { margin-bottom: 0.5rem; font-size: 1.15rem; }
 .stage-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+.stage-reassurance {
+    color: var(--success);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
 
 .question-card {
     background: var(--surface);
@@ -343,14 +356,27 @@ body {
 /* Results */
 .results-container { max-width: 800px; margin: 0 auto; overflow-x: hidden; width: 100%; box-sizing: border-box; }
 
-.result-header {
+.result-hero {
     text-align: center;
+    background: var(--surface);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem 1.5rem;
     margin-bottom: 2rem;
+    box-shadow: var(--shadow-lg);
+}
+.result-hero-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 .placement-badge {
     display: inline-flex;
     gap: 0.75rem;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 .badge-level, .badge-stage {
     display: inline-block;
@@ -369,13 +395,11 @@ body {
 }
 
 .result-description {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    font-size: 1.05rem;
-    box-shadow: var(--shadow);
+    font-size: 1rem;
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
 }
 
 /* Matrix */
@@ -503,8 +527,14 @@ body {
 .result-actions {
     display: flex;
     gap: 1rem;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 2rem;
+    flex-wrap: wrap;
+}
+.export-group, .action-group {
+    display: flex;
+    gap: 0.5rem;
 }
 
 /* Chat */
@@ -1128,10 +1158,11 @@ body {
     .stage-desc { font-size: 0.85rem; }
 
     /* Results */
-    .result-header h1 { font-size: 1.2rem; }
+    .result-hero { padding: 1rem; }
+    .result-hero-label { font-size: 0.75rem; }
     .placement-badge { flex-direction: column; gap: 0.5rem; }
     .badge-level, .badge-stage { font-size: 0.85rem; padding: 0.35rem 0.75rem; }
-    .result-description { padding: 0.75rem; font-size: 0.88rem; }
+    .result-description { font-size: 0.88rem; }
     .matrix-section h2 { font-size: 1.05rem; }
     #matrixContainer { padding: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .matrix-table { font-size: 0.65rem; }
@@ -1151,6 +1182,7 @@ body {
     .chunk-source { font-size: 0.7rem; }
     .chunk-table th, .chunk-table td { padding: 0.25rem 0.4rem; font-size: 0.75rem; }
     .result-actions { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .export-group, .action-group { flex-direction: column; width: 100%; }
     .result-actions .btn { text-align: center; font-size: 0.88rem; }
 
     /* Chat */
@@ -1187,14 +1219,44 @@ body {
     .reader-nav .btn { text-align: center; }
 }
 
-/* Print styles for PDF download */
+/* Print styles for PDF export */
 @media print {
     .top-nav, .site-footer, .result-actions, .nav-buttons { display: none !important; }
-    body { background: white; }
+    body { background: white; color: black; }
     .container { max-width: 100%; padding: 0; }
     .results-container { max-width: 100%; }
-    .result-header { margin-bottom: 1rem; }
+
+    .result-hero {
+        border: 2px solid #2563eb;
+        box-shadow: none;
+        margin-bottom: 1rem;
+        padding: 1.25rem;
+        break-inside: avoid;
+    }
+    .result-hero-label { color: #666; }
+    .badge-level { background: #2563eb; color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge-stage { background: #10b981; color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .matrix-section { break-inside: avoid; }
     .matrix-table { font-size: 0.7rem; }
-    .chunk-card { break-inside: avoid; }
-    .growth-card { break-inside: avoid; }
+    .matrix-cell.current { background: #dbeafe !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .matrix-cell.next-step { background: #d1fae5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .growth-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    .growth-signal blockquote { background: #f0f7ff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    .key-insight { background: #f0f7ff; -webkit-print-color-adjust: exact; print-color-adjust: exact; break-inside: avoid; }
+
+    .chunk-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+
+    /* Print header */
+    .results-container::before {
+        content: "DIT 2026 Assessment Results";
+        display: block;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
 }

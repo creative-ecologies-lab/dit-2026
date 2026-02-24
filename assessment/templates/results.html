@@ -4,16 +4,15 @@
 {% block content %}
 <div class="results-container" role="main" aria-label="Assessment Results">
     <div id="resultsContent" style="display:none;">
-        <!-- Placement Summary -->
-        <div class="result-header" role="region" aria-label="Your placement">
-            <h1>Your Designer Profile</h1>
+        <!-- Hero Placement — above the fold -->
+        <div class="result-hero" role="region" aria-label="Your placement">
+            <p class="result-hero-label">Your Designer Profile</p>
             <div class="placement-badge" aria-label="Assessment result badges">
                 <span class="badge-level" id="badgeLevel" role="status"></span>
                 <span class="badge-stage" id="badgeStage" role="status"></span>
             </div>
+            <div class="result-description" id="cellDescription"></div>
         </div>
-
-        <div class="result-description" id="cellDescription"></div>
 
         <!-- Matrix Visualization -->
         <div class="matrix-section">
@@ -48,11 +47,16 @@
             <div id="relatedChunks"></div>
         </div>
 
-        <!-- Actions -->
+        <!-- Export & Actions -->
         <div class="result-actions">
-            <button class="btn btn-primary" id="downloadPdf">Download PDF</button>
-            <a href="/assess" class="btn btn-secondary" id="retakeLink">Retake Assessment</a>
-            <a href="/chat" class="btn btn-primary" id="chatLink" style="display:none;">Chat About Your Results</a>
+            <div class="export-group">
+                <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
+                <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown">Export Markdown</button>
+            </div>
+            <div class="action-group">
+                <a href="/assess" class="btn btn-secondary" id="retakeLink">Retake Assessment</a>
+                <a href="/chat" class="btn btn-primary" id="chatLink" style="display:none;">Chat About Your Results</a>
+            </div>
         </div>
     </div>
 
