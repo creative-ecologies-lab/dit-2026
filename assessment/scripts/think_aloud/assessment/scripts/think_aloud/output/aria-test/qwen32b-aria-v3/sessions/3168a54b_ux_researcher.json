@@ -1,0 +1,1164 @@
+{
+  "protocol_version": "2.1",
+  "model": "Qwen/Qwen3-32B",
+  "session_id": "3168a54b",
+  "persona": {
+    "archetype": "ux_researcher",
+    "archetype_name": "UX Researcher",
+    "role": "Senior UX Researcher",
+    "years": 8,
+    "industry": "Fintech",
+    "age_range": "35-44",
+    "ai_comfort": "cautious adopter — uses AI for synthesis and analysis, careful about bias",
+    "motivation": "Interested in the framework methodology itself. Meta-curious about the UX of this UX tool.",
+    "big5": {
+      "openness": 5,
+      "conscientiousness": 5,
+      "extraversion": 3,
+      "agreeableness": 4,
+      "neuroticism": 2
+    },
+    "tech_beliefs": "AI is a powerful research tool but I'm acutely aware of its biases. I use it for synthesis and pattern-finding, not for participant interaction. I hold this assessment to the same standards I hold my own work.",
+    "confusion_prob": 0.039,
+    "reading_speed": 1.2
+  },
+  "journey": "primary",
+  "pages": [
+    {
+      "url": "https://dit-maeda.noahratzan.com/",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The prominent 'Take the Assessment' button aligns with the goal of starting the self-assessment, but the 'Go' button and input field for a cohort QR code could be distracting for someone who is here for the assessment.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click the 'Take the Assessment' button to proceed with the self-assessment as this is the primary goal for my visit. The button is clearly labeled and matches the task at hand.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautiously curious about the assessment but also slightly concerned about the lack of progress indicators or guidance on what to expect next.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I am evaluating not just the content of the assessment but also the design and flow of the interface, which is a natural reflex for my role as a UX Researcher.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The page lacks a progress indicator, which could lead to uncertainty about how long the assessment will take or how far along I am in the process.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear enough to identify the main action, but the presence of unrelated elements (e.g., cohort QR code input) could confuse users about the primary task.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "a.btn.btn-primary.btn-lg",
+        "value": null,
+        "rationale": "The 'Take the Assessment' button is the primary action for starting the self-assessment and is clearly labeled.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page feels minimal but purposeful. I notice a large heading and a single prominent button, which suggests a straightforward starting point.",
+        "clarity_score": 4,
+        "emotional_reaction": "Curious and slightly cautious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The button's label is clear and directly aligned with the purpose of the page, so I know what to do.",
+          "notices_correct_action": true,
+          "notices_why": "The button is centered and visually distinct, making it easy to identify as the next step.",
+          "associates_action_with_goal": true,
+          "associates_why": "The label 'Start Assessment' directly communicates the action needed to begin.",
+          "sees_progress": false,
+          "progress_why": "There is no visible indicator of progress or confirmation of action, which leaves me slightly uncertain if the button will lead to the next step.",
+          "understands_page_structure": true,
+          "structure_why": "The heading and button are clearly organized in a single-column layout, making the page structure easy to understand."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page appears clean, but the lack of an accessibility tree makes it difficult to quickly grasp the structure or intent of the page.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click the 'Start Assessment' button first to proceed since it's the most obvious action for moving forward with the assessment.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly uncertain due to the lack of clear visual hierarchy and the absence of accessibility cues that would typically guide my understanding of the page.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm assessing not only the content but also the instrument itself, which is part of my meticulous nature as a researcher.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The page lacks progress indicators, making it unclear where I am in the process.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The absence of an accessibility tree makes it difficult to orient myself and understand the page's structure.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "#intakeStart",
+        "value": null,
+        "rationale": "To proceed with the assessment since this is the most direct path forward.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page appears clean and minimal, but the absence of an accessibility tree makes it difficult to immediately understand the layout or purpose of the page.",
+        "clarity_score": 3,
+        "emotional_reaction": "Slightly uncertain",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I'm not immediately clear on what the 'right' action is because the page's intent is ambiguous without visual or structural cues.",
+          "notices_correct_action": false,
+          "notices_why": "Without landmarks or clear visual affordances, the correct action is not immediately evident.",
+          "associates_action_with_goal": false,
+          "associates_why": "I'm not sure if the available options align with the goal of starting the assessment or skipping demographics.",
+          "sees_progress": false,
+          "progress_why": "There is no visual or accessibility-based indicator of progress or confirmation that an action has been taken.",
+          "understands_page_structure": false,
+          "structure_why": "The lack of an accessibility tree and absence of labeled regions makes it hard to orient myself within the page structure."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The interface is clean and the options are clearly labeled with levels and descriptions. The placement of the buttons at the bottom makes the action clear.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select Level 2 since it aligns with my current use of AI for synthesis and analysis. I want to ensure I choose an option that reflects my cautious adoption and methodological rigor.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautious but engaged. The clarity of the options allows me to make a precise selection, which aligns with my meticulous nature.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I notice that the question assumes a spectrum of AI use, which I'm familiar with, but I'm still evaluating whether the phrasing aligns with real-world UX researcher workflows.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The question and options are clearly labeled, which helps me understand what each level entails. This supports effective decision-making.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, with labeled sections and navigation that allows me to orient myself easily.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "option-item[value=\"2\"]",
+        "value": null,
+        "rationale": "Selecting Level 2 best represents my cautious adoption of AI for synthesis and analysis while maintaining control over the research process.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The structure of the page is clear, and I immediately look for the question and available options. I notice the question is asking about automation levels, which is relevant to my work as a UX researcher.",
+        "clarity_score": 4,
+        "emotional_reaction": "Curious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is straightforward, and I can infer that selecting an option will move me forward.",
+          "notices_correct_action": true,
+          "notices_why": "The options are clearly labeled and positioned directly below the question, making it easy to identify the correct action.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels for the options directly relate to the question about automation levels in my work.",
+          "sees_progress": true,
+          "progress_why": "I expect a visual or navigational cue after selecting an option, indicating the next step.",
+          "understands_page_structure": true,
+          "structure_why": "The page is organized with a clear question and options, and I can mentally map out the interaction flow."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The layout is clean and the options are clearly labeled with text and levels, which helps in making a decision.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select option '2' because it aligns with my cautious approach to AI use, where I apply a checklist before integrating AI output.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel engaged and slightly analytical, as the question prompts me to reflect on my AI usage patterns.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a level of AI familiarity, which is valid for my persona, but I remain cautious about how the system interprets my selections.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are clearly labeled, making it easy to understand what each choice represents.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, and the navigation is consistent, making it easy to orient myself.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "option-item[value=\"2\"]",
+        "value": null,
+        "rationale": "This option best reflects my cautious use of AI for synthesis and analysis, with a checklist for quality assurance.",
+        "hesitation": "none"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page appears clean, but I'm immediately curious about the automation options available. I'm drawn to the question and the visual layout of the buttons.",
+        "clarity_score": 4,
+        "emotional_reaction": "Curious and slightly analytical",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is clear, and the buttons seem interactive. I would likely try clicking one.",
+          "notices_correct_action": true,
+          "notices_why": "The buttons are visually distinct and labeled clearly, making it easy to identify the correct action.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels on the buttons align with the question, so the action matches the goal.",
+          "sees_progress": false,
+          "progress_why": "There's no visible indicator that the action has been processed or where I am in the sequence.",
+          "understands_page_structure": true,
+          "structure_why": "The page is structured with a clear question and options, making orientation straightforward."
+        }
+      },
+      "hesitation": "none",
+      "behavioral_events": [
+        "slow_reader_delay"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are clearly labeled, which helps in understanding the meaning of each choice.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will try selecting the option that best reflects my cautious adopter stance — likely option 2 or 3, as they reflect manual oversight and review.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel curious and slightly cautious because I'm not only answering the question but also evaluating the instrument for potential bias or ambiguity.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm being careful not to assume that the system is neutral — I'm considering the implications of how the question is framed.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are clearly labeled, which supports understanding of their meaning.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is not clearly labeled, making it harder to orient myself without the accessibility tree.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='2']",
+        "value": null,
+        "rationale": "Option 2 aligns with my cautious adopter persona — it reflects manual assembly of AI-generated pieces, which matches my work style.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "20s",
+      "fast_reaction": {
+        "first_impression": "The question is clear, but the absence of the accessibility tree makes it harder to gauge the interface's structure and affordances immediately.",
+        "clarity_score": 4,
+        "emotional_reaction": "Curious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is straightforward, and I'm motivated to proceed with the assessment.",
+          "notices_correct_action": true,
+          "notices_why": "The question explicitly asks me to pick an option, and I assume the interface will provide a set of choices.",
+          "associates_action_with_goal": true,
+          "associates_why": "The label 'Pick the automation level that best describes YOUR work' directly aligns with my goal of completing the assessment.",
+          "sees_progress": false,
+          "progress_why": "The accessibility tree is unavailable, so I cannot confirm if a progress indicator is present or if the action will be visually acknowledged.",
+          "understands_page_structure": false,
+          "structure_why": "Without the accessibility tree or visible landmarks, I cannot determine the page's structure or orientation cues."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are clearly labeled and visually distinct, making it easier to understand the different levels of automation.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select level 2 since it aligns with my current role — I write structured prompts with context, constraints, and output format.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel validated because the options accurately describe the spectrum of AI usage in my field.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I notice this assumes a certain level of technical engagement with AI, which I have, but not everyone in UX research might.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are clearly labeled so I know what each means.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear enough to identify the navigation and options, but the lack of a visible accessibility tree might make orientation more challenging for some users.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='2']",
+        "value": "2",
+        "rationale": "This option best matches my role as a Senior UX Researcher who uses structured prompts for AI.",
+        "hesitation": "none"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "I notice a clear question asking me to pick an automation level for my work, but I'm momentarily curious about the absence of an accessibility tree to orient myself.",
+        "clarity_score": 4,
+        "emotional_reaction": "Cautiously curious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is direct and the purpose is clear; I know I'm being asked to select an option.",
+          "notices_correct_action": true,
+          "notices_why": "The interface seems to have options laid out, so I can identify the correct action.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels for the options directly relate to the question about automation levels in my work.",
+          "sees_progress": true,
+          "progress_why": "I expect there to be a progress indicator or a clear transition after selecting an option.",
+          "understands_page_structure": true,
+          "structure_why": "The question is centered and options are presented in a logical way, making the page structure easy to grasp."
+        }
+      },
+      "hesitation": "none",
+      "behavioral_events": [
+        "slow_reader_delay"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons are visually flat and lack clear visual hierarchy. I can't immediately tell which one I just selected or what the next step is.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll try clicking 'Next' to see if the form accepts my selection and moves forward. I want to confirm if the system registered my choice.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly anxious because I'm not sure if the system is tracking my input correctly. My meticulous nature makes me want to validate every step.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I notice I'm evaluating the instrument as much as I'm answering it — this is a habit from years of designing research tools.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "There is no clear indication of system status after clicking an option, making it unclear if the selection was registered.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but the lack of visual indicators for progress or current position makes it harder to orient myself.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "#saeNext",
+        "value": null,
+        "rationale": "To confirm the system accepts my selection and progresses to the next question.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "I notice a question asking about automation levels related to my work, followed by a set of buttons labeled with percentages. The interface feels minimal but lacks visual hierarchy to guide my next step.",
+        "clarity_score": 3,
+        "emotional_reaction": "Slightly uncertain",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I'm not immediately sure which button corresponds to my level of automation. The labels are abstract without additional context.",
+          "notices_correct_action": false,
+          "notices_why": "The buttons appear to be clickable, but without clear labels or instructions, it's hard to determine which one to select.",
+          "associates_action_with_goal": true,
+          "associates_why": "The question is about automation in my work, and the buttons are presented as options for answering that question.",
+          "sees_progress": false,
+          "progress_why": "There's no visual indication of progress or confirmation that an action was taken after clicking a button.",
+          "understands_page_structure": true,
+          "structure_why": "The question is presented at the top, followed by the buttons. The layout is straightforward, but the lack of visual cues makes it harder to interpret."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The layout is clean, but the lack of visual feedback after clicking an option is noticeable. It makes me wonder if the interaction was successfully registered.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll proceed to click on the 'Select an answer' button to continue with the assessment. Since I've already selected an option, I assume it's ready to proceed, though I'm cautious about the lack of feedback.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautiously intrigued but slightly frustrated by the lack of feedback after interacting with the options. My meticulous nature makes me pay attention to these details.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm evaluating the interface as I go, which is natural for my role. I'm also questioning whether the options are appropriately calibrated to the range of AI usage levels.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of a clear indicator that an option is selected and the system is ready to proceed violates the visibility_of_system_status heuristic.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear with labeled sections and a visible navigation bar, but the lack of progress indicators makes it difficult to gauge where I am in the flow.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "#saeNext",
+        "value": null,
+        "rationale": "Proceeding to the next question as I've already selected an option and want to continue the assessment.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page appears minimalistic, but I'm immediately drawn to the question and the visual layout of the automation level options. I'm curious how the design aligns with the task of self-assessment.",
+        "clarity_score": 4,
+        "emotional_reaction": "Cautiously intrigued",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is clear, and I understand the intent to select an automation level that best describes my work.",
+          "notices_correct_action": true,
+          "notices_why": "The options are visually distinct and labeled in a way that suggests they are interactive.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels directly correspond to the task of describing my automation level at work.",
+          "sees_progress": false,
+          "progress_why": "There is no visible indicator that confirms an action was taken or progress made after selecting an option.",
+          "understands_page_structure": true,
+          "structure_why": "The page is well-organized with a clear hierarchy between the question and the response options."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The lack of a clear visual hierarchy between the question and the options makes it harder to scan and process the task quickly.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll review the options carefully to ensure I'm selecting the one that best aligns with my working style and maturity stage. I'm cautious about making hasty decisions.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly cautious and curious. The lack of clear feedback about my progress or system status is mildly frustrating.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm evaluating the instrument as much as I'm answering it. This makes me more deliberate in my choices.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The absence of a progress indicator or system status feedback makes it difficult to understand where I am in the process.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is mostly clear, but the lack of a progress indicator makes it harder to orient myself.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "#epiasNext",
+        "value": null,
+        "rationale": "I've reviewed the options and selected one that best fits my working style. The next button is the logical action to continue.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "30s",
+      "fast_reaction": {
+        "first_impression": "The question is clear, but the lack of visual hierarchy or progress indicators makes it slightly disorienting at first glance.",
+        "clarity_score": 3,
+        "emotional_reaction": "Curious but cautious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is straightforward, and I understand the goal: selecting a maturity stage that best describes my working style.",
+          "notices_correct_action": false,
+          "notices_why": "The interface lacks clear affordances for how to proceed. I can infer the action is to select an option, but the design doesn't explicitly communicate this.",
+          "associates_action_with_goal": true,
+          "associates_why": "The question clearly states the intent, so selecting an option aligns with the goal of completing the assessment.",
+          "sees_progress": false,
+          "progress_why": "There is no visible progress indicator or feedback to confirm that selecting an option moves me forward.",
+          "understands_page_structure": false,
+          "structure_why": "The absence of visual landmarks or clear section labels makes it difficult to discern the page structure at a glance."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are clearly labeled and visually distinct, but the lack of a progress indicator makes it unclear how many questions remain.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will review the options carefully to ensure I select the one that best reflects my approach to integrating AI in research. I want to avoid any selection bias.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly analytical and cautious. I'm validating the question's relevance to my role as a UX Researcher in Fintech.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm reflecting on whether the options assume a level of AI integration that aligns with my cautious adoption style.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of a progress indicator could cause confusion or reduce motivation to complete the assessment.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, with labeled navigation and a focused question, which helps orientation and task focus.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='I']",
+        "value": null,
+        "rationale": "The 'Integrator' option best reflects my current approach of having repeatable integration patterns with clear handoff notes.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "30s",
+      "fast_reaction": {
+        "first_impression": "The question is clear, but I'm curious about the visual hierarchy. I immediately look for the options to see how they're presented and what they imply about the assessment's scope.",
+        "clarity_score": 4,
+        "emotional_reaction": "Curious and slightly analytical",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I see the question and the options. I understand that selecting one will proceed the assessment, so it’s clear what to do next.",
+          "notices_correct_action": true,
+          "notices_why": "The options are labeled with maturity stages, and I can reasonably assume selecting one is the correct action.",
+          "associates_action_with_goal": true,
+          "associates_why": "The question asks me to pick a maturity stage that describes how I work, so selecting one of the provided options aligns with that goal.",
+          "sees_progress": false,
+          "progress_why": "There is no visible progress indicator or confirmation of action, so I would have to infer that it worked from the page transition.",
+          "understands_page_structure": true,
+          "structure_why": "The main content is centered on the question and options. Landmarks aren’t immediately visible, but the layout suggests a straightforward interaction."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The option labels (E, P, I, A, S) are terse and abstract. Without more context, it's unclear which maturity stage each label represents.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select the 'I' option, as it most closely aligns with how I approach AI in my work — breaking tasks into clear, safe-to-automate chunks.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautious but engaged. The ambiguity of the labels makes me hesitate, but the relevance to my work keeps me interested.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I notice the assumption that all users are familiar with these maturity stages. I might need to pause and reflect on what each label truly represents.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The terse labels for each option don't clearly communicate the meaning of each maturity stage, which could lead to confusion.",
+          "heuristic": "match_real_world",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but there's no progress indicator or section landmark to help orient users with screen readers.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='I']",
+        "value": null,
+        "rationale": "The 'I' option aligns with my working style of breaking tasks into safe-to-automate chunks with clear criteria.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking for a self-assessment of my working style maturity, but without seeing the options or the visual layout, I'm curious about the clarity of the interface and how intuitive it is for someone using assistive technology.",
+        "clarity_score": 3,
+        "emotional_reaction": "curious but cautious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I don't see the interface elements clearly and am unsure of what actions are available, so I would hesitate before proceeding.",
+          "notices_correct_action": false,
+          "notices_why": "The options or buttons are not visible in the accessibility tree, so I cannot confidently identify the correct action.",
+          "associates_action_with_goal": false,
+          "associates_why": "Without seeing the labels or options, I cannot determine if the interface elements align with the task of selecting a maturity stage.",
+          "sees_progress": false,
+          "progress_why": "There is no visible progress indicator or confirmation that an action has been taken.",
+          "understands_page_structure": false,
+          "structure_why": "The accessibility tree is unavailable, so I cannot orient myself to the page's main sections or structure."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The option labels are concise but lack a clear explanation of what each maturity stage entails. This makes it harder to choose with confidence.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will review the options carefully to see which one best aligns with my meticulous, structured approach to using AI for synthesis and analysis.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautiously curious but slightly anxious because the lack of context makes it harder to determine the best choice.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm evaluating the instrument as I complete it, which is natural for my role. This makes me more critical of the clarity and assumptions in the question.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The question assumes prior knowledge of what 'maturity stage' means without explanation, which could confuse users unfamiliar with the concept.",
+          "heuristic": "help_documentation",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear enough to understand the current section, but the absence of a progress indicator makes it harder to gauge how much remains.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='I']",
+        "value": null,
+        "rationale": "The option 'I' aligns with my meticulous, structured approach to AI use — documented QA processes with traceability fit my workflow.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "30s",
+      "fast_reaction": {
+        "first_impression": "The page feels structured and methodical, which aligns with my meticulous nature. I notice a question asking me to pick a maturity stage, but I'm curious about the context of the options.",
+        "clarity_score": 4,
+        "emotional_reaction": "Cautiously curious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I understand the general goal of selecting a maturity stage, and I know I need to proceed to answer the question.",
+          "notices_correct_action": true,
+          "notices_why": "The interface appears to have interactive elements labeled clearly enough to infer that they are options to select.",
+          "associates_action_with_goal": true,
+          "associates_why": "The question is straightforward, and the action (selecting an option) aligns with answering the question about my working maturity stage.",
+          "sees_progress": false,
+          "progress_why": "There is no visible progress indicator or confirmation that my selection has been processed or recorded.",
+          "understands_page_structure": true,
+          "structure_why": "The page has a clear question and options, making it easy to orient myself, though I would appreciate clearer landmark roles for accessibility."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are clearly labeled with short descriptions, but there's no visual indicator showing that I've already selected the 'I' option three times in a row, which may suggest a lack of feedback.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will try to select the 'P' option to test if the system allows me to change my selection, and to see if the interface reacts to the change. This will help me assess the reliability of the interface.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautiously curious because I want to understand the system's behavior and how it handles user input. However, the lack of clear feedback is making me slightly anxious about whether my actions are being registered correctly.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm noticing that I'm evaluating the instrument more than the content, which is a common reaction for someone meticulous and highly exploratory. I wonder if this is an intentional design choice to encourage critical thinking.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are clearly labeled, but there is no feedback indicating whether a selection has been made or changed. This can lead to uncertainty.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is reasonably clear with labeled sections and navigation, but there is no progress indicator to show how far I am in the assessment process.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "select",
+        "selector": "option-item[value='P']",
+        "value": null,
+        "rationale": "Testing the system's response to changing a previous selection and verifying if the interface provides feedback.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to ask me to self-assess my working style on a maturity scale, but I need more context to understand the framework being used.",
+        "clarity_score": 3,
+        "emotional_reaction": "Cautiously curious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I need more clarity about what each maturity stage represents before I can confidently proceed.",
+          "notices_correct_action": true,
+          "notices_why": "I see the options laid out in a radio group, which suggests a selection is expected.",
+          "associates_action_with_goal": false,
+          "associates_why": "The question is framed abstractly, so I'm unsure how the maturity stages map to the way I work.",
+          "sees_progress": false,
+          "progress_why": "There's no visible progress indicator or feedback after selecting an option.",
+          "understands_page_structure": true,
+          "structure_why": "The page has a clear main content area with a radiogroup for selection, which I can orient to."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/results",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page layout is clean, but the visual hierarchy is unclear. The growth path suggestions are buried among other buttons, and the call-to-action isn't immediately apparent.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll try clicking on the 'View Cohort Heatmap' button first to understand how my results compare to others. As a UX researcher, I want to see the context of my placement.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel cautiously curious. The interface seems promising, but I'm aware of the need to assess the tool's methodology and design choices.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I notice that I'm evaluating the interface as much as I'm engaging with the content. This reflects my meticulous nature and professional training in UX.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The buttons for exporting results and retaking the assessment are visually similar, which could lead to user confusion about their purpose.",
+          "heuristic": "consistency_standards",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is mostly clear, but without a visible progress indicator, it's hard to determine how much of the results have been reviewed or what's next.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "a#viewHeatmapBtn",
+        "value": null,
+        "rationale": "To better understand how my results align with the broader cohort and validate the assessment methodology.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to focus on results and next steps, but the visual hierarchy isn't immediately clear. I'm scanning for a progress summary or a call-to-action that aligns with the growth path suggestions.",
+        "clarity_score": 3,
+        "emotional_reaction": "Curious but cautious",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I'm likely to explore the primary buttons or links since they appear prominent, but I'm not entirely sure which one leads to the next logical step.",
+          "notices_correct_action": false,
+          "notices_why": "The primary action isn't clearly labeled or visually distinguished from secondary elements, making it difficult to identify at a glance.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels I see seem to align with my goal of understanding the results and next steps, though some could be more specific.",
+          "sees_progress": false,
+          "progress_why": "There's no visible progress indicator or feedback that confirms an action has been taken or that I'm moving forward in the process.",
+          "understands_page_structure": false,
+          "structure_why": "The page lacks clear landmark roles or section labels that would help me orient myself to the main content and supporting details."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "slow_reader_delay",
+        "brief_hesitation"
+      ]
+    }
+  ],
+  "reflection": {
+    "overall_reflection": "The assessment provided a useful self-reflection on my AI adoption and working style, but its usability and accessibility issues made the experience somewhat frustrating and disorienting at times.",
+    "usability_issues": [
+      "Lack of progress indicators throughout the assessment made it difficult to gauge how far along I was.",
+      "No visual feedback after selecting an option, which caused uncertainty about whether selections were registered.",
+      "Terse labels for maturity stages (e.g., 'E', 'P', 'I') without clear explanations led to confusion.",
+      "Buttons for exporting results and retaking the assessment looked too similar, increasing the risk of accidental clicks."
+    ],
+    "nps_score": 5,
+    "nps_reason": "While the assessment was conceptually valuable and aligned with my role as a UX researcher, the lack of clear visual hierarchy, feedback, and progress indicators reduced its overall usability. These issues made the experience feel incomplete and less polished.",
+    "strongest_moment": "The clarity of the automation level options on Page 3 helped me feel validated in my cautious AI adoption approach, which was the most positive moment of the experience.",
+    "would_share": false,
+    "share_reason": "I wouldn't share this assessment until it addresses key usability and accessibility concerns like progress indicators, visual feedback, and clearer labeling of options.",
+    "accessibility_rating": 3,
+    "accessibility_note": "The page structure was generally clear, but the absence of an accessibility tree and progress indicators made it harder to orient myself, especially for users relying on assistive technologies."
+  },
+  "result": {
+    "cell_description": "Outputs fit known patterns; prompts are traceable end-to-end.",
+    "cohort": "think-aloud-test",
+    "epias_distribution": {
+      "epias_l2_chunking": "P",
+      "epias_l2_integration": "A",
+      "epias_l2_quality": "P",
+      "epias_l2_reuse": "I",
+      "epias_l2_specs": "I"
+    },
+    "epias_name": "Integrator",
+    "epias_stage": "I",
+    "growth_chunks": [
+      {
+        "section": "How to Use This",
+        "source": "ai-upskilling-for-product-designers.md",
+        "text": "3. **Use the SAE matrix to plan your growth.** You can grow in two directions: deeper (E→S within your current SAE level) or wider (moving up an SAE level). Both are valuable. Going deeper at L1 before jumping to L3 is often the smarter path, because the judgment and habits you build carry forward.\n\n**BONUS:** If you're a design leader, use this to map your team. You'll likely find people spread across multiple SAE levels and maturity stages. That's normal and healthy. The framework helps you have concrete conversations about where people are and where they want to go, without it becoming a race to the highest SAE number.\n\nOne important thing to internalize: **an S-Steward at SAE L1 (someone who's built organizational standards for ChatGPT/Microsoft Copilot usage) is more mature and more valuable than an E-Explorer at SAE L4 (someone fumbling with advanced toolchains).** Depth of judgment beats breadth of tooling every time.\n\n---"
+      },
+      {
+        "section": "How to navigate",
+        "source": "ai-upskilling-for-uxr.md",
+        "text": "1. **Find your E-P-I-A-S stage.** Are you experimenting, running consistent workflows, or building systems others can operate?\n2. **Find your SAE Level.** L0 (manual) → L4 (mostly automated). *Most UXRs in early 2026 are L1–L2.*\n3. **Plan growth.** Go deeper (E→S within your level) or wider (move up a level). In UXR, **depth usually wins**.\n\n**Key difference from product design:** UXR carries heightened accountability for evidence integrity and participant protection. An **S-Steward at L1** with solid verification habits beats an **E-Explorer at L4** running pipelines they can’t validate.\n\n---"
+      },
+      {
+        "section": "Self-Assess Your Current SAE Level",
+        "source": "ai-upskilling-for-product-designers.md",
+        "text": "Note: L2, L3, and L4 tooling is getting blurrier every day as systems vertically absorb each other's capabilities. The boundaries are about responsibility, not features. Hybrid design↔code canvas tools typically live at SAE L2, and only enter SAE L3 when embedded into persistent IDE workflows (e.g., Pencil.dev driving Claude Code inside a repo, Cursor visual editor modifying real code, etc.).\n\n---"
+      },
+      {
+        "section": "SAE Levels of Driving Automation (SAEJ3016 est 2014)",
+        "source": "ai-upskilling-for-product-designers.md",
+        "text": "Let's take learnings for how AI's progression is being tracked best: the automotive industry. The official SAE (Society of Automotive Engineers) levels of driving automation describe who is responsible for driving (the human or the vehicle) across perception, decision-making, and control.\n\n| SAE Level | Name | Who Drives / Is Responsible | Plain-English Explanation | Everyday Examples |\n| --- | --- | --- | --- | --- |\n| SAE L0 <br/>🚗💨 | No Automation | Human does everything | No driving automation; the system may warn but never controls the car | Basic alerts, lane-departure warnings |\n| SAE L1 <br/>🚗➕ | Driver Assistance | Human drives; system assists one function | The car can help *either* steering *or* speed, but not both at once | Adaptive cruise control, lane keeping assist |\n| SAE L2 <br/>🚗🧠 | Partial Automation | Human supervises; system controls steering *and* speed | The car can steer and control speed together, but *you must watch and intervene* | Tesla Autopilot, GM Super Cruise (hands-on variants) |\n| SAE L3 <br/>🚗😴 | Conditional Automation | System drives *within conditions*; human is fallback | The car drives itself *sometimes*, but may ask you to take over | Traffic-jam pilots, limited highway autonomy |\n| SAE L4 <br/>🚕🤖 | High Automation | System drives; no human needed *within defined areas* | The car drives itself in specific places or conditions; no driver attention required | Robotaxis in geofenced cities |\n| SAE L5 <br/>🚗✨ | Full Automation | System drives everywhere | No steering wheel required; the car can drive anywhere a human can | Fully autonomous vehicles (not yet real) |"
+      },
+      {
+        "section": "2) **SAE Level** = how much responsibility AI holds in your workflow",
+        "source": "ai-upskilling-for-uxr.md",
+        "text": "> To reduce “forced syntax” without losing SAE: think of SAE as your **autonomy envelope** — *how far the work can go without you touching the wheel.*\n> (We’ll still use SAE L0–L5 so it stays compatible with the original framework.)\n\nFor UXR, the “driving stack” maps to:\n\n| Driving Domain  | UXR Equivalent                                     |\n| --------------- | -------------------------------------------------- |\n| Perception      | Evidence intake (data collection, what’s observed) |\n| Decision-making | Inference + judgment (what it means, what to do)   |\n| Control         | Execution (study ops, analysis, delivery)          |"
+      }
+    ],
+    "growth_path": {
+      "actions": [
+        "Turn good prompts into reusable templates",
+        "Decide which chunks are worth automating",
+        "Design guardrails, not just prompts"
+      ],
+      "next": {
+        "epias_stage": "A",
+        "sae_level": 2
+      },
+      "signal": "People ask to use my AI workflows."
+    },
+    "key_insight": "An S-Steward at L1 is more valuable than an E-Explorer at L4. Depth of judgment beats breadth of tooling.",
+    "sae_distribution": {
+      "sae_laptop": 2,
+      "sae_outputs": 2,
+      "sae_prompting": 1,
+      "sae_qa": 2,
+      "sae_reuse": 2,
+      "sae_tools": 2
+    },
+    "sae_emoji": "🚗🧠",
+    "sae_level": 2,
+    "sae_name": "Partially Automated"
+  },
+  "sus": {
+    "sus_scores": [
+      3,
+      2,
+      3,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      2
+    ],
+    "sus_notes": "The system is clean but lacks clear progress indicators and visual feedback, which caused uncertainty and required careful attention. While the interface is straightforward, it doesn't fully inspire confidence or frequent use.",
+    "sus_total": 57.5,
+    "sus_grade": "C"
+  },
+  "behavioral_events_summary": {
+    "total": 26,
+    "events": [
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "slow_reader_delay",
+        "url": "https://dit-maeda.noahratzan.com/results"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/results"
+      }
+    ]
+  },
+  "started_at": "2026-02-24T07:33:59.497372+00:00",
+  "completed_at": "2026-02-24T07:42:53.897300+00:00",
+  "engine_usage": {
+    "calls": 30,
+    "input_tokens": 49488,
+    "output_tokens": 9817,
+    "cost_usd": 0.0
+  }
+}

@@ -1,0 +1,1741 @@
+{
+  "summary": {
+    "total_sessions": 10,
+    "archetypes": {
+      "career_changer": 1,
+      "design_leader": 1,
+      "agency_creative_director": 1,
+      "student_non_designer": 1,
+      "traditional_craftsperson": 1,
+      "daily_user": 1,
+      "app_builder": 1,
+      "curious_explorer": 1,
+      "ai_native_engineer": 1,
+      "ux_researcher": 1
+    },
+    "avg_nps": 5.5,
+    "nps_range": [
+      3,
+      7
+    ],
+    "nps_std_dev": 1.43,
+    "pages_per_session": 14.0,
+    "protocol_versions": {
+      "2.1": 10
+    }
+  },
+  "usability_issues": [
+    {
+      "page": "assess?cohort=think-aloud-test",
+      "count": 123,
+      "examples": [
+        "The interface assumes I know whether to fill in optional information or not, but there's no clear guidance on what is required.",
+        "The options are clearly labeled, which helps with understanding what each level entails. However, there's no visual hierarchy to guide me toward the most appropriate option for someone new to AI.",
+        "The labels on the buttons are too abbreviated and jargon-heavy, making it hard to understand the options without prior knowledge.",
+        "The options are labeled with technical jargon that is confusing. It would help if there were tooltips or simpler language.",
+        "The labels for the options are not clearly aligned with the real-world understanding of a UX Bootcamp Student. I'm confused about what each level means, especially when the terms are technical and jargon-heavy."
+      ],
+      "heuristics_cited": [
+        "match_real_world",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "help_documentation",
+        "match_real_world",
+        "recognition_over_recall",
+        "match_real_world",
+        "help_documentation",
+        "help_documentation",
+        "help_documentation",
+        "help_documentation",
+        "recognition_over_recall",
+        "consistency_standards",
+        "match_real_world",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "match_real_world",
+        "help_documentation",
+        "visibility_of_system_status",
+        "user_control_freedom",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "help_documentation",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "help_documentation",
+        "match_real_world",
+        "help_documentation",
+        "match_real_world",
+        "match_real_world",
+        "recognition_over_recall",
+        "help_documentation",
+        "recognition_over_recall",
+        "accessibility_structure",
+        "match_real_world",
+        "recognition_over_recall",
+        "help_documentation",
+        "help_documentation",
+        "visibility_of_system_status",
+        "accessibility_structure",
+        "recognition_over_recall",
+        "match_real_world",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "match_real_world",
+        "visibility_of_system_status",
+        "minimalist_design",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "help_documentation",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "user_control_freedom",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "help_documentation",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "match_real_world",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "help_documentation",
+        "recognition_over_recall",
+        "flexibility_efficiency",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "match_real_world",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status"
+      ]
+    },
+    {
+      "page": "reflection",
+      "count": 40,
+      "examples": [
+        "The interface assumes prior knowledge of AI jargon and workflows, which I don’t have as a UX Bootcamp student.",
+        "There were no clear explanations or tooltips for the automation levels or maturity stages, making it hard to understand what each option meant.",
+        "The lack of a progress indicator made it hard to track where I was in the assessment.",
+        "The buttons had abbreviated or cut-off labels, making it difficult to read and understand the choices.",
+        "The inability to go back and revise previous answers is a major usability flaw, especially when evaluating for a team of 40."
+      ],
+      "heuristics_cited": []
+    },
+    {
+      "page": "home",
+      "count": 10,
+      "examples": [
+        "The 'Take the Assessment' button is clearly labeled, but there's no visual or textual guidance on what the assessment entails, which could help set expectations.",
+        "The 'Take the Assessment' button is clearly labeled and matches the user's goal, which is a strength.",
+        "The 'Take the Assessment' button is clearly labeled and stands out, which makes it easy to understand what the next action is.",
+        "The 'Take the Assessment' button provides a clear indication of the next step and matches the user's intent.",
+        "The call to action is not as prominent as it could be, which might cause confusion for users who want to start the assessment quickly."
+      ],
+      "heuristics_cited": [
+        "match_real_world",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "visibility_of_system_status",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "recognition_over_recall",
+        "visibility_of_system_status",
+        "recognition_over_recall"
+      ]
+    },
+    {
+      "page": "results",
+      "count": 3,
+      "examples": [
+        "The page lacks clear guidance on next steps, which is confusing for someone like me who is new to the field.",
+        "The page is well-structured and the sections are clearly labeled, which helps me orient myself quickly.",
+        "The clustering of similar actions (e.g., export options) could benefit from clearer visual separation to avoid accidental clicks."
+      ],
+      "heuristics_cited": [
+        "visibility_of_system_status",
+        "accessibility_structure",
+        "consistency_standards"
+      ]
+    }
+  ],
+  "question_confusion": [
+    {
+      "question": ".q-option[aria-label='Level 0: I don't use AI tools — all my work is manual.']",
+      "confusion_count": 16,
+      "archetypes_affected": [
+        "traditional_craftsperson"
+      ],
+      "examples": [
+        "The options are labeled with letters, not numbers, which could confuse users expecting a 0-5 scale. This may lead to misinterpretation.",
+        "The page structure is clear with labeled options and navigation arrows. However, the lack of a visible progress indicator makes it hard to know where ",
+        "The options are labeled with letters (A-F) and short descriptions, but the labels are not clearly aligned with the buttons. The visual hierarchy is co"
+      ]
+    },
+    {
+      "question": "button.q-option[aria-label='Level 1: Everything pauses — AI only works when I'm actively prompting.']",
+      "confusion_count": 12,
+      "archetypes_affected": [
+        "agency_creative_director"
+      ],
+      "examples": [
+        "I'm not sure if my process is being accurately captured. I use AI for brainstorming, but I don't want it to sound like I'm fully automating anything.",
+        "The descriptions are cut off, so I have to infer their full meaning. This could lead to confusion.",
+        "The buttons are labeled with letters (A-F) and incomplete text. It’s hard to read the full options, especially for B, C, and D, which get cut off. Thi"
+      ]
+    },
+    {
+      "question": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+      "confusion_count": 10,
+      "archetypes_affected": [
+        "ai_native_engineer"
+      ],
+      "examples": [
+        "The page layout is clean, but the options are not clearly separated, making it hard to focus on one at a time.",
+        "The lack of a clear explanation of what 'maturity stage' means could confuse users who are not familiar with the term.",
+        "The page structure is somewhat clear, but there's no progress indicator, making it hard to gauge where I am in the assessment."
+      ]
+    },
+    {
+      "question": "#intakeSkip",
+      "confusion_count": 9,
+      "archetypes_affected": [
+        "traditional_craftsperson",
+        "curious_explorer",
+        "career_changer",
+        "ux_researcher"
+      ],
+      "examples": [
+        "I will click 'Skip to start' because I'm not sure if the demographics form is required and I just want to get to the assessment.",
+        "I'm not sure if I should have filled in the demographics form, but I don't want to spend time on something optional if I'm not sure it matters.",
+        "The page structure is clear enough to identify the 'Skip to start' button, but without more context, I'm not sure if I'm making the right choice."
+      ]
+    },
+    {
+      "question": "button[aria-label='Level 1: I manually review and heavily rewrite everything AI produces.']",
+      "confusion_count": 7,
+      "archetypes_affected": [
+        "curious_explorer"
+      ],
+      "examples": [
+        "The buttons for each automation level are clearly labeled and spaced out, but the text is cut off slightly for some options, making it hard to read th",
+        "I'm not sure if I'm using AI as much as others in my field, but I'm definitely trying to learn more and integrate it into my workflow.",
+        "The options are labeled with letters (A, B, C, etc.), but the descriptions are cut off and hard to read fully. It's unclear which option is the correc"
+      ]
+    },
+    {
+      "question": "#intakeStart",
+      "confusion_count": 6,
+      "archetypes_affected": [
+        "design_leader",
+        "daily_user"
+      ],
+      "examples": [
+        "The page is clean, but the main call-to-action is not immediately prominent. The 'Start Assessment' and 'Skip to questions' buttons are both visually ",
+        "I’m assuming this tool is designed for a broad audience, but I’m not sure how much it caters to those who are less familiar with AI. I want to make su",
+        "The two similar buttons for starting the assessment could lead to confusion about which one to click. This is a usability concern under 'consistency_s"
+      ]
+    },
+    {
+      "question": "button[aria-label='Level 1: I use ChatGPT or Midjourney for ideas and drafts, but I direct every step.']",
+      "confusion_count": 6,
+      "archetypes_affected": [
+        "curious_explorer"
+      ],
+      "examples": [
+        "The buttons for each automation level are clearly labeled, but the visual hierarchy is a bit confusing since all buttons look the same size and color.",
+        "I feel excited to see how my experience fits into this framework, but also slightly anxious because I'm not sure if I'm choosing the 'right' level.",
+        "I'm not sure how much of my work is actually automated — I'm still learning what tools are available."
+      ]
+    },
+    {
+      "question": "button.q-option[aria-label='Level 2: I write structured prompts with context, constraints, and output format.']",
+      "confusion_count": 5,
+      "archetypes_affected": [
+        "daily_user",
+        "agency_creative_director"
+      ],
+      "examples": [
+        "The buttons are labeled with letters (A-F) and abbreviated text, making it hard to quickly understand what each maturity level represents. I need more",
+        "The page lacks a clear progress indicator or orientation cues, making it hard to understand where I am in the journey. This could increase anxiety and",
+        "The buttons for each automation level are clearly labeled, but the lack of visual hierarchy makes it hard to quickly identify the most relevant option"
+      ]
+    },
+    {
+      "question": "button[aria-label='Level 1: Ideas, copy drafts, and concepts that I heavily refine.']",
+      "confusion_count": 5,
+      "archetypes_affected": [
+        "curious_explorer"
+      ],
+      "examples": [
+        "The options are labeled with letters and brief descriptions, but some descriptions are cut off or truncated, making it hard to understand the full mea",
+        "I'm feeling a bit uncertain because I'm not sure if I'm selecting the right option, but I'm excited to keep learning and figuring it out.",
+        "I'm not sure how advanced I am compared to others, and I feel like this assumes I use AI regularly, which I am trying to do more of."
+      ]
+    },
+    {
+      "question": ".q-option[aria-label='Level 2: I write structured prompts with context, constraints, and output format.']",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "career_changer"
+      ],
+      "examples": [
+        "The buttons are labeled with letters A-F, which feels a bit abstract and doesn't clearly indicate what each represents. I'm not sure which one applies",
+        "I'll click on option C because it mentions structured prompts and context, which sounds like what I’ve been learning in the bootcamp. I'm not sure if ",
+        "I feel anxious because I'm worried I'm selecting the wrong level and will look unqualified or confused. I want to get this right, but I don’t want to "
+      ]
+    },
+    {
+      "question": "button.q-option[aria-label='Integrator: I have repeatable integration patterns with explicit handoff notes.']",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "design_leader",
+        "daily_user"
+      ],
+      "examples": [
+        "The lack of a clear indicator for the selected option makes it hard to know if my choice is registered. I have to rely on memory instead of the system",
+        "The layout is clean, but the visual hierarchy is slightly unclear. The buttons for each maturity stage look similar, making it hard to distinguish the",
+        "I feel a bit uncertain because I'm not sure if I'm interpreting 'maturity stage' correctly. I'm motivated to find clarity so I can move forward with c"
+      ]
+    },
+    {
+      "question": "button#epiasNext",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "design_leader",
+        "app_builder"
+      ],
+      "examples": [
+        "I'm not sure if I've been categorized correctly. The interface doesn't make it clear what the 'Integrator' or 'Steward' roles mean for a design team, ",
+        "The buttons are spaced and labeled clearly, but the visual hierarchy doesn't immediately indicate which one is the next step or the current focus.",
+        "This interface assumes a basic familiarity with human-AI decision frameworks, which aligns with my experience, but might confuse less technical users."
+      ]
+    },
+    {
+      "question": "button#intakeSkip.btn.btn-secondary",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "student_non_designer",
+        "agency_creative_director"
+      ],
+      "examples": [
+        "The page layout is clean and modern, but I’m immediately looking for a clear call to action. I’m not sure if I should fill in the optional demographic",
+        "The page lacks a progress indicator, which makes it unclear how much I need to complete before moving forward.",
+        "The page shows optional demographic fields and a 'Skip to start' button. The layout is clean, but the purpose of the form is unclear — I’m not sure if"
+      ]
+    },
+    {
+      "question": "button.q-option[aria-label='Architect: My workflows have built-in exception handling teammates understand.']",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "student_non_designer"
+      ],
+      "examples": [
+        "The page is structured with a vertical list of buttons, but there are no visual indicators of which ones I've already clicked. This makes it hard to t",
+        "I feel slightly anxious because I'm not sure if I'm interpreting the terminology correctly. It's easy to confuse design terms with engineering ones.",
+        "The lack of a clear progress indicator or visual feedback for selected options makes it hard to know if my interaction was successful."
+      ]
+    },
+    {
+      "question": "button.q-option[aria-label='Integrator: Documented QA process with traceability from request to final.']",
+      "confusion_count": 4,
+      "archetypes_affected": [
+        "daily_user"
+      ],
+      "examples": [
+        "The buttons for the maturity stages are grouped together but not clearly differentiated by hierarchy or color, making it hard to quickly grasp the opt",
+        "I feel mildly uncertain because the labels are still a bit vague and I'm not sure if I'm selecting the most accurate one for my experience level.",
+        "The lack of descriptive labels makes it hard to understand the differences between the options, which affects decision-making."
+      ]
+    }
+  ],
+  "persona_satisfaction": [
+    {
+      "archetype": "career_changer",
+      "avg_nps": 3.0,
+      "min_nps": 3,
+      "max_nps": 3,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "I found the assessment confusing and frustrating, especially the lack of guidance and the jargon-heavy language. I didn’t feel it was tailored for someone new to AI, and I was left feeling behind rather than supported."
+      ]
+    },
+    {
+      "archetype": "ai_native_engineer",
+      "avg_nps": 4.0,
+      "min_nps": 4,
+      "max_nps": 4,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "I would not recommend this assessment to other AI engineers due to its lack of depth and poor usability for advanced users. The repetitive nature and oversimplified questions were frustrating and unengaging."
+      ]
+    },
+    {
+      "archetype": "traditional_craftsperson",
+      "avg_nps": 4.0,
+      "min_nps": 4,
+      "max_nps": 4,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "I found the process to be skeptical and slightly frustrating due to the lack of visual feedback and unclear navigation cues. While the interface was clean, it didn't validate my manual design approach or provide a smooth user experience."
+      ]
+    },
+    {
+      "archetype": "agency_creative_director",
+      "avg_nps": 5.0,
+      "min_nps": 5,
+      "max_nps": 5,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "I found the assessment useful in reflecting on my AI usage, but the rigid structure and lack of clarity on several pages made it frustrating and not something I’d actively recommend."
+      ]
+    },
+    {
+      "archetype": "design_leader",
+      "avg_nps": 6.0,
+      "min_nps": 6,
+      "max_nps": 6,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "The tool has potential and offers a structured way to assess AI maturity, but the usability issues and lack of clarity for less experienced users make me hesitant to recommend it without improvements."
+      ]
+    },
+    {
+      "archetype": "student_non_designer",
+      "avg_nps": 6.0,
+      "min_nps": 6,
+      "max_nps": 6,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "The assessment was generally useful and structured well, but the unclear terminology and UI issues reduced my confidence in recommending it to others without caveats."
+      ]
+    },
+    {
+      "archetype": "ux_researcher",
+      "avg_nps": 6.0,
+      "min_nps": 6,
+      "max_nps": 6,
+      "share_rate": 0.0,
+      "sample_reasons": [
+        "While the assessment was clear and relevant to my work, the lack of accessibility structure and usability issues like missing progress indicators and unclear visual feedback made it feel incomplete. I found it useful but not without significant friction."
+      ]
+    },
+    {
+      "archetype": "app_builder",
+      "avg_nps": 7.0,
+      "min_nps": 7,
+      "max_nps": 7,
+      "share_rate": 1.0,
+      "sample_reasons": [
+        "The assessment accurately reflected my AI workflow maturity and provided a useful framework for understanding my role. However, the lack of clear progress indicators and visual feedback made parts of the experience feel disjointed."
+      ]
+    },
+    {
+      "archetype": "curious_explorer",
+      "avg_nps": 7.0,
+      "min_nps": 7,
+      "max_nps": 7,
+      "share_rate": 1.0,
+      "sample_reasons": [
+        "I found the assessment genuinely valuable in helping me reflect on my AI usage, but some usability issues made it feel less polished. I would recommend it to others, especially if the interface is improved."
+      ]
+    },
+    {
+      "archetype": "daily_user",
+      "avg_nps": 7.0,
+      "min_nps": 7,
+      "max_nps": 7,
+      "share_rate": 1.0,
+      "sample_reasons": [
+        "I found the assessment useful and relevant to my role, but the UI inconsistencies and lack of guidance on some pages made the experience less than perfect. It was valuable enough to recommend to colleagues with the caveat that there are a few usability improvements to make."
+      ]
+    }
+  ],
+  "flow_completion": {
+    "total": 10,
+    "completed_assessment": 3,
+    "completion_rate": 0.3,
+    "with_reflection": 10
+  },
+  "theme_frequency": {
+    "ui_observation": 136,
+    "decision": 136,
+    "emotion": 136,
+    "self_awareness": 136,
+    "usability": 136,
+    "accessibility": 136
+  },
+  "self_awareness_highlights": [
+    {
+      "thought": "I feel like I'm behind in tech and not as advanced as others. This interface assumes I know what to do, but I'm still learning.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/"
+    },
+    {
+      "thought": "I'm not sure if I should have filled in the demographics form, but I don't want to spend time on something optional if I'm not sure it matters.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced as I thought. The options assume I'm already using AI tools, but I'm still learning and haven't integrated them into my workflow yet.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as confident as I need to be in tech. This question assumes some familiarity with AI workflows, which I don't have yet.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I realize I'm not as advanced as I need to be in AI, and this question assumes some level of familiarity that I don’t fully have yet.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I’m not as advanced as I hoped in using AI. I’m still learning the basics, and the language used here (like 'context blocks' or 'harness configs') makes me feel like I don't belong here.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced in tech as the options assume. This feels like it's tailored for people with more hands-on AI experience than I have.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced as I thought. I don't even know what 'agent infrastructure' or 'self-improving harnesses' mean, and I'm already feeling behind.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced as I thought. The options imply a level of AI integration I haven't reached yet.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm realizing that I might not be as familiar with AI maturity stages as I thought. This makes me feel even more behind in the job market.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I realize I'm not as advanced as the options suggest. The page assumes a level of AI integration and workflow familiarity that I don't have yet.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "This assumes I understand AI maturity stages, but I'm still learning. I might not be as advanced as the options suggest.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced as I thought. I don't use AI daily yet, and I'm still figuring out how to use it effectively for my work.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I'm not as advanced as I thought. The results feel vague, and I don't know how to apply them to my learning path.",
+      "archetype": "career_changer",
+      "url": "https://dit-maeda.noahratzan.com/results"
+    },
+    {
+      "thought": "This interface assumes I know what to expect from the assessment, but I want to make sure it's clear for junior designers.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/"
+    },
+    {
+      "thought": "I’m assuming this tool is designed for a broad audience, but I’m not sure how much it caters to those who are less familiar with AI. I want to make sure there is no hidden jargon or complexity.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "This confirms that I'm not in a position where I'm using AI for full automation, which aligns with my focus on team adoption rather than personal efficiency.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I realize that I'm not pushing the team to fully automate everything yet. This makes me consider whether I should be more proactive in exploring lightweight evaluation tools.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "I realize that my AI use is more hands-on and structured than the options imply, but I'm not confident which level best describes the team's current maturity.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    },
+    {
+      "thought": "This interface assumes some level of AI familiarity, which I have, but I know my junior team members may not.",
+      "archetype": "design_leader",
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+    }
+  ],
+  "emotional_arc": [
+    {
+      "archetype": "career_changer",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel anxious about making a mistake and choosing the wrong path. I want to make sure I'm doing eve"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel nervous because I'm worried I might be skipping something important, but I'm also determined "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious because I'm worried I'll pick the wrong option and it'll look like I don't know what "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Anxious. I feel like I'm not making the right choice, and I'm worried I'll look unprepared or uninfo"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious because I'm not sure if I'm choosing the right option. I don't want to give the wrong"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious because I'm worried I'm selecting the wrong level and will look unqualified or confus"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm anxious because I feel like I don't know enough about AI automation levels. It's hard to connect"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Anxious and uncertain. I'm worried I'm picking the wrong level and might look less experienced than "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious because I'm not sure if I'm choosing the right level. It feels like a judgment of my "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious because I'm not sure if I'm making the right choice. I'm afraid I'll get this wrong a"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel anxious and overwhelmed. The terminology feels advanced, and I'm worried I might select the w"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm feeling anxious because I don't know if I'm picking the right option. I don't want to look unpre"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm anxious because I'm not sure if I'm choosing the right option. I don't want to look inexperience"
+        },
+        {
+          "page": "results",
+          "emotion": "I feel anxious because I'm not confident I understood the assessment correctly. This page doesn't he"
+        }
+      ]
+    },
+    {
+      "archetype": "design_leader",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel curious but slightly uncertain because the interface is modern, but I want to ensure it's acc"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly engaged but cautious. The design is clean, but I need to ensure this experience is acc"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the interface acknowledges a moderate level of AI use, which matches my team's"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the question acknowledges a middle-of-the-road approach to AI adoption. It ali"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I'm not sure if the labels match the way I and my team use AI. This "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel focused and methodical, as I'm trying to make a decision that reflects the team's current cap"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious. The interface is engaging, but I'm not sure if the options are clear enou"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Slightly uncertain because the options don't clearly explain how they map to team adoption. I need t"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously optimistic because the 'Steward' option aligns with my leadership focus, but I'm s"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain because I'm not sure if I've selected the right maturity stage for my team"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated because the 'Integrator' option reflects my team's current stage in AI adoption and"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly uncertain because I want to make sure my choice reflects the team's maturity accuratel"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly uncertain because the maturity stages are not clearly explained, and I want to ensure "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel uncertain and slightly frustrated. As a meticulous user, I need clear guidance, but the inter"
+        }
+      ]
+    },
+    {
+      "archetype": "agency_creative_director",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel confident and engaged. The design feels professional, and the directness of the interface ali"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly impatient. I’m used to being efficient with my time, and I want to start the assessm"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated but cautious. I feel like the question assumes AI is the norm, which makes me defensive. "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel defensive and cautious. This question triggers my concern about AI taking over creative contr"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious. The options are clear, but I'm still wary of how the system interprets my"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and a bit frustrated because the options don’t clearly reflect the nuance of my rol"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated but also slightly validated. It's good the survey acknowledges active human oversight, bu"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a mix of resistance and optimism. It’s reassuring to see an option that respects the human cr"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that there is a choice that reflects my cautious approach to AI. Still, I feel a bi"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I don't know if my click registered and I can't see any confirmation"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly defensive and uncertain because I’m worried that the system might not understand the"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly defensive and uncertain because I'm concerned about whether my approach is considere"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I want to make sure I pick the right maturity stage. I don’t want to"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm slightly anxious because I'm not sure if I'm being asked to quantify something that feels intang"
+        }
+      ]
+    },
+    {
+      "archetype": "student_non_designer",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel curious and slightly uncertain about the assessment's structure, but the clear call-to-action"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel neutral but slightly curious. I want to get to the main content as quickly as possible withou"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because the labels are truncated and the terminology is unfamiliar. I want t"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain because the labels are not fully descriptive, but I am motivated to choose"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I'm not sure if I'm interpreting the automation levels correctly. I'"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I'm not sure if I'm interpreting the options correctly. The use of d"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly frustrated because the terminology is not aligned with my mental model. I'm trying to "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because the interface is unclear and I'm not sure if my previous clicks were"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain because the terms used (like 'maturity stage') are unfamiliar, but the des"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm a bit anxious because the terminology is unfamiliar, but I feel determined to figure out which o"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I'm not sure if I'm interpreting the terminology correctly. It's eas"
+        }
+      ]
+    },
+    {
+      "archetype": "traditional_craftsperson",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel cautiously intrigued but slightly uncertain. I appreciate the clean design, but I'm not yet c"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously neutral. The interface doesn’t inspire trust or excitement, but it doesn’t push me"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and slightly frustrated. The question assumes some level of AI integration, which c"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly skeptical but validated in my approach to design. This question feels relevant but sli"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and slightly anxious because the question assumes a high level of AI use, which is "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously neutral. The interface doesn’t validate my preference for manual design yet, but i"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and cautious. The system should better reflect my manual approach to design, and I’"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously neutral. I'm not engaged by the question, but I'm not frustrated either. I'm just "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated and skeptical — I don’t see clear feedback confirming my selection, and the question assu"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical about the relevance of this question but also validated that my experience is refle"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious but also slightly frustrated that the system assumes familiarity with AI m"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and cautious because I am not confident that the system is capturing my intent accu"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and slightly frustrated because the interface doesn't clearly show my progress or t"
+        }
+      ]
+    },
+    {
+      "archetype": "daily_user",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel curious and slightly excited to begin the assessment, especially since it's relevant to my ro"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Slightly uncertain — the page feels a bit sparse, and I'm not sure if skipping or starting is the be"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel confident and validated that the options match my experience, but I'm slightly unsure if I sh"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly engaged because the question is relevant to my workflow. I’m also a bit curious abou"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain but confident enough to make a choice. I'm not worried about getting it wr"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly anxious because I'm not sure if my current level is 'good enough' compared to others"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that there is an option that reflects my current level of AI integration in my work"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel hesitant and slightly frustrated because the labels are cut off. I want to make a thoughtful "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain but curious to see how I stack up against other SaaS designers using AI in"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit uncertain because I'm not sure if I'm interpreting 'maturity stage' correctly. I'm moti"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly uncertain but not frustrated. It's validating to see options that reflect my actual "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly uncertain because the labels are still a bit vague and I'm not sure if I'm selecting t"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel confident but slightly uncertain whether I'm the right fit for 'Integrator' — it feels accura"
+        },
+        {
+          "page": "results",
+          "emotion": "I feel curious and slightly uncertain because I'm not sure how my score stacks up against the commun"
+        }
+      ]
+    },
+    {
+      "archetype": "app_builder",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel engaged and ready to proceed. The interface feels purposeful and straightforward, which align"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly underwhelmed because the page lacks a clear sense of urgency or direction. I expect mo"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel mildly engaged. The question is relevant to my experience, and I want to make sure I pick the"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the options accurately reflect my experience with AI-native workflows."
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Slightly engaged because the options align with my daily work, but I wish there was a loading indica"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly validated that there's a level that matches my current experience, but I'm mildly co"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated because the options reflect real-world AI workflows I use daily."
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that my current practices align with a defined level of automation maturity, but mi"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the options align with my real-world practices, but I'm mildly impatient with "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the options reflect my experience level with AI workflows. It's engaging to se"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly validated because the options reflect real-world practices I've used, but I'm mildly"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the options reflect my actual work patterns, but mildly impatient with the lac"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated — the options reflect real-world AI-native workflows I deal with daily."
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel curious and mildly engaged. The interface is clean, but I want more feedback to understand wh"
+        }
+      ]
+    },
+    {
+      "archetype": "curious_explorer",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel excited and curious. I'm eager to start the assessment and see how it works, even though I'm "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit uncertain because I don't want to miss any important info, but I also want to move forw"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel excited to see how my experience fits into this framework, but also slightly anxious because "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel curious and a bit uncertain because I'm still learning how AI fits into my design work. It's "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm a bit overwhelmed because the options are detailed and I'm not sure if I'm interpreting them cor"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit overwhelmed by the options, but also excited to see how AI might fit into my workflow. "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit uncertain because I'm not sure if Level 1 is the correct choice for a designer. But I'm"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm feeling a bit anxious because I want to make sure I'm selecting the correct automation level, an"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit overwhelmed by all the options, but I'm also excited to learn more about how I work. It"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm feeling a bit anxious because I'm not 100% sure if I'm selecting the right option, but I'm also "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a bit nervous but excited to choose, since I want to make sure I pick the right option and no"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm feeling a bit uncertain because I'm not sure if I'm selecting the right option, but I'm excited "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel a little unsure because I don’t know if this matches my workflow perfectly, but it’s the clos"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm excited but also a bit nervous — I want to pick the right option so I can feel confident in the "
+        }
+      ]
+    },
+    {
+      "archetype": "ai_native_engineer",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "Frustrated slightly by the lack of clear affordance for the primary action, but motivated to proceed"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated. I expected a more streamlined and purpose-built interface for someone like me who works "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly underwhelmed because the interface doesn’t provide a clear explanation of what each "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical about the simplicity of the interface and wonder if it will truly capture the compl"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated, because I expected a more sophisticated interface tailored for advanced users. The lack "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Disengaged — this feels like a basic survey that doesn't respect the depth of my work with AI agent "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly frustrated because the interface doesn't acknowledge my previous selections or provi"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated. The lack of clarity and incomplete descriptions waste my time. I expect a more streamlin"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel skeptical and impatient because the options seem too simplistic for an expert-level AI engine"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated. The lack of clarity and incomplete text forces me to guess at the meaning of the options"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm mildly frustrated because the page feels repetitive and doesn't provide enough nuance for my adv"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly disengaged because the question lacks depth and doesn't reflect the complexity of my"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I'm mildly disengaged because the interface feels too simple for my level of expertise and doesn't r"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel underwhelmed and slightly bored. As an AI engineer, I expect a more dynamic and insightful ex"
+        }
+      ]
+    },
+    {
+      "archetype": "ux_researcher",
+      "arc": [
+        {
+          "page": "home",
+          "emotion": "I feel curious and slightly cautious. The clean design is inviting, but I'm already assessing the in"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious. The design feels professional, but the absence of clear progress indicato"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously intrigued — the question is relevant to my work, but I'm also evaluating the instr"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel validated that the interface recognizes the need for human oversight in AI use, which aligns "
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautious and methodical. I want to ensure the option I select accurately represents my workfl"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious but slightly anxious due to the lack of accessibility structure. My meticu"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "Frustrated and concerned about the reliability of the interface. My meticulous nature is being teste"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautious and slightly validated. The options reflect my current AI usage, but I'm still evalu"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously validated — the options reflect my real-world approach to using AI in research."
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautious but engaged. The interface is professional, but I want to be sure I'm not misreprese"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel slightly cautious but engaged because I'm evaluating not just the content but the usability o"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious but also slightly frustrated due to the lack of clear visual feedback on m"
+        },
+        {
+          "page": "assess?cohort=think-aloud-test",
+          "emotion": "I feel cautiously curious. The interface is structured, but I’m assessing the design choices as much"
+        },
+        {
+          "page": "results",
+          "emotion": "I feel cautiously curious. While the interface is clear, I want to ensure that the results are meani"
+        }
+      ]
+    }
+  ],
+  "heuristic_analysis": {
+    "heuristics_covered": 9,
+    "total_heuristics": 11,
+    "citation_rate": 1.0,
+    "counts": {
+      "recognition_over_recall": 66,
+      "visibility_of_system_status": 32,
+      "help_documentation": 15,
+      "match_real_world": 14,
+      "accessibility_structure": 3,
+      "consistency_standards": 2,
+      "user_control_freedom": 2,
+      "minimalist_design": 1,
+      "flexibility_efficiency": 1
+    },
+    "by_archetype": {
+      "career_changer": {
+        "match_real_world": 4,
+        "recognition_over_recall": 4,
+        "help_documentation": 5,
+        "visibility_of_system_status": 1
+      },
+      "design_leader": {
+        "recognition_over_recall": 5,
+        "consistency_standards": 1,
+        "match_real_world": 2,
+        "help_documentation": 2,
+        "visibility_of_system_status": 3,
+        "user_control_freedom": 1
+      },
+      "agency_creative_director": {
+        "recognition_over_recall": 8,
+        "visibility_of_system_status": 2,
+        "help_documentation": 2,
+        "match_real_world": 2
+      },
+      "student_non_designer": {
+        "visibility_of_system_status": 2,
+        "match_real_world": 2,
+        "recognition_over_recall": 3,
+        "help_documentation": 3,
+        "accessibility_structure": 1
+      },
+      "traditional_craftsperson": {
+        "visibility_of_system_status": 6,
+        "accessibility_structure": 1,
+        "recognition_over_recall": 3,
+        "match_real_world": 2,
+        "minimalist_design": 1
+      },
+      "daily_user": {
+        "recognition_over_recall": 11,
+        "visibility_of_system_status": 1,
+        "help_documentation": 1,
+        "accessibility_structure": 1
+      },
+      "app_builder": {
+        "recognition_over_recall": 11,
+        "visibility_of_system_status": 3
+      },
+      "curious_explorer": {
+        "recognition_over_recall": 10,
+        "user_control_freedom": 1,
+        "visibility_of_system_status": 2,
+        "help_documentation": 1
+      },
+      "ai_native_engineer": {
+        "visibility_of_system_status": 6,
+        "recognition_over_recall": 5,
+        "match_real_world": 1,
+        "help_documentation": 1,
+        "flexibility_efficiency": 1
+      },
+      "ux_researcher": {
+        "recognition_over_recall": 6,
+        "visibility_of_system_status": 6,
+        "match_real_world": 1,
+        "consistency_standards": 1
+      }
+    },
+    "examples": {
+      "match_real_world": [
+        {
+          "thought": "The 'Take the Assessment' button is clearly labeled, but there's no visual or textual guidance on what the assessment entails, which could help set ex",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The interface assumes I know whether to fill in optional information or not, but there's no clear guidance on what is required.",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The labels for the options are not clearly aligned with the real-world understanding of a UX Bootcamp Student. I'm confused about what each level mean",
+          "archetype": "career_changer"
+        }
+      ],
+      "recognition_over_recall": [
+        {
+          "thought": "The options are clearly labeled, which helps with understanding what each level entails. However, there's no visual hierarchy to guide me toward the m",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The labels on the buttons are too abbreviated and jargon-heavy, making it hard to understand the options without prior knowledge.",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The options are clearly labeled, which helps with understanding what each level entails.",
+          "archetype": "career_changer"
+        }
+      ],
+      "help_documentation": [
+        {
+          "thought": "The options are labeled with technical jargon that is confusing. It would help if there were tooltips or simpler language.",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The interface assumes familiarity with AI maturity stages, which isn't explained. This makes it harder for someone new like me.",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The interface does not clearly explain what each maturity stage means. This makes it hard for someone new to AI to make an informed decision.",
+          "archetype": "career_changer"
+        }
+      ],
+      "visibility_of_system_status": [
+        {
+          "thought": "The page lacks clear guidance on next steps, which is confusing for someone like me who is new to the field.",
+          "archetype": "career_changer"
+        },
+        {
+          "thought": "The lack of a progress indicator or clear question count makes it hard to assess how far I've come in the journey.",
+          "archetype": "design_leader"
+        },
+        {
+          "thought": "The lack of a clear indicator for the selected option makes it hard to know if my choice is registered. I have to rely on memory instead of the system",
+          "archetype": "design_leader"
+        }
+      ],
+      "consistency_standards": [
+        {
+          "thought": "The two similar buttons for starting the assessment could lead to confusion about which one to click. This is a usability concern under 'consistency_s",
+          "archetype": "design_leader"
+        },
+        {
+          "thought": "The clustering of similar actions (e.g., export options) could benefit from clearer visual separation to avoid accidental clicks.",
+          "archetype": "ux_researcher"
+        }
+      ],
+      "user_control_freedom": [
+        {
+          "thought": "I can't go back to fix my Q2 answer — this is a usability problem.",
+          "archetype": "design_leader"
+        },
+        {
+          "thought": "The page doesn't clarify if skipping is allowed or if the optional info is mandatory, which could lead to confusion.",
+          "archetype": "curious_explorer"
+        }
+      ],
+      "accessibility_structure": [
+        {
+          "thought": "The lack of a progress indicator or page structure makes it difficult to understand how far I am in the process. This could lead to confusion or a sen",
+          "archetype": "student_non_designer"
+        },
+        {
+          "thought": "The lack of progress indicators or orientation cues makes it unclear where I am in the process.",
+          "archetype": "traditional_craftsperson"
+        },
+        {
+          "thought": "The page is well-structured and the sections are clearly labeled, which helps me orient myself quickly.",
+          "archetype": "daily_user"
+        }
+      ],
+      "minimalist_design": [
+        {
+          "thought": "The layout violates minimalist design by including too many elements that distract from the primary task of answering the question.",
+          "archetype": "traditional_craftsperson"
+        }
+      ],
+      "flexibility_efficiency": [
+        {
+          "thought": "The lack of keyboard shortcuts or quick navigation options for power users is a missed opportunity for efficiency.",
+          "archetype": "ai_native_engineer"
+        }
+      ]
+    },
+    "missing_heuristics": [
+      "error_prevention",
+      "error_recovery"
+    ]
+  },
+  "cw_failure_points": {
+    "total_failures": 374,
+    "failure_rate": {
+      "will_try_right_effect": 0.44,
+      "notices_correct_action": 0.51,
+      "associates_action_with_goal": 0.38,
+      "sees_progress": 0.79,
+      "understands_page_structure": 0.56
+    },
+    "by_page": {
+      "assess?cohort=think-aloud-test": {
+        "count": 354,
+        "questions_failed": [
+          "will_try_right_effect",
+          "notices_correct_action",
+          "sees_progress",
+          "understands_page_structure",
+          "associates_action_with_goal"
+        ],
+        "archetypes": [
+          "app_builder",
+          "agency_creative_director",
+          "ux_researcher",
+          "traditional_craftsperson",
+          "design_leader",
+          "career_changer",
+          "curious_explorer",
+          "daily_user",
+          "student_non_designer",
+          "ai_native_engineer"
+        ],
+        "examples": [
+          {
+            "q": "sees_progress",
+            "why": "After clicking, I'm not sure if the page will change or if something is loading. I might need a confirmation or progress indicator.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "understands_page_structure",
+            "why": "I'm not sure if the demographics section is optional or required. The labels don't clearly tell me what is important or how the page is structured.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "will_try_right_effect",
+            "why": "I'm not confident about what the right action is. I might read the question again or look for more guidance.",
+            "arch": "career_changer"
+          }
+        ]
+      },
+      "home": {
+        "count": 14,
+        "questions_failed": [
+          "notices_correct_action",
+          "associates_action_with_goal",
+          "sees_progress",
+          "understands_page_structure",
+          "will_try_right_effect"
+        ],
+        "archetypes": [
+          "app_builder",
+          "ux_researcher",
+          "traditional_craftsperson",
+          "design_leader",
+          "career_changer",
+          "daily_user",
+          "curious_explorer",
+          "ai_native_engineer"
+        ],
+        "examples": [
+          {
+            "q": "sees_progress",
+            "why": "The progress bar is there, but it doesn't change or update after clicking, so I'm not sure if it's working.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "understands_page_structure",
+            "why": "I can't clearly tell the main sections of the page because the labels or landmarks aren't obvious to me.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "sees_progress",
+            "why": "There is no visible progress indicator or feedback after clicking the 'Start' button.",
+            "arch": "design_leader"
+          }
+        ]
+      },
+      "results": {
+        "count": 6,
+        "questions_failed": [
+          "will_try_right_effect",
+          "notices_correct_action",
+          "sees_progress",
+          "understands_page_structure",
+          "associates_action_with_goal"
+        ],
+        "archetypes": [
+          "ux_researcher",
+          "career_changer"
+        ],
+        "examples": [
+          {
+            "q": "will_try_right_effect",
+            "why": "I'm not confident what the correct next step is. I might hover over buttons but hesitate to click anything without knowing what it does.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "notices_correct_action",
+            "why": "The buttons or options aren't clearly labeled in a way that tells me what they do. I'm not sure which one to pick.",
+            "arch": "career_changer"
+          },
+          {
+            "q": "associates_action_with_goal",
+            "why": "The labels don't clearly connect to my goal of understanding what skills to learn next. I'm confused about how each option relates to that.",
+            "arch": "career_changer"
+          }
+        ]
+      }
+    },
+    "unique_failure_pages": 3
+  },
+  "sus_analysis": {
+    "overall_mean": 50.8,
+    "overall_std": 15.6,
+    "overall_grade": "D",
+    "benchmark_comparison": "below",
+    "score_range": 45.0,
+    "by_archetype": [
+      {
+        "archetype": "career_changer",
+        "mean_sus": 30.0,
+        "min": 30.0,
+        "max": 30.0,
+        "grade": "F",
+        "notes": "The system felt overwhelming and unclear, especially as someone new to AI. I needed more guidance and simpler language to feel confident using it."
+      },
+      {
+        "archetype": "agency_creative_director",
+        "mean_sus": 35.0,
+        "min": 35.0,
+        "max": 35.0,
+        "grade": "F",
+        "notes": "The system felt overly technical and failed to reflect the nuanced role of a creative director. It leaned too heavily on AI-centric language, making it feel alienating rather than intuitive."
+      },
+      {
+        "archetype": "ai_native_engineer",
+        "mean_sus": 40.0,
+        "min": 40.0,
+        "max": 40.0,
+        "grade": "D",
+        "notes": "The assessment felt overly simplistic and failed to engage with the depth of agent orchestration workflows I work with daily. The UI lacked nuance and feedback, making it frustrating for an advanced user like myself."
+      },
+      {
+        "archetype": "traditional_craftsperson",
+        "mean_sus": 40.0,
+        "min": 40.0,
+        "max": 40.0,
+        "grade": "D",
+        "notes": "The system feels overly minimal and assumes a level of AI familiarity that doesn't align with my manual design workflow. I found the lack of clear guidance and feedback frustrating and would not want to use it frequently."
+      },
+      {
+        "archetype": "student_non_designer",
+        "mean_sus": 45.0,
+        "min": 45.0,
+        "max": 45.0,
+        "grade": "D",
+        "notes": "The system is functional but relies heavily on design terminology I'm still learning. The lack of clear explanations for terms like 'maturity stage' and 'context engineering' made it harder to confidently navigate."
+      },
+      {
+        "archetype": "design_leader",
+        "mean_sus": 47.5,
+        "min": 47.5,
+        "max": 47.5,
+        "grade": "D",
+        "notes": "The system is clean but lacks clarity for broader team adoption, especially for less experienced users. It feels functional but not intuitive enough for seamless use at scale."
+      },
+      {
+        "archetype": "curious_explorer",
+        "mean_sus": 62.5,
+        "min": 62.5,
+        "max": 62.5,
+        "grade": "C",
+        "notes": "I found the system playful and engaging at first, but some parts felt confusing or overwhelming. I’m excited to keep learning, but I think it could be smoother for someone still figuring out AI workflows."
+      },
+      {
+        "archetype": "ux_researcher",
+        "mean_sus": 62.5,
+        "min": 62.5,
+        "max": 62.5,
+        "grade": "C",
+        "notes": "The interface is clean and structured but lacks clear progress indicators and visual feedback, which hindered usability and confidence. As a cautious adopter, I appreciated the professional tone but found the navigation and design choices to occasionally create confusion."
+      },
+      {
+        "archetype": "daily_user",
+        "mean_sus": 70.0,
+        "min": 70.0,
+        "max": 70.0,
+        "grade": "B",
+        "notes": "The system is mostly clean and easy to use, but some pages lacked clear orientation and visual hierarchy, which caused brief hesitation. Overall, I felt confident and curious throughout the assessment."
+      },
+      {
+        "archetype": "app_builder",
+        "mean_sus": 75.0,
+        "min": 75.0,
+        "max": 75.0,
+        "grade": "B",
+        "notes": "The system is clean and purposeful, with a clear flow that aligns with my AI-native workflow. I found it intuitive and efficient, with only minor friction in visual hierarchy and feedback."
+      }
+    ]
+  },
+  "convergence_analysis": {
+    "archetypes_analyzed": 0,
+    "overall_convergence_rate": null,
+    "by_archetype": {}
+  },
+  "behavioral_realism": {
+    "events_per_session": 48.3,
+    "total_events": 483,
+    "by_archetype": [
+      {
+        "archetype": "career_changer",
+        "avg_events": 88,
+        "confusion_prob": 0.372
+      },
+      {
+        "archetype": "traditional_craftsperson",
+        "avg_events": 77,
+        "confusion_prob": 0.164
+      },
+      {
+        "archetype": "design_leader",
+        "avg_events": 67,
+        "confusion_prob": 0.086
+      },
+      {
+        "archetype": "ux_researcher",
+        "avg_events": 64,
+        "confusion_prob": 0.039
+      },
+      {
+        "archetype": "student_non_designer",
+        "avg_events": 55,
+        "confusion_prob": 0.36
+      },
+      {
+        "archetype": "curious_explorer",
+        "avg_events": 39,
+        "confusion_prob": 0.272
+      },
+      {
+        "archetype": "agency_creative_director",
+        "avg_events": 36,
+        "confusion_prob": 0.098
+      },
+      {
+        "archetype": "daily_user",
+        "avg_events": 36,
+        "confusion_prob": 0.109
+      },
+      {
+        "archetype": "ai_native_engineer",
+        "avg_events": 15,
+        "confusion_prob": 0.056
+      },
+      {
+        "archetype": "app_builder",
+        "avg_events": 6,
+        "confusion_prob": 0.022
+      }
+    ]
+  },
+  "accessibility_analysis": {
+    "structure_understanding_rate": 0.44,
+    "structure_total": 140,
+    "by_page": {
+      "assess?cohort=think-aloud-test": 0.4,
+      "home": 0.9,
+      "results": 0.67
+    },
+    "accessibility_rating_mean": 2.8,
+    "accessibility_rating_std": 0.6,
+    "accessibility_rating_by_archetype": [
+      {
+        "archetype": "ai_native_engineer",
+        "mean_rating": 2,
+        "count": 1
+      },
+      {
+        "archetype": "career_changer",
+        "mean_rating": 2,
+        "count": 1
+      },
+      {
+        "archetype": "ux_researcher",
+        "mean_rating": 2,
+        "count": 1
+      },
+      {
+        "archetype": "agency_creative_director",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "app_builder",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "curious_explorer",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "design_leader",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "student_non_designer",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "traditional_craftsperson",
+        "mean_rating": 3,
+        "count": 1
+      },
+      {
+        "archetype": "daily_user",
+        "mean_rating": 4,
+        "count": 1
+      }
+    ],
+    "accessibility_thoughts_count": 136
+  }
+}

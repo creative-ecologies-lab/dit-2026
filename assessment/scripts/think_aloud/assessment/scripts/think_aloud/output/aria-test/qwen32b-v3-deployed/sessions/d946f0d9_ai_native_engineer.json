@@ -1,0 +1,978 @@
+{
+  "protocol_version": "2.1",
+  "model": "Qwen/Qwen3-32B",
+  "session_id": "d946f0d9",
+  "persona": {
+    "archetype": "ai_native_engineer",
+    "archetype_name": "AI-Native Engineer",
+    "role": "AI Engineer",
+    "years": 4,
+    "industry": "AI startup",
+    "age_range": "25-34",
+    "ai_comfort": "expert — lives in agent workflows, builds with Claude Code and LangGraph",
+    "motivation": "Benchmarking myself. Probably going to find this too basic for me.",
+    "big5": {
+      "openness": 5,
+      "conscientiousness": 3,
+      "extraversion": 2,
+      "agreeableness": 2,
+      "neuroticism": 1
+    },
+    "tech_beliefs": "Most AI assessments are built by people who don't actually use AI at a deep level. The real frontier is agent orchestration, not chatbot prompting. I expect to find this too simplistic for my workflow.",
+    "confusion_prob": 0.056,
+    "reading_speed": 0.5
+  },
+  "journey": "primary",
+  "pages": [
+    {
+      "url": "https://dit-maeda.noahratzan.com/",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The 'Take the Assessment' button is present but not immediately prominent; I would have expected a stronger visual hierarchy for the primary action.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click the 'Take the Assessment' button since it aligns with my goal of starting the self-assessment. I expect it to lead to the first question.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Frustrated slightly by the lack of clear affordance for the primary action, but motivated to proceed as this is my main objective.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I expect the assessment to be technically deep and aligned with my experience in agent workflows. If it feels too basic, I may disengage quickly.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The 'Take the Assessment' button could be more visually distinct to avoid confusion with secondary actions like 'Generate cohort QR code'.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is navigable, but the lack of a clear progress indicator makes it hard to gauge what to expect next.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "a.btn.btn-primary.btn-lg",
+        "value": null,
+        "rationale": "Clicking the 'Take the Assessment' button to begin the self-assessment.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "The page appears minimal but lacks immediate affordance for starting the assessment. I'm scanning for a 'begin' or 'take assessment' button.",
+        "clarity_score": 3,
+        "emotional_reaction": "Underwhelmed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I'm not immediately sure which interaction will begin the assessment; the interface feels too ambiguous for my workflow.",
+          "notices_correct_action": false,
+          "notices_why": "The correct action is not clearly labeled or visually prioritized; I'm left guessing.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels and content don't directly address the goal of taking the assessment, which makes it harder to align with my intent.",
+          "sees_progress": false,
+          "progress_why": "No progress indicators or feedback are visible at this stage, so I can't tell if I've triggered the next step.",
+          "understands_page_structure": true,
+          "structure_why": "The structure is simple, with a clear focus on the main content area, but it lacks clear landmark roles for better orientation."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page lacks clear visual hierarchy and progress indicators. I can't tell where the main action is or if I'm in the right place.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll click the 'Skip to questions' button to bypass the optional fields and get to the core of the assessment. I don't want to waste time on non-essential steps.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Frustrated. I expected a more streamlined and purpose-built interface for someone like me who works deeply with AI agent workflows. This feels too generic.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a more general audience, not someone like me who's already embedded in advanced agent systems and doesn't need hand-holding.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The layout is unclear and doesn't communicate where the user should go next. This violates the visibility_of_system_status heuristic.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is confusing without clear progress indicators or section labels. I'm not sure if I'm on the right path.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button#intakeSkip",
+        "value": null,
+        "rationale": "Bypass optional fields and get to the assessment quickly.",
+        "hesitation": "none"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems sparse and underdeveloped. I'm immediately scanning for a 'Start' or 'Skip' option to move forward.",
+        "clarity_score": 3,
+        "emotional_reaction": "Unimpressed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I'm likely to try the most direct action, assuming it aligns with the goal.",
+          "notices_correct_action": false,
+          "notices_why": "The correct action is not clearly labeled or emphasized. The UI lacks visual hierarchy to guide me.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels don't clearly communicate their purpose in relation to the assessment goal. I'm not sure what each option does.",
+          "sees_progress": false,
+          "progress_why": "There's no indication of progress or confirmation that an action was successful. The interface feels static.",
+          "understands_page_structure": false,
+          "structure_why": "The page structure is not clearly defined. There are no landmark roles or labels to help orient me."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are laid out vertically, which is logical for a multiple-choice question. However, the buttons are visually similar and lack visual affordances to indicate the current selection. This could lead to confusion about whether the system recognizes the selected option.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I want to select an option that reflects my actual workflow. Since I work with agent orchestration and use tools like LangGraph and Claude Code, I need to evaluate the definitions of the automation levels before making a choice.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly underwhelmed because the interface doesn’t provide a clear explanation of what each automation level entails. This makes me hesitant to make a quick decision.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a basic understanding of AI workflows, but it doesn’t clarify the nuances between automation levels. I need to ensure I’m selecting the most accurate level for my advanced work with agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The interface lacks feedback to confirm the selected option, which can cause uncertainty about the system's status.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page is structured in a way that allows me to navigate to the options, but the lack of visual feedback or explanations for the automation levels hinders my ability to make an informed choice quickly.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: I run automated agent harnesses with eval suites that execute autonomously.']",
+        "value": null,
+        "rationale": "Level 4 best matches my current work, as I use agent orchestration and automated evaluation suites in my AI workflows.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The question is clear, but the interface feels too basic. I want to see how the automation levels are defined before choosing.",
+        "clarity_score": 4,
+        "emotional_reaction": "Slightly underwhelmed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The question is straightforward and I have a general sense of which option to choose.",
+          "notices_correct_action": true,
+          "notices_why": "The options are clearly labeled and visually distinct, so I can identify the right button.",
+          "associates_action_with_goal": true,
+          "associates_why": "The labels directly relate to the question about automation levels in my work.",
+          "sees_progress": true,
+          "progress_why": "I expect the next question to load after selecting an option, which would confirm the action worked.",
+          "understands_page_structure": true,
+          "structure_why": "The layout is minimal but the question and options are clearly marked, making the purpose of the page clear."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The layout is clean but feels oversimplified for an experienced AI engineer. The visual hierarchy could better emphasize the technical depth of each option.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select the option that best reflects my current work with agent orchestration and automated eval suites. This is a straightforward choice based on my experience.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel skeptical about the simplicity of the interface and wonder if it will truly capture the complexity of my work with agent workflows.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a linear progression of automation levels, but in practice, my workflow is more dynamic and doesn't always align with a rigid scale.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are clearly labeled, which helps me understand the meaning of each level. This makes it easier to identify the correct choice.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear and I can easily locate the buttons I need, but the lack of progress indicators or a summary makes it harder to track my choices.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: Automated eval suites decide pass, retry, or escalate without my input.']",
+        "value": null,
+        "rationale": "This option best aligns with my experience of running automated agent harnesses with eval suites.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "The question is direct, but the interface feels oversimplified. I'm already questioning if this assessment will miss the nuance of agent orchestration.",
+        "clarity_score": 3,
+        "emotional_reaction": "Skeptical",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "The options are presented, but I'm not sure if they align with my specific automation context or if they're just generic categories.",
+          "notices_correct_action": true,
+          "notices_why": "The question and options are visible and labeled clearly enough for me to proceed.",
+          "associates_action_with_goal": false,
+          "associates_why": "The label 'automation level' is too vague for my work. It doesn't capture the complexity of agent orchestration.",
+          "sees_progress": false,
+          "progress_why": "There's no indication of progress or confirmation that my selection will be processed correctly.",
+          "understands_page_structure": true,
+          "structure_why": "The layout is simple, with a clear question and options. The structure is minimal but functional."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons for automation levels are labeled with letters (A-F) and brief descriptions, but there's no visual hierarchy to distinguish between the different levels clearly. The labels feel generic and don’t reflect the nuanced workflows of a professional AI engineer.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll click on the button labeled 'E' because it best reflects my work with agent harnesses and automated evaluations. The description matches my current setup where workflows run autonomously.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Frustrated, because I expected a more sophisticated interface tailored for advanced users. The lack of depth and technical specificity feels dismissive of the complexity of agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This assessment assumes a basic understanding of AI usage, but it oversimplifies the advanced agent workflows I engage in daily. I'm confident in my expertise, but this doesn't reflect the realities of agent orchestration at scale.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The labels for the automation levels could be more descriptive and tailored for experienced professionals. This interface doesn’t align with the real-world complexity of agent workflows.",
+          "heuristic": "match_real_world",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but there's no visual or structural cue to indicate progress within the assessment. This makes it harder to contextualize where I am in the process.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: Work continues — my harnesses run, evaluate, and retry on their own.']",
+        "value": null,
+        "rationale": "The description aligns with my current workflows involving agent harnesses and automated evaluations.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "The page appears to be asking for an assessment of automation levels, but the UI feels overly generic and simplistic. I expected more depth and nuance for a professional AI engineer.",
+        "clarity_score": 3,
+        "emotional_reaction": "Skeptical",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "The options are presented without clear context for my specific work, so I'm unsure if any of them apply to agent orchestration.",
+          "notices_correct_action": false,
+          "notices_why": "The interface lacks clear visual hierarchy or labels that distinguish between options clearly, making it hard to identify the right choice at a glance.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels don't align well with the technical depth of my work; they seem more suited for general automation rather than AI agent systems.",
+          "sees_progress": false,
+          "progress_why": "There is no visible progress indicator or feedback that confirms the action was taken or what it leads to.",
+          "understands_page_structure": false,
+          "structure_why": "The page doesn't have clear landmarks or role labels to help orient someone quickly. The structure feels flat and unintuitive."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The options are presented as buttons with minimal visual feedback on selection state, making it hard to confirm if an option was selected.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll select Level 4 since it aligns with my experience in building automated agent harnesses and eval suites.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Disengaged — this feels like a basic survey that doesn't respect the depth of my work with AI agent workflows.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I want to ensure I'm selecting the right option to accurately represent my work, but the lack of interactivity makes it feel tedious.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of feedback after clicking a button makes it hard to know if the selection was registered.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, but the buttons don't provide enough visual feedback to confirm selections, which could hinder users with visual impairments.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: I build harness configs with eval gates, retry logic, and corrective prompts.']",
+        "value": null,
+        "rationale": "Selecting Level 4 aligns with my experience in building automated agent harnesses and eval suites.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "This looks like another basic survey with minimal interactivity. I want to see how this is structured before proceeding.",
+        "clarity_score": 4,
+        "emotional_reaction": "Disengaged",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "The task is straightforward, and I can infer the next action from the prompt.",
+          "notices_correct_action": true,
+          "notices_why": "The options are presented in a radiogroup, which implies a single choice is expected.",
+          "associates_action_with_goal": true,
+          "associates_why": "The label 'Pick the automation level that best describes YOUR work' clearly defines the task.",
+          "sees_progress": false,
+          "progress_why": "No progress indicator or feedback is visible after making a selection.",
+          "understands_page_structure": true,
+          "structure_why": "The page has a clear primary content area with a focused question and options."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons for each automation level are clearly labeled, but the lack of visual feedback when a button is clicked or selected is a usability issue.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will select Level 4 again because it most accurately reflects my experience with agent harnesses and automated evaluation suites.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly frustrated because the interface doesn't acknowledge my previous selections or provide any confirmation of my choice.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a baseline familiarity with AI workflows, which I have, but I still expect a more sophisticated design for someone at my level.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of feedback when a choice is made violates the heuristic of visibility_of_system_status. I can't confirm that my selection was registered.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear and the navigation arrows are intuitive, but there's no indication of progress or the current step in the journey.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "This option best matches my experience with automated agent workflows and self-evaluating systems.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "This is yet another surface-level AI assessment. Where's the depth on agent orchestration?",
+        "clarity_score": 2,
+        "emotional_reaction": "disappointed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "Uncertain if clicking any option will advance or if I need to read more context.",
+          "notices_correct_action": false,
+          "notices_why": "The interface is unclear whether this is a single choice or if there are additional instructions.",
+          "associates_action_with_goal": false,
+          "associates_why": "The question is too vague for my work context. I need more specificity.",
+          "sees_progress": false,
+          "progress_why": "No visible indicator shows if my selection is registered or what's next.",
+          "understands_page_structure": false,
+          "structure_why": "No clear landmarks or section labels to orient myself in the page hierarchy."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons are labeled with letters (A-F), but the descriptions are truncated and incomplete. This forces me to read carefully, which is time-consuming.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll click Level 4 again to confirm it's the correct choice for my workflow, as it aligns with building agent harnesses and automated evaluation suites.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Frustrated. The lack of clarity and incomplete descriptions waste my time. I expect a more streamlined and precise interface.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm confident in my automation level, but the interface makes me question if I'm overestimating my setup's maturity.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are labeled clearly but the truncation forces me to infer meaning. This could mislead users.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is navigable, but the lack of progress indicators or clear section headings makes it harder to orient.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "This option aligns with my actual workflow of building and running agent harnesses with automated evaluation.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking for a self-assessment of automation level in my work, but the question feels vague. I want more specifics about the context or examples.",
+        "clarity_score": 3,
+        "emotional_reaction": "Mildly unimpressed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I assume I need to select an option based on the question, but I'd prefer a more detailed explanation.",
+          "notices_correct_action": false,
+          "notices_why": "The interface lacks clear visual cues for where to click or what the options are.",
+          "associates_action_with_goal": true,
+          "associates_why": "Selecting an automation level seems to align with the question, but I'm not confident it's relevant to my work as an AI engineer.",
+          "sees_progress": false,
+          "progress_why": "There's no visible indication of progress or confirmation that my selection is being recorded.",
+          "understands_page_structure": false,
+          "structure_why": "The page lacks clear section labels or landmarks to help me orient myself."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page layout is clean, but the options are not clearly separated, making it hard to focus on one at a time.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click on Level 4 again, as it aligns with my experience with automated workflows and agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel skeptical and impatient because the options seem too simplistic for an expert-level AI engineer like myself.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This assumes a basic understanding of AI maturity stages, but I expect a more nuanced assessment given my background.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of a clear explanation of what 'maturity stage' means could confuse users who are not familiar with the term.",
+          "heuristic": "help_documentation",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but there's no progress indicator, making it hard to gauge where I am in the assessment.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "This aligns with my experience using agent workflows and automated evaluation systems.",
+        "hesitation": "none"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "The page feels overly simplistic. I need more context on the options before choosing anything.",
+        "clarity_score": 3,
+        "emotional_reaction": "Skeptical",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": true,
+          "will_try_why": "I see a set of maturity stages and assume selecting one will proceed, but the options lack detail.",
+          "notices_correct_action": true,
+          "notices_why": "The buttons are clearly labeled and positioned as actionable choices.",
+          "associates_action_with_goal": false,
+          "associates_why": "The label 'maturity stage' is vague. I'm unsure how each option maps to my workflow.",
+          "sees_progress": false,
+          "progress_why": "No visual feedback or progress indicator is visible after selecting an option.",
+          "understands_page_structure": false,
+          "structure_why": "The page lacks clear section labeling or hierarchy, making it hard to orient quickly."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons are labeled with letters (A-F) followed by incomplete text. This makes it hard to quickly understand the full meaning of each option.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll click on Level 4 again because it aligns with my experience of building end-to-end features that are generated, tested, and QA'd automatically. This feels most accurate to my workflow.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "Frustrated. The lack of clarity and incomplete text forces me to guess at the meaning of the options. This wastes my time and feels unprofessional.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes I'm a beginner and doesn't respect my deep experience with AI agent workflows. It's a bit demoralizing.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The options are not clearly labeled, which makes it hard to understand their meaning at a glance. This violates the recognition_over_recall heuristic.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but the lack of progress indicators or orientation cues makes it hard to know where I am in the process.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "This option best reflects my current maturity stage as an AI Engineer working on end-to-end features with automation.",
+        "hesitation": "none"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking for a maturity stage assessment, but the phrasing is vague and lacks technical specificity. I want more context.",
+        "clarity_score": 3,
+        "emotional_reaction": "Impatient",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "The question is too abstract. I need more clarity on what 'maturity stage' means in the context of my workflow.",
+          "notices_correct_action": true,
+          "notices_why": "I see the options laid out, but the labels are ambiguous and lack actionable definitions.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels don't clearly align with the stated goal of describing 'how I work'.",
+          "sees_progress": false,
+          "progress_why": "There's no visual feedback or progress indicator to confirm if my choice was registered.",
+          "understands_page_structure": false,
+          "structure_why": "The page lacks clear landmarks or section labels to orient me in the structure."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The layout is clean but the labels for the buttons are truncated, requiring me to infer the full meaning from incomplete text.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click on Level 4 again because it aligns with my experience of building automated end-to-end features with testing and QA.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I'm mildly frustrated because the page feels repetitive and doesn't provide enough nuance for my advanced workflow.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This assumes I work in a mature AI environment, which I do, but I'm not sure if the question is capturing the full scope of agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The lack of keyboard shortcuts or quick navigation options for power users is a missed opportunity for efficiency.",
+          "heuristic": "flexibility_efficiency",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, but the progress indicator is missing, making it hard to assess where I am in the flow.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "This aligns with my experience and workflow as an AI engineer.",
+        "hesitation": "none"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking about maturity stages of work practices, but the structure is unclear. I'm expecting a more nuanced assessment of agent orchestration.",
+        "clarity_score": 3,
+        "emotional_reaction": "Underwhelmed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "The options are not clearly defined in terms of what they imply for workflow maturity. I would hesitate before making a choice.",
+          "notices_correct_action": true,
+          "notices_why": "The interface appears to offer clickable options, and it's apparent that I need to select one.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels don't clearly convey how they relate to my actual workflow maturity in agent orchestration.",
+          "sees_progress": false,
+          "progress_why": "There's no visible indicator to show that selecting an option moves me forward or updates the assessment state.",
+          "understands_page_structure": false,
+          "structure_why": "I cannot identify the main sections or landmarks of the page, and there's no clear orientation provided."
+        }
+      },
+      "hesitation": "none"
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The buttons are labeled with letters A-F, but the labels are cut off or abbreviated, making it hard to fully understand each option at a glance.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I would select Level 4 again, as it aligns with my current experience with end-to-end features that are automatically generated, tested, and QA'd. But I'm questioning if the options are nuanced enough for someone like me who works with agent workflows.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel slightly disengaged because the question lacks depth and doesn't reflect the complexity of my day-to-day work with LangGraph and agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I wonder if I'm overestimating my maturity stage or if the framework is just not sophisticated enough to capture the nuance of agent-based AI workflows.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The abbreviated button text forces me to read the full aria label to understand the option, which is inefficient.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but the lack of progress indicators or visual cues about where I am in the flow makes it harder to orient myself quickly.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "I'm selecting Level 4 again because it best matches my current workflow, even though I find the question simplistic.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking me to assess my maturity stage, but the question lacks specificity. I’m looking for a more nuanced framework than a simple self-assessment scale.",
+        "clarity_score": 2,
+        "emotional_reaction": "Underwhelmed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "The question is too vague for me to confidently choose an option without more context. I’m not sure what the stages represent in practice.",
+          "notices_correct_action": false,
+          "notices_why": "The interface doesn’t clearly indicate which action will advance me or what each option entails. The labels feel generic and oversimplified.",
+          "associates_action_with_goal": false,
+          "associates_why": "The options don’t map to the goal of benchmarking my workflow maturity. I’m not convinced these stages align with real-world AI engineering practices.",
+          "sees_progress": false,
+          "progress_why": "There’s no indication of progress or how my choice will be integrated into the overall assessment. The lack of feedback is off-putting.",
+          "understands_page_structure": false,
+          "structure_why": "The page lacks clear sectioning or landmarks. I can’t orient myself to what the main content is or what the next steps might be."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page layout is minimal, but the labels on the buttons are cut off, making it hard to read the full descriptions.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I'll click Level 4 again to confirm my selection since it aligns with my experience in building agent workflows and automating testing and QA.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I'm mildly disengaged because the interface feels too simple for my level of expertise and doesn't respect my time with a more nuanced design.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "I'm assuming the Level 4 option accurately reflects my current maturity in AI workflows, but I'm slightly uncertain if it fully captures the complexity of autonomous agent orchestration.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The buttons are clearly labeled, which helps with recognition over recall, but the lack of feedback after clicking is a usability concern.",
+          "heuristic": "recognition_over_recall",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is clear, but the truncated text on the buttons hinders orientation and understanding for users with visual impairments.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button[aria-label='Level 4: End-to-end features that are generated, tested, and QA'd automatically.']",
+        "value": null,
+        "rationale": "Confirming my selection for Level 4 as it best reflects my experience in building AI workflows.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "15s",
+      "fast_reaction": {
+        "first_impression": "The page seems to be asking for a maturity rating, but the lack of context makes me wonder why this is relevant to my workflow. I want to know what the stages mean.",
+        "clarity_score": 3,
+        "emotional_reaction": "disinterested",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I'm not sure which option best describes my workflow because the descriptions are vague and lack depth.",
+          "notices_correct_action": true,
+          "notices_why": "The interface seems to offer a set of options, and it's clear that I need to select one.",
+          "associates_action_with_goal": false,
+          "associates_why": "The label 'maturity stage' is ambiguous. I don't see how it aligns with the question about 'how I work.'",
+          "sees_progress": false,
+          "progress_why": "No progress indicator is visible, and the page doesn't provide feedback after selection.",
+          "understands_page_structure": false,
+          "structure_why": "There are no clear landmarks or labels to orient me. The structure feels flat and unintuitive."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "brief_hesitation"
+      ]
+    },
+    {
+      "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test",
+      "thoughts": [
+        {
+          "type": "ui_observation",
+          "thought": "The page layout is generic and does not clearly indicate my current position in the assessment flow. I expect a more sophisticated interface tailored for advanced AI practitioners.",
+          "element": null
+        },
+        {
+          "type": "decision",
+          "thought": "I will click the 'Next question' button to see if the interface becomes more engaging or if it continues to feel like a basic quiz.",
+          "element": null
+        },
+        {
+          "type": "emotion",
+          "thought": "I feel underwhelmed and slightly bored. As an AI engineer, I expect a more dynamic and insightful experience than a simple quiz.",
+          "element": null
+        },
+        {
+          "type": "self_awareness",
+          "thought": "This interface assumes a basic level of AI usage, but I work with advanced agent workflows and expect tools that reflect that complexity.",
+          "element": null
+        },
+        {
+          "type": "usability",
+          "thought": "The interface lacks a clear indication of the user's progress in the assessment, which can lead to confusion about how much is left to complete.",
+          "heuristic": "visibility_of_system_status",
+          "element": null
+        },
+        {
+          "type": "accessibility",
+          "thought": "The page structure is somewhat clear, but it lacks sufficient visual and structural cues to guide a user who expects efficiency and depth.",
+          "element": null
+        }
+      ],
+      "action": {
+        "type": "click",
+        "selector": "button#saeNext",
+        "value": null,
+        "rationale": "I want to see if the next question or section offers a more meaningful or advanced experience.",
+        "hesitation": "brief"
+      },
+      "time_estimate": "10s",
+      "fast_reaction": {
+        "first_impression": "I see a placement result and some growth path suggestions, but the layout feels generic. I’m already wondering where the real insights are.",
+        "clarity_score": 3,
+        "emotional_reaction": "Underwhelmed",
+        "cognitive_walkthrough": {
+          "will_try_right_effect": false,
+          "will_try_why": "I’m not immediately clear if the next action leads to a deeper analysis or just a summary. I’d hesitate.",
+          "notices_correct_action": false,
+          "notices_why": "The primary action is likely there, but the visual hierarchy doesn’t strongly highlight it. I’d need to scan more.",
+          "associates_action_with_goal": false,
+          "associates_why": "The labels don’t clearly align with my goal of exploring advanced agent orchestration concepts. It feels too high-level.",
+          "sees_progress": true,
+          "progress_why": "If there’s a progress indicator or dynamic content, I’d notice it, but I’m not seeing it yet.",
+          "understands_page_structure": false,
+          "structure_why": "The page sections are vaguely labeled. I can’t quickly orient myself to the main content or key decisions."
+        }
+      },
+      "hesitation": "brief",
+      "behavioral_events": [
+        "brief_hesitation"
+      ]
+    }
+  ],
+  "reflection": {
+    "overall_reflection": "The assessment felt too simplistic and lacked the technical depth I expect as an AI engineer working with agent workflows. The UI was underwhelming and failed to engage me as a power user.",
+    "usability_issues": [
+      "Lack of clear progress indicators made it hard to gauge where I was in the assessment.",
+      "Buttons lacked visual feedback after selection, making it unclear if my choices were registered.",
+      "Labels for automation levels were truncated or incomplete, requiring me to read aria-labels for full understanding.",
+      "The interface assumed a general audience rather than catering to advanced users in agent orchestration."
+    ],
+    "nps_score": 4,
+    "nps_reason": "I would not recommend this assessment to other AI engineers due to its lack of depth and poor usability for advanced users. The repetitive nature and oversimplified questions were frustrating and unengaging.",
+    "strongest_moment": "The most frustrating moment was when the buttons for automation levels had incomplete labels, forcing me to infer meaning and read aria-labels for clarity.",
+    "would_share": false,
+    "share_reason": "I wouldn't share this with my colleagues because it doesn't reflect the sophistication of our work and lacks meaningful insights for professionals in agent workflows.",
+    "accessibility_rating": 2,
+    "accessibility_note": "The page structure was confusing and lacked clear section labels or progress indicators, making it harder to navigate, especially for someone accustomed to advanced tools."
+  },
+  "result": {},
+  "sus": {
+    "sus_scores": [
+      2,
+      3,
+      2,
+      2,
+      2,
+      3,
+      2,
+      3,
+      2,
+      3
+    ],
+    "sus_notes": "The assessment felt overly simplistic and failed to engage with the depth of agent orchestration workflows I work with daily. The UI lacked nuance and feedback, making it frustrating for an advanced user like myself.",
+    "sus_total": 40.0,
+    "sus_grade": "D"
+  },
+  "behavioral_events_summary": {
+    "total": 5,
+    "events": [
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      },
+      {
+        "event": "brief_hesitation",
+        "url": "https://dit-maeda.noahratzan.com/assess?cohort=think-aloud-test"
+      }
+    ]
+  },
+  "started_at": "2026-02-24T07:49:52.279105+00:00",
+  "completed_at": "2026-02-24T07:57:15.344134+00:00",
+  "engine_usage": {
+    "calls": 30,
+    "input_tokens": 50793,
+    "output_tokens": 9936,
+    "cost_usd": 0.0
+  }
+}
