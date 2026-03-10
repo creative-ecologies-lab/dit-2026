@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block title %}Group ID — AI Upskilling Map{% endblock %}
+
+{% block content %}
+<div class="cohort-page" role="region" aria-label="Group lookup">
+
+    <!-- Top: Title + Lookup -->
+    <div class="cohort-header">
+        <h1 class="cohort-heading">Group ID</h1>
+        <p class="cohort-desc">Share the QR code or link to get started.</p>
+
+        <div class="cohort-lookup" role="search" aria-label="Group ID lookup">
+            <label for="cohortInput" class="sr-only">Group ID</label>
+            <div class="cohort-lookup-row">
+                <input type="text" id="cohortInput" placeholder="Enter group ID" autocomplete="off" spellcheck="false" aria-describedby="cohortDesc">
+                <button class="btn btn-primary" id="cohortGoBtn" aria-label="Enter">Enter</button>
+            </div>
+            <span id="cohortDesc" class="sr-only">Enter a group ID shared by your event organizer or instructor, then press Enter or click Go</span>
+        </div>
+    </div>
+
+    <!-- Map + QR (shown after lookup) -->
+    <div id="cohortContent" class="cohort-body" style="display:none;">
+        <div class="cohort-map-titlebar">
+            <h2 id="cohortTitle" class="cohort-map-title" aria-live="polite"></h2>
+            <span id="heatmapStatus" class="cohort-map-status" aria-live="polite"></span>
+        </div>
+
+        <div class="cohort-split">
+            <aside id="cohortShareCard" class="cohort-join-card" aria-label="Group join information">
+                <h3>Share</h3>
+                <div id="qrCode" role="img" aria-label="QR code to join this group"></div>
+                <p class="cohort-join-url" id="cohortJoinUrl" aria-label="Direct link to join this group"></p>
+            </aside>
+
+            <div class="cohort-map-area">
+                <div class="map-card">
+                    <div id="heatmapContainer" aria-live="polite" aria-atomic="true"></div>
+                </div>
+                <figure class="heatmap-legend" id="heatmapLegend" role="img" aria-label="Color intensity legend" style="display:none;">
+                    <span aria-hidden="true">Fewer</span>
+                    <div class="heatmap-legend-bar" aria-hidden="true"></div>
+                    <span aria-hidden="true">More</span>
+                </figure>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='qrcode.min.js') }}"></script>
+<script>
+(function() {
+    'use strict';
+
+    var input = document.getElementById('cohortInput');
+    var btn = document.getElementById('cohortGoBtn');
+    var content = document.getElementById('cohortContent');
+    var title = document.getElementById('cohortTitle');
+    var status = document.getElementById('heatmapStatus');
+    var container = document.getElementById('heatmapContainer');
+    var legend = document.getElementById('heatmapLegend');
+    var qrEl = document.getElementById('qrCode');
+    var urlEl = document.getElementById('cohortJoinUrl');
+    var page = document.querySelector('.cohort-page');
+    var header = document.querySelector('.cohort-header');
+    var split = document.querySelector('.cohort-split');
+    var mapArea = document.querySelector('.cohort-map-area');
+    var shareCard = document.getElementById('cohortShareCard');
+    var sidebarActive = false;
+
+    var LEVELS = [5, 4, 3, 2, 1, 0];
+    var LEVEL_NAMES = {
+        0: 'L0: Manual', 1: 'L1: AI-Assisted', 2: 'L2: Partial',
+        3: 'L3: Guided', 4: 'L4: Mostly Auto', 5: 'L5: Full Auto'
+    };
+    var STAGES = ['E', 'P', 'I', 'A', 'S'];
+    var STAGE_NAMES = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
+
+    var pollTimer = null;
+
+    function renderHeatmap(data) {
+        var counts = data.counts;
+        var maxCount = Math.max(1, ...Object.values(counts));
+
+        var html = '<table class="landing-heatmap" role="table" aria-label="Group heatmap">';
+        html += '<thead><tr><th scope="col" class="hm-corner"><span class="sr-only">SAE Level</span></th>';
+        STAGES.forEach(function(s) {
+            var label = STAGE_NAMES[s].replace('Practitioner', 'Practi\u00ADtioner').replace('Integrator', 'Inte\u00ADgrator');
+            html += '<th scope="col" class="hm-stage-header" aria-label="' + STAGE_NAMES[s] + '">' + label + '</th>';
+        });
+        html += '</tr></thead><tbody>';
+
+        LEVELS.forEach(function(level) {
+            html += '<tr><th scope="row" class="hm-level-header" aria-label="' + LEVEL_NAMES[level] + '">';
+            html += '<span class="hm-level-num">L' + level + '</span>';
+            html += '<span class="hm-level-name">' + LEVEL_NAMES[level].split(': ')[1] + '</span>';
+            html += '</th>';
+            STAGES.forEach(function(stage) {
+                var key = level + '_' + stage;
+                var count = counts[key] || 0;
+                var intensity = count > 0 ? (count / maxCount) : 0;
+                var opacity = count > 0 ? (intensity * 0.80 + 0.15).toFixed(2) : '0.04';
+                var textCls = intensity > 0.5 ? 'hm-count-light' : 'hm-count-dark';
+                var cellLabel = count > 0
+                    ? count + (count === 1 ? ' person' : ' people') + ' at ' + LEVEL_NAMES[level] + ', ' + STAGE_NAMES[stage]
+                    : 'No responses at ' + LEVEL_NAMES[level] + ', ' + STAGE_NAMES[stage];
+                html += '<td class="hm-cell' + (count === 0 ? ' hm-cell-empty' : '') + '" style="--cell-opacity:' + opacity + ';" aria-label="' + cellLabel + '">';
+                if (count > 0) html += '<span class="hm-count ' + textCls + '">' + count + '</span>';
+                html += '</td>';
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+
+    function lookup() {
+        var code = (input.value || '').trim().toLowerCase();
+        if (!code) return;
+
+        // Stop any previous polling
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+
+        // Show the content area, generate QR immediately
+        content.style.display = '';
+        var codeSpan = document.createElement('span');
+        codeSpan.className = 'cohort-code-highlight';
+        codeSpan.textContent = code;
+        title.textContent = 'AI Upskilling Map for ';
+        title.appendChild(codeSpan);
+        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Loading&hellip;</p>';
+        legend.style.display = 'none';
+        status.textContent = '';
+
+        // QR code
+        var joinUrl = location.origin + '/assess?group=' + encodeURIComponent(code);
+        urlEl.textContent = joinUrl;
+        var qr = qrcode(0, 'M');
+        qr.addData(joinUrl);
+        qr.make();
+        qrEl.innerHTML = qr.createSvgTag(3, 0);
+        var svg = qrEl.querySelector('svg');
+        if (svg) {
+            svg.setAttribute('role', 'img');
+            svg.setAttribute('aria-label', 'QR code to join ' + code + ' group assessment');
+        }
+
+        // Fetch heatmap data
+        function fetchData() {
+            fetch('/api/heatmap?group=' + encodeURIComponent(code))
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.total > 0) {
+                        // Slide header to sidebar, move QR under it
+                        if (!sidebarActive) {
+                            header.appendChild(shareCard);
+                            sidebarActive = true;
+                            // Trigger layout in next frame so CSS transition animates
+                            requestAnimationFrame(function() {
+                                page.classList.add('cohort-page--has-map');
+                            });
+                        }
+                        mapArea.style.display = '';
+                        renderHeatmap(data);
+                        legend.style.display = '';
+                        status.innerHTML = '<strong>' + data.total + '</strong> ' + (data.total === 1 ? 'response' : 'responses');
+                    } else {
+                        // No data — revert to centered layout
+                        if (sidebarActive) {
+                            split.insertBefore(shareCard, mapArea);
+                            page.classList.remove('cohort-page--has-map');
+                            sidebarActive = false;
+                        }
+                        mapArea.style.display = 'none';
+                        split.style.justifyContent = 'center';
+                        shareCard.style.width = 'auto';
+                        legend.style.display = 'none';
+                        status.textContent = 'No responses yet. Share the QR code to get started!';
+                    }
+                })
+                .catch(function() {
+                    container.innerHTML = '<p role="alert" style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
+                });
+        }
+
+        fetchData();
+        pollTimer = setInterval(fetchData, 30000);
+    }
+
+    btn.addEventListener('click', lookup);
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') lookup();
+    });
+
+    // Auto-focus the input
+    input.focus();
+})();
+</script>
+{% endblock %}

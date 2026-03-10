@@ -1,83 +1,119 @@
 {% extends "base.html" %}
-{% block title %}Your Results — DIT 2026{% endblock %}
+{% block title %}Results — Design in Tech 2026{% endblock %}
 
 {% block content %}
-<div class="results-container" role="region" aria-label="Assessment Results">
-    <h1 class="results-page-heading" id="resultsHeading" style="display:none;">Your Results</h1>
-    <div id="resultsContent" style="display:none;" data-slideshow aria-label="Results slides">
-        <!-- Slide 1: Your Placement -->
-        <div class="slide" role="region" aria-label="Your placement">
-            <div class="result-hero">
-                <h2 class="result-hero-label">Your AI Adoption Profile</h2>
-                <div class="placement-badge" role="group" aria-label="Assessment result badges">
-                    <span class="badge-level" id="badgeLevel" role="status" aria-live="polite"></span>
-                    <span class="badge-stage" id="badgeStage" role="status" aria-live="polite"></span>
-                </div>
-                <div class="result-summary" id="resultSummary" role="list" aria-label="Result summary">
-                    <div class="summary-item" role="listitem">
-                        <span class="summary-label" id="labelLevel">Automation Level</span>
-                        <span class="summary-value" id="summaryLevel" aria-labelledby="labelLevel"></span>
-                        <span class="summary-explain" id="summaryLevelExplain"></span>
-                    </div>
-                    <div class="summary-item" role="listitem">
-                        <span class="summary-label" id="labelStage">Maturity Stage</span>
-                        <span class="summary-value" id="summaryStage" aria-labelledby="labelStage"></span>
-                        <span class="summary-explain" id="summaryStageExplain"></span>
-                    </div>
-                </div>
-                <div class="result-description" id="cellDescription" role="note" aria-label="Placement description"></div>
+<div class="results-container results-scroll" role="region" aria-label="Assessment Results">
+    <div id="resultsContent" style="display:none;">
+        <!-- Section 1: Interactive Heatmap -->
+        <section class="results-section" role="region" aria-label="Interactive heatmap">
+            <div class="heatmap-toggle" id="heatmapToggle" role="tablist" aria-label="Heatmap view" style="display:none;">
+                <button class="heatmap-toggle-btn active" id="toggleEveryone" role="tab" aria-selected="true">Everyone</button>
+                <button class="heatmap-toggle-btn" id="toggleGroup" role="tab" aria-selected="false"></button>
             </div>
-        </div>
+            <div id="resultsHeatmap" role="img" aria-label="Community heatmap showing your position">
+                <div class="heatmap-skeleton" aria-hidden="true"><span></span></div>
+            </div>
+            <div class="heatmap-legend" role="img" aria-label="Legend">
+                <span><span class="legend-swatch legend-you"></span> You are here</span>
+                <span><span class="legend-swatch legend-next"></span> Recommended direction</span>
+            </div>
+            <blockquote class="key-insight">&ldquo;Depth of judgment beats breadth of tooling.&rdquo;<cite>&mdash; John Maeda, Design in Tech Report 2026</cite></blockquote>
+        </section>
 
-        <!-- Slide 2: Matrix Visualization -->
-        <div class="slide" role="region" aria-label="Framework position matrix">
-            <h2>Your Position on the Framework</h2>
-            <div id="matrixContainer" role="img" aria-label="E-P-I-A-S by SAE level matrix showing your current position"></div>
-        </div>
-
-        <!-- Slide 3: Growth Path -->
-        <div class="slide" role="region" aria-label="Growth path recommendations">
-            <h2>Your Growth Path</h2>
-            <div class="growth-card" role="article" aria-label="Personalized growth recommendations">
-                <div class="growth-next" id="growthNext" role="heading" aria-level="3"></div>
-                <div class="growth-signal" role="region" aria-label="Level-up signal">
-                    <strong>Signal you've leveled up:</strong>
-                    <blockquote id="growthSignal"></blockquote>
-                </div>
-                <div class="growth-actions" role="region" aria-label="Recommended next steps">
-                    <strong id="growthActionsLabel">Concrete next steps:</strong>
-                    <ul id="growthActions" aria-labelledby="growthActionsLabel"></ul>
+        <!-- Section 2+3: Placement + Growth (unified 2-column) -->
+        <section class="results-section" role="region" aria-label="Your placement and growth path">
+            <h1 class="results-page-heading">Where You Are on the Map</h1>
+            <div class="result-hero-header">
+                <div class="position-code" id="positionCode" role="status" aria-live="polite"></div>
+                <div class="result-description" role="note" aria-label="Placement description">
+                    <span id="cellDescription"></span>
                 </div>
             </div>
-        </div>
 
-        <!-- Slide 4: Insight & Actions -->
-        <div class="slide" role="region" aria-label="Key insight and actions">
+            <div class="placement-growth-grid">
+                <!-- LEFT: Where You Are -->
+                <div class="placement-col" role="region" aria-label="Current placement">
+                    <h3 class="col-heading">Where You Are</h3>
+                    <div class="summary-card">
+                        <span class="summary-label">Leadership Stage</span>
+                        <span class="summary-value" id="summaryStage"></span>
+                        <ul class="summary-bullets" id="stageBullets"></ul>
+                    </div>
+                    <div class="summary-card">
+                        <span class="summary-label">Workflow Automation Level</span>
+                        <span class="summary-value" id="summaryLevel"></span>
+                        <ul class="summary-bullets" id="levelBullets"></ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Recommended Direction -->
+                <div class="growth-col" role="region" aria-label="Growth path">
+                    <h3 class="col-heading">Recommended Direction</h3>
+                    <div class="summary-card summary-card-next" id="cardNext">
+                        <span class="summary-label">Next Leadership Stage</span>
+                        <span class="summary-value" id="growthNextStage"></span>
+                        <ul class="summary-bullets" id="nextStageBullets"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Insight & Actions -->
+        <section class="results-section" role="region" aria-label="Key insight and actions">
             <blockquote class="key-insight" id="keyInsight" role="figure" aria-label="Key framework insight"></blockquote>
-            <div class="result-community-link" id="communityLink" style="display:none;">
-                <a href="/heatmap" class="btn btn-secondary" id="viewHeatmapBtn" aria-label="See where you fit in the community heatmap">See where you fit in the community</a>
+            <div class="result-actions" role="group" aria-label="Export options">
+                <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
+                <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown text file">Export Markdown</button>
             </div>
-            <div class="result-actions" role="group" aria-label="Result actions">
-                <div class="export-group" role="group" aria-label="Export options">
-                    <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
-                    <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown text file">Export Markdown</button>
+            <div class="share-prompt">
+                <p>Share about this tool and framework online with <strong>#DesignInTech</strong></p>
+                <div class="share-buttons" role="group" aria-label="Share on social media">
+                    <a class="share-btn share-btn-x" id="shareX" target="_blank" rel="noopener" aria-label="Share on X">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        X
+                    </a>
+                    <a class="share-btn share-btn-linkedin" id="shareLinkedIn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        LinkedIn
+                    </a>
+                    <a class="share-btn share-btn-bluesky" id="shareBluesky" target="_blank" rel="noopener" aria-label="Share on Bluesky">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.785 2.627 3.6 3.476 6.158 3.226-4.363.426-5.47 2.293-3.073 4.159 4.536 3.326 6.527-.946 7.032-2.512.126-.39.186-.575.259-.575.073 0 .133.186.259.575.505 1.566 2.496 5.838 7.032 2.512 2.397-1.866 1.29-3.733-3.073-4.159 2.558.25 5.373-.6 6.158-3.226C21.622 9.418 22 4.458 22 3.768c0-.69-.139-1.861-.902-2.203-.659-.3-1.664-.62-4.3 1.24C14.046 4.747 11.087 8.686 10 10.8h2z"/></svg>
+                        Bluesky
+                    </a>
+                    <button class="share-btn share-btn-copy" id="copyShare" aria-label="Copy share text to clipboard">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
                 </div>
-                <div class="action-group" role="group" aria-label="Next steps">
-                    <a href="/assess" class="btn btn-secondary" id="retakeLink" aria-label="Clear results and retake the assessment">Retake Assessment</a>
-                    <a href="/chat" class="btn btn-primary" id="chatLink" style="display:none;" aria-label="Chat with an AI about your results">Chat About Your Results</a>
-                </div>
+                <div class="share-preview" id="sharePreview" aria-label="Share text preview"></div>
             </div>
-        </div>
+        </section>
     </div>
 
     <!-- No Results -->
-    <div id="noResults" role="alert" aria-label="No results found">
+    <div id="noResults" role="alert" aria-label="No results found" style="display:none;">
         <h2>No Assessment Results</h2>
         <p>Please complete the assessment first.</p>
         <a href="/assess" class="btn btn-primary" aria-label="Take the self-assessment">Take the Assessment</a>
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='matrix.js') }}"></script>
+<!-- Popover for cell click -->
+<div id="cellPopover" class="cell-popover" role="tooltip" style="display:none;">
+    <div class="cell-popover-header">
+        <strong id="popoverTitle"></strong>
+        <button class="cell-popover-close" aria-label="Close">&times;</button>
+    </div>
+    <p id="popoverDesc"></p>
+</div>
+
+<script>
+    // Canonical names and cell descriptions from server
+    const DIT_SAE_NAMES = {{ sae_names | tojson }};
+    const DIT_STAGE_NAMES = {{ stage_names | tojson }};
+    const DIT_CELL_DESCRIPTIONS = {{ cell_descriptions | tojson }};
+    const DIT_STAGE_DESCRIPTIONS = {{ stage_descriptions | tojson }};
+    const DIT_LEVEL_DESCRIPTIONS = {{ level_descriptions | tojson }};
+</script>
 <script src="{{ url_for('static', filename='results.js') }}"></script>
 {% endblock %}

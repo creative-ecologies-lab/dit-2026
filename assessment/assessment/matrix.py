@@ -1,49 +1,50 @@
 """EPIAS x SAE matrix data and growth path recommendations."""
+from assessment.scorer import SAE_NAMES, STAGE_NAMES
 
 # Cell descriptions: (sae_level, epias_stage) -> description
-# Extracted from the DIT 2026 framework
+# Adapted from John Maeda's DIT 2026 framework tables
 MATRIX_DATA = {
-    # SAE L0: Manual
-    (0, "E"): "Exploring fundamentals; inconsistent results, still learning.",
-    (0, "P"): "Consistent manual practice with repeatable techniques.",
-    (0, "I"): "Manual workflow with validation, traceability, and documented decisions.",
-    (0, "A"): "Reusable templates and processes the team adopts.",
-    (0, "S"): "Organizational standards for craft quality; mentors others.",
+    # SAE L0: Manual — Classical Designer (no AI)
+    (0, "E"): "Explores craft fundamentals — learning manual techniques with inconsistent results. Quality varies and guidance is needed.",
+    (0, "P"): "Has consistent manual practice with developed habits and repeatable techniques. Process is reliable with quality checks in place.",
+    (0, "I"): "Maintains a fully integrated manual workflow with validation steps, traceability, and clear decision documentation. Can explain every choice made.",
+    (0, "A"): "Builds reusable manual systems, templates, and processes that others adopt. Design systems are clear enough for engineers and PMs to make basic decisions independently.",
+    (0, "S"): "Sets organizational standards for craft quality. Mentors others in manual techniques and maintains shared design systems.",
 
-    # SAE L1: AI-Assisted
-    (1, "E"): "Trying AI for ideas and drafts; hit-or-miss, heavily rewritten.",
-    (1, "P"): "Using AI daily with saved prompts and basic quality checks.",
-    (1, "I"): "AI embedded across full tasks with sources noted and decisions explained.",
-    (1, "A"): "Shared prompt libraries and review checklists teammates reuse.",
-    (1, "S"): "Team standards for AI-assisted work; governs usage and review.",
+    # SAE L1: AI-Assisted — Marketing Designer × AI
+    (1, "E"): "Tries AI chat tools and generators for ideas and drafts. Outputs are hit-or-miss and heavily rewritten. Still figuring out when AI actually helps.",
+    (1, "P"): "Uses AI daily with saved prompts, consistent structure and tone, and basic quality checks before using outputs. Knows when AI will help before asking.",
+    (1, "I"): "Embeds AI across full tasks — research, ideation, drafting, refining — with sources noted, decisions explained, and manual validation at each step.",
+    (1, "A"): "Builds shared prompt libraries, review checklists, and example outputs that teammates reuse and trust. Others get design-quality drafts from these systems.",
+    (1, "S"): "Sets team standards for AI-assisted work — what's allowed, how it's reviewed. Mentors others on prompting and judgment, and governs usage across the org.",
 
-    # SAE L2: Partially Automated
-    (2, "E"): "Trying app-builders to generate screens; lots of rework needed.",
-    (2, "P"): "Repeatable components from clear specs with a done checklist.",
-    (2, "I"): "Outputs fit known patterns; prompts are traceable end-to-end.",
-    (2, "A"): "Reusable generators teammates run for consistent results.",
-    (2, "S"): "Team norms for what to automate; governs review expectations.",
+    # SAE L2: Partially Automated — Product Designer × AI
+    (2, "E"): "Tries app-builders and component generators to create screens and components. Lots of manual stitching and rework, but learning what works.",
+    (2, "P"): "Gets repeatable components from clear specs, using a 'definition of done' checklist before integrating. Spends more time integrating than fixing.",
+    (2, "I"): "Produces outputs that fit known integration patterns — tokens, layout, accessibility. Prompts and inputs are traceable from request to result to final output.",
+    (2, "A"): "Builds reusable component templates and prompt packs that teammates run with consistent results. Non-designers can generate on-brand UI that passes review.",
+    (2, "S"): "Sets team norms for what's safe to automate at L2 and what isn't. Mentors others on integration and QA, and governs usage and review expectations.",
 
-    # SAE L3: Guided Automation
-    (3, "E"): "Moving into IDE workflows; multi-step runs are inconsistent.",
-    (3, "P"): "Reliable multi-step workflows with checkpoints and lightweight evals.",
-    (3, "I"): "Clear framing: what AI executes, what humans approve, when to intervene.",
-    (3, "A"): "Shared workflows, context libraries, and eval templates teammates run.",
-    (3, "S"): "Org standards for IDE-based AI work; maintains shared tools.",
+    # SAE L3: Guided Automation — Design Engineer × AI
+    (3, "E"): "Moves work into an AI-enabled IDE and learns context rules. Multi-step runs are inconsistent and fragile, but crossing the threshold into shipping real PRs.",
+    (3, "P"): "Runs reliable multi-step workflows inside the IDE with explicit checkpoints — plan, generate, review, revise. Lightweight evals run by default.",
+    (3, "I"): "Has clear decision framing for IDE-run workflows: what AI executes, what humans approve, and when to intervene. Failure modes are documented.",
+    (3, "A"): "Builds shared IDE workflows — reusable skills, context libraries, and eval templates that teammates run. Creates starter codebases for PMs and designers to experiment with.",
+    (3, "S"): "Sets org standards for IDE-based AI work — safety, quality, traceability. Mentors on context engineering and maintains the shared tools everyone depends on.",
 
-    # SAE L4: Mostly Automated
-    (4, "E"): "Experimenting with agent pipelines; results need heavy validation.",
-    (4, "P"): "Harnesses with repeatable execution, evals, retries, and escalation.",
-    (4, "I"): "End-to-end autonomous workflows with comprehensive eval suites.",
-    (4, "A"): "Production-grade agent infrastructure others operate.",
-    (4, "S"): "Governance for autonomous systems at scale; org-level eval infrastructure.",
+    # SAE L4: Mostly Automated — Super Design Engineer × AI
+    (4, "E"): "Experiments with autonomous harnesses and agent pipelines. Results require heavy validation and manual debugging. Learning what 'trust the system' means.",
+    (4, "P"): "Maintains harnesses with repeatable execution patterns — evals, retries, and escalation paths consistently applied. Work can complete unattended.",
+    (4, "I"): "Runs end-to-end workflows autonomously with comprehensive eval suites validating outputs. Exception classes and recovery paths are documented.",
+    (4, "A"): "Builds production-grade agent infrastructure others operate — self-improving harnesses, shared skill libraries, and eval-driven pipelines. PMs and designers trigger workflows without opening a terminal.",
+    (4, "S"): "Governs autonomous systems at scale — defining risk thresholds, approval gates, and accountability. Maintains org-level eval and autonomy infrastructure.",
 
-    # SAE L5: Full Automation
-    (5, "E"): "Exploring goal-setting for autonomous AI; exception handling unclear.",
-    (5, "P"): "Consistent approval gates and routine review of autonomous outputs.",
-    (5, "I"): "Autonomous workflows with documented exception handling and escalation.",
-    (5, "A"): "Goal-setting and approval systems others trust; reusable governance.",
-    (5, "S"): "Enterprise governance for fully autonomous AI; org-wide trust standards.",
+    # SAE L5: Full Automation — AI × AI (aspirational)
+    (5, "E"): "Explores goal-setting interfaces for autonomous AI. Exception handling is still unclear. Frontier territory — L5 is aspirational, not yet real.",
+    (5, "P"): "Sets approval gates and quality bars consistently, with routine review of autonomous outputs. Building the habits for a world that's still arriving.",
+    (5, "I"): "Validates autonomous workflows with exception handling systems and clear escalation paths. Trusts the system unless it alerts.",
+    (5, "A"): "Designs goal-setting and approval systems that others trust — reusable governance frameworks where cross-functional teams set AI goals together.",
+    (5, "S"): "Establishes enterprise governance for fully autonomous AI. Sets organizational risk and trust standards, approval frameworks, and cross-team accountability.",
 }
 
 
@@ -239,10 +240,17 @@ def get_full_matrix() -> dict:
     for (level, stage), desc in MATRIX_DATA.items():
         cells[f"{level}_{stage}"] = desc
 
+    # Role labels per SAE level (from DIT 2026 framework)
+    role_labels = {
+        0: "Classical Designer", 1: "Marketing Designer \u00d7 AI",
+        2: "Product Designer \u00d7 AI", 3: "Design Engineer \u00d7 AI",
+        4: "Super Design Engineer \u00d7 AI", 5: "AI \u00d7 AI",
+    }
+
     return {
         "levels": list(range(6)),
-        "level_names": {str(k): v for k, v in {0: "L0: Classical Designer", 1: "L1: Marketing Designer \u00d7 AI", 2: "L2: Product Designer \u00d7 AI", 3: "L3: Design Engineer \u00d7 AI", 4: "L4: Super Design Engineer \u00d7 AI", 5: "L5: AI \u00d7 AI"}.items()},
-        "stages": ["E", "P", "I", "A", "S"],
-        "stage_names": {"E": "Explorer", "P": "Practitioner", "I": "Integrator", "A": "Architect", "S": "Steward"},
+        "level_names": {str(k): f"L{k}: {role_labels[k]}" for k in range(6)},
+        "stages": list(STAGE_NAMES.keys()),
+        "stage_names": dict(STAGE_NAMES),
         "cells": cells,
     }

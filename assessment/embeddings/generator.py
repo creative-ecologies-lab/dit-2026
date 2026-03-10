@@ -2,6 +2,7 @@
 import json
 import numpy as np
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from openai import OpenAI
 
@@ -31,6 +32,7 @@ def save_embeddings(embeddings: np.ndarray, manifest: list, output_dir: Path):
     np.save(output_dir / "embeddings.npy", embeddings)
     with open(output_dir / "manifest.json", "w", encoding="utf-8") as f:
         json.dump({
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "model": MODEL,
             "dimensions": DIMENSIONS,
             "shape": list(embeddings.shape),

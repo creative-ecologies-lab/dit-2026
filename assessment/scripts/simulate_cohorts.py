@@ -359,6 +359,53 @@ COHORT_PROFILES = {
                              "45-54": 0.20, "55+": 0.06, "Prefer not to say": 0.04},
     },
 
+    # -----------------------------------------------------------------------
+    # Demo / tester cohorts
+    # -----------------------------------------------------------------------
+    "sxsw-2026-tester": {
+        "description": "SXSW 2026 tester group — broad industry mix, 4K demo population",
+        "n": 4000,
+        "personas": [
+            {"label": "Curious newcomer",    "sae_center": 0, "sae_spread": 0.5, "epias_center": 2.0, "epias_spread": 1.2, "weight": 0.07},
+            {"label": "Marketing designer",  "sae_center": 1, "sae_spread": 0.6, "epias_center": 2.0, "epias_spread": 0.9, "weight": 0.20},
+            {"label": "Product designer",    "sae_center": 2, "sae_spread": 0.7, "epias_center": 2.5, "epias_spread": 1.0, "weight": 0.25},
+            {"label": "Design engineer",     "sae_center": 3, "sae_spread": 0.6, "epias_center": 2.0, "epias_spread": 1.0, "weight": 0.17},
+            {"label": "AI-forward leader",   "sae_center": 4, "sae_spread": 0.5, "epias_center": 3.0, "epias_spread": 1.0, "weight": 0.08},
+            {"label": "Design director",     "sae_center": 1, "sae_spread": 0.4, "epias_center": 4.0, "epias_spread": 0.7, "weight": 0.05},
+            {"label": "Startup founder",     "sae_center": 3, "sae_spread": 0.8, "epias_center": 2.0, "epias_spread": 1.2, "weight": 0.04},
+            {"label": "Design steward",      "sae_center": 1, "sae_spread": 1.2, "epias_center": 5.0, "epias_spread": 0.5, "weight": 0.06},
+            {"label": "AI steward",          "sae_center": 4, "sae_spread": 1.0, "epias_center": 5.0, "epias_spread": 0.5, "weight": 0.04},
+            {"label": "Full auto pioneer",   "sae_center": 5, "sae_spread": 0.4, "epias_center": 3.0, "epias_spread": 1.2, "weight": 0.04},
+        ],
+        "roles": ["Product Designer", "UX Designer", "Design Lead", "UX Researcher",
+                   "Design Engineer", "Creative Director", "Visual Designer",
+                   "Design Manager", "Frontend Dev", "PM", "Startup Founder",
+                   "Design Strategist", "Content Designer"],
+        "age_distribution": {"Under 25": 0.10, "25-34": 0.35, "35-44": 0.30,
+                             "45-54": 0.15, "55+": 0.05, "Prefer not to say": 0.05},
+    },
+
+    "sxsw-2026-test-group": {
+        "description": "Small test group — verifying group ID functionality",
+        "n": 150,
+        "personas": [
+            {"label": "Mixed tester",  "sae_center": 2, "sae_spread": 1.0, "epias_center": 2.5, "epias_spread": 1.2, "weight": 1.0},
+        ],
+        "roles": ["Tester"],
+        "age_distribution": {"25-34": 0.50, "35-44": 0.50},
+    },
+
+    "other-test-group": {
+        "description": "Secondary test group — alternative distribution for comparison",
+        "n": 100,
+        "personas": [
+            {"label": "Tech-heavy tester",  "sae_center": 3, "sae_spread": 0.8, "epias_center": 1.5, "epias_spread": 0.8, "weight": 0.5},
+            {"label": "Leader tester",       "sae_center": 1, "sae_spread": 0.6, "epias_center": 4.0, "epias_spread": 0.7, "weight": 0.5},
+        ],
+        "roles": ["Tester"],
+        "age_distribution": {"25-34": 0.50, "35-44": 0.50},
+    },
+
     "sxsw-livestream": {
         "description": "SXSW livestream viewers — remote, couldn't attend in person",
         "n": 500,

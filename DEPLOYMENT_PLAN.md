@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document provides a complete, actionable plan for deploying the DIT 2026 Assessment Flask app to Google Cloud Run behind `dit.noahratzan.com`, with CI/CD automation via GitHub Actions.
+This document provides a complete, actionable plan for deploying the DIT 2026 Assessment Flask app to Google Cloud Run behind `aiskillsmap.noahratzan.com`, with CI/CD automation via GitHub Actions.
 
 ---
 
@@ -26,7 +26,7 @@ This document provides a complete, actionable plan for deploying the DIT 2026 As
 
 ```
                     DNS (CNAME)
-dit.noahratzan.com ──────────────> Cloud Run (ghs.googlehosted.com)
+aiskillsmap.noahratzan.com ──────────────> Cloud Run (ghs.googlehosted.com)
                                        |
                                        v
                                ┌───────────────────┐
@@ -67,7 +67,7 @@ noahratzan.com ───────────────> Vercel (unchanged)
 
 ### Recommended Subdomain
 
-**`dit.noahratzan.com`**
+**`aiskillsmap.noahratzan.com`**
 
 Rationale: Short, memorable, matches the project name. `assessment.noahratzan.com` is an alternative but longer.
 
@@ -453,7 +453,7 @@ Alternatively, add a TXT record to your DNS to prove ownership.
 ```bash
 gcloud run domain-mappings create \
   --service=dit-assessment \
-  --domain=dit.noahratzan.com \
+  --domain=aiskillsmap.noahratzan.com \
   --region=us-central1
 ```
 
@@ -469,13 +469,13 @@ Add this CNAME record in your DNS provider (Vercel, registrar, or Cloudflare).
 
 **Step 4: Wait for SSL provisioning.**
 
-SSL certificate provisioning usually takes 15-30 minutes but can take up to 24 hours. During this time, `dit.noahratzan.com` will show a certificate error. Once provisioned, Cloud Run auto-renews the certificate.
+SSL certificate provisioning usually takes 15-30 minutes but can take up to 24 hours. During this time, `aiskillsmap.noahratzan.com` will show a certificate error. Once provisioned, Cloud Run auto-renews the certificate.
 
 Check status:
 
 ```bash
 gcloud run domain-mappings describe \
-  --domain=dit.noahratzan.com \
+  --domain=aiskillsmap.noahratzan.com \
   --region=us-central1
 ```
 
@@ -548,15 +548,15 @@ gcloud billing budgets create \
 
 ### Current Assessment
 
-The Flask app at `dit.noahratzan.com` and the portfolio at `noahratzan.com` are different origins. CORS is only relevant if `noahratzan.com` makes client-side JavaScript `fetch()` calls to `dit.noahratzan.com`.
+The Flask app at `aiskillsmap.noahratzan.com` and the portfolio at `noahratzan.com` are different origins. CORS is only relevant if `noahratzan.com` makes client-side JavaScript `fetch()` calls to `aiskillsmap.noahratzan.com`.
 
-**Current state:** The Flask app is a standalone web application with its own HTML pages, JavaScript, and CSS. Users navigate directly to `dit.noahratzan.com`. The portfolio site (`noahratzan.com`) would link to it but not embed it or make API calls to it.
+**Current state:** The Flask app is a standalone web application with its own HTML pages, JavaScript, and CSS. Users navigate directly to `aiskillsmap.noahratzan.com`. The portfolio site (`noahratzan.com`) would link to it but not embed it or make API calls to it.
 
 **Verdict: No CORS configuration is needed** for the initial deployment. The two sites are independent.
 
 ### If CORS Is Needed Later
 
-If you later want `noahratzan.com` to make API calls to `dit.noahratzan.com` (e.g., embedding the chat widget), add Flask-CORS:
+If you later want `noahratzan.com` to make API calls to `aiskillsmap.noahratzan.com` (e.g., embedding the chat widget), add Flask-CORS:
 
 ```python
 # In requirements.txt, add: flask-cors
@@ -574,10 +574,10 @@ def create_app():
 If you want to embed the assessment on the portfolio site via an iframe, no CORS is needed (iframes are not subject to CORS). Just add a link or iframe on the Vercel site:
 
 ```html
-<iframe src="https://dit.noahratzan.com" width="100%" height="800"></iframe>
+<iframe src="https://aiskillsmap.noahratzan.com" width="100%" height="800"></iframe>
 ```
 
-Or simply link to it: `<a href="https://dit.noahratzan.com">Take the DIT Assessment</a>`.
+Or simply link to it: `<a href="https://aiskillsmap.noahratzan.com">Take the DIT Assessment</a>`.
 
 ---
 
@@ -695,10 +695,10 @@ gcloud run deploy dit-assessment \
 ### Phase 3: Custom Domain (~30 minutes, including DNS propagation)
 
 - [ ] Verify domain ownership: `gcloud domains verify noahratzan.com`
-- [ ] Create domain mapping: `gcloud run domain-mappings create --service=dit-assessment --domain=dit.noahratzan.com --region=us-central1`
+- [ ] Create domain mapping: `gcloud run domain-mappings create --service=dit-assessment --domain=aiskillsmap.noahratzan.com --region=us-central1`
 - [ ] Add CNAME record (`dit` -> `ghs.googlehosted.com`) in DNS provider
 - [ ] Wait for SSL certificate provisioning (15-60 minutes)
-- [ ] Verify `https://dit.noahratzan.com` works with valid HTTPS
+- [ ] Verify `https://aiskillsmap.noahratzan.com` works with valid HTTPS
 
 ### Phase 4: CI/CD Automation (~20 minutes)
 

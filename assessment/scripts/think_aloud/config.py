@@ -2,7 +2,7 @@
 
 PROTOCOL_VERSION = "2.1"
 
-DEFAULT_TARGET = "https://dit-maeda.noahratzan.com"
+DEFAULT_TARGET = "https://aiskillsmap.noahratzan.com"
 DEFAULT_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_COHORT = "think-aloud-test"
 MAX_BUDGET_USD = 20.0

@@ -1,5 +1,13 @@
 {% extends "base.html" %}
-{% block title %}{{ current_label }} — DIT 2026{% endblock %}
+{% block title %}{{ current_label }} — Design in Tech 2026{% endblock %}
+
+{% block head %}
+<style>
+    /* Framework pages use normal browser scrolling instead of the viewport-locked layout */
+    body { height: auto; overflow: auto; }
+    .container { overflow: visible; }
+</style>
+{% endblock %}
 
 {% block content %}
 <div class="framework-reader" role="region" aria-label="Framework reader">
@@ -15,13 +23,83 @@
         <span class="reader-tab-attr" aria-hidden="true">by John Maeda</span>
     </nav>
 
-    <article class="reader-content"
-             id="framework-content"
-             role="tabpanel"
-             aria-labelledby="tab-{{ active_index | default(0) }}"
-             aria-label="{{ current_label }}"
-             data-slideshow="scroll">
-        {{ content | safe }}
-    </article>
+    <div class="reader-layout">
+        <nav class="reader-outline" id="readerOutline" aria-label="Document outline"{% if active_index == 0 %} style="display:none;"{% endif %}>
+            <h3 class="outline-title">Outline</h3>
+            <ul class="outline-list" id="outlineList"></ul>
+        </nav>
+
+        <article class="reader-content"
+                 id="framework-content"
+                 role="tabpanel"
+                 aria-labelledby="tab-{{ active_index | default(0) }}"
+                 aria-label="{{ current_label }}">
+            {{ content | safe }}
+        </article>
+    </div>
 </div>
+
+<script>
+(function() {
+    'use strict';
+    var content = document.getElementById('framework-content');
+    var list = document.getElementById('outlineList');
+    var outline = document.getElementById('readerOutline');
+    var headings = content.querySelectorAll('h1, h2');
+
+    if (headings.length === 0) {
+        outline.style.display = 'none';
+        return;
+    }
+
+    function cleanLabel(text) {
+        // Strip emoji, clean up whitespace
+        return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}]/gu, '')
+                   .replace(/\s+/g, ' ').trim();
+    }
+
+    // Build outline links
+    headings.forEach(function(h) {
+        var li = document.createElement('li');
+        li.className = 'outline-item' + (h.tagName === 'H2' ? ' outline-item-sub' : '');
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = cleanLabel(h.textContent);
+        a.className = 'outline-link';
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.replaceState(null, '', '#' + h.id);
+        });
+        li.appendChild(a);
+        list.appendChild(li);
+    });
+
+    // Track active heading on scroll
+    var links = list.querySelectorAll('.outline-link');
+    var headingArr = Array.from(headings);
+
+    function updateActive() {
+        var scrollY = window.scrollY || document.documentElement.scrollTop;
+        var current = null;
+        for (var i = 0; i < headingArr.length; i++) {
+            if (headingArr[i].getBoundingClientRect().top <= 90) {
+                current = i;
+            }
+        }
+        links.forEach(function(link, idx) {
+            link.classList.toggle('active', idx === current);
+        });
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(function() { updateActive(); ticking = false; });
+            ticking = true;
+        }
+    });
+    updateActive();
+})();
+</script>
 {% endblock %}

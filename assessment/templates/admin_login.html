@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Admin Login{% endblock %}
+
+{% block content %}
+<div class="admin-login-wrap">
+    <form class="admin-login-card" method="post" action="/admin/login">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <h2>Admin</h2>
+        {% if error %}
+        <p class="admin-error" role="alert">{{ error }}</p>
+        {% endif %}
+        <label for="pw" class="sr-only">Password</label>
+        <input type="password" id="pw" name="password" placeholder="Password" autofocus required>
+        <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+</div>
+{% endblock %}

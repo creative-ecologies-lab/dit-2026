@@ -1,4 +1,4 @@
-"""Firestore storage for anonymous assessment results.
+"""Firestore storage for anonymous assessment results and feedback.
 
 Uses Firestore when FIRESTORE_ENABLED=true, otherwise falls back to
 an in-memory list (useful for local dev and demo deployments).
@@ -8,6 +8,7 @@ only shows real assessment data. Test cohort heatmaps still work.
 """
 
 import os
+import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -27,6 +28,7 @@ _DEFAULT_TEST_COHORTS = {
     "mit-media-lab", "risd-design", "hci-bootcamp", "global-south-design",
     "design-leadership", "ai-engineers", "gov-digital",
     "linkedin-maeda", "sxsw-livestream",
+    "sxsw-2026-tester", "sxsw-2026-test-group", "other-test-group",
     "think-aloud-test",
     "test", "demo", "dev",
 }
@@ -99,11 +101,13 @@ def store_result(
         store.append(record)
 
 
-def get_heatmap_data(cohort: Optional[str] = None) -> dict:
+def get_heatmap_data(
+    cohort: Optional[str] = None, include_test: bool = False
+) -> dict:
     """Aggregate results into a 6x5 count grid.
 
     When cohort is provided, only results matching that cohort are counted.
-    The global heatmap (no cohort) only includes real data, never test data.
+    When include_test is True, test collection data is merged into the counts.
     """
     # Normalize cohort filter
     if cohort:
@@ -118,31 +122,39 @@ def get_heatmap_data(cohort: Optional[str] = None) -> dict:
 
     total = 0
 
+    # Determine which collections to query
+    collections_to_query = [collection]
+    if include_test and collection == COLLECTION:
+        collections_to_query.append(TEST_COLLECTION)
+
     if _is_enabled():
         db = _get_client()
-        query = db.collection(collection)
-        if cohort:
-            query = query.where("cohort", "==", cohort)
-        docs = query.select(["cell_key"]).stream()
-        for doc in docs:
-            key = doc.to_dict().get("cell_key")
-            if key in counts:
-                counts[key] += 1
-                total += 1
+        for coll in collections_to_query:
+            query = db.collection(coll)
+            if cohort:
+                query = query.where("cohort", "==", cohort)
+            docs = query.select(["cell_key"]).stream()
+            for doc in docs:
+                key = doc.to_dict().get("cell_key")
+                if key in counts:
+                    counts[key] += 1
+                    total += 1
     else:
-        store = _memory_store_test if collection == TEST_COLLECTION else _memory_store
-        for record in store:
-            if cohort and record.get("cohort") != cohort:
-                continue
-            key = record.get("cell_key")
-            if key in counts:
-                counts[key] += 1
-                total += 1
+        for coll in collections_to_query:
+            store = _memory_store_test if coll == TEST_COLLECTION else _memory_store
+            for record in store:
+                if cohort and record.get("cohort") != cohort:
+                    continue
+                key = record.get("cell_key")
+                if key in counts:
+                    counts[key] += 1
+                    total += 1
 
     return {
         "counts": counts,
         "total": total,
         "cohort": cohort,
+        "include_test": include_test,
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -167,3 +179,107 @@ def clear_test_data() -> int:
     if count % 500 != 0:
         batch.commit()
     return count
+
+
+# ---------------------------------------------------------------------------
+# Feedback
+# ---------------------------------------------------------------------------
+
+FEEDBACK_COLLECTION = "feedback"
+_feedback_store: list[dict] = []
+
+
+def store_feedback(
+    category: str, message: str, page: str, user_agent: str
+) -> str:
+    """Store user feedback, return its UUID."""
+    fb_id = str(uuid.uuid4())
+    record = {
+        "id": fb_id,
+        "category": category,
+        "message": message,
+        "page": page,
+        "user_agent": user_agent,
+        "status": "new",
+    }
+
+    if _is_enabled():
+        from google.cloud import firestore as fs
+
+        db = _get_client()
+        record["timestamp"] = fs.SERVER_TIMESTAMP
+        db.collection(FEEDBACK_COLLECTION).document(fb_id).set(record)
+    else:
+        record["timestamp"] = datetime.now(timezone.utc).isoformat()
+        _feedback_store.append(record)
+
+    return fb_id
+
+
+def get_feedback(fb_id: str) -> Optional[dict]:
+    """Get a single feedback item by ID."""
+    if _is_enabled():
+        db = _get_client()
+        doc = db.collection(FEEDBACK_COLLECTION).document(fb_id).get()
+        return doc.to_dict() if doc.exists else None
+    else:
+        for item in _feedback_store:
+            if item["id"] == fb_id:
+                return dict(item)
+        return None
+
+
+def update_feedback(fb_id: str, message: str, category: str) -> bool:
+    """User edits their own feedback (identified by UUID)."""
+    if _is_enabled():
+        db = _get_client()
+        ref = db.collection(FEEDBACK_COLLECTION).document(fb_id)
+        if not ref.get().exists:
+            return False
+        ref.update({"message": message, "category": category})
+        return True
+    else:
+        for item in _feedback_store:
+            if item["id"] == fb_id:
+                item["message"] = message
+                item["category"] = category
+                return True
+        return False
+
+
+def list_feedback() -> list[dict]:
+    """All feedback, newest first."""
+    if _is_enabled():
+        db = _get_client()
+        docs = (
+            db.collection(FEEDBACK_COLLECTION)
+            .order_by("timestamp", direction="DESCENDING")
+            .stream()
+        )
+        return [doc.to_dict() for doc in docs]
+    else:
+        return sorted(
+            _feedback_store,
+            key=lambda x: x.get("timestamp", ""),
+            reverse=True,
+        )
+
+
+def update_feedback_status(fb_id: str, status: str) -> bool:
+    """Admin sets feedback status (new / reviewed / resolved)."""
+    if status not in ("new", "reviewed", "resolved"):
+        return False
+
+    if _is_enabled():
+        db = _get_client()
+        ref = db.collection(FEEDBACK_COLLECTION).document(fb_id)
+        if not ref.get().exists:
+            return False
+        ref.update({"status": status})
+        return True
+    else:
+        for item in _feedback_store:
+            if item["id"] == fb_id:
+                item["status"] = status
+                return True
+        return False

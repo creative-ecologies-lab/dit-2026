@@ -4,7 +4,12 @@ import numpy as np
 from pathlib import Path
 
 class SearchEngine:
-    """Search engine with 3 tiers: semantic (OpenAI), TF-IDF fallback, empty fallback."""
+    """Search engine with 3 tiers: semantic (OpenAI), TF-IDF fallback, empty fallback.
+
+    Embeddings and manifest are loaded eagerly at init (fast: ~50ms).
+    sklearn/TF-IDF is built lazily on first search that needs it (slow: ~2-3s)
+    so that app startup and non-search pages are not penalized.
+    """
 
     def __init__(self, embeddings_dir: Path = None):
         self.embeddings_dir = embeddings_dir or Path(__file__).parent.parent / "data" / "embeddings"
@@ -12,10 +17,11 @@ class SearchEngine:
         self._manifest = None
         self._tfidf_matrix = None
         self._tfidf_vectorizer = None
+        self._tfidf_ready = False
         self._load()
 
     def _load(self):
-        """Load pre-computed embeddings and manifest from disk."""
+        """Load pre-computed embeddings and manifest from disk (no sklearn)."""
         emb_path = self.embeddings_dir / "embeddings.npy"
         man_path = self.embeddings_dir / "manifest.json"
         if emb_path.exists() and man_path.exists():
@@ -23,11 +29,9 @@ class SearchEngine:
             with open(man_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 self._manifest = data["chunks"]
-            self._build_tfidf_fallback()
             print(f"SearchEngine loaded {len(self._manifest)} chunks ({self._embeddings.shape[1]}d)")
         else:
             print(f"SearchEngine: No embeddings found at {self.embeddings_dir}. Using TF-IDF only.")
-            # Load chunks from source files for TF-IDF-only mode
             self._load_from_source()
 
     def _load_from_source(self):
@@ -41,17 +45,17 @@ class SearchEngine:
         chunker = MarkdownChunker()
         chunks = chunker.chunk_all(source_dir)
         self._manifest = [asdict(c) for c in chunks]
-        self._build_tfidf_fallback()
         print(f"SearchEngine loaded {len(self._manifest)} chunks from source (TF-IDF only)")
 
-    def _build_tfidf_fallback(self):
-        """Build TF-IDF index for keyword-based fallback search."""
-        if not self._manifest:
+    def _ensure_tfidf(self):
+        """Build TF-IDF index on first use (lazy-loads sklearn)."""
+        if self._tfidf_ready or not self._manifest:
             return
         from sklearn.feature_extraction.text import TfidfVectorizer
         texts = [c["text"] for c in self._manifest]
         self._tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=5000)
         self._tfidf_matrix = self._tfidf_vectorizer.fit_transform(texts)
+        self._tfidf_ready = True
 
     def search(self, query: str, top_k: int = 5) -> list:
         """Search for chunks most relevant to query."""
@@ -62,18 +66,17 @@ class SearchEngine:
         query_embedding = self._embed_query(query)
 
         if query_embedding is not None and self._embeddings is not None:
-            from sklearn.metrics.pairwise import cosine_similarity
-            similarities = cosine_similarity(
-                query_embedding.reshape(1, -1),
-                self._embeddings
-            )[0]
+            # numpy cosine similarity — avoids sklearn import for the common path
+            norms = np.linalg.norm(self._embeddings, axis=1) * np.linalg.norm(query_embedding)
+            norms[norms == 0] = 1  # avoid division by zero
+            similarities = self._embeddings @ query_embedding / norms
             top_indices = np.argsort(similarities)[::-1][:top_k]
             return [
                 {**self._manifest[i], "score": float(similarities[i])}
                 for i in top_indices
             ]
 
-        # Fall back to TF-IDF
+        # Fall back to TF-IDF (lazy-loads sklearn on first call)
         return self._tfidf_search(query, top_k)
 
     def _embed_query(self, query: str):
@@ -91,6 +94,7 @@ class SearchEngine:
 
     def _tfidf_search(self, query: str, top_k: int) -> list:
         """Fallback keyword search using TF-IDF cosine similarity."""
+        self._ensure_tfidf()
         if self._tfidf_vectorizer is None or self._tfidf_matrix is None:
             return []
         from sklearn.metrics.pairwise import cosine_similarity

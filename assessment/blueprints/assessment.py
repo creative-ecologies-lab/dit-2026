@@ -7,28 +7,39 @@ bp = Blueprint('assessment', __name__)
 
 @bp.route('/')
 def index():
-    has_llm = bool([p for p in current_app.llm_registry.get_available_providers() if p['available']])
-    # Fetch global heatmap for teaser
+    from assessment.scorer import SAE_NAMES, STAGE_NAMES
     heatmap_total = 0
     heatmap_counts = {}
     try:
         from storage import get_heatmap_data
-        hm = get_heatmap_data()
+        hm = get_heatmap_data(include_test=True)
         heatmap_total = hm.get('total', 0)
         heatmap_counts = hm.get('counts', {})
     except Exception:
         pass
-    return render_template('index.html', has_llm=has_llm,
+    from assessment.matrix import MATRIX_DATA
+    cell_descriptions = {f"{lvl}_{stg}": desc for (lvl, stg), desc in MATRIX_DATA.items()}
+    return render_template('index.html',
                            heatmap_total=heatmap_total,
-                           heatmap_counts=heatmap_counts)
+                           heatmap_counts=heatmap_counts,
+                           cell_descriptions=cell_descriptions,
+                           sae_names=SAE_NAMES,
+                           stage_names=STAGE_NAMES,
+                           stage_descriptions=_STAGE_DESCRIPTIONS,
+                           level_descriptions=_LEVEL_DESCRIPTIONS,
+                           stage_order=['E', 'P', 'I', 'A', 'S'])
 
 
 @bp.route('/assess')
 def assess():
     from assessment.questions import get_all_sae_questions
-    questions = get_all_sae_questions()
-    cohort = request.args.get('cohort', '').strip().lower() or ''
-    return render_template('assessment.html', questions=questions, cohort=cohort)
+    questions_design = get_all_sae_questions(role='design')
+    questions_uxr = get_all_sae_questions(role='uxr')
+    cohort = (request.args.get('group') or request.args.get('cohort', '')).strip().lower()
+    return render_template('assessment.html',
+                           questions_design=questions_design,
+                           questions_uxr=questions_uxr,
+                           cohort=cohort)
 
 
 @bp.route('/api/assess', methods=['POST'])
@@ -36,10 +47,14 @@ def submit_assessment():
     from assessment.scorer import score_assessment
     from assessment.matrix import get_placement
     data = request.get_json()
-    # Separate intake fields from assessment answers
-    cohort = data.pop('cohort', None)
-    age_range = data.pop('age_range', None)
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "Invalid request"}), 400
+    # Separate and sanitize intake fields
+    cohort = (data.pop('cohort', '') or '')[:64].strip().lower() or None
+    age_range = (data.pop('age_range', '') or '')[:32].strip() or None
     role = data.pop('role', None)
+    if role not in ('design', 'uxr', None):
+        role = None
     score = score_assessment(data)
     placement = get_placement(score)
     # Store anonymous result (fire-and-forget)
@@ -63,20 +78,23 @@ def submit_assessment():
 
 @bp.route('/results')
 def results():
-    return render_template('results.html')
+    from assessment.scorer import SAE_NAMES, STAGE_NAMES
+    from assessment.matrix import MATRIX_DATA
+    cell_descriptions = {f"{lvl}_{stg}": desc for (lvl, stg), desc in MATRIX_DATA.items()}
+    return render_template('results.html',
+                           sae_names=SAE_NAMES, stage_names=STAGE_NAMES,
+                           cell_descriptions=cell_descriptions,
+                           stage_descriptions=_STAGE_DESCRIPTIONS,
+                           level_descriptions=_LEVEL_DESCRIPTIONS)
 
 
-@bp.route('/heatmap')
-@bp.route('/heatmap/<cohort_code>')
-def heatmap(cohort_code=None):
-    if cohort_code:
-        cohort_code = cohort_code.strip().lower()
-    return render_template('heatmap.html', cohort=cohort_code or '')
+@bp.route('/group-id')
+@bp.route('/group')
+@bp.route('/groups')
+@bp.route('/group-ids')
+def cohorts():
+    return render_template('cohorts.html')
 
-
-@bp.route('/settings')
-def settings():
-    return render_template('settings.html')
 
 
 # Ordered list of source documents with short labels
@@ -90,34 +108,70 @@ _FRAMEWORK_DOCS = [
     ('ai-upskilling-for-uxr.md', 'UX Research'),
 ]
 
-_OVERVIEW_HTML = """
+_ROLE_LABELS = {
+    0: "Classical Designer", 1: "Marketing Designer &times; AI",
+    2: "Product Designer &times; AI", 3: "Design Engineer &times; AI",
+    4: "Super Design Engineer &times; AI",
+    5: "AI &times; AI (aspirational)",
+}
+
+_STAGE_DESCRIPTIONS = {
+    "E": "Experimenting and building intuition. Quality varies, still learning what works.",
+    "P": "Consistent habits and repeatable techniques. Process is reliable.",
+    "I": "Fully integrated into workflow with documented decisions and traceability.",
+    "A": "Builds reusable systems and templates that others adopt and trust.",
+    "S": "Sets organizational standards, mentors others, and governs practice.",
+}
+
+_LEVEL_DESCRIPTIONS = {
+    0: "All work is manual. No AI tools in the workflow.",
+    1: "AI used for ideas and drafts. Every step is human-directed.",
+    2: "AI generates deliverables from specs. Human integration and QA.",
+    3: "Multi-step AI workflows in an IDE with checkpoints and context.",
+    4: "Autonomous agent harnesses with eval suites and escalation paths.",
+    5: "AI runs the workflow. Humans set goals and review exceptions.",
+}
+
+
+def _build_overview_html() -> str:
+    """Generate the At a Glance tab from canonical scorer constants.
+
+    Pulls SAE_NAMES, STAGE_NAMES, and KEY_INSIGHT from the scorer/matrix
+    modules so this tab stays in sync automatically.
+    """
+    from assessment.scorer import SAE_NAMES, STAGE_NAMES
+    from assessment.matrix import KEY_INSIGHT
+
+    sae_rows = "\n".join(
+        f'            <tr><td><strong>L{lvl}</strong></td>'
+        f'<td>{SAE_NAMES[lvl]} &mdash; {_ROLE_LABELS[lvl]}</td></tr>'
+        for lvl in range(6)
+    )
+    stage_rows = "\n".join(
+        f'            <tr><td><strong>{key}</strong></td>'
+        f'<td>{STAGE_NAMES[key]} &mdash; {_STAGE_DESCRIPTIONS[key]}</td></tr>'
+        for key in ["E", "P", "I", "A", "S"]
+    )
+
+    return f"""
 <h2>About the E-P-I-A-S &times; SAE Framework</h2>
 <p>From John Maeda's <strong>Design in Tech Report 2026: From UX to AX</strong>, presented at <a href="https://schedule.sxsw.com/2026/events/PP1148536" target="_blank">SXSW 2026</a>. This framework maps AI adoption for product designers along two axes:</p>
 <div class="framework-axes">
     <div class="axis">
         <h3>SAE Levels (Automation)</h3>
         <table class="mini-table">
-            <tr><td><strong>L0</strong></td><td>Manual &mdash; Classical Designer</td></tr>
-            <tr><td><strong>L1</strong></td><td>AI-Assisted &mdash; Marketing Designer &times; AI</td></tr>
-            <tr><td><strong>L2</strong></td><td>Partially Automated &mdash; Product Designer &times; AI</td></tr>
-            <tr><td><strong>L3</strong></td><td>Guided Automation &mdash; Design Engineer &times; AI</td></tr>
-            <tr><td><strong>L4</strong></td><td>Mostly Automated &mdash; Super Design Engineer &times; AI</td></tr>
-            <tr><td><strong>L5</strong></td><td>Full Automation &mdash; AI &times; AI (aspirational)</td></tr>
+{sae_rows}
         </table>
     </div>
     <div class="axis">
         <h3>E-P-I-A-S (Maturity)</h3>
         <table class="mini-table">
-            <tr><td><strong>E</strong></td><td>Explorer &mdash; trying things, learning basics</td></tr>
-            <tr><td><strong>P</strong></td><td>Practitioner &mdash; consistent habits</td></tr>
-            <tr><td><strong>I</strong></td><td>Integrator &mdash; part of workflow</td></tr>
-            <tr><td><strong>A</strong></td><td>Architect &mdash; systems others use</td></tr>
-            <tr><td><strong>S</strong></td><td>Steward &mdash; setting standards</td></tr>
+{stage_rows}
         </table>
     </div>
 </div>
 <blockquote class="key-insight">
-    &ldquo;An S-Steward at L1 is more valuable than an E-Explorer at L4. Depth of judgment beats breadth of tooling.&rdquo;
+    &ldquo;{KEY_INSIGHT}&rdquo;
     <cite>&mdash; John Maeda, DIT 2026</cite>
 </blockquote>
 <p class="evolving-note">This framework is a living document. The source content may have been updated since this app was built. Check the <a href="https://github.com/aji-ai/dit-2026" target="_blank">GitHub repository</a> for the latest version.</p>
@@ -131,8 +185,8 @@ def framework(doc_index=0):
     filename, label = _FRAMEWORK_DOCS[doc_index]
 
     if filename is None:
-        # Overview tab — rendered from static HTML
-        html_content = _OVERVIEW_HTML
+        # Overview tab — built from canonical scorer constants
+        html_content = _build_overview_html()
     else:
         filepath = app_settings.source_dir / filename
         raw_md = filepath.read_text(encoding='utf-8')
@@ -149,11 +203,18 @@ def _render_markdown(md: str) -> str:
     lists, tables, blockquotes, and horizontal rules."""
     import re
 
+    def slugify(s):
+        return re.sub(r'[^a-z0-9]+', '-', re.sub(r'<[^>]+>', '', s).lower()).strip('-')
+
+    slug_counts = {}
+
     def esc(s):
         return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
     def inline(s):
         s = esc(s)
+        # Restore <br> tags that esc() turned into &lt;br/&gt;
+        s = re.sub(r'&lt;br\s*/?&gt;', '<br>', s)
         s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
         s = re.sub(r'\*(.+?)\*', r'<em>\1</em>', s)
         s = re.sub(r'`(.+?)`', r'<code>\1</code>', s)
@@ -214,7 +275,12 @@ def _render_markdown(md: str) -> str:
         if hm:
             close_list()
             level = len(hm.group(1))
-            out.append(f'<h{level}>{inline(hm.group(2))}</h{level}>')
+            text = inline(hm.group(2))
+            slug = slugify(text)
+            slug_counts[slug] = slug_counts.get(slug, 0) + 1
+            if slug_counts[slug] > 1:
+                slug = f'{slug}-{slug_counts[slug]}'
+            out.append(f'<h{level} id="{slug}">{text}</h{level}>')
             continue
 
         # Blockquote

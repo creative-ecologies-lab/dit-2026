@@ -3,27 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}DIT 2026 Assessment{% endblock %}</title>
+    <title>{% block title %}Where are you on your AI journey?{% endblock %}</title>
+    <meta name="description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
+    <meta property="og:title" content="Where are you on your AI journey?">
+    <meta property="og:description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Where are you on your AI journey?">
+    <meta name="twitter:description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block head %}{% endblock %}
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
     <nav class="top-nav" role="navigation" aria-label="Main navigation">
         <div class="nav-brand">
-            <a href="/" aria-label="DIT 2026 home">DIT 2026 &mdash; E-P-I-A-S &times; SAE</a>
+            <a href="/" aria-label="AI Upskilling Map home">AI Upskilling Map for Designers &amp; UX Researchers</a>
         </div>
         <div class="nav-links" role="list">
             <a href="/" role="listitem" class="{% if request.path == '/' %}active{% endif %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Home</a>
             <a href="/framework" role="listitem" class="{% if '/framework' in request.path %}active{% endif %}" {% if '/framework' in request.path %}aria-current="page"{% endif %}>Framework</a>
             <a href="/assess" role="listitem" class="{% if request.path == '/assess' %}active{% endif %}" {% if request.path == '/assess' %}aria-current="page"{% endif %}>Assess</a>
-            <a href="/chat" role="listitem" class="{% if '/chat' in request.path %}active{% endif %}" {% if '/chat' in request.path %}aria-current="page"{% endif %}>Chat</a>
-            <a href="/heatmap" role="listitem" class="{% if request.path == '/heatmap' %}active{% endif %}" {% if request.path == '/heatmap' %}aria-current="page"{% endif %}>Heatmap</a>
+            <a href="/group-id" role="listitem" class="{% if request.path in ['/group-id', '/group', '/groups', '/group-ids'] %}active{% endif %}" {% if request.path in ['/group-id', '/group', '/groups', '/group-ids'] %}aria-current="page"{% endif %}>Group ID</a>
         </div>
     </nav>
     <main id="main-content" class="container" role="main">
         {% block content %}{% endblock %}
     </main>
+    <footer class="site-footer" role="contentinfo">
+        <p>Based on the Design in Tech Report 2026: From UX to AX by John Maeda. Site and tool built by Noah Ratzan.</p>
+    </footer>
+    <!-- Feedback widget -->
+    <button class="fb-trigger" id="fbTrigger" aria-label="Send feedback">
+        Feedback
+        <span class="fb-dot" id="fbDot" style="display:none;" aria-hidden="true"></span>
+    </button>
+    <div class="fb-backdrop" id="fbBackdrop" style="display:none;" aria-hidden="true"></div>
+    <div class="fb-modal" id="fbModal" role="dialog" aria-label="Feedback" aria-modal="true" style="display:none;">
+        <div class="fb-modal-header">
+            <strong>Feedback</strong>
+            <button class="fb-close" id="fbClose" aria-label="Close">&times;</button>
+        </div>
+        <div class="fb-cats" role="radiogroup" aria-label="Feedback category">
+            <button class="fb-cat active" data-cat="general">General</button>
+            <button class="fb-cat" data-cat="bug">Bug</button>
+            <button class="fb-cat" data-cat="suggestion">Suggestion</button>
+        </div>
+        <textarea class="fb-text" id="fbText" placeholder="What's on your mind?" rows="4"></textarea>
+        <div class="fb-footer">
+            <button class="btn btn-primary fb-submit" id="fbSubmit">Send Feedback</button>
+            <span class="fb-status" id="fbStatus"></span>
+        </div>
+    </div>
+    <script>
+    (function(){
+        'use strict';
+        var trigger=document.getElementById('fbTrigger'),
+            backdrop=document.getElementById('fbBackdrop'),
+            modal=document.getElementById('fbModal'),
+            closeBtn=document.getElementById('fbClose'),
+            textarea=document.getElementById('fbText'),
+            submitBtn=document.getElementById('fbSubmit'),
+            statusEl=document.getElementById('fbStatus'),
+            dot=document.getElementById('fbDot'),
+            cats=modal.querySelectorAll('.fb-cat'),
+            category='general',
+            saveTimer=null,
+            DRAFT_KEY='ditFeedbackDraft',
+            IDS_KEY='ditFeedbackIds',
+            MAX_CLIENT=10;
+
+        function getSubmitted(){
+            try{return JSON.parse(sessionStorage.getItem(IDS_KEY)||'[]');}catch(e){return[];}
+        }
+
+        function setCat(c){
+            category=c;
+            cats.forEach(function(b){b.classList.toggle('active',b.dataset.cat===c);});
+        }
+        cats.forEach(function(b){
+            b.addEventListener('click',function(){setCat(b.dataset.cat);saveDraft();});
+        });
+
+        // Draft persistence
+        function saveDraft(){
+            clearTimeout(saveTimer);
+            saveTimer=setTimeout(function(){
+                var msg=textarea.value.trim();
+                if(msg){
+                    sessionStorage.setItem(DRAFT_KEY,JSON.stringify({category:category,message:msg}));
+                    dot.style.display='';
+                }else{
+                    sessionStorage.removeItem(DRAFT_KEY);
+                    if(!getSubmitted().length) dot.style.display='none';
+                }
+            },500);
+        }
+        textarea.addEventListener('input',saveDraft);
+
+        function loadDraft(){
+            var draft=sessionStorage.getItem(DRAFT_KEY);
+            if(draft){
+                try{
+                    var d=JSON.parse(draft);
+                    textarea.value=d.message||'';
+                    setCat(d.category||'general');
+                }catch(e){}
+            }
+        }
+
+        function updateStatus(){
+            var n=getSubmitted().length;
+            if(n>0) statusEl.textContent=n+' sent this session';
+            else statusEl.textContent='';
+        }
+
+        // Open/close
+        function openModal(){
+            loadDraft();
+            backdrop.style.display='';
+            modal.style.display='';
+            backdrop.setAttribute('aria-hidden','false');
+            textarea.focus();
+            updateStatus();
+        }
+        function closeModal(){
+            backdrop.style.display='none';
+            modal.style.display='none';
+            backdrop.setAttribute('aria-hidden','true');
+        }
+        trigger.addEventListener('click',openModal);
+        closeBtn.addEventListener('click',closeModal);
+        backdrop.addEventListener('click',closeModal);
+        document.addEventListener('keydown',function(e){
+            if(e.key==='Escape' && modal.style.display!=='none') closeModal();
+        });
+
+        // Submit
+        submitBtn.addEventListener('click',function(){
+            var msg=textarea.value.trim();
+            if(!msg){statusEl.textContent='Please enter a message.';return;}
+            var submitted=getSubmitted();
+            if(submitted.length>=MAX_CLIENT){
+                statusEl.textContent='Limit reached for this session.';
+                return;
+            }
+            submitBtn.disabled=true;
+            statusEl.textContent='Sending\u2026';
+
+            fetch('/api/feedback',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({category:category,message:msg,page:location.pathname})
+            })
+            .then(function(r){return r.json().then(function(d){return{ok:r.ok,data:d};});})
+            .then(function(res){
+                if(!res.ok){statusEl.textContent=res.data.error||'Error';return;}
+                submitted.push(res.data.id);
+                sessionStorage.setItem(IDS_KEY,JSON.stringify(submitted));
+                sessionStorage.removeItem(DRAFT_KEY);
+                textarea.value='';
+                setCat('general');
+                dot.style.display='';
+                statusEl.textContent='Sent! ('+submitted.length+' total)';
+                setTimeout(function(){updateStatus();},2000);
+            })
+            .catch(function(){statusEl.textContent='Network error.';})
+            .finally(function(){submitBtn.disabled=false;});
+        });
+
+        // Init
+        if(sessionStorage.getItem(DRAFT_KEY)||getSubmitted().length){
+            dot.style.display='';
+        }
+    })();
+    </script>
+
     <script src="{{ url_for('static', filename='slides.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>

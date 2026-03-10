@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Feedback — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="admin-header">
+        <h1>Feedback</h1>
+        <div class="admin-counts">
+            <span class="admin-count">{{ counts.total }} total</span>
+            <span class="admin-badge admin-badge-new">{{ counts.new }} new</span>
+            <span class="admin-badge admin-badge-reviewed">{{ counts.reviewed }} reviewed</span>
+            <span class="admin-badge admin-badge-resolved">{{ counts.resolved }} resolved</span>
+        </div>
+        <a href="/admin/logout" class="admin-logout">Log out</a>
+    </div>
+
+    {% if items %}
+    <table class="admin-table" role="table">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Category</th>
+                <th>Page</th>
+                <th>Message</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr class="admin-row" data-id="{{ item.id }}">
+                <td class="admin-cell-time">{{ item.timestamp.strftime('%Y-%m-%d %H:%M') if item.timestamp else '—' }}</td>
+                <td><span class="admin-cat admin-cat-{{ item.category }}">{{ item.category }}</span></td>
+                <td class="admin-cell-page" title="{{ item.page }}">{{ item.page }}</td>
+                <td class="admin-cell-msg">
+                    <details>
+                        <summary>{{ item.message[:80] }}{% if item.message|length > 80 %}&hellip;{% endif %}</summary>
+                        <p class="admin-full-msg">{{ item.message }}</p>
+                        {% if item.user_agent %}
+                        <p class="admin-ua">{{ item.user_agent }}</p>
+                        {% endif %}
+                    </details>
+                </td>
+                <td>
+                    <form method="post" action="/admin/feedback/{{ item.id }}/status" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="current" value="{{ item.status }}">
+                        <button type="submit" class="admin-badge admin-badge-{{ item.status }}" title="Click to advance status">
+                            {{ item.status }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="admin-empty">No feedback yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

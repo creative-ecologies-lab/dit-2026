@@ -4,50 +4,43 @@
 {% block content %}
 <div class="assessment-container" role="main" aria-label="DIT 2026 Self-Assessment">
 
-    <!-- Stage 0: Intake (cohort + demographics) -->
-    <div id="intakeStage" class="stage" role="region" aria-label="Intake: optional demographics">
-        <div style="max-width: 520px; margin: 0 auto;">
-            <div class="question-card">
-                <h2 style="margin-bottom: 0.25rem;">Before You Begin</h2>
-                <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.9rem;">
-                    These optional fields help us understand who&rsquo;s taking the assessment.
-                    Your responses are anonymous and used only for community heatmaps.
-                    <strong>Nothing here affects your results.</strong>
-                </p>
-                <div class="intake-field">
-                    <label for="intakeCohort">Cohort Code <span class="optional-label">(optional)</span></label>
-                    <input type="text" id="intakeCohort" placeholder="e.g. sxsw-2026, spotify26"
-                           autocomplete="off" spellcheck="false"
-                           aria-describedby="cohortHelp">
-                    <p id="cohortHelp" class="field-help">If you&rsquo;re at an event or in a class, your organizer may have shared a code. This groups your result with your cohort&rsquo;s heatmap.</p>
+    <!-- Stage 0: Intake (role + group ID) -->
+    <div id="intakeStage" class="stage" style="display:none;" role="region" aria-label="Getting started">
+        <div class="question-viewport">
+            <div class="question-progress">Getting Started</div>
+            <div id="intakeQuestions">
+                <div class="q-card">
+                    <h2 tabindex="-1">What best describes your work?</h2>
+                    <div class="role-selector" role="radiogroup" aria-label="Select your role">
+                        <button class="role-btn" data-role="design" role="radio" aria-checked="false">
+                            <span class="role-btn-title">Design</span>
+                            <span class="role-btn-desc">Product, visual, or interaction design</span>
+                        </button>
+                        <button class="role-btn" data-role="uxr" role="radio" aria-checked="false">
+                            <span class="role-btn-title">UX Research</span>
+                            <span class="role-btn-desc">User research, evidence, and synthesis</span>
+                        </button>
+                    </div>
+                    <div class="intake-fields" style="margin-top: 1.25rem;">
+                        <div class="intake-field">
+                            <label for="intakeCohort">Group ID <span class="optional-label">(optional)</span></label>
+                            <input type="text" id="intakeCohort" placeholder=""
+                                   autocomplete="off" spellcheck="false"
+                                   aria-describedby="cohortHelp">
+                            <p id="cohortHelp" class="field-help">Collects results to view in a group heatmap.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="intake-field">
-                    <label for="intakeAge">Age Range <span class="optional-label">(optional)</span></label>
-                    <select id="intakeAge" aria-label="Age range">
-                        <option value="">Prefer not to say</option>
-                        <option value="under-25">Under 25</option>
-                        <option value="25-34">25&ndash;34</option>
-                        <option value="35-44">35&ndash;44</option>
-                        <option value="45-54">45&ndash;54</option>
-                        <option value="55+">55+</option>
-                    </select>
-                </div>
-                <div class="intake-field">
-                    <label for="intakeRole">Your Role / Title <span class="optional-label">(optional)</span></label>
-                    <input type="text" id="intakeRole" placeholder="e.g. Product Designer, Engineer, Researcher, Student"
-                           autocomplete="off" aria-label="Your job role or title">
-                </div>
-                <div style="display: flex; gap: 1rem; margin-top: 1.5rem; align-items: center;">
-                    <button id="intakeStart" class="btn btn-primary" aria-label="Start the assessment">Start Assessment</button>
-                    <a href="#" id="intakeSkip" class="intake-skip-link" aria-label="Skip demographics and jump to questions">or skip &rarr;</a>
-                </div>
-                <p class="intake-privacy">Only your SAE level, EPIAS stage, and optional cohort are stored. Age and role are anonymous for research only.</p>
+            </div>
+            <div class="question-nav" role="navigation" aria-label="Intake navigation">
+                <button class="nav-arrow nav-prev" disabled aria-label="Previous">&larr;</button>
+                <button id="intakeNext" class="nav-arrow nav-next" disabled aria-label="Continue to assessment">&rarr;</button>
             </div>
         </div>
     </div>
 
     <!-- Stage 1: SAE Level Questions -->
-    <div id="saeStage" class="stage" style="display:none;" role="region" aria-label="Automation Level Questions">
+    <div id="saeStage" class="stage" style="display:none;" role="region" aria-label="Workflow Automation Level Questions">
         <div class="question-viewport">
             <div class="question-progress" id="saeProgress" role="status" aria-live="polite">Question 1 of 6</div>
             <div id="saeQuestions" aria-label="SAE level question"></div>
@@ -58,12 +51,23 @@
         </div>
     </div>
 
-    <!-- Stage 2: EPIAS Maturity Questions -->
-    <div id="epiasStage" class="stage" style="display:none;" role="region" aria-label="Maturity Stage Questions">
+    <!-- Stage 1.5: SAE → EPIAS Transition -->
+    <div id="transitionStage" class="stage" style="display:none;" role="region" aria-label="Part 1 Result">
+        <div class="question-viewport">
+            <div class="question-progress">Part 1 Complete</div>
+            <div id="transitionContent" class="q-card"></div>
+            <div class="question-nav" role="navigation" aria-label="Transition navigation">
+                <button id="transitionBack" class="nav-arrow nav-prev" aria-label="Go back to Part 1">&larr;</button>
+                <button id="transitionContinue" class="nav-arrow nav-next" aria-label="Continue to Part 2">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 2: EPIAS Leadership Questions -->
+    <div id="epiasStage" class="stage" style="display:none;" role="region" aria-label="Leadership Stage Questions">
         <div class="question-viewport">
             <div class="question-progress" id="epiasProgress" role="status" aria-live="polite">Question 1 of 5</div>
-            <p class="section-context">You&rsquo;re at <strong id="identifiedLevel"></strong>. Now let&rsquo;s find your maturity stage.</p>
-            <div id="epiasQuestions" aria-label="EPIAS maturity question"></div>
+            <div id="epiasQuestions" aria-label="EPIAS leadership question"></div>
             <div class="question-nav" role="navigation" aria-label="Question navigation">
                 <button id="epiasPrev" class="nav-arrow nav-prev" aria-label="Previous question">&larr;</button>
                 <button id="epiasNext" class="nav-arrow nav-next" aria-label="Next question">&rarr;</button>
@@ -93,8 +97,10 @@
 </div>
 
 <script>
-    // Pass questions from server
-    const SAE_QUESTIONS = {{ questions | tojson }};
+    // Pass both question sets from server — selected by role at runtime
+    const SAE_QUESTIONS_DESIGN = {{ questions_design | tojson }};
+    const SAE_QUESTIONS_UXR = {{ questions_uxr | tojson }};
+    let SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
     const URL_COHORT = {{ (cohort or '') | tojson }};
 </script>
 <script src="{{ url_for('static', filename='assessment.js') }}"></script>

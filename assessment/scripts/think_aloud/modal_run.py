@@ -31,7 +31,7 @@ image = (
 # ── All constants (inlined from config.py) ──
 
 PROTOCOL_VERSION = "2.1"
-DEFAULT_TARGET = "https://dit-maeda.noahratzan.com"
+DEFAULT_TARGET = "https://aiskillsmap.noahratzan.com"
 DEFAULT_MODEL = "claude-sonnet-4-20250514"
 DEFAULT_COHORT = "think-aloud-test"
 INPUT_COST_PER_MTOK = 3.0

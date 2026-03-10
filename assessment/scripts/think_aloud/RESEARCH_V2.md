@@ -86,7 +86,7 @@ Synthetic users are "somewhat useful for broad attitudinal questions" but "too s
 
 **Independent variable:** Protocol version (v1 vs v2)
 
-**Controls:** Same 10 archetypes, same target URL (dit-maeda.noahratzan.com), same seed (42).
+**Controls:** Same 10 archetypes, same target URL (aiskillsmap.noahratzan.com), same seed (42).
 
 ### Run Plan
 

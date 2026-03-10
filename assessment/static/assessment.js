@@ -1,6 +1,6 @@
 /**
  * DIT Assessment — Self-assessment questionnaire logic.
- * Handles two-stage assessment: SAE Level → EPIAS Maturity.
+ * Handles two-stage assessment: SAE Level → EPIAS Leadership Stage.
  * Persists progress in sessionStorage so users can navigate away and return.
  *
  * v3: Typeform-style centered one-question-per-page flow.
@@ -19,11 +19,10 @@
         stage: 'intake', // 'intake', 'sae', or 'epias'
         epiasQuestions: [],
         cohort: '',
-        ageRange: '',
-        role: '',
+        role: '',  // 'design' or 'uxr'
     };
 
-    const totalSaeQuestions = SAE_QUESTIONS.length;
+    let totalSaeQuestions = SAE_QUESTIONS.length;
     const STAGE_NAMES = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
 
     // Jargon glossary: term → plain-English tooltip
@@ -40,11 +39,14 @@
         'IDE': 'Code editor or design tool (like VS Code, Figma, or Cursor)',
         'agent infrastructure': 'Production systems that run AI tasks automatically for a team',
         'agent pipelines': 'Multi-step automated AI workflows',
-        'maturity stage': 'How deeply you\'ve adopted a practice \u2014 from experimenting to setting standards',
+        'leadership stage': 'How you lead with AI \u2014 from experimenting to setting standards',
         'flagged exceptions': 'Problems the AI found but couldn\'t fix on its own',
         'self-improving harnesses': 'AI systems that get better automatically based on past results',
         'run-loop template': 'A reusable script that runs AI steps in order',
         'RACI': 'A chart showing who is Responsible, Accountable, Consulted, and Informed',
+        'audit trail': 'A record showing what AI did and what decisions you made',
+        'eval gates': 'Automated checkpoints that test whether AI output meets standards',
+        'context systems': 'Structured instructions, rules, and examples that guide AI workflows',
     };
 
     /** Wrap known jargon terms in tooltip spans. */
@@ -72,7 +74,6 @@
             stage: state.stage,
             epiasQuestions: state.epiasQuestions,
             cohort: state.cohort,
-            ageRange: state.ageRange,
             role: state.role,
         }));
     }
@@ -89,8 +90,14 @@
             state.stage = parsed.stage || 'intake';
             state.epiasQuestions = parsed.epiasQuestions || [];
             state.cohort = parsed.cohort || '';
-            state.ageRange = parsed.ageRange || '';
             state.role = parsed.role || '';
+            // Restore correct question set based on saved role
+            if (state.role === 'uxr') {
+                SAE_QUESTIONS = SAE_QUESTIONS_UXR;
+            } else {
+                SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+            }
+            totalSaeQuestions = SAE_QUESTIONS.length;
             return true;
         } catch { return false; }
     }
@@ -108,11 +115,13 @@
         state.stage = 'intake';
         state.epiasQuestions = [];
         state.cohort = '';
-        state.ageRange = '';
         state.role = '';
+        SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+        totalSaeQuestions = SAE_QUESTIONS.length;
 
         document.getElementById('completedStage').style.display = 'none';
         document.getElementById('saeStage').style.display = 'none';
+        document.getElementById('transitionStage').style.display = 'none';
         document.getElementById('epiasStage').style.display = 'none';
         document.getElementById('intakeStage').style.display = '';
         initIntake();
@@ -130,7 +139,6 @@
 
         container.innerHTML = `
             <div class="q-card" role="group" aria-labelledby="q-heading">
-                <p class="q-context">Pick the statement that best describes you today.</p>
                 <h2 id="q-heading" tabindex="-1">${q.question}</h2>
                 <div class="q-options" role="radiogroup" aria-labelledby="q-heading">
                     ${q.options.map((opt, i) => `
@@ -208,15 +216,14 @@
 
         container.innerHTML = `
             <div class="q-card" role="group" aria-labelledby="eq-heading">
-                <p class="q-context">Select the stage that best describes you.</p>
                 <h2 id="eq-heading" tabindex="-1">${q.question}</h2>
                 <div class="q-options" role="radiogroup" aria-labelledby="eq-heading">
-                    ${q.options.map(opt => `
+                    ${q.options.map((opt, i) => `
                         <button class="q-option ${state.epiasAnswers[q.id] === opt.stage ? 'selected' : ''}"
                                 data-qid="${q.id}" data-value="${opt.stage}"
                                 role="radio" aria-checked="${state.epiasAnswers[q.id] === opt.stage}"
-                                aria-label="${STAGE_NAMES[opt.stage] || opt.stage}: ${opt.text}">
-                            <span class="q-option-key">${STAGE_NAMES[opt.stage] || opt.stage}</span>
+                                aria-label="${opt.text}">
+                            <span class="q-option-key">${String.fromCharCode(65 + i)}</span>
                             <span class="q-option-text">${addTooltips(opt.text)}</span>
                         </button>
                     `).join('')}
@@ -258,7 +265,7 @@
         const conf = document.getElementById('confirmationMsg');
         const answered = Object.keys(state.epiasAnswers).length;
         const total = state.epiasQuestions.length;
-        conf.textContent = `Got it — ${STAGE_NAMES[val] || val}! (${answered} of ${total} answered)`;
+        conf.textContent = `Got it! (${answered} of ${total} answered)`;
         conf.classList.add('visible');
 
         updateNavButtons();
@@ -281,8 +288,16 @@
             const prevBtn = document.getElementById('saePrev');
             const nextBtn = document.getElementById('saeNext');
 
-            // Hide prev on first question
-            prevBtn.disabled = state.currentQuestion === 0;
+            // Prev always enabled (goes back to intake on first question)
+            prevBtn.disabled = false;
+
+            // Intro screen — next is always enabled
+            if (state.currentQuestion === -1) {
+                nextBtn.textContent = '\u2192';
+                nextBtn.disabled = false;
+                nextBtn.setAttribute('aria-label', 'Start Part 1 questions');
+                return;
+            }
 
             const currentQ = SAE_QUESTIONS[state.currentQuestion];
             const answered = state.saeAnswers[currentQ.id] !== undefined;
@@ -290,7 +305,7 @@
             if (state.currentQuestion === totalSaeQuestions - 1) {
                 nextBtn.textContent = answered ? 'Continue \u2192' : '\u2192';
                 nextBtn.disabled = !answered;
-                nextBtn.setAttribute('aria-label', answered ? 'Continue to maturity stage' : 'Next question');
+                nextBtn.setAttribute('aria-label', answered ? 'Continue to leadership stage' : 'Next question');
             } else {
                 nextBtn.textContent = '\u2192';
                 nextBtn.disabled = !answered;
@@ -326,19 +341,70 @@
     }
 
     const SAE_NAMES = {
-        0: 'L0: Manual', 1: 'L1: AI-Assisted', 2: 'L2: Partially Automated',
-        3: 'L3: Guided Automation', 4: 'L4: Mostly Automated', 5: 'L5: Full Automation'
+        0: 'Manual (Level 0)', 1: 'AI-Assisted (Level 1)', 2: 'Partially Automated (Level 2)',
+        3: 'Guided Automation (Level 3)', 4: 'Mostly Automated (Level 4)', 5: 'Full Automation (Level 5)'
     };
+
+    const SAE_TRANSITION = {
+        0: {
+            name: 'Level 0 — Manual',
+            description: 'Work produced entirely through traditional methods — no AI tools in the workflow.',
+            part2: 'Part 2 measures how deliberate that choice is — whether you are still deciding about AI, have developed a clear personal method for working without it, or have shaped how your team operates.',
+        },
+        1: {
+            name: 'Level 1 — AI-Assisted',
+            description: 'AI used for individual tasks, one at a time, with direct oversight at every step.',
+            part2: 'Part 2 measures how deep that practice runs — whether you are still experimenting, have built a consistent personal workflow, or have established patterns your team follows.',
+        },
+        2: {
+            name: 'Level 2 — Partially Automated',
+            description: 'AI produces usable pieces from a spec — individual, bounded outputs assembled by hand.',
+            part2: 'Part 2 measures how deep that practice runs — whether you are still experimenting, have built a consistent personal workflow, or have established patterns your team follows.',
+        },
+        3: {
+            name: 'Level 3 — Guided Automation',
+            description: 'Multi-step AI workflows with checkpoints, persisting across sessions.',
+            part2: 'Part 2 measures how deep that practice runs — whether you are still experimenting, have built a consistent personal workflow, or have established patterns your team follows.',
+        },
+        4: {
+            name: 'Level 4 — Mostly Automated',
+            description: 'Autonomous AI systems execute, evaluate, and self-correct — human review at the outcome level.',
+            part2: 'Part 2 measures how deep that practice runs — whether you are still experimenting, have built a consistent personal workflow, or have established patterns your team follows.',
+        },
+        5: {
+            name: 'Level 5 — Full Automation',
+            description: 'AI handles the workflow end-to-end — goals and exceptions are the only human touchpoints.',
+            part2: 'Part 2 measures how deep that practice runs — whether you are still experimenting, have built a consistent personal workflow, or have established patterns your team follows.',
+        },
+    };
+
+    function showTransitionStage(level) {
+        const data = SAE_TRANSITION[level] || SAE_TRANSITION[1];
+        const container = document.getElementById('transitionContent');
+        container.innerHTML = `
+            <p class="transition-result-label">Part 1 result</p>
+            <h2 tabindex="-1">${data.name}</h2>
+            <p class="transition-description">${data.description}</p>
+            <p class="transition-part2">${data.part2} Choose the single best answer for each question.</p>
+        `;
+        document.getElementById('transitionStage').style.display = '';
+        const heading = container.querySelector('h2');
+        if (heading) heading.focus();
+    }
 
     // ---- Stage Transitions ----
 
     async function transitionToEpias() {
+        // All SAE questions must be answered
+        if (Object.keys(state.saeAnswers).length < totalSaeQuestions) return;
+
         state.saeLevel = calculateSaeLevel();
-        document.getElementById('identifiedLevel').textContent =
-            SAE_NAMES[state.saeLevel] || `SAE L${state.saeLevel}`;
 
         try {
-            const resp = await fetch('/api/epias-questions?' + new URLSearchParams({level: state.saeLevel}));
+            const resp = await fetch('/api/epias-questions?' + new URLSearchParams({
+                level: state.saeLevel,
+                role: state.role || 'design',
+            }));
             if (resp.ok) {
                 state.epiasQuestions = await resp.json();
             }
@@ -350,13 +416,11 @@
             state.epiasQuestions = generateFallbackEpiasQuestions(state.saeLevel);
         }
 
-        state.stage = 'epias';
-        state.currentQuestion = 0;
+        state.stage = 'transition';
         saveState();
 
         document.getElementById('saeStage').style.display = 'none';
-        document.getElementById('epiasStage').style.display = '';
-        renderEpiasQuestion(0);
+        showTransitionStage(state.saeLevel);
     }
 
     function generateFallbackEpiasQuestions(level) {
@@ -423,6 +487,8 @@
 
     async function submitAssessment() {
         if (submitting) return;
+        // All EPIAS questions must be answered
+        if (Object.keys(state.epiasAnswers).length < state.epiasQuestions.length) return;
         submitting = true;
         document.getElementById('epiasStage').style.display = 'none';
         document.getElementById('loadingStage').style.display = 'block';
@@ -432,7 +498,6 @@
             ...state.epiasAnswers,
         };
         if (state.cohort) payload.cohort = state.cohort;
-        if (state.ageRange) payload.age_range = state.ageRange;
         if (state.role) payload.role = state.role;
 
         try {
@@ -459,34 +524,75 @@
 
     function initIntake() {
         const cohortInput = document.getElementById('intakeCohort');
-        const ageSelect = document.getElementById('intakeAge');
-        const roleInput = document.getElementById('intakeRole');
+        const nextBtn = document.getElementById('intakeNext');
+        const roleBtns = document.querySelectorAll('.role-btn');
 
         // Pre-fill cohort from URL param
         if (URL_COHORT) {
             cohortInput.value = URL_COHORT;
         }
 
-        document.getElementById('intakeStart').addEventListener('click', () => {
-            state.cohort = (cohortInput.value || '').trim().toLowerCase();
-            state.ageRange = ageSelect.value || '';
-            state.role = (roleInput.value || '').trim();
-            transitionToSae();
+        // Role button selection
+        roleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                roleBtns.forEach(b => {
+                    b.classList.remove('selected');
+                    b.setAttribute('aria-checked', 'false');
+                });
+                btn.classList.add('selected');
+                btn.setAttribute('aria-checked', 'true');
+                state.role = btn.dataset.role;
+                // Switch question set
+                if (state.role === 'uxr') {
+                    SAE_QUESTIONS = SAE_QUESTIONS_UXR;
+                } else {
+                    SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+                }
+                totalSaeQuestions = SAE_QUESTIONS.length;
+                // Enable the next button
+                nextBtn.disabled = false;
+            });
         });
 
-        document.getElementById('intakeSkip').addEventListener('click', (e) => {
-            e.preventDefault();
+        // Restore role selection if returning to intake
+        if (state.role) {
+            const activeBtn = document.querySelector(`.role-btn[data-role="${state.role}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('selected');
+                activeBtn.setAttribute('aria-checked', 'true');
+                nextBtn.disabled = false;
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (!state.role) return;
+            state.cohort = (cohortInput.value || '').trim().toLowerCase();
             transitionToSae();
         });
     }
 
+    function showSaeIntro() {
+        const container = document.getElementById('saeQuestions');
+        document.getElementById('saeProgress').textContent = 'Part 1 of 2';
+        container.innerHTML = `
+            <div class="q-card" role="group" aria-labelledby="sae-intro-heading">
+                <h2 id="sae-intro-heading" tabindex="-1">How much does AI do in your workflow?</h2>
+                <p class="transition-part2" style="border-top:none; padding-top:0;">Part 1 measures your level of automation — from doing everything manually to running autonomous systems. Choose the single best answer that describes where you are today, not where you'd like to be.</p>
+            </div>
+        `;
+        document.getElementById('saePrev').disabled = false;
+        document.getElementById('saeNext').disabled = false;
+        const heading = container.querySelector('h2');
+        if (heading) heading.focus();
+    }
+
     function transitionToSae() {
         state.stage = 'sae';
-        state.currentQuestion = 0;
+        state.currentQuestion = -1; // -1 = intro screen
         saveState();
         document.getElementById('intakeStage').style.display = 'none';
         document.getElementById('saeStage').style.display = '';
-        renderSaeQuestion(0);
+        showSaeIntro();
     }
 
     // ---- Event Handlers ----
@@ -496,11 +602,28 @@
             state.currentQuestion--;
             saveState();
             renderSaeQuestion(state.currentQuestion);
+        } else if (state.currentQuestion === 0) {
+            // Back to intro
+            state.currentQuestion = -1;
+            saveState();
+            showSaeIntro();
+        } else {
+            // Back to intake from intro
+            state.stage = 'intake';
+            state.currentQuestion = 0;
+            saveState();
+            document.getElementById('saeStage').style.display = 'none';
+            document.getElementById('intakeStage').style.display = '';
         }
     });
 
     document.getElementById('saeNext').addEventListener('click', () => {
-        if (state.currentQuestion < totalSaeQuestions - 1) {
+        if (state.currentQuestion === -1) {
+            // Advance from intro to Q1
+            state.currentQuestion = 0;
+            saveState();
+            renderSaeQuestion(0);
+        } else if (state.currentQuestion < totalSaeQuestions - 1) {
             state.currentQuestion++;
             saveState();
             renderSaeQuestion(state.currentQuestion);
@@ -515,13 +638,29 @@
             saveState();
             renderEpiasQuestion(state.currentQuestion);
         } else {
-            state.stage = 'sae';
-            state.currentQuestion = totalSaeQuestions - 1;
+            state.stage = 'transition';
             saveState();
             document.getElementById('epiasStage').style.display = 'none';
-            document.getElementById('saeStage').style.display = '';
-            renderSaeQuestion(state.currentQuestion);
+            showTransitionStage(state.saeLevel);
         }
+    });
+
+    document.getElementById('transitionBack').addEventListener('click', () => {
+        state.stage = 'sae';
+        state.currentQuestion = totalSaeQuestions - 1;
+        saveState();
+        document.getElementById('transitionStage').style.display = 'none';
+        document.getElementById('saeStage').style.display = '';
+        renderSaeQuestion(state.currentQuestion);
+    });
+
+    document.getElementById('transitionContinue').addEventListener('click', () => {
+        state.stage = 'epias';
+        state.currentQuestion = 0;
+        saveState();
+        document.getElementById('transitionStage').style.display = 'none';
+        document.getElementById('epiasStage').style.display = '';
+        renderEpiasQuestion(0);
     });
 
     document.getElementById('epiasNext').addEventListener('click', () => {
@@ -538,29 +677,29 @@
 
     // ---- Init ----
 
+    // All stages start hidden (no FOUC). Show exactly one.
     const hasResults = sessionStorage.getItem('ditResult');
     if (hasResults) {
-        // Already completed — show prompt
-        document.getElementById('intakeStage').style.display = 'none';
-        document.getElementById('saeStage').style.display = 'none';
         document.getElementById('completedStage').style.display = 'block';
     } else if (restoreState()) {
-        // Resume in-progress assessment
         if (state.stage === 'epias' && state.epiasQuestions.length > 0) {
-            document.getElementById('intakeStage').style.display = 'none';
-            document.getElementById('saeStage').style.display = 'none';
             document.getElementById('epiasStage').style.display = '';
-            document.getElementById('identifiedLevel').textContent =
-                SAE_NAMES[state.saeLevel] || `SAE L${state.saeLevel}`;
             renderEpiasQuestion(state.currentQuestion);
+        } else if (state.stage === 'transition' && state.epiasQuestions.length > 0) {
+            showTransitionStage(state.saeLevel);
         } else if (state.stage === 'sae') {
-            document.getElementById('intakeStage').style.display = 'none';
             document.getElementById('saeStage').style.display = '';
-            renderSaeQuestion(state.currentQuestion);
+            if (state.currentQuestion === -1) {
+                showSaeIntro();
+            } else {
+                renderSaeQuestion(state.currentQuestion);
+            }
         } else {
+            document.getElementById('intakeStage').style.display = '';
             initIntake();
         }
     } else {
+        document.getElementById('intakeStage').style.display = '';
         initIntake();
     }
 

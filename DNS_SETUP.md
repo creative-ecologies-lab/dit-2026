@@ -1,6 +1,6 @@
-# DNS & Subdomain Setup: dit.noahratzan.com
+# DNS & Subdomain Setup: aiskillsmap.noahratzan.com
 
-This guide covers how to make the DIT Assessment Flask app (deployed on GCP Cloud Run) accessible at `dit.noahratzan.com`.
+This guide covers how to make the DIT Assessment Flask app (deployed on GCP Cloud Run) accessible at `aiskillsmap.noahratzan.com`.
 
 ---
 
@@ -38,7 +38,7 @@ This determines where you add DNS records in the steps below.
 
 ## Approach A: DNS-Level Routing (Recommended)
 
-This is the simplest and most performant approach. The subdomain `dit.noahratzan.com` points directly to Cloud Run. Vercel is not involved at all for subdomain traffic.
+This is the simplest and most performant approach. The subdomain `aiskillsmap.noahratzan.com` points directly to Cloud Run. Vercel is not involved at all for subdomain traffic.
 
 ### Why This Is Better
 
@@ -69,7 +69,7 @@ After deployment, note the auto-assigned URL (e.g., `dit-assessment-abc123-uc.a.
 ```bash
 gcloud run domain-mappings create \
   --service dit-assessment \
-  --domain dit.noahratzan.com \
+  --domain aiskillsmap.noahratzan.com \
   --region us-central1
 ```
 
@@ -85,7 +85,7 @@ This command will output the DNS records you need to add. Typically it will ask 
 #### If DNS is on Vercel
 
 1. Go to [Vercel Dashboard](https://vercel.com/dashboard) > your project > Settings > Domains
-2. You are NOT adding `dit.noahratzan.com` to the Vercel project. Instead:
+2. You are NOT adding `aiskillsmap.noahratzan.com` to the Vercel project. Instead:
 3. Go to the **Vercel DNS** page (separate from project domains): https://vercel.com/dashboard/domains
 4. Click on `noahratzan.com`
 5. Add a new DNS record:
@@ -112,7 +112,7 @@ This command will output the DNS records you need to add. Typically it will ask 
 
 | Type  | Name              | Value                  | TTL  |
 |-------|-------------------|------------------------|------|
-| CNAME | dit.noahratzan.com | ghs.googlehosted.com  | 3600 |
+| CNAME | aiskillsmap.noahratzan.com | ghs.googlehosted.com  | 3600 |
 
 Note: Some registrars want the full subdomain name, others just want "dit".
 
@@ -139,7 +139,7 @@ Google automatically provisions a managed SSL certificate. This can take **15-60
 ```bash
 # Check certificate status
 gcloud run domain-mappings describe \
-  --domain dit.noahratzan.com \
+  --domain aiskillsmap.noahratzan.com \
   --region us-central1
 ```
 
@@ -149,16 +149,16 @@ Look for `certificateStatus: ACTIVE` in the output. While provisioning, you may 
 
 ```bash
 # Check DNS propagation
-nslookup dit.noahratzan.com
+nslookup aiskillsmap.noahratzan.com
 
 # Test HTTP (should redirect to HTTPS)
-curl -I http://dit.noahratzan.com
+curl -I http://aiskillsmap.noahratzan.com
 
 # Test HTTPS
-curl -I https://dit.noahratzan.com
+curl -I https://aiskillsmap.noahratzan.com
 
 # Full page load
-curl https://dit.noahratzan.com
+curl https://aiskillsmap.noahratzan.com
 ```
 
 ---
@@ -203,9 +203,9 @@ This gets messy fast. Not recommended.
 
 ### Option B2: Subdomain Rewrite via vercel.json
 
-Add `dit.noahratzan.com` as a domain in your Vercel project, then use rewrites:
+Add `aiskillsmap.noahratzan.com` as a domain in your Vercel project, then use rewrites:
 
-1. Add `dit.noahratzan.com` to Vercel project domains (Settings > Domains)
+1. Add `aiskillsmap.noahratzan.com` to Vercel project domains (Settings > Domains)
 2. Add to `website/vercel.json`:
 
 ```json
@@ -216,7 +216,7 @@ Add `dit.noahratzan.com` as a domain in your Vercel project, then use rewrites:
       "has": [
         {
           "type": "host",
-          "value": "dit.noahratzan.com"
+          "value": "aiskillsmap.noahratzan.com"
         }
       ],
       "destination": "https://dit-assessment-abc123-uc.a.run.app/:path*"
@@ -253,7 +253,7 @@ If DNS is on Vercel, the domain will be configured automatically when you add it
 
 ## CORS Configuration
 
-If the main `noahratzan.com` site ever needs to interact with `dit.noahratzan.com` (e.g., embedding in an iframe, making API calls), the Flask app needs CORS headers.
+If the main `noahratzan.com` site ever needs to interact with `aiskillsmap.noahratzan.com` (e.g., embedding in an iframe, making API calls), the Flask app needs CORS headers.
 
 ### Flask CORS Setup
 
@@ -309,7 +309,7 @@ Note: The main Next.js site currently sets `X-Frame-Options: SAMEORIGIN` (see `n
 
 ### When CORS Is NOT Needed
 
-If the Flask app is completely standalone (users navigate directly to `dit.noahratzan.com` and never interact with the main site via JavaScript), no CORS configuration is needed. The two sites are fully independent.
+If the Flask app is completely standalone (users navigate directly to `aiskillsmap.noahratzan.com` and never interact with the main site via JavaScript), no CORS configuration is needed. The two sites are fully independent.
 
 ---
 
@@ -319,12 +319,12 @@ If the Flask app is completely standalone (users navigate directly to `dit.noahr
 
 ```bash
 # Check current DNS records
-nslookup dit.noahratzan.com
+nslookup aiskillsmap.noahratzan.com
 # Or with more detail:
-nslookup -type=CNAME dit.noahratzan.com
+nslookup -type=CNAME aiskillsmap.noahratzan.com
 
 # Check from Google's DNS (bypasses local cache)
-nslookup dit.noahratzan.com 8.8.8.8
+nslookup aiskillsmap.noahratzan.com 8.8.8.8
 ```
 
 DNS changes typically propagate within 5-30 minutes, but can take up to 48 hours in rare cases.
@@ -370,7 +370,7 @@ If using Approach B (Vercel rewrites), the Flask app may generate URLs that don'
 
 ```python
 app.config['PREFERRED_URL_SCHEME'] = 'https'
-app.config['SERVER_NAME'] = 'dit.noahratzan.com'
+app.config['SERVER_NAME'] = 'aiskillsmap.noahratzan.com'
 ```
 
 With Approach A, this is not needed -- Flask sees the request directly.
@@ -385,7 +385,7 @@ If the Flask app serves pages over HTTPS but references HTTP resources, browsers
 
 1. **Use Approach A** (DNS-level routing with CNAME to Cloud Run)
 2. Deploy the Flask app to Cloud Run
-3. Map `dit.noahratzan.com` in Cloud Run
+3. Map `aiskillsmap.noahratzan.com` in Cloud Run
 4. Add a single CNAME record (`dit` -> `ghs.googlehosted.com`) in your DNS provider
 5. Wait for SSL provisioning
 6. Done -- no changes needed to the Next.js site or Vercel configuration

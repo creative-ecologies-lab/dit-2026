@@ -1,0 +1,72 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="pupil-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="black" />
+      <stop offset="100%" stop-color="#333" />
+    </radialGradient>
+    <linearGradient id="fur-shading" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#cc8800" />
+      <stop offset="100%" stop-color="#aa6600" />
+    </linearGradient>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#eee" />
+
+  <g transform="translate(180, 180)">
+    <line x1="10" y1="0" x2="10" y2="80" stroke="#8b4513" stroke-width="6" stroke-linecap="round" />
+    <line x1="30" y1="0" x2="30" y2="80" stroke="#8b4513" stroke-width="6" stroke-linecap="round" />
+    <line x1="10" y1="20" x2="30" y2="20" stroke="#8b4513" stroke-width="3" />
+    <ellipse cx="20" cy="0" rx="30" ry="10" fill="#a0522d" />
+  </g>
+
+  <g transform="translate(200, 130)">
+    <g transform="rotate(20)">
+      <ellipse cx="-15" cy="0" rx="20" ry="25" fill="#f0e68c" transform="rotate(10, -15, 0)" />
+      <ellipse cx="0" cy="0" rx="25" ry="30" fill="url(#fur-shading)" />
+      <circle cx="-10" cy="-35" r="10" fill="url(#fur-shading)" />
+      <circle cx="10" cy="-35" r="10" fill="url(#fur-shading)" />
+      <circle cx="-10" cy="-35" r="6" fill="#ffb6c1" />
+      <circle cx="10" cy="-35" r="6" fill="#ffb6c1" />
+      <circle cx="-10" cy="-10" r="4" fill="white" />
+      <circle cx="10" cy="-10" r="4" fill="white" />
+      <circle cx="-10" cy="-10" r="2.5" fill="black" />
+      <circle cx="10" cy="-10" r="2.5" fill="black" />
+      <path d="M 0,-5 0,0 L -5,5 L 5,5 Z" fill="#ffb6c1" transform="translate(0,-5)" />
+      <path d="M 0,5 Q -5,10 0,15 Q 5,10 0,5" stroke="black" fill="none" transform="translate(0,5)" />
+      <path d="M -15,5 Q -10,0 -5,5" stroke="black" fill="none" />
+      <path d="M 5,5 Q 10,0 15,5" stroke="black" fill="none" />
+    </g>
+    <line x1="-20" y1="20" x2="-20" y2="50" stroke="url(#fur-shading)" stroke-width="6" stroke-linecap="round" />
+    <line x1="20" y1="20" x2="20" y2="50" stroke="url(#fur-shading)" stroke-width="6" stroke-linecap="round" />
+    <g transform="translate(35, -30) rotate(-45)">
+      <ellipse cx="0" cy="0" rx="8" ry="12" fill="url(#fur-shading)" />
+      <path d="M 2,-5 Q 0,-7 -2,-5" stroke="black" fill="none" stroke-width="1" />
+      <path d="M 2,0 Q 0,-2 -2,0" stroke="black" fill="none" stroke-width="1" />
+      <path d="M 2,5 Q 0,3 -2,5" stroke="black" fill="none" stroke-width="1" />
+    </g>
+  </g>
+
+  <g transform="translate(100, 200)">
+    <ellipse cx="0" cy="20" rx="50" ry="30" fill="#cd853f" transform="rotate(-10, 0, 20)" />
+    <ellipse cx="-20" cy="0" rx="30" ry="25" fill="#cd853f" />
+    <path d="M -45,-10 Q -50,0 -45,10 L -25,10 Q -20,0 -25,-10 Z" fill="#a0522d" />
+    <path d="M 5,-10 Q 0,0 5,10 L 25,10 Q 30,0 25,-10 Z" fill="#a0522d" />
+    <circle cx="-25" cy="-5" r="10" fill="white" stroke="black" stroke-width="0.5" />
+    <circle cx="20" cy="-5" r="10" fill="white" stroke="black" stroke-width="0.5" />
+    <circle cx="-25" cy="-5" r="5" fill="url(#pupil-gradient)" />
+    <circle cx="20" cy="-5" r="5" fill="url(#pupil-gradient)" />
+    <circle cx="-27" cy="-7" r="1.5" fill="white" />
+    <circle cx="18" cy="-7" r="1.5" fill="white" />
+    <polygon points="0,5 5,10 -5,10" fill="#a0522d" />
+    <path d="M 0,10 Q -3,15 0,20 Q 3,15 0,10" stroke="black" fill="none" />
+    <path d="M -15,10 Q -10,15 -5,10" stroke="black" fill="none" />
+    <path d="M 5,10 Q 10,15 15,10" stroke="black" fill="none" />
+    <line x1="0" y1="15" x2="0" y2="18" stroke="black" stroke-width="1" />
+    <line x1="-30" y1="50" x2="-30" y2="80" stroke="#cd853f" stroke-width="10" stroke-linecap="round" />
+    <line x1="30" y1="50" x2="30" y2="80" stroke="#cd853f" stroke-width="10" stroke-linecap="round" />
+  </g>
+
+  <circle cx="280" cy="80" r="5" fill="blue" />
+  <ellipse cx="280" cy="80" rx="6" ry="3" fill="#00ffff" opacity="0.3" transform="rotate(20, 280, 80)" />
+
+</svg>

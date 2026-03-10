@@ -1,96 +1,155 @@
 {% extends "base.html" %}
-{% block title %}DIT 2026 — Where Do You Stand with AI?{% endblock %}
+{% block title %}Design in Tech 2026 — Where are you on your AI journey?{% endblock %}
 
 {% block content %}
-<div class="landing-page" role="region" aria-label="Landing page">
-    <header class="hero hero-compact">
-        <h1>Where Do You Stand with AI?</h1>
-        <p class="subtitle">Map your AI adoption on the <strong>E-P-I-A-S &times; SAE Framework</strong> from John Maeda's <strong>Design in Tech Report 2026</strong>.</p>
-        <p class="hero-context" aria-label="Assessment details: 11 questions, about 5 minutes, anonymous, no sign-up required">11 questions &middot; ~5 min &middot; anonymous &middot; no sign-up</p>
-    </header>
+{% if error %}
+<div class="alert alert-warning" role="alert">{{ error }}</div>
+{% endif %}
 
-    {% if error %}
-    <div class="alert alert-warning" role="alert">{{ error }}</div>
-    {% endif %}
+<div class="landing-split" role="region" aria-label="Landing page">
 
-    {% if heatmap_total > 0 %}
-    <section class="heatmap-teaser teaser-horizontal" aria-label="Community results preview">
-        <div class="teaser-grid-side">
-            <div class="mini-heatmap" role="img" aria-label="Community heatmap preview showing {{ heatmap_total }} responses across the E-P-I-A-S and SAE grid">
-                {% set stages = ['E', 'P', 'I', 'A', 'S'] %}
-                {% set max_count = heatmap_counts.values() | max if heatmap_counts.values() | list else 1 %}
-                {% for level in range(6) %}
-                <div class="mini-row" aria-hidden="true">
-                    <span class="mini-label">L{{ level }}</span>
-                    {% for stage in stages %}
-                    {% set key = level | string + '_' + stage %}
-                    {% set count = heatmap_counts.get(key, 0) %}
-                    {% set opacity = (count / max_count * 0.85 + 0.15) if count > 0 else 0.05 %}
-                    <div class="mini-cell" style="opacity: {{ opacity }};" title="L{{ level }}/{{ stage }}: {{ count }} responses"></div>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-                <div class="mini-row mini-header" aria-hidden="true">
-                    <span class="mini-label"></span>
-                    {% for stage in stages %}
-                    <span class="mini-stage-label">{{ stage }}</span>
-                    {% endfor %}
-                </div>
-            </div>
+    <!-- LEFT: Messaging + CTA -->
+    <div class="landing-messaging">
+        <h1 class="landing-headline">Where are you on your AI&nbsp;journey?</h1>
+        <p class="landing-subtitle">Use this brief assessment to map your skills and where to take them next.</p>
+        <ul class="landing-details" aria-label="Assessment details">
+            <li>11 questions</li>
+            <li>~5 minutes</li>
+            <li>Anonymous</li>
+        </ul>
+        <a href="/assess" class="btn btn-primary btn-xl landing-cta-btn"
+           aria-label="Take the assessment">
+            Take the assessment
+        </a>
+
+        <div class="landing-illustration">
+            <img src="{{ url_for('static', filename='illustration.png') }}"
+                 alt="Illustration of a map, compass, and pencil"
+                 loading="lazy">
         </div>
-        <div class="teaser-action-side">
-            <p class="teaser-count" aria-live="polite"><strong>{{ heatmap_total }}</strong> {{ 'person has' if heatmap_total == 1 else 'people have' }} mapped their position</p>
-            <p class="teaser-hook" aria-hidden="true">Where will you land?</p>
-            <a href="/assess" class="btn btn-primary btn-lg" role="link" aria-label="Take the self-assessment">Take the Assessment</a>
-            <div class="teaser-cohort" role="search" aria-label="Cohort code lookup">
-                <label for="cohortInput">Have a cohort code?</label>
-                <div class="cohort-form">
-                    <input type="text" id="cohortInput" placeholder="e.g. sxsw-2026" autocomplete="off" spellcheck="false" aria-describedby="cohortDesc">
-                    <button class="btn btn-secondary btn-sm" id="cohortGoBtn" aria-label="Generate cohort QR code">Go</button>
-                </div>
-                <span id="cohortDesc" class="sr-only">Enter a cohort code shared by your event organizer or instructor</span>
-            </div>
-            <div id="cohortResult" style="display:none;" role="region" aria-live="polite" aria-label="Cohort QR code result">
-                <div id="cohortQR" role="img" aria-label="QR code for cohort assessment link"></div>
-                <p class="cohort-url" id="cohortURL"></p>
-            </div>
-            <a href="/heatmap" class="teaser-link" aria-label="View the full community heatmap">View full heatmap &rarr;</a>
-        </div>
-    </section>
-    {% else %}
-    <div class="landing-cta" role="region" aria-label="Call to action">
-        <a href="/assess" class="btn btn-primary btn-lg" aria-label="Take the self-assessment">Take the Assessment</a>
-        <p class="hero-context" style="margin-top: 0.5rem;">For designers, engineers, researchers, students &mdash; anyone curious about AI.</p>
     </div>
-    {% endif %}
+
+    <!-- RIGHT: The Map -->
+    <div class="landing-map">
+        <div class="map-card">
+            <table class="landing-heatmap" role="table"
+                   aria-label="Community heatmap: SAE automation levels versus E-P-I-A-S leadership stages, {{ heatmap_total }} total responses">
+                <caption class="sr-only">
+                    Community heatmap showing {{ heatmap_total }} responses.
+                    Darker cells indicate more people at that position.
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="hm-corner"><span class="sr-only">SAE Level</span></th>
+                        {% for s in stage_order %}
+                        <th scope="col" class="hm-stage-header" aria-label="{{ stage_names[s] }}: {{ stage_descriptions[s] }}" data-desc="{{ stage_descriptions[s] }}" data-label="{{ stage_names[s] }}" tabindex="0" role="button">{{ stage_names[s] }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set max_count = heatmap_counts.values() | list | max if heatmap_counts.values() | list else 1 %}
+                    {% for level in range(5, -1, -1) %}
+                    <tr>
+                        <th scope="row" class="hm-level-header" aria-label="Level {{ level }}: {{ sae_names[level] }} — {{ level_descriptions[level] }}" data-desc="{{ level_descriptions[level] }}" data-label="L{{ level }} {{ sae_names[level] }}" tabindex="0" role="button">
+                            <span class="hm-level-num">L{{ level }}</span>
+                            <span class="hm-level-name">{{ sae_names[level] }}</span>
+                        </th>
+                        {% for s in stage_order %}
+                        {% set key = level | string + '_' + s %}
+                        {% set count = heatmap_counts.get(key, 0) %}
+                        {% set intensity = (count / max_count) if count > 0 else 0 %}
+                        {% set opacity = (intensity * 0.80 + 0.15) if count > 0 else 0.04 %}
+                        <td class="hm-cell{% if count == 0 %} hm-cell-empty{% endif %}"
+                            style="--cell-opacity: {{ '%.2f' | format(opacity) }};"
+                            aria-label="{{ count }} {{ 'person' if count == 1 else 'people' }} at L{{ level }} {{ sae_names[level] }}, {{ stage_names[s] }}">
+                            {% if count > 0 %}
+                            <span class="hm-count {% if intensity > 0.5 %}hm-count-light{% else %}hm-count-dark{% endif %}">{{ count }}</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if heatmap_total == 0 %}
+            <div class="map-empty-overlay" aria-hidden="true">
+                <p>No responses yet. Be the first!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="map-attribution">
+            <p class="participant-count"><strong><span id="participantCount">{{ heatmap_total }}</span> participants</strong></p>
+            <p class="map-axes-desc"><strong>Vertical:</strong> workflow automation (L0–L5). <br class="mobile-br"><strong>Horizontal:</strong> leadership stage (Explorer–Steward). <br class="mobile-br">Based on John Maeda's SAE &times; EPIAS framework. <a href="/framework">Read John Maeda's full document</a></p>
+        </div>
+    </div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<div id="cellPopover" class="cell-popover" role="tooltip" style="display:none;">
+    <div class="cell-popover-header">
+        <strong id="popoverTitle"></strong>
+        <button class="cell-popover-close" aria-label="Close">&times;</button>
+    </div>
+    <p id="popoverDesc"></p>
+</div>
+
 <script>
 (function() {
-    var input = document.getElementById('cohortInput');
-    if (!input) return;
-    var btn = document.getElementById('cohortGoBtn');
-    var result = document.getElementById('cohortResult');
-    var qrEl = document.getElementById('cohortQR');
-    var urlEl = document.getElementById('cohortURL');
+    var popover = document.getElementById('cellPopover');
+    var popTitle = document.getElementById('popoverTitle');
+    var popDesc = document.getElementById('popoverDesc');
+    var closeBtn = popover.querySelector('.cell-popover-close');
+    var activeCell = null;
 
-    function generate() {
-        var code = (input.value || '').trim().toLowerCase();
-        if (!code) return;
-        var url = location.origin + '/assess?cohort=' + encodeURIComponent(code);
-        var qr = qrcode(0, 'M');
-        qr.addData(url);
-        qr.make();
-        qrEl.innerHTML = qr.createSvgTag(5, 0);
-        urlEl.textContent = url;
-        result.style.display = '';
+    function hide() {
+        popover.style.display = 'none';
+        if (activeCell) activeCell.classList.remove('hm-cell-active');
+        activeCell = null;
     }
 
-    btn.addEventListener('click', generate);
-    input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') generate();
+    function showHeader(el) {
+        var desc = el.getAttribute('data-desc');
+        if (!desc) return;
+        if (activeCell === el) { hide(); return; }
+
+        popTitle.textContent = el.getAttribute('data-label') || el.textContent.trim();
+        popDesc.textContent = desc;
+
+        var rect = el.getBoundingClientRect();
+        var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+        popover.style.display = '';
+        var pw = popover.offsetWidth;
+        var left = rect.left + rect.width / 2 - pw / 2;
+        if (left < 8) left = 8;
+        if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+        popover.style.left = left + 'px';
+        popover.style.top = (rect.bottom + scroll + 8) + 'px';
+
+        if (activeCell) activeCell.classList.remove('hm-cell-active');
+        activeCell = el;
+    }
+
+    document.querySelectorAll('.hm-stage-header[data-desc], .hm-level-header[data-desc]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (activeCell === el) { hide(); return; }
+            showHeader(el);
+        });
+        el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+        });
     });
+
+    closeBtn.addEventListener('click', hide);
+    document.addEventListener('click', function(e) {
+        if (!popover.contains(e.target)) hide();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') hide();
+    });
+
 })();
 </script>
 {% endblock %}
