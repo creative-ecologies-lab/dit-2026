@@ -55,6 +55,21 @@ def get_matrix():
     return jsonify(get_full_matrix())
 
 
+@bp.route('/analytics')
+def analytics_data():
+    """Rich aggregated analytics. Admin-only via secret key or session."""
+    from flask import session
+    # Allow if admin session OR ?key=<ADMIN_PASSWORD> for simple API access
+    from config import settings
+    api_key = request.args.get('key', '')
+    if not session.get('admin') and api_key != settings.admin_password:
+        return jsonify({"error": "Unauthorized"}), 403
+    from storage import get_analytics_data
+    cohort = (request.args.get('group') or request.args.get('cohort', '')).strip().lower() or None
+    include_test = request.args.get('include_test', '').lower() in ('1', 'true')
+    return jsonify(get_analytics_data(cohort=cohort, include_test=include_test))
+
+
 @bp.route('/heatmap')
 def heatmap_data():
     """Return aggregated assessment results for the heatmap.

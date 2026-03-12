@@ -175,7 +175,7 @@
         activeView = view;
         let url = view === 'group' && cohort
             ? '/api/heatmap?group=' + encodeURIComponent(cohort)
-            : '/api/heatmap?include_test=1';
+            : '/api/heatmap';
 
         // Update toggle state
         document.getElementById('toggleEveryone').classList.toggle('active', view === 'everyone');

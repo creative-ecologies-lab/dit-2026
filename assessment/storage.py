@@ -72,9 +72,16 @@ def store_result(
     cohort: Optional[str] = None,
     age_range: Optional[str] = None,
     role: Optional[str] = None,
+    answers: Optional[dict] = None,
+    sae_distribution: Optional[dict] = None,
+    epias_distribution: Optional[dict] = None,
+    referrer: Optional[str] = None,
+    ua: Optional[str] = None,
+    utm_source: Optional[str] = None,
+    utm_medium: Optional[str] = None,
+    utm_campaign: Optional[str] = None,
 ) -> None:
     """Store a single anonymous assessment result."""
-    # Normalize cohort code to lowercase
     if cohort:
         cohort = cohort.strip().lower()
 
@@ -87,8 +94,26 @@ def store_result(
         "cohort": cohort or None,
         "age_range": age_range or None,
         "role": role or None,
-        "app_version": "1.0",
+        "app_version": "1.1",
     }
+
+    # Rich telemetry fields — all optional
+    if answers:
+        record["answers"] = answers
+    if sae_distribution:
+        record["sae_distribution"] = sae_distribution
+    if epias_distribution:
+        record["epias_distribution"] = epias_distribution
+    if referrer:
+        record["referrer"] = referrer[:500]
+    if ua:
+        record["ua"] = ua[:300]
+    if utm_source:
+        record["utm_source"] = utm_source[:100]
+    if utm_medium:
+        record["utm_medium"] = utm_medium[:100]
+    if utm_campaign:
+        record["utm_campaign"] = utm_campaign[:100]
 
     if _is_enabled():
         from google.cloud import firestore as fs
@@ -155,6 +180,122 @@ def get_heatmap_data(
         "total": total,
         "cohort": cohort,
         "include_test": include_test,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def get_analytics_data(cohort: Optional[str] = None, include_test: bool = False) -> dict:
+    """Rich aggregated analytics for the admin dashboard.
+
+    Returns distributions by level, stage, role, cohort, date, UTM source,
+    and a recent-submissions list. Never returns PII — UA is bucketed to
+    device type, answers are aggregate-only.
+    """
+    from collections import Counter, defaultdict
+
+    if cohort:
+        cohort = cohort.strip().lower()
+
+    collection = _collection_for(cohort)
+    collections_to_query = [collection]
+    if include_test and collection == COLLECTION:
+        collections_to_query.append(TEST_COLLECTION)
+
+    by_level: Counter = Counter()
+    by_stage: Counter = Counter()
+    by_role: Counter = Counter()
+    by_cohort: Counter = Counter()
+    by_date: Counter = Counter()
+    by_utm_source: Counter = Counter()
+    by_utm_campaign: Counter = Counter()
+    by_device: Counter = Counter()
+    total = 0
+    recent = []
+
+    def _device(ua: str) -> str:
+        ua = (ua or '').lower()
+        if any(x in ua for x in ('iphone', 'android', 'mobile', 'ipad')):
+            return 'mobile'
+        return 'desktop'
+
+    if _is_enabled():
+        db = _get_client()
+        for coll in collections_to_query:
+            query = db.collection(coll)
+            if cohort:
+                query = query.where("cohort", "==", cohort)
+            docs = query.order_by("timestamp", direction="DESCENDING").stream()
+            for doc in docs:
+                d = doc.to_dict()
+                total += 1
+                by_level[d.get("sae_level", "?")] += 1
+                by_stage[d.get("epias_stage", "?")] += 1
+                by_role[d.get("role") or "not specified"] += 1
+                by_cohort[d.get("cohort") or "anonymous"] += 1
+                by_utm_source[d.get("utm_source") or "direct"] += 1
+                by_utm_campaign[d.get("utm_campaign") or "—"] += 1
+                by_device[_device(d.get("ua", ""))] += 1
+                ts = d.get("timestamp")
+                if ts:
+                    try:
+                        date_str = ts.strftime("%Y-%m-%d")
+                        by_date[date_str] += 1
+                    except Exception:
+                        pass
+                if len(recent) < 50:
+                    recent.append({
+                        "sae_level": d.get("sae_level"),
+                        "epias_stage": d.get("epias_stage"),
+                        "cohort": d.get("cohort"),
+                        "role": d.get("role"),
+                        "age_range": d.get("age_range"),
+                        "utm_source": d.get("utm_source"),
+                        "utm_campaign": d.get("utm_campaign"),
+                        "timestamp": ts.strftime("%Y-%m-%d %H:%M") if ts else None,
+                    })
+    else:
+        for coll in collections_to_query:
+            store = _memory_store_test if coll == TEST_COLLECTION else _memory_store
+            for d in reversed(store):
+                if cohort and d.get("cohort") != cohort:
+                    continue
+                total += 1
+                by_level[d.get("sae_level", "?")] += 1
+                by_stage[d.get("epias_stage", "?")] += 1
+                by_role[d.get("role") or "not specified"] += 1
+                by_cohort[d.get("cohort") or "anonymous"] += 1
+                by_utm_source[d.get("utm_source") or "direct"] += 1
+                by_utm_campaign[d.get("utm_campaign") or "—"] += 1
+                by_device[_device(d.get("ua", ""))] += 1
+                ts = d.get("timestamp", "")
+                if ts:
+                    by_date[ts[:10]] += 1
+                if len(recent) < 50:
+                    recent.append({
+                        "sae_level": d.get("sae_level"),
+                        "epias_stage": d.get("epias_stage"),
+                        "cohort": d.get("cohort"),
+                        "role": d.get("role"),
+                        "age_range": d.get("age_range"),
+                        "utm_source": d.get("utm_source"),
+                        "utm_campaign": d.get("utm_campaign"),
+                        "timestamp": ts[:16] if ts else None,
+                    })
+
+    # Sort date series chronologically
+    sorted_dates = sorted(by_date.keys())
+
+    return {
+        "total": total,
+        "by_level": dict(sorted(by_level.items())),
+        "by_stage": {k: by_stage[k] for k in ["E", "P", "I", "A", "S"] if k in by_stage},
+        "by_role": dict(by_role.most_common()),
+        "by_cohort": dict(by_cohort.most_common(20)),
+        "by_utm_source": dict(by_utm_source.most_common(10)),
+        "by_utm_campaign": dict(by_utm_campaign.most_common(10)),
+        "by_device": dict(by_device),
+        "by_date": {d: by_date[d] for d in sorted_dates},
+        "recent": recent,
         "updated_at": datetime.now(timezone.utc).isoformat(),
     }
 

@@ -11,17 +11,19 @@
 
 {% block content %}
 <div class="framework-reader" role="region" aria-label="Framework reader">
-    <nav class="reader-tabs" role="tablist" aria-label="Framework sections">
-        {% for tab in tabs %}
-        <a href="/framework/{{ tab.index }}"
-           class="reader-tab {% if tab.active %}active{% endif %}"
-           role="tab"
-           aria-selected="{{ 'true' if tab.active else 'false' }}"
-           aria-controls="framework-content"
-           id="tab-{{ tab.index }}">{{ tab.label }}</a>
-        {% endfor %}
-        <span class="reader-tab-attr" aria-hidden="true">by John Maeda</span>
-    </nav>
+    <div class="reader-tabs-wrap">
+        <nav class="reader-tabs" id="readerTabsNav" role="tablist" aria-label="Framework sections">
+            {% for tab in tabs %}
+            <a href="/framework/{{ tab.index }}"
+               class="reader-tab {% if tab.active %}active{% endif %}"
+               role="tab"
+               aria-selected="{{ 'true' if tab.active else 'false' }}"
+               aria-controls="framework-content"
+               id="tab-{{ tab.index }}">{{ tab.label }}</a>
+            {% endfor %}
+            <span class="reader-tab-attr" aria-hidden="true">by John Maeda</span>
+        </nav>
+    </div>
 
     <div class="reader-layout">
         <nav class="reader-outline" id="readerOutline" aria-label="Document outline"{% if active_index == 0 %} style="display:none;"{% endif %}>
@@ -100,6 +102,37 @@
         }
     });
     updateActive();
+})();
+</script>
+
+<script>
+// Scroll active tab into view and show overflow gradient if needed
+(function() {
+    var nav = document.getElementById('readerTabsNav');
+    var wrap = nav && nav.parentElement;
+    if (!nav) return;
+
+    // Scroll active tab into view within the tab bar
+    var activeTab = nav.querySelector('.reader-tab.active');
+    if (activeTab) {
+        var navLeft = nav.getBoundingClientRect().left;
+        var tabLeft = activeTab.getBoundingClientRect().left;
+        var tabWidth = activeTab.offsetWidth;
+        var navWidth = nav.offsetWidth;
+        var offset = tabLeft - navLeft - navWidth / 2 + tabWidth / 2;
+        nav.scrollLeft = nav.scrollLeft + offset;
+    }
+
+    // Show right-fade gradient when tabs overflow
+    function updateOverflow() {
+        if (!wrap) return;
+        var isOverflowing = nav.scrollWidth > nav.clientWidth + 4;
+        var scrolledToEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 4;
+        wrap.classList.toggle('is-overflowing', isOverflowing && !scrolledToEnd);
+    }
+    nav.addEventListener('scroll', updateOverflow, { passive: true });
+    window.addEventListener('resize', updateOverflow);
+    updateOverflow();
 })();
 </script>
 {% endblock %}

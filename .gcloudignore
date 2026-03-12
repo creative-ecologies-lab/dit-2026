@@ -35,6 +35,7 @@ nul
 # Documentation (not needed in image)
 *.md
 !v-0.0.1/*.md
+!assessment/data/framework/*.md
 LICENSE
 docs/
 

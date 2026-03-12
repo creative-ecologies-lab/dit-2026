@@ -12,7 +12,7 @@ def index():
     heatmap_counts = {}
     try:
         from storage import get_heatmap_data
-        hm = get_heatmap_data(include_test=True)
+        hm = get_heatmap_data(include_test=False)
         heatmap_total = hm.get('total', 0)
         heatmap_counts = hm.get('counts', {})
     except Exception:
@@ -55,6 +55,11 @@ def submit_assessment():
     role = data.pop('role', None)
     if role not in ('design', 'uxr', None):
         role = None
+    utm_source = (data.pop('utm_source', '') or '')[:100].strip() or None
+    utm_medium = (data.pop('utm_medium', '') or '')[:100].strip() or None
+    utm_campaign = (data.pop('utm_campaign', '') or '')[:100].strip() or None
+    # data now contains only answers — score, then store a copy
+    raw_answers = dict(data)
     score = score_assessment(data)
     placement = get_placement(score)
     # Store anonymous result (fire-and-forget)
@@ -63,6 +68,14 @@ def submit_assessment():
         store_result(
             score['sae_level'], score['epias_stage'],
             cohort=cohort, age_range=age_range, role=role,
+            answers=raw_answers,
+            sae_distribution=score.get('sae_distribution'),
+            epias_distribution=score.get('epias_distribution'),
+            referrer=request.referrer,
+            ua=request.headers.get('User-Agent', ''),
+            utm_source=utm_source,
+            utm_medium=utm_medium,
+            utm_campaign=utm_campaign,
         )
     except Exception as e:
         current_app.logger.warning(f"Failed to store result: {e}")
@@ -228,6 +241,8 @@ def _render_markdown(md: str) -> str:
     in_table = False
     header_done = False
     list_type = None
+    in_fence = False
+    fence_buf = []
 
     def close_list():
         nonlocal list_type
@@ -238,6 +253,22 @@ def _render_markdown(md: str) -> str:
     for line in lines:
         stripped = line.strip()
 
+        # Fenced code blocks (``` ... ```)
+        if stripped.startswith('```'):
+            close_list()
+            if not in_fence:
+                in_fence = True
+                fence_buf = []
+            else:
+                in_fence = False
+                code_html = esc('\n'.join(fence_buf))
+                out.append(f'<pre class="code-block"><code>{code_html}</code></pre>')
+                fence_buf = []
+            continue
+        if in_fence:
+            fence_buf.append(line)
+            continue
+
         # Table rows
         if stripped.startswith('|'):
             close_list()
@@ -246,7 +277,7 @@ def _render_markdown(md: str) -> str:
                 header_done = True
                 continue
             if not in_table:
-                out.append('<table class="chunk-table">')
+                out.append('<div class="table-scroll-wrap"><table class="chunk-table">')
                 in_table = True
                 header_done = False
             if not header_done:
@@ -255,7 +286,7 @@ def _render_markdown(md: str) -> str:
                 out.append('<tr>' + ''.join(f'<td>{inline(c)}</td>' for c in cells) + '</tr>')
             continue
         if in_table:
-            out.append('</tbody></table>')
+            out.append('</tbody></table></div>')
             in_table = False
             header_done = False
 
@@ -316,5 +347,5 @@ def _render_markdown(md: str) -> str:
 
     close_list()
     if in_table:
-        out.append('</tbody></table>')
+        out.append('</tbody></table></div>')
     return '\n'.join(out)

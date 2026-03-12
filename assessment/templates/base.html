@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Where are you on your AI journey?{% endblock %}</title>
     <meta name="description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
-    <meta property="og:title" content="Where are you on your AI journey?">
-    <meta property="og:description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
+    <meta property="og:title" content="Where are you on the AI skills map?">
+    <meta property="og:description" content="3-minute self-assessment for designers and UX researchers. Map your AI skills on the SAE × E-P-I-A-S framework from John Maeda's DIT 2026.">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Where are you on your AI journey?">
-    <meta name="twitter:description" content="Map your AI skills and find where to take them next. Based on John Maeda's Design in Tech Report 2026.">
+    <meta property="og:url" content="https://aiskillsmap.noahratzan.com/">
+    <meta property="og:image" content="https://aiskillsmap.noahratzan.com/static/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="627">
+    <meta property="og:image:alt" content="AI Skills Map — 6×5 SAE × E-P-I-A-S framework grid. Where are you?">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Where are you on the AI skills map?">
+    <meta name="twitter:description" content="3-minute self-assessment for designers and UX researchers. Based on John Maeda's DIT 2026.">
+    <meta name="twitter:image" content="https://aiskillsmap.noahratzan.com/static/og-image.jpg">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block head %}{% endblock %}
 </head>
@@ -54,6 +60,15 @@
             <span class="fb-status" id="fbStatus"></span>
         </div>
     </div>
+    <script>
+    // Persist UTM params to sessionStorage so they survive navigation to /assess
+    (function(){
+        var p=new URLSearchParams(window.location.search);
+        ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
+            if(p.get(k)) sessionStorage.setItem(k, p.get(k));
+        });
+    })();
+    </script>
     <script>
     (function(){
         'use strict';

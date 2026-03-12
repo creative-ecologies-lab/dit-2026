@@ -499,6 +499,12 @@
         };
         if (state.cohort) payload.cohort = state.cohort;
         if (state.role) payload.role = state.role;
+        // UTM attribution — captured from URL at page load
+        const _utmParams = new URLSearchParams(window.location.search);
+        const _utm = (k) => _utmParams.get(k) || sessionStorage.getItem('utm_' + k) || null;
+        if (_utm('utm_source'))   payload.utm_source   = _utm('utm_source');
+        if (_utm('utm_medium'))   payload.utm_medium   = _utm('utm_medium');
+        if (_utm('utm_campaign')) payload.utm_campaign = _utm('utm_campaign');
 
         try {
             const resp = await fetch('/api/assess', {
@@ -522,37 +528,41 @@
 
     // ---- Intake Stage ----
 
-    function initIntake() {
-        const cohortInput = document.getElementById('intakeCohort');
-        const nextBtn = document.getElementById('intakeNext');
-        const roleBtns = document.querySelectorAll('.role-btn');
+    // Bind intake listeners once (never re-bind)
+    const intakeCohortInput = document.getElementById('intakeCohort');
+    const intakeNextBtn = document.getElementById('intakeNext');
+    const intakeRoleBtns = document.querySelectorAll('.role-btn');
 
+    intakeRoleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            intakeRoleBtns.forEach(b => {
+                b.classList.remove('selected');
+                b.setAttribute('aria-checked', 'false');
+            });
+            btn.classList.add('selected');
+            btn.setAttribute('aria-checked', 'true');
+            state.role = btn.dataset.role;
+            if (state.role === 'uxr') {
+                SAE_QUESTIONS = SAE_QUESTIONS_UXR;
+            } else {
+                SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+            }
+            totalSaeQuestions = SAE_QUESTIONS.length;
+            intakeNextBtn.disabled = false;
+        });
+    });
+
+    intakeNextBtn.addEventListener('click', () => {
+        if (!state.role) return;
+        state.cohort = (intakeCohortInput.value || '').trim().toLowerCase();
+        transitionToSae();
+    });
+
+    function initIntake() {
         // Pre-fill cohort from URL param
         if (URL_COHORT) {
-            cohortInput.value = URL_COHORT;
+            intakeCohortInput.value = URL_COHORT;
         }
-
-        // Role button selection
-        roleBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                roleBtns.forEach(b => {
-                    b.classList.remove('selected');
-                    b.setAttribute('aria-checked', 'false');
-                });
-                btn.classList.add('selected');
-                btn.setAttribute('aria-checked', 'true');
-                state.role = btn.dataset.role;
-                // Switch question set
-                if (state.role === 'uxr') {
-                    SAE_QUESTIONS = SAE_QUESTIONS_UXR;
-                } else {
-                    SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
-                }
-                totalSaeQuestions = SAE_QUESTIONS.length;
-                // Enable the next button
-                nextBtn.disabled = false;
-            });
-        });
 
         // Restore role selection if returning to intake
         if (state.role) {
@@ -560,15 +570,9 @@
             if (activeBtn) {
                 activeBtn.classList.add('selected');
                 activeBtn.setAttribute('aria-checked', 'true');
-                nextBtn.disabled = false;
             }
+            intakeNextBtn.disabled = false;
         }
-
-        nextBtn.addEventListener('click', () => {
-            if (!state.role) return;
-            state.cohort = (cohortInput.value || '').trim().toLowerCase();
-            transitionToSae();
-        });
     }
 
     function showSaeIntro() {
@@ -587,6 +591,14 @@
     }
 
     function transitionToSae() {
+        // Ensure question set matches current role
+        if (state.role === 'uxr') {
+            SAE_QUESTIONS = SAE_QUESTIONS_UXR;
+        } else {
+            SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+        }
+        totalSaeQuestions = SAE_QUESTIONS.length;
+
         state.stage = 'sae';
         state.currentQuestion = -1; // -1 = intro screen
         saveState();
@@ -614,6 +626,7 @@
             saveState();
             document.getElementById('saeStage').style.display = 'none';
             document.getElementById('intakeStage').style.display = '';
+            initIntake();
         }
     });
 

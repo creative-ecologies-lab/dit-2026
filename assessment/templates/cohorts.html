@@ -7,7 +7,7 @@
     <!-- Top: Title + Lookup -->
     <div class="cohort-header">
         <h1 class="cohort-heading">Group ID</h1>
-        <p class="cohort-desc">Share the QR code or link to get started.</p>
+        <p class="cohort-desc">Enter a group-id to get a link and see current map.</p>
 
         <div class="cohort-lookup" role="search" aria-label="Group ID lookup">
             <label for="cohortInput" class="sr-only">Group ID</label>
@@ -123,18 +123,17 @@
         // Stop any previous polling
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
 
-        // Show the content area, generate QR immediately
-        content.style.display = '';
+        // Prepare title and QR while content stays hidden
         var codeSpan = document.createElement('span');
         codeSpan.className = 'cohort-code-highlight';
         codeSpan.textContent = code;
         title.textContent = 'AI Upskilling Map for ';
         title.appendChild(codeSpan);
-        container.innerHTML = '<p style="text-align:center;color:var(--text-muted);">Loading&hellip;</p>';
+        container.innerHTML = '';
         legend.style.display = 'none';
         status.textContent = '';
 
-        // QR code
+        // QR code (generated while hidden)
         var joinUrl = location.origin + '/assess?group=' + encodeURIComponent(code);
         urlEl.textContent = joinUrl;
         var qr = qrcode(0, 'M');
@@ -147,20 +146,19 @@
             svg.setAttribute('aria-label', 'QR code to join ' + code + ' group assessment');
         }
 
+        var firstFetch = !content.style.display || content.style.display === 'none';
+
         // Fetch heatmap data
         function fetchData() {
             fetch('/api/heatmap?group=' + encodeURIComponent(code))
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
                     if (data.total > 0) {
-                        // Slide header to sidebar, move QR under it
+                        // Set up sidebar layout before showing
                         if (!sidebarActive) {
                             header.appendChild(shareCard);
                             sidebarActive = true;
-                            // Trigger layout in next frame so CSS transition animates
-                            requestAnimationFrame(function() {
-                                page.classList.add('cohort-page--has-map');
-                            });
+                            page.classList.add('cohort-page--has-map');
                         }
                         mapArea.style.display = '';
                         renderHeatmap(data);
@@ -179,9 +177,18 @@
                         legend.style.display = 'none';
                         status.textContent = 'No responses yet. Share the QR code to get started!';
                     }
+                    // Show everything at once on first load
+                    if (firstFetch) {
+                        content.style.display = '';
+                        firstFetch = false;
+                    }
                 })
                 .catch(function() {
                     container.innerHTML = '<p role="alert" style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
+                    if (firstFetch) {
+                        content.style.display = '';
+                        firstFetch = false;
+                    }
                 });
         }
 

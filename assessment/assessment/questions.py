@@ -54,9 +54,9 @@ SAE_QUESTIONS_DESIGN = [
         "question": "Which best describes what happens to your AI work when you step away?",
         "options": [
             {"level": 0, "text": "I don\u2019t use AI, so nothing changes when I step away."},
-            {"level": 1, "text": "Everything stops \u2014 AI only runs while I\u2019m actively prompting."},
-            {"level": 2, "text": "Everything stops \u2014 but I have saved specs I can pick back up from."},
-            {"level": 3, "text": "Everything stops \u2014 but my workflow tracked state, so I resume where I left off."},
+            {"level": 1, "text": "Everything stops \u2014 each session is standalone, so I start fresh every time."},
+            {"level": 2, "text": "AI resets \u2014 but I\u2019ve built reusable specs and prompts, so I reproduce results quickly."},
+            {"level": 3, "text": "AI pauses \u2014 but my workspace keeps files, history, and context, so I pick up mid-workflow."},
             {"level": 4, "text": "Work continues without me \u2014 agents run, evaluate, and retry on their own."},
             {"level": 5, "text": "Work runs indefinitely \u2014 I review exception reports, not task progress."},
         ]
@@ -87,14 +87,14 @@ SAE_QUESTIONS_DESIGN = [
     },
     {
         "id": "sae_reuse",
-        "question": "Which best describes how transferable your AI setup is?",
+        "question": "Which best describes who can use your AI setup?",
         "options": [
-            {"level": 0, "text": "N/A \u2014 I don\u2019t use AI workflows."},
-            {"level": 1, "text": "Not really \u2014 I have saved prompts I copy-paste, but nothing structured."},
-            {"level": 2, "text": "For me \u2014 I maintain reusable templates and specs, but they\u2019re personal."},
-            {"level": 3, "text": "For my team \u2014 I maintain shared workflows and context libraries others can run."},
-            {"level": 4, "text": "For the org \u2014 I maintain production infrastructure others operate as a service."},
-            {"level": 5, "text": "It transfers itself \u2014 self-improving pipelines that adapt to new users and contexts."},
+            {"level": 0, "text": "I don\u2019t use AI workflows."},
+            {"level": 1, "text": "Just me, informally \u2014 I have saved prompts I copy-paste, but nothing structured."},
+            {"level": 2, "text": "Just me, systematically \u2014 I maintain reusable templates and specs for my own use."},
+            {"level": 3, "text": "My team \u2014 I maintain shared workflows and context libraries others can run."},
+            {"level": 4, "text": "My organization \u2014 I maintain production infrastructure others operate as a service."},
+            {"level": 5, "text": "Anyone \u2014 self-improving pipelines that adapt to new users and contexts."},
         ]
     },
 ]
@@ -133,9 +133,9 @@ SAE_QUESTIONS_UXR = [
         "question": "Which best describes what happens to your AI research when you step away?",
         "options": [
             {"level": 0, "text": "I don\u2019t use AI, so nothing changes when I step away."},
-            {"level": 1, "text": "Everything stops \u2014 AI only runs while I\u2019m actively prompting."},
-            {"level": 2, "text": "Everything stops \u2014 but I have saved briefs I can pick back up from."},
-            {"level": 3, "text": "Everything stops \u2014 but my pipeline tracked state, so I resume where I left off."},
+            {"level": 1, "text": "Everything stops \u2014 each session is standalone, so I start fresh every time."},
+            {"level": 2, "text": "AI resets \u2014 but I\u2019ve built reusable briefs and prompts, so I reproduce results quickly."},
+            {"level": 3, "text": "AI pauses \u2014 but my workspace keeps files, history, and context, so I pick up mid-pipeline."},
             {"level": 4, "text": "Research continues without me \u2014 pipelines run, verify, and retry on their own."},
             {"level": 5, "text": "Research runs indefinitely \u2014 I review exception reports, not task progress."},
         ]
@@ -166,14 +166,14 @@ SAE_QUESTIONS_UXR = [
     },
     {
         "id": "sae_reuse",
-        "question": "Which best describes how transferable your AI research setup is?",
+        "question": "Which best describes who can use your AI research setup?",
         "options": [
-            {"level": 0, "text": "N/A \u2014 I don\u2019t use AI workflows."},
-            {"level": 1, "text": "Not really \u2014 I have saved prompts and checklists I copy-paste, but nothing structured."},
-            {"level": 2, "text": "For me \u2014 I maintain reusable synthesis templates and codebooks, but they\u2019re personal."},
-            {"level": 3, "text": "For my team \u2014 I maintain shared research workflows and codebooks others can run."},
-            {"level": 4, "text": "For the org \u2014 I maintain production research infrastructure others operate as a service."},
-            {"level": 5, "text": "It transfers itself \u2014 self-improving pipelines that adapt to new researchers and contexts."},
+            {"level": 0, "text": "I don\u2019t use AI workflows."},
+            {"level": 1, "text": "Just me, informally \u2014 I have saved prompts and checklists I copy-paste, but nothing structured."},
+            {"level": 2, "text": "Just me, systematically \u2014 I maintain reusable templates and codebooks for my own use."},
+            {"level": 3, "text": "My team \u2014 I maintain shared research workflows and codebooks others can run."},
+            {"level": 4, "text": "My organization \u2014 I maintain production research infrastructure others operate as a service."},
+            {"level": 5, "text": "Anyone \u2014 self-improving pipelines that adapt to new researchers and contexts."},
         ]
     },
 ]
@@ -188,7 +188,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l0_intake_to_screens",
             "dimension": "From request to screens",
-            "question": "When you get a vague request from a PM or stakeholder, how do you typically turn it into wireframes or screens?",
+            "question": "Which best describes how you turn vague requests into initial wireframes or screens?",
             "options": [
                 {"stage": "E", "text": "I start fresh each time and I’m still figuring out what steps work — the path and the outputs vary a lot."},
                 {"stage": "P", "text": "I have a sequence that usually works, but it’s mostly in my head — it isn’t something others can reliably follow."},
@@ -200,7 +200,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l0_rationale_traceability",
             "dimension": "Decision rationale and traceability",
-            "question": "When someone asks why a screen, component, or interaction works the way it does, how do you make that rationale visible?",
+            "question": "Which best describes your practice for capturing and tracing design decision rationale?",
             "options": [
                 {"stage": "E", "text": "I make decisions as I go and rarely capture why — later I have to reconstruct my thinking from memory."},
                 {"stage": "P", "text": "I can explain my decisions, but it’s mostly in my head or scattered in chats — others can’t easily trace it later."},
@@ -212,7 +212,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l0_pattern_reuse",
             "dimension": "Component and pattern reuse",
-            "question": "What usually happens to components and UI patterns you create after the project ships?",
+            "question": "Which best describes your component and UI pattern reuse practice after projects ship?",
             "options": [
                 {"stage": "E", "text": "I often rebuild similar UI each project because I’m still figuring out patterns — reuse is inconsistent."},
                 {"stage": "P", "text": "I reuse my own components and snippets, but they’re personal — other designers don’t reliably adopt them."},
@@ -224,7 +224,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l0_design_reviews",
             "dimension": "Design review practice",
-            "question": "How do design reviews and critique work for the designs you produce?",
+            "question": "Which best describes your design review and critique practice for work you produce?",
             "options": [
                 {"stage": "E", "text": "Feedback is ad hoc and I’m still learning what “good” looks like — reviews depend on who happens to look."},
                 {"stage": "P", "text": "I get reliable feedback from a few trusted people, but it’s informal — the approach doesn’t scale beyond me."},
@@ -236,7 +236,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l0_handoff_to_engineering",
             "dimension": "Handoff and build readiness",
-            "question": "When engineering starts building your designs, how do you handle specs, states, and the questions that come up?",
+            "question": "Which best describes your handoff and build-readiness practice with engineers?",
             "options": [
                 {"stage": "E", "text": "I hand off screens and answer questions as they come — I’m still figuring out what engineers need upfront."},
                 {"stage": "P", "text": "I create specs that usually work, but they’re tailored each time — the handoff process lives with me."},
@@ -274,7 +274,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l1_output_consistency",
             "dimension": "Output consistency",
-            "question": "Across a feature, how consistent are the AI-generated pieces you produce (copy, variants, component states, interaction notes)?",
+            "question": "Which best describes the consistency of your AI-assisted design outputs across a feature?",
             "options": [
                 {"stage": "E", "text": "They often don’t match each other and I rewrite a lot—I'm still figuring out how to steer consistency."},
                 {"stage": "P", "text": "I can usually keep things consistent for my own screens—others can’t easily reproduce how I got there."},
@@ -286,7 +286,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l1_traceability",
             "dimension": "Traceability",
-            "question": "When AI influences a design decision (copy, layout, flow, spec), how do you leave a trail so others can see what came from AI and what you changed?",
+            "question": "Which best describes your traceability practice for AI-influenced design decisions?",
             "options": [
                 {"stage": "E", "text": "I usually paste the final result into Figma or a doc and move on—prompts and reasoning get lost."},
                 {"stage": "P", "text": "I keep the chat history for myself and sometimes link it—it's not consistent and mostly only helps me."},
@@ -298,7 +298,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l1_learning_loop",
             "dimension": "Learning loop",
-            "question": "After a critique or stakeholder review, what do you do with what you learned about using AI on that design work?",
+            "question": "Which best describes your learning loop after critiques on AI-assisted design work?",
             "options": [
                 {"stage": "E", "text": "I tweak the next prompt on the fly—lessons don’t stick and results stay inconsistent."},
                 {"stage": "P", "text": "I keep a few personal do’s and don’ts from feedback—it's in my head and not shared."},
@@ -336,7 +336,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l2_integration",
             "dimension": "Integration into the product/design system",
-            "question": "After AI produces a draft (screens, components, copy, or variants), what does your integration step look like?",
+            "question": "Which best describes how you integrate AI-generated designs into your design system?",
             "options": [
                 {"stage": "E", "text": "I mostly drop the output into the file and adjust until it looks right—consistency with the system is hit-or-miss."},
                 {"stage": "P", "text": "I integrate AI output in a consistent way, but it relies on my personal judgment and others don’t follow the same approach."},
@@ -348,7 +348,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l2_qa_rigor",
             "dimension": "QA and design review rigor",
-            "question": "What do you regularly check before you treat an AI-generated design deliverable as ready for stakeholder review?",
+            "question": "Which best describes your QA and design review rigor for AI-generated design deliverables?",
             "options": [
                 {"stage": "E", "text": "I’m still learning what to QA—sometimes I miss basics like states, empty cases, or accessibility until late."},
                 {"stage": "P", "text": "I have a personal QA routine that catches most issues, but it isn’t written down and no one else runs it."},
@@ -374,7 +374,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l3_workflow_repeatability",
             "dimension": "Workflow repeatability",
-            "question": "When you run a multi-step AI-assisted design workflow (brief → wireframes → screens → specs), how repeatable is it week to week?",
+            "question": "Which best describes your AI-assisted design workflow repeatability across projects?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out the steps—each run is different and results are inconsistent."},
                 {"stage": "P", "text": "I have a reliable routine, but it lives in my head and only I can run it smoothly."},
@@ -386,7 +386,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l3_context_packaging",
             "dimension": "Context engineering for consistency",
-            "question": "What do you usually provide so the AI stays on-brand and consistent with your design system across multiple steps?",
+            "question": "Which best describes your context-engineering practice for keeping AI outputs on-brand and consistent?",
             "options": [
                 {"stage": "E", "text": "I paste whatever context I have—I’m still learning what’s needed, and the AI often drifts."},
                 {"stage": "P", "text": "I have a personal context pack (brand, components, examples), but it’s not shared and others don’t use it."},
@@ -398,7 +398,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l3_failure_handling",
             "dimension": "Failure handling and recovery",
-            "question": "When the AI output is off (broken components, wrong IA, accessibility misses), what happens next in your workflow?",
+            "question": "Which best describes your AI-related failure handling and recovery practice in product design workflows?",
             "options": [
                 {"stage": "E", "text": "I mostly retry and tweak prompts—I’m still figuring out why failures happen and results vary."},
                 {"stage": "P", "text": "I have my own way to catch and fix issues, but it’s not written down and only I apply it."},
@@ -410,7 +410,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l3_tooling_operationalization",
             "dimension": "Tooling and workflow persistence",
-            "question": "How do you set up and maintain the tools that make your AI design workflows persist across sessions (files, prompts, checkpoints, plugins)?",
+            "question": "Which best describes your AI design tooling and workflow persistence setup across sessions?",
             "options": [
                 {"stage": "E", "text": "My setup is ad hoc—prompts, files, and checkpoints get lost, and I rework things often."},
                 {"stage": "P", "text": "I’ve pieced together a setup that works for me, but it lives on my machine and in my notes."},
@@ -422,7 +422,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l3_decision_traceability",
             "dimension": "Decision ownership and traceability",
-            "question": "In design reviews, how do you show what the AI produced versus what you decided, and why?",
+            "question": "Which best describes your practice for documenting AI versus human design decisions in reviews?",
             "options": [
                 {"stage": "E", "text": "I can’t always separate AI output from my decisions—my notes are incomplete and inconsistent."},
                 {"stage": "P", "text": "I track decisions in my own way, but it’s personal and not easy for others to audit."},
@@ -436,7 +436,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l4_quality_evals",
             "dimension": "Automated quality evaluation",
-            "question": "When a design agent generates screens or components while you’re away, how do you know the output is actually good enough to ship or review?",
+            "question": "Which best describes your automated quality evaluation for AI-generated designs?",
             "options": [
                 {"stage": "E", "text": "I mostly eyeball it after the fact — I’m still figuring out reliable checks and the results are inconsistent."},
                 {"stage": "P", "text": "I use a personal checklist I’ve built up in my head — it works for me, but others don’t really use it."},
@@ -448,7 +448,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l4_unattended_recovery",
             "dimension": "Unattended runs and recovery",
-            "question": "What do you do when an autonomous design run produces the wrong flow, messy components, or a broken prototype while you’re not there?",
+            "question": "Which best describes your practice for handling failures in unattended AI design runs?",
             "options": [
                 {"stage": "E", "text": "I usually find out later and manually clean it up — I don’t yet have a reliable way to prevent or recover from failures."},
                 {"stage": "P", "text": "I have a few guardrails and habits I rely on — but they’re personal and I’m the one who has to step in."},
@@ -460,7 +460,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l4_design_system_alignment",
             "dimension": "Design system alignment at scale",
-            "question": "How do you keep autonomous UI generation aligned with your design system (tokens, components, patterns) as the agent keeps producing new work?",
+            "question": "Which best describes your practice for keeping autonomous UI generation aligned with your design system?",
             "options": [
                 {"stage": "E", "text": "It drifts from the design system a lot — I’m still figuring out how to keep it consistent."},
                 {"stage": "P", "text": "I have my own notes and preferences for keeping it aligned — but it mostly lives with me and isn’t adopted by others."},
@@ -472,7 +472,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l4_decision_traceability",
             "dimension": "Decision logging and reviewability",
-            "question": "When the agent makes design decisions (layout, IA, interaction details, microcopy), how are those decisions captured for design review and stakeholder questions?",
+            "question": "Which best describes your AI design decision logging and reviewability practice?",
             "options": [
                 {"stage": "E", "text": "Decisions are mostly implicit in the output — I’m still figuring out how to make the reasoning consistent and reviewable."},
                 {"stage": "P", "text": "I can usually explain what happened from memory — but it’s personal and not reliably captured for others."},
@@ -484,7 +484,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l4_shared_harness_infra",
             "dimension": "Shared harness infrastructure",
-            "question": "If a new designer joined tomorrow, how would they start running your autonomous design workflows without breaking files, cluttering libraries, or creating off-brand work?",
+            "question": "Which best describes your shared AI design harness infrastructure for autonomous workflows?",
             "options": [
                 {"stage": "E", "text": "They’d have to copy what I’m doing and hope it works — I’m still figuring out a repeatable setup."},
                 {"stage": "P", "text": "I could get them going with my own templates and explanations — but it’s basically my personal setup."},
@@ -498,7 +498,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l5_goal_definition",
             "dimension": "Goal framing & acceptance criteria",
-            "question": "When you hand an end-to-end design task to AI, how do you frame the goal and what “done” looks like?",
+            "question": "Which best describes your goal framing and acceptance-criteria practice for AI-driven design tasks?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out how to write goals the AI can follow — I often rerun because “done” wasn’t clear."},
                 {"stage": "P", "text": "I can usually write a solid goal and constraints, but it’s a personal recipe in my head — nobody else uses it."},
@@ -510,7 +510,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l5_exception_triage",
             "dimension": "Exception handling & escalation",
-            "question": "In an AI-run design workflow, what do you do when the system surfaces an exception or low-confidence call?",
+            "question": "Which best describes your exception handling and escalation practice in AI-driven design workflows?",
             "options": [
                 {"stage": "E", "text": "I jump in case-by-case when something looks off — I’m still learning which exceptions matter."},
                 {"stage": "P", "text": "I have my own way to triage AI flags, but it lives in my head — others rely on me to interpret what to do."},
@@ -522,7 +522,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l5_quality_gates",
             "dimension": "Trust calibration & release readiness",
-            "question": "How do you decide whether an AI-generated flow, screen, or spec is ready to hand off without more iteration?",
+            "question": "Which best describes your trust calibration and release readiness for AI-generated design deliverables?",
             "options": [
                 {"stage": "E", "text": "My checks are inconsistent — sometimes I hand off AI work I later end up redoing."},
                 {"stage": "P", "text": "I have a dependable personal review pass before handoff, but it isn’t written down — others can’t replicate my bar."},
@@ -534,7 +534,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l5_alignment_updates",
             "dimension": "System alignment & ongoing adaptation",
-            "question": "How do you keep an AI-driven design workflow aligned with your design system and stakeholder preferences as they change?",
+            "question": "Which best describes how you keep AI design workflows aligned with evolving systems and stakeholders?",
             "options": [
                 {"stage": "E", "text": "I tweak prompts or examples when outputs drift — I haven’t found a reliable way to keep it aligned over time."},
                 {"stage": "P", "text": "I maintain personal examples and notes to keep the AI on-brand, but they’re in my own workspace — nobody else benefits."},
@@ -546,7 +546,7 @@ EPIAS_QUESTIONS_DESIGN = {
         {
             "id": "epias_l5_accountability_traceability",
             "dimension": "Accountability & decision traceability",
-            "question": "When stakeholders ask for the rationale behind an AI-produced design decision, how do you make that answer available?",
+            "question": "Which best describes your practice for documenting accountability and rationale for AI-driven design decisions?",
             "options": [
                 {"stage": "E", "text": "I usually can’t point to a clear trail for “why” — I’m still figuring out how to capture rationale from AI-led work."},
                 {"stage": "P", "text": "I can explain decisions from memory, but the rationale isn’t recorded — stakeholders have to trust my recap."},
@@ -568,7 +568,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l0_synthesis_coding",
             "dimension": "Synthesis & coding practice",
-            "question": "When you turn raw sessions into themes, what does your manual coding and synthesis process look like in practice?",
+            "question": "Which best describes your synthesis and coding practice for turning sessions into themes?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out how to code and synthesize—my approach changes study to study and the themes can be inconsistent."},
                 {"stage": "P", "text": "I have a coding flow that works for me, but it mostly lives in my head—others wouldn’t get the same themes if they tried."},
@@ -580,7 +580,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l0_evidence_traceability",
             "dimension": "Evidence chains & traceability",
-            "question": "How do you keep your findings tied back to the original source material when you’re working manually?",
+            "question": "Which best describes your practice for keeping research findings traceable to original evidence?",
             "options": [
                 {"stage": "E", "text": "I often work from notes and memory—sometimes I can’t reliably pull the exact transcript or quote that supports a finding."},
                 {"stage": "P", "text": "I keep my own breadcrumbs to support findings, but the trail is personal—someone else would struggle to follow it."},
@@ -592,7 +592,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l0_research_artifacts",
             "dimension": "Study artifacts & handoff readiness",
-            "question": "If you had to step away mid-study, how easy would it be for another researcher to pick up the work from your materials?",
+            "question": "Which best describes your study documentation and handoff readiness for other researchers?",
             "options": [
                 {"stage": "E", "text": "It would be rough—my scripts, recruitment notes, and session tracking are patchy and I’m still learning what to document."},
                 {"stage": "P", "text": "I can keep myself on track with my own docs, but they’re built for me—handoff to someone else would be slow."},
@@ -604,7 +604,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l0_readouts_decisions",
             "dimension": "Readouts & decision linkage",
-            "question": "What do your research readouts look like when it comes to connecting findings to decisions?",
+            "question": "Which best describes your research readout practice for linking findings to decisions?",
             "options": [
                 {"stage": "E", "text": "My readouts are pretty ad hoc—sometimes the room leaves without clear next steps tied to the evidence."},
                 {"stage": "P", "text": "I can deliver a strong readout in my own style, but it depends on me—others don’t have a repeatable way to do it."},
@@ -616,7 +616,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l0_quality_verification",
             "dimension": "Verification & quality checks",
-            "question": "When you’re done synthesizing, how do you check that the themes actually hold up against the source material?",
+            "question": "Which best describes your practice for verifying themes and running quality checks on synthesis?",
             "options": [
                 {"stage": "E", "text": "I don’t have a consistent way to verify themes yet—I’m still figuring out what “good enough” checking looks like."},
                 {"stage": "P", "text": "I do my own informal sanity checks, but it’s mostly solo—others don’t routinely review or challenge my synthesis."},
@@ -630,7 +630,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l1_prompt_organization",
             "dimension": "Prompt organization",
-            "question": "When you use AI chat to summarize interviews or draft findings, how do you keep your prompts and context organized from study to study?",
+            "question": "Which best describes your prompt organization for AI-assisted research synthesis?",
             "options": [
                 {"stage": "E", "text": "I mostly improvise prompts each time—I'm still figuring out what works and the results are inconsistent."},
                 {"stage": "P", "text": "I keep a few favorite prompts in my own notes, but they're personal and only I use them."},
@@ -642,7 +642,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l1_ai_judgment",
             "dimension": "AI judgment and verification",
-            "question": "What do you usually do before you accept an AI-generated theme or insight as “real”?",
+            "question": "Which best describes your AI judgment and verification when accepting AI-generated themes or insights?",
             "options": [
                 {"stage": "E", "text": "I'm still learning what to trust—I often take the AI summary at face value unless it looks obviously wrong."},
                 {"stage": "P", "text": "I do a quick spot-check in the transcript when something feels off, but it's just my personal habit."},
@@ -654,7 +654,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l1_evidence_traceability",
             "dimension": "Traceability to source material",
-            "question": "How easy is it for someone else to trace a finding in your readout back to participant evidence when AI helped with synthesis?",
+            "question": "Which best describes how you ensure traceability from AI-assisted findings to participant evidence?",
             "options": [
                 {"stage": "E", "text": "It’s hit or miss—I don’t consistently link findings back to the exact transcript lines or quotes."},
                 {"stage": "P", "text": "I can usually find the supporting quotes for myself, but I don’t package the evidence trail for others."},
@@ -666,7 +666,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l1_coding_consistency",
             "dimension": "Consistency in coding and themes",
-            "question": "When you use AI chat to help code transcripts or cluster notes, how do you keep the coding consistent over time?",
+            "question": "Which best describes your approach to keeping AI-assisted coding and themes consistent over time?",
             "options": [
                 {"stage": "E", "text": "I keep trying different prompts and labels—my codes shift a lot and the themes feel inconsistent."},
                 {"stage": "P", "text": "I have my own go-to codes and prompting style, but it mostly lives in my head and only I can apply it."},
@@ -678,7 +678,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l1_work_recordkeeping",
             "dimension": "Recordkeeping and reviewability",
-            "question": "If someone needed to review or rerun your AI-assisted step later (like summarizing transcripts or drafting themes), what would they have to work with?",
+            "question": "Which best describes the recordkeeping and reviewability of your AI-assisted research work?",
             "options": [
                 {"stage": "E", "text": "They’d mostly have to start from scratch—I don’t reliably save the prompts, inputs, and outputs."},
                 {"stage": "P", "text": "I can share my chat logs and a few prompts, but it usually takes my explanation to make sense of them."},
@@ -692,7 +692,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l2_spec_clarity",
             "dimension": "Spec clarity",
-            "question": "When you ask AI to produce a bounded research deliverable (like a draft codebook, theme list, or summary memo), what does your spec usually look like?",
+            "question": "Which best describes your AI research spec clarity when requesting bounded deliverables?",
             "options": [
                 {"stage": "E", "text": "I try a few prompts and adjust as I go — I'm still figuring out which details change the output and results can be inconsistent."},
                 {"stage": "P", "text": "I can reliably get what I need by describing the study and my goals — but the spec is mostly in my head and only I can write it well."},
@@ -704,7 +704,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l2_chunking",
             "dimension": "Chunking & task design",
-            "question": "How do you decide what to hand to AI versus what you do yourself during coding and synthesis?",
+            "question": "Which best describes your chunking and task design when using AI for research analysis?",
             "options": [
                 {"stage": "E", "text": "I tend to hand big chunks to AI and see what comes back — I'm still learning how to split work into bounded tasks."},
                 {"stage": "P", "text": "I have my own repeatable way to break analysis into a few AI tasks — but it’s personal and not something others use."},
@@ -716,7 +716,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l2_integration_quality",
             "dimension": "Integration into findings",
-            "question": "Once AI generates pieces like themes, summaries, or quote tables, how do you turn them into a coherent set of findings and a readout?",
+            "question": "Which best describes how you integrate AI outputs into research findings and readouts?",
             "options": [
                 {"stage": "E", "text": "I paste AI outputs into my doc and rewrite until it sounds right — the final narrative quality varies by project."},
                 {"stage": "P", "text": "I have a reliable way to shape AI outputs into findings and implications — but it’s mostly my personal craft and hard to transfer."},
@@ -728,7 +728,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l2_qa_evidence_chain",
             "dimension": "QA & evidence traceability",
-            "question": "What do you do to verify that AI-generated themes, claims, and quotes actually match the transcripts and participant context?",
+            "question": "Which best describes your QA and evidence-traceability practice for AI-assisted research synthesis?",
             "options": [
                 {"stage": "E", "text": "I do occasional spot checks when something feels off — I haven't found a reliable QA routine yet."},
                 {"stage": "P", "text": "I regularly verify key quotes and a few claims against transcripts — but my QA steps aren’t documented and depend on me."},
@@ -740,7 +740,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l2_reusability",
             "dimension": "Reusability of assets",
-            "question": "How reusable is the way you run AI-assisted coding and synthesis across studies and researchers?",
+            "question": "Which best describes the reusability of your AI-assisted research prompts, templates, and synthesis assets?",
             "options": [
                 {"stage": "E", "text": "I sometimes reuse a prompt if I can find it — most of the time I’m still improvising and starting from scratch."},
                 {"stage": "P", "text": "I maintain my own prompts, templates, and codebook starters — but they’re for me and others don’t really use them."},
@@ -754,7 +754,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l3_repeatable_synthesis",
             "dimension": "Repeatable synthesis workflow",
-            "question": "When you run an AI-assisted synthesis from transcripts to themes, how repeatable is your workflow from one study to the next?",
+            "question": "Which best describes how repeatable your AI-assisted research synthesis workflow is across studies?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out the steps—each study I improvise and the results are inconsistent."},
                 {"stage": "P", "text": "I have a sequence that usually works, but it lives in my head and only I can run it end-to-end."},
@@ -766,7 +766,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l3_context_pack",
             "dimension": "Context engineering for research inputs",
-            "question": "What do you give the AI at the start of a guided workflow so it stays grounded in the study and the participants?",
+            "question": "Which best describes your context engineering practice for preparing AI with research study inputs?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out what context it needs—I paste in whatever I have and hope it’s enough."},
                 {"stage": "P", "text": "I have my own checklist for briefs, transcripts, and participant notes, but it’s personal and not shared."},
@@ -778,7 +778,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l3_evidence_chain",
             "dimension": "Verification and evidence chains",
-            "question": "How do you verify that AI-generated codes, themes, and findings are actually supported by the transcripts?",
+            "question": "Which best describes your practice for verifying AI-generated findings with transcript evidence?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out a reliable check—I spot-check a few quotes, but I often miss gaps."},
                 {"stage": "P", "text": "I have a personal way of validating support, but it’s in my head and others can’t easily follow it."},
@@ -790,7 +790,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l3_failure_recovery",
             "dimension": "Checkpointing and failure handling",
-            "question": "When an AI workflow drifts mid-synthesis or starts making things up, what happens next in your process?",
+            "question": "Which best describes how you checkpoint and recover when AI-assisted synthesis goes off track?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out recovery—when it goes off track, I usually restart from scratch."},
                 {"stage": "P", "text": "I can usually get it back on track, but my fixes are ad hoc and only I know what to try."},
@@ -802,7 +802,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l3_decision_ownership",
             "dimension": "Decision ownership in readouts",
-            "question": "How do you handle decision-making and sign-off when AI drafts the narrative for a research readout?",
+            "question": "Which best describes your decision ownership practice for AI-assisted research readouts?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out what to trust—I sometimes accept AI-written findings and fix issues after the fact."},
                 {"stage": "P", "text": "I make the final calls and rewrite as needed, but my decision criteria aren’t documented for anyone else."},
@@ -816,7 +816,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l4_eval_automation",
             "dimension": "Automated quality evaluation",
-            "question": "When your AI workflow turns transcripts into themes and findings, how do you make sure the output is actually correct?",
+            "question": "Which best describes how you evaluate the quality of AI-generated research synthesis?",
             "options": [
                 {"stage": "E", "text": "I do occasional spot-checks against a few quotes — results are inconsistent and I’m still figuring out what to trust."},
                 {"stage": "P", "text": "I use my own mental checklist and rerun until it looks right — but it’s personal and only I apply it consistently."},
@@ -828,7 +828,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l4_evidence_chain",
             "dimension": "Evidence-chain traceability",
-            "question": "If someone challenges a finding in a readout, what’s your usual way of showing the source material behind it?",
+            "question": "Which best describes your evidence chain traceability when sharing or defending research findings?",
             "options": [
                 {"stage": "E", "text": "Sometimes I can’t quickly reconstruct the exact supporting lines — I’m still figuring out a reliable evidence trail."},
                 {"stage": "P", "text": "I can usually pull the supporting quotes from my own notes — but the structure is personal and others struggle to follow it."},
@@ -840,7 +840,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l4_autonomy_monitoring",
             "dimension": "Autonomous run monitoring and recovery",
-            "question": "What typically happens to your AI-assisted research pipeline when you step away for a day?",
+            "question": "Which best describes your autonomous research run monitoring and recovery practice?",
             "options": [
                 {"stage": "E", "text": "It often stalls or drifts into messy outputs — I’m still experimenting with autonomous runs and they’re not reliable yet."},
                 {"stage": "P", "text": "It can keep going if I set it up carefully — but I’m the one who monitors and fixes issues using my personal habits."},
@@ -852,7 +852,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l4_harness_reuse",
             "dimension": "Shared research harness and reuse",
-            "question": "How do you package your AI-assisted UXR workflow so someone else can run a study through it?",
+            "question": "Which best describes your shared AI-assisted research workflow and reuse practice?",
             "options": [
                 {"stage": "E", "text": "I’m still piecing together tools and prompts — I don’t have a repeatable setup others can follow."},
                 {"stage": "P", "text": "I have a workflow that works for me — but it lives in my head and others haven’t really adopted it."},
@@ -864,7 +864,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l4_participant_data_governance",
             "dimension": "Governance for participant data and privacy",
-            "question": "When AI touches recordings, transcripts, or notes, how do you handle participant privacy and data handling in practice?",
+            "question": "Which best describes your governance for participant data and privacy in AI-related research?",
             "options": [
                 {"stage": "E", "text": "I make case-by-case calls and sometimes change my approach — I’m still figuring out what’s safe and consistent."},
                 {"stage": "P", "text": "I follow my own rules for redaction and storage — but they’re personal and not consistently used by others."},
@@ -878,7 +878,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l5_goal_setting",
             "dimension": "Goal-setting for autonomous UXR runs",
-            "question": "When you kick off an end-to-end autonomous research run, how do you set goals so the AI knows what “good” looks like?",
+            "question": "Which best describes your goal-setting practice for end-to-end autonomous UX research runs?",
             "options": [
                 {"stage": "E", "text": "I’m still figuring out what details the AI needs — my briefs are inconsistent and the outputs vary a lot."},
                 {"stage": "P", "text": "I have a reliable way I frame goals and constraints, but it’s mostly in my head — others don’t use it without me."},
@@ -890,7 +890,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l5_exception_oversight",
             "dimension": "Exception oversight and intervention",
-            "question": "How do you notice and handle exceptions when the AI runs the research workflow end-to-end?",
+            "question": "Which best describes your oversight and intervention practice for exceptions in autonomous AI-led research workflows?",
             "options": [
                 {"stage": "E", "text": "I usually find problems after the readout — I’m still figuring out what to monitor and when to step in."},
                 {"stage": "P", "text": "I do my own spot-checks and jump in when something feels off, but my thresholds are personal — others can’t follow the same playbook."},
@@ -902,7 +902,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l5_evidence_chains",
             "dimension": "Trust calibration through evidence chains",
-            "question": "When the AI produces themes and findings, what do you do to verify they’re anchored in the transcripts and source material?",
+            "question": "Which best describes your evidence-chain practice for verifying AI-generated themes against source data?",
             "options": [
                 {"stage": "E", "text": "I sometimes skim transcripts when something sounds wrong — I don’t yet have a consistent way to verify themes."},
                 {"stage": "P", "text": "I do my own sampling and re-check quotes against transcripts, but it’s a personal routine — the verification isn’t repeatable for others."},
@@ -914,7 +914,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l5_pipeline_adaptation",
             "dimension": "System adaptation and continuous improvement",
-            "question": "After a study ships, how does your autonomous research setup get better for the next run?",
+            "question": "Which best describes how your autonomous research systems adapt and improve after each study?",
             "options": [
                 {"stage": "E", "text": "I make occasional prompt tweaks when something breaks — I’m still figuring out what changes actually improve results."},
                 {"stage": "P", "text": "I refine prompts, codebooks, and checks based on my own learnings, but it’s mostly in my head — others don’t inherit the improvements."},
@@ -926,7 +926,7 @@ EPIAS_QUESTIONS_UXR = {
         {
             "id": "epias_l5_accountability",
             "dimension": "Accountability for automated research decisions",
-            "question": "When the AI makes end-to-end choices—like who gets included, how data is coded, and what goes into the readout—how do you make accountability clear?",
+            "question": "Which best describes how you ensure accountability for automated, end-to-end UX research decisions?",
             "options": [
                 {"stage": "E", "text": "Accountability is a bit fuzzy right now — I accept most outputs unless an obvious issue shows up."},
                 {"stage": "P", "text": "I personally keep notes on what I approved and why, but it’s not shared — others wouldn’t know what I signed off on."},

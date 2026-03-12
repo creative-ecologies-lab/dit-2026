@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+{% block title %}Analytics — Admin{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="admin-header">
+        <h1>Analytics</h1>
+        <div class="admin-counts">
+            <span class="admin-count">{{ data.total }} submissions</span>
+            {% if cohort %}<span class="admin-badge admin-badge-reviewed">cohort: {{ cohort }}</span>{% endif %}
+            {% if include_test %}<span class="admin-badge admin-badge-new">incl. test</span>{% endif %}
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:center;">
+            <a href="/admin/analytics?include_test=1" class="admin-logout" style="font-size:0.8rem;">+ test data</a>
+            <a href="/admin/feedback" class="admin-logout">Feedback</a>
+            <a href="/admin/logout" class="admin-logout">Log out</a>
+        </div>
+    </div>
+
+    <!-- Filter bar -->
+    <form method="get" action="/admin/analytics" style="margin-bottom:1.5rem;display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+        <input name="cohort" value="{{ cohort or '' }}" placeholder="Filter by cohort…"
+               style="padding:0.4rem 0.75rem;border:1px solid var(--border,#ddd);border-radius:6px;font-size:0.875rem;background:var(--bg-card,#fff);color:inherit;">
+        <label style="font-size:0.85rem;display:flex;align-items:center;gap:0.3rem;">
+            <input type="checkbox" name="include_test" value="1" {% if include_test %}checked{% endif %}> Include test data
+        </label>
+        <button type="submit" style="padding:0.4rem 1rem;background:var(--accent,#0070f3);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.875rem;">Filter</button>
+        {% if cohort or include_test %}<a href="/admin/analytics" style="font-size:0.85rem;color:var(--text-muted,#888);">Clear</a>{% endif %}
+    </form>
+
+    {% if data.total == 0 %}
+    <div style="text-align:center;padding:3rem;color:var(--text-muted,#888);">
+        <p style="font-size:1.2rem;">No submissions yet.</p>
+        <p>Share the link: <strong>https://aiskillsmap.noahratzan.com/assess</strong></p>
+    </div>
+    {% else %}
+
+    <!-- Summary cards -->
+    <div class="analytics-cards">
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ data.total }}</div>
+            <div class="analytics-card-label">Total Submissions</div>
+        </div>
+        {% set level_vals = data.by_level.values() | list %}
+        {% set avg_level = (level_vals | sum / data.total) if data.total > 0 else 0 %}
+        <div class="analytics-card">
+            <div class="analytics-card-value">L{{ "%.1f"|format(avg_level) }}</div>
+            <div class="analytics-card-label">Avg SAE Level</div>
+        </div>
+        {% set stage_order = ['E','P','I','A','S'] %}
+        {% set stage_scores = namespace(total=0) %}
+        {% for s in stage_order %}{% set stage_scores.total = stage_scores.total + loop.index * (data.by_stage.get(s, 0)) %}{% endfor %}
+        {% set avg_stage_idx = (stage_scores.total / data.total) if data.total > 0 else 1 %}
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ stage_order[(avg_stage_idx - 0.5) | int | max(0) | min(4)] }}</div>
+            <div class="analytics-card-label">Avg E-P-I-A-S Stage</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ data.by_cohort | length }}</div>
+            <div class="analytics-card-label">Distinct Cohorts</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ data.by_device.get('mobile', 0) }}</div>
+            <div class="analytics-card-label">Mobile Submissions</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ data.by_device.get('desktop', 0) }}</div>
+            <div class="analytics-card-label">Desktop Submissions</div>
+        </div>
+    </div>
+
+    <!-- Charts row -->
+    <div class="analytics-charts">
+        <div class="analytics-chart-box">
+            <h3>SAE Level Distribution</h3>
+            <canvas id="levelChart" height="200"></canvas>
+        </div>
+        <div class="analytics-chart-box">
+            <h3>E-P-I-A-S Stage Distribution</h3>
+            <canvas id="stageChart" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Time series (only show if we have date data) -->
+    {% if data.by_date %}
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Submissions Over Time</h3>
+        <canvas id="timeChart" height="100"></canvas>
+    </div>
+    {% endif %}
+
+    <!-- Breakdown tables row -->
+    <div class="analytics-tables">
+        <!-- Cohort breakdown -->
+        {% if data.by_cohort %}
+        <div class="analytics-table-box">
+            <h3>By Cohort</h3>
+            <table class="admin-table">
+                <thead><tr><th>Cohort</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for cohort_key, count in data.by_cohort.items() %}
+                <tr>
+                    <td>{{ cohort_key }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- UTM source -->
+        <div class="analytics-table-box">
+            <h3>Traffic Source (UTM)</h3>
+            <table class="admin-table">
+                <thead><tr><th>Source</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for src, count in data.by_utm_source.items() %}
+                <tr>
+                    <td>{{ src }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Role -->
+        <div class="analytics-table-box">
+            <h3>By Role</h3>
+            <table class="admin-table">
+                <thead><tr><th>Role</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for role, count in data.by_role.items() %}
+                <tr>
+                    <td>{{ role or '—' }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Campaign breakdown (only if non-trivial) -->
+    {% if data.by_utm_campaign | length > 1 or (data.by_utm_campaign | length == 1 and data.by_utm_campaign.keys() | list | first != '—') %}
+    <div class="analytics-table-box" style="margin-bottom:1.5rem;">
+        <h3>UTM Campaign</h3>
+        <table class="admin-table">
+            <thead><tr><th>Campaign</th><th>Count</th><th>%</th></tr></thead>
+            <tbody>
+            {% for camp, count in data.by_utm_campaign.items() %}
+            <tr>
+                <td>{{ camp }}</td>
+                <td>{{ count }}</td>
+                <td>{{ "%.0f"|format(100 * count / data.total) }}%</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Recent submissions -->
+    <div class="analytics-chart-box">
+        <h3>Recent Submissions <span style="font-size:0.8rem;font-weight:400;color:var(--text-muted,#888);">(last {{ data.recent | length }})</span></h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>SAE</th>
+                    <th>Stage</th>
+                    <th>Role</th>
+                    <th>Cohort</th>
+                    <th>Source</th>
+                    <th>Campaign</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in data.recent %}
+            <tr>
+                <td class="admin-cell-time">{{ r.timestamp or '—' }}</td>
+                <td>L{{ r.sae_level }}</td>
+                <td><strong>{{ r.epias_stage }}</strong></td>
+                <td>{{ r.role or '—' }}</td>
+                <td>{{ r.cohort or 'anon' }}</td>
+                <td>{{ r.utm_source or 'direct' }}</td>
+                <td>{{ r.utm_campaign or '—' }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endif %}{# end if data.total > 0 #}
+</div>
+
+<style>
+.analytics-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.analytics-card {
+    background: var(--bg-card, #f8f8f8);
+    border: 1px solid var(--border, #e5e5e5);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+.analytics-card-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+.analytics-card-label {
+    font-size: 0.75rem;
+    color: var(--text-muted, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.analytics-charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.analytics-chart-box {
+    background: var(--bg-card, #f8f8f8);
+    border: 1px solid var(--border, #e5e5e5);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+.analytics-chart-box h3 {
+    margin: 0 0 1rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #666);
+}
+.analytics-tables {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.analytics-table-box {
+    background: var(--bg-card, #f8f8f8);
+    border: 1px solid var(--border, #e5e5e5);
+    border-radius: 10px;
+    padding: 1.25rem;
+    overflow-x: auto;
+}
+.analytics-table-box h3 {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #666);
+}
+@media (max-width: 700px) {
+    .analytics-charts { grid-template-columns: 1fr; }
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+    const isDark = document.documentElement.classList.contains('dark') ||
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const textColor = isDark ? '#ccc' : '#555';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+    const accent = '#0070f3';
+
+    const defaults = {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            x: { ticks: { color: textColor }, grid: { color: gridColor } },
+            y: { ticks: { color: textColor, precision: 0 }, grid: { color: gridColor }, beginAtZero: true },
+        }
+    };
+
+    // SAE Level chart
+    const levelData = {{ data.by_level | tojson }};
+    const levelLabels = ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'];
+    const levelCounts = levelLabels.map((_, i) => levelData[i] || 0);
+    new Chart(document.getElementById('levelChart'), {
+        type: 'bar',
+        data: {
+            labels: levelLabels,
+            datasets: [{ data: levelCounts, backgroundColor: accent, borderRadius: 5 }]
+        },
+        options: { ...defaults }
+    });
+
+    // Stage chart
+    const stageData = {{ data.by_stage | tojson }};
+    const stageLabels = ['E', 'P', 'I', 'A', 'S'];
+    const stageColors = ['#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+    new Chart(document.getElementById('stageChart'), {
+        type: 'bar',
+        data: {
+            labels: stageLabels,
+            datasets: [{ data: stageLabels.map(s => stageData[s] || 0), backgroundColor: stageColors, borderRadius: 5 }]
+        },
+        options: { ...defaults }
+    });
+
+    // Time series
+    {% if data.by_date %}
+    const dateData = {{ data.by_date | tojson }};
+    const dateLabels = Object.keys(dateData);
+    const dateCounts = Object.values(dateData);
+    new Chart(document.getElementById('timeChart'), {
+        type: 'line',
+        data: {
+            labels: dateLabels,
+            datasets: [{
+                data: dateCounts,
+                borderColor: accent,
+                backgroundColor: accent + '22',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 4,
+            }]
+        },
+        options: {
+            ...defaults,
+            plugins: { legend: { display: false } },
+        }
+    });
+    {% endif %}
+})();
+</script>
+{% endblock %}
