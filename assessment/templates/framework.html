@@ -4,8 +4,8 @@
 {% block head %}
 <style>
     /* Framework pages use normal browser scrolling instead of the viewport-locked layout */
-    body { height: auto; overflow: auto; }
-    .container { overflow: visible; }
+    body { height: auto; overflow-y: auto; overflow-x: hidden; }
+    .container { overflow: visible; width: 100%; box-sizing: border-box; }
 </style>
 {% endblock %}
 

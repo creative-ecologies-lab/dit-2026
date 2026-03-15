@@ -1,0 +1,132 @@
+[
+  {
+    "age_range": null,
+    "epias_stage": "E",
+    "sae_level": 1,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "1_E",
+    "timestamp": "2026-03-10T17:49:52.108000+00:00",
+    "_doc_id": "76Q6KxYXhDxZsiLS4jFq"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "A",
+    "sae_level": 4,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "4_A",
+    "timestamp": "2026-03-05T15:57:50.618000+00:00",
+    "_doc_id": "7NNJ41kpeGYORTy7ng1Q"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "I",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "3_I",
+    "timestamp": "2026-03-11T19:46:39.762000+00:00",
+    "_doc_id": "DhOTLwDxhwbR8IqKDlNo"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "E",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "3_E",
+    "timestamp": "2026-03-11T19:47:36.794000+00:00",
+    "_doc_id": "GVgoKT6vB6aSagY72ICY"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "E",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "3_E",
+    "timestamp": "2026-03-10T22:08:09.129000+00:00",
+    "_doc_id": "LHeboz9oxeUUzedMikC2"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "E",
+    "sae_level": 1,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "1_E",
+    "timestamp": "2026-03-10T17:50:01.254000+00:00",
+    "_doc_id": "TYIdwAF8Z4dOX2Xleuln"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "P",
+    "sae_level": 2,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "2_P",
+    "timestamp": "2026-03-10T20:29:16.809000+00:00",
+    "_doc_id": "VaIvWvN8iHcvjYF6aV4a"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "P",
+    "sae_level": 4,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "4_P",
+    "timestamp": "2026-03-09T21:31:40.444000+00:00",
+    "_doc_id": "YXRG0J2IcqneTKhwNZ08"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "I",
+    "sae_level": 2,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "2_I",
+    "timestamp": "2026-03-10T20:26:13.354000+00:00",
+    "_doc_id": "ZMjzFJHeTbS6C9zMsLyp"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "P",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "uxr",
+    "cell_key": "3_P",
+    "timestamp": "2026-03-08T22:34:46.008000+00:00",
+    "_doc_id": "fUrrFLPDEqmILWTkrWJf"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "I",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "3_I",
+    "timestamp": "2026-03-05T15:56:08.646000+00:00",
+    "_doc_id": "faHRDwAAu0qUh2QekM0z"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "I",
+    "sae_level": 3,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "3_I",
+    "timestamp": "2026-03-09T23:05:24.643000+00:00",
+    "_doc_id": "luA4cCCztBZ1HLUr3un7"
+  },
+  {
+    "age_range": null,
+    "epias_stage": "E",
+    "sae_level": 1,
+    "cohort": null,
+    "role": "design",
+    "cell_key": "1_E",
+    "timestamp": "2026-03-10T17:50:19.001000+00:00",
+    "_doc_id": "wVe8g30TCe4K6wqUfqQO"
+  }
+]
