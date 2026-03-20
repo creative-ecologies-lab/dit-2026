@@ -8,10 +8,15 @@
             <button id="btnForest" class="forest-toggle-btn active">The Forest</button>
             <button id="btnTrees" class="forest-toggle-btn">The Trees</button>
         </div>
-        <p class="forest-subtitle">{{ stats.total }} participants{{ ' in ' + group if group else '' }}</p>
+        <p class="forest-subtitle">{{ stats.total }} participants{{ ' in ' + group if group else '' }}
+            <span class="forest-divider forest-show-all">|</span>
+            <label class="forest-toggle-label forest-show-all">
+                <input type="checkbox" id="showAllTrees"> Show 0-count trees
+            </label>
+        </p>
     </div>
 
-    <div class="forest-canvas-wrap">
+    <div class="forest-canvas-wrap" id="forestCanvasWrap">
         <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
         <div id="viewTrees" class="forest-view">{{ trees_svg | safe }}</div>
         <div id="nightOverlay" class="forest-night"></div>
@@ -23,6 +28,11 @@
     </div>
 
     <div class="forest-controls">
+        <div class="forest-wind">
+            <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="forestWindValue">calm</span></span>
+            <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+        </div>
+        <span class="forest-divider">|</span>
         <div class="forest-dice">
             <button id="rollDice" class="forest-roll-btn">Chance</button>
             <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
@@ -31,16 +41,6 @@
             </div>
             <span id="diceResult" class="forest-dice-result">&nbsp;</span>
         </div>
-        <span class="forest-divider">|</span>
-        <div class="forest-wind">
-            <span class="xp-wind-label">Winds of change</span>
-            <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
-            <span class="xp-wind-value" id="forestWindValue">calm</span>
-        </div>
-        <span class="forest-divider forest-show-all">|</span>
-        <label class="forest-toggle-label forest-show-all">
-            <input type="checkbox" id="showAllTrees"> Show tree forms with 0 count
-        </label>
     </div>
 
     <div class="forest-stats">
@@ -59,6 +59,8 @@
         </div>
     </div>
 </div>
+
+<div class="forest-zoom-overlay" id="forestZoom"><button class="forest-zoom-close" id="forestZoomClose">&times;</button></div>
 
 <script src="{{ url_for('static', filename='forest-wind.js') }}"></script>
 <script>
@@ -121,6 +123,28 @@
             el.style.display = showAllCheck.checked ? '' : 'none';
         });
     });
+
+    // Mobile zoom
+    var canvasWrap = document.getElementById('forestCanvasWrap');
+    var zoomOverlay = document.getElementById('forestZoom');
+    var zoomClose = document.getElementById('forestZoomClose');
+    if (canvasWrap && zoomOverlay) {
+        canvasWrap.addEventListener('click', function() {
+            if (window.innerWidth > 768) return;
+            var activeSvg = canvasWrap.querySelector('.forest-view.active svg');
+            if (!activeSvg) return;
+            zoomOverlay.innerHTML = '<button class="forest-zoom-close" onclick="this.parentElement.classList.remove(\'active\');document.body.style.overflow=\'\';">&times;</button>' + activeSvg.outerHTML;
+            zoomOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        zoomOverlay.addEventListener('click', function(e) {
+            if (e.target === zoomOverlay) {
+                zoomOverlay.classList.remove('active');
+                zoomOverlay.innerHTML = '';
+                document.body.style.overflow = '';
+            }
+        });
+    }
 })();
 </script>
 {% endblock %}

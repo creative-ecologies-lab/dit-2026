@@ -14,6 +14,10 @@
             </div>
             <p class="forest-subtitle" id="communitySubtitle" style="display:none;">
                 {{ stats.total }} participants
+                <span class="forest-divider forest-show-all">|</span>
+                <label class="forest-toggle-label forest-show-all">
+                    <input type="checkbox" id="showAllTrees"> Show 0-count trees
+                </label>
             </p>
         </div>
 
@@ -53,6 +57,8 @@
                     </div>
                 </div>
                 <div class="wind-control" role="group" aria-label="Wind simulation">
+                    <label for="windSlider" class="wind-label">Winds of change: <span class="wind-value" id="windValue">calm</span></label>
+                    <input type="range" id="windSlider" min="0" max="100" value="0" class="wind-slider" aria-label="Wind strength">
                     <div class="result-dice">
                         <button class="forest-roll-btn" id="resultRollDice">Chance</button>
                         <span class="forest-info-icon" id="resultChanceInfo" title="Info">?</span>
@@ -61,9 +67,6 @@
                         </div>
                         <span class="forest-dice-result" id="resultDiceResult">&nbsp;</span>
                     </div>
-                    <label for="windSlider" class="wind-label">Winds of change</label>
-                    <input type="range" id="windSlider" min="0" max="100" value="0" class="wind-slider" aria-label="Wind strength">
-                    <span class="wind-value" id="windValue">calm</span>
                 </div>
             </section>
 
@@ -125,7 +128,7 @@
         <!-- ═══ View: Community (Forest + Trees) ═══ -->
         <div id="viewCommunity" class="results-view-panel" style="display:none;">
             <div class="forest-page" id="forestEmbed">
-                <div class="forest-canvas-wrap">
+                <div class="forest-canvas-wrap" id="forestCanvasWrap">
                     <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
                     <div id="viewTreesGrid" class="forest-view">{{ trees_svg | safe }}</div>
                     <div id="nightOverlay" class="forest-night"></div>
@@ -137,6 +140,11 @@
                 </div>
 
                 <div class="forest-controls">
+                    <div class="forest-wind">
+                        <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="forestWindValue">calm</span></span>
+                        <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+                    </div>
+                    <span class="forest-divider">|</span>
                     <div class="forest-dice">
                         <button id="rollDice" class="forest-roll-btn">Chance</button>
                         <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
@@ -145,16 +153,6 @@
                         </div>
                         <span id="diceResult" class="forest-dice-result">&nbsp;</span>
                     </div>
-                    <span class="forest-divider">|</span>
-                    <div class="forest-wind">
-                        <span class="xp-wind-label">Winds of change</span>
-                        <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
-                        <span class="xp-wind-value" id="forestWindValue">calm</span>
-                    </div>
-                    <span class="forest-divider forest-show-all">|</span>
-                    <label class="forest-toggle-label forest-show-all">
-                        <input type="checkbox" id="showAllTrees"> Show tree forms with 0 count
-                    </label>
                 </div>
 
                 <div class="forest-stats">
@@ -184,6 +182,8 @@
         <a href="/tree/v2" class="btn btn-primary" aria-label="Take the tree assessment">Take the Tree Assessment</a>
     </div>
 </div>
+
+<div class="forest-zoom-overlay" id="forestZoom"></div>
 
 <script>
     const DIT_SAE_NAMES = {{ sae_names | tojson }};
@@ -272,6 +272,27 @@
         if (chancePopup) chancePopup.classList.remove('visible');
         if (riskPopup) riskPopup.classList.remove('visible');
     });
+
+    // Mobile zoom
+    var canvasWrap = document.getElementById('forestCanvasWrap');
+    var zoomOverlay = document.getElementById('forestZoom');
+    if (canvasWrap && zoomOverlay) {
+        canvasWrap.addEventListener('click', function() {
+            if (window.innerWidth > 768) return;
+            var activeSvg = canvasWrap.querySelector('.forest-view.active svg');
+            if (!activeSvg) return;
+            zoomOverlay.innerHTML = '<button class="forest-zoom-close" onclick="this.parentElement.classList.remove(\'active\');document.body.style.overflow=\'\';">&times;</button>' + activeSvg.outerHTML;
+            zoomOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        zoomOverlay.addEventListener('click', function(e) {
+            if (e.target === zoomOverlay) {
+                zoomOverlay.classList.remove('active');
+                zoomOverlay.innerHTML = '';
+                document.body.style.overflow = '';
+            }
+        });
+    }
 })();
 </script>
 {% endblock %}

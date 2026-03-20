@@ -869,13 +869,13 @@
             // Taproot
             const tapD = maxRootD * (0.6 + rng() * 0.3);
             const tapW = 2 + rd * 1.2;
-            rootSvg += `<line x1="${CX}" y1="${GY+2}" x2="${CX + (rng()-0.5)*8}" y2="${GY + tapD}" stroke="${rootCol}" stroke-width="${tapW.toFixed(1)}" stroke-linecap="round" opacity="0.85"/>`;
+            rootSvg += `<line x1="${CX}" y1="${GY+2}" x2="${CX + (rng()-0.5)*8}" y2="${GY + tapD}" stroke="${rootCol}" stroke-width="${(tapW * 2).toFixed(1)}" stroke-linecap="round" opacity="0.85"/>`;
 
-            // Spreading roots
+            // Spreading roots — thick enough to be visible at small scale
             for (let i = 0; i < numRoots; i++) {
                 const angle = (Math.PI * 0.2) + (i / (numRoots - 1)) * (Math.PI * 0.6);
                 const len = (0.3 + rng() * 0.7) * maxRootD;
-                const w = 1.5 + rng() * (1.5 + rd * 0.6);
+                const w = 3 + rng() * (3 + rd * 1.2);
                 const bend = (rng() - 0.5) * 20;
                 const ex = CX + Math.cos(angle) * len + bend;
                 const ey = GY + Math.sin(angle) * len;
