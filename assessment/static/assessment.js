@@ -3,7 +3,7 @@
  * Handles two-stage assessment: SAE Level → EPIAS Leadership Stage.
  * Persists progress in sessionStorage so users can navigate away and return.
  *
- * v3: Typeform-style centered one-question-per-page flow.
+ * v3: Centered one-question-per-page flow with manual navigation.
  */
 
 (function() {
@@ -175,6 +175,7 @@
         const val = parseInt(el.dataset.value);
         state.saeAnswers[qid] = val;
         saveState();
+        if (window.dit) dit.track('sae_answer', {question: idx + 1, level: val});
 
         // Visual: mark selected, unmark others
         el.closest('.q-options').querySelectorAll('.q-option').forEach(o => {
@@ -191,18 +192,6 @@
         conf.classList.add('visible');
 
         updateNavButtons();
-
-        // Auto-advance after 800ms
-        setTimeout(() => {
-            conf.classList.remove('visible');
-            if (idx < totalSaeQuestions - 1) {
-                state.currentQuestion = idx + 1;
-                saveState();
-                renderSaeQuestion(state.currentQuestion);
-            } else {
-                transitionToEpias();
-            }
-        }, 800);
     }
 
     function renderEpiasQuestion(idx) {
@@ -252,6 +241,7 @@
         const val = el.dataset.value;
         state.epiasAnswers[qid] = val;
         saveState();
+        if (window.dit) dit.track('epias_answer', {question: idx + 1, stage: val});
 
         // Visual: mark selected, unmark others
         el.closest('.q-options').querySelectorAll('.q-option').forEach(o => {
@@ -269,18 +259,6 @@
         conf.classList.add('visible');
 
         updateNavButtons();
-
-        // Auto-advance after 800ms
-        setTimeout(() => {
-            conf.classList.remove('visible');
-            if (idx < total - 1) {
-                state.currentQuestion = idx + 1;
-                saveState();
-                renderEpiasQuestion(state.currentQuestion);
-            } else {
-                submitAssessment();
-            }
-        }, 800);
     }
 
     function updateNavButtons() {
@@ -399,6 +377,7 @@
         if (Object.keys(state.saeAnswers).length < totalSaeQuestions) return;
 
         state.saeLevel = calculateSaeLevel();
+        if (window.dit) dit.track('sae_complete', {level: state.saeLevel});
 
         try {
             const resp = await fetch('/api/epias-questions?' + new URLSearchParams({
@@ -490,6 +469,7 @@
         // All EPIAS questions must be answered
         if (Object.keys(state.epiasAnswers).length < state.epiasQuestions.length) return;
         submitting = true;
+        if (window.dit) dit.track('epias_complete');
         document.getElementById('epiasStage').style.display = 'none';
         document.getElementById('loadingStage').style.display = 'block';
 
@@ -516,6 +496,12 @@
 
             sessionStorage.setItem('ditResult', JSON.stringify(result));
             clearState();
+            if (window.dit) dit.track('assess_submit', {
+                sae_level: result.sae_level,
+                epias_stage: result.epias_stage,
+                role: state.role,
+                cohort: state.cohort || 'none'
+            });
             window.location.href = '/results';
         } catch (e) {
             console.error('Assessment submission failed:', e);
@@ -555,6 +541,7 @@
     intakeNextBtn.addEventListener('click', () => {
         if (!state.role) return;
         state.cohort = (intakeCohortInput.value || '').trim().toLowerCase();
+        if (window.dit) dit.track('intake_complete', {role: state.role, cohort: state.cohort || 'none'});
         transitionToSae();
     });
 
@@ -692,9 +679,20 @@
 
     // All stages start hidden (no FOUC). Show exactly one.
     const hasResults = sessionStorage.getItem('ditResult');
+    if (!hasResults && window.dit) {
+        dit.track('assess_start');
+    }
     if (hasResults) {
         document.getElementById('completedStage').style.display = 'block';
     } else if (restoreState()) {
+        // Backfill funnel events for restored sessions so the funnel
+        // doesn't show impossible states (e.g. "Chose Role" > "Started")
+        if (window.dit && state.stage !== 'intake') {
+            dit.track('intake_complete', {role: state.role, cohort: state.cohort || 'none'});
+            if (state.stage === 'transition' || state.stage === 'epias') {
+                dit.track('sae_complete', {level: state.saeLevel});
+            }
+        }
         if (state.stage === 'epias' && state.epiasQuestions.length > 0) {
             document.getElementById('epiasStage').style.display = '';
             renderEpiasQuestion(state.currentQuestion);

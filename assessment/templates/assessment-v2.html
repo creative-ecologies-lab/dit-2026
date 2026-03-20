@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Self-Assessment v2 — Tree-Shaped Designer{% endblock %}
+
+{% block content %}
+<div class="assessment-container" role="main" aria-label="Tree-Shaped Designer Assessment v2">
+
+    <!-- Stage 0: Intake (role + group ID) -->
+    <div id="intakeStage" class="stage" style="display:none;" role="region" aria-label="Getting started">
+        <div class="question-viewport">
+            <div class="question-progress">Getting Started</div>
+            <div id="intakeQuestions">
+                <div class="q-card">
+                    <h2 tabindex="-1">What best describes your work?</h2>
+                    <div class="role-selector" role="radiogroup" aria-label="Select your role">
+                        <button class="role-btn" data-role="design" role="radio" aria-checked="false">
+                            <span class="role-btn-title">Design</span>
+                            <span class="role-btn-desc">Product, visual, or interaction design</span>
+                        </button>
+                        <button class="role-btn" data-role="uxr" role="radio" aria-checked="false">
+                            <span class="role-btn-title">UX Research</span>
+                            <span class="role-btn-desc">User research, evidence, and synthesis</span>
+                        </button>
+                    </div>
+                    <div class="intake-fields" style="margin-top: 1.25rem;">
+                        <div class="intake-field">
+                            <label for="intakeCohort">Group ID <span class="optional-label">(optional)</span></label>
+                            <input type="text" id="intakeCohort" placeholder=""
+                                   autocomplete="off" spellcheck="false"
+                                   aria-describedby="cohortHelp">
+                            <p id="cohortHelp" class="field-help">Collects results to view in a group heatmap.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="question-nav" role="navigation" aria-label="Intake navigation">
+                <button class="nav-arrow nav-prev" disabled aria-label="Previous">&larr;</button>
+                <button id="intakeNext" class="nav-arrow nav-next" disabled aria-label="Continue to assessment">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 1: Root Questions (Craft Foundation Depth) -->
+    <div id="rootStage" class="stage" style="display:none;" role="region" aria-label="Craft Foundation Questions">
+        <div class="question-viewport">
+            <div class="question-progress" id="rootProgress" role="status" aria-live="polite">Question 1 of 5</div>
+            <div id="rootQuestions" aria-label="Root depth question"></div>
+            <div class="question-nav" role="navigation" aria-label="Question navigation">
+                <button id="rootPrev" class="nav-arrow nav-prev" disabled aria-label="Previous question">&larr;</button>
+                <button id="rootNext" class="nav-arrow nav-next" aria-label="Next question">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 1.5: Root → SAE Transition -->
+    <div id="rootTransition" class="stage" style="display:none;" role="region" aria-label="Craft foundation result">
+        <div class="question-viewport">
+            <div class="question-progress">Part 1 Complete</div>
+            <div id="rootTransitionContent" class="q-card"></div>
+            <div class="question-nav" role="navigation" aria-label="Transition navigation">
+                <button id="rootTransitionBack" class="nav-arrow nav-prev" aria-label="Go back to Part 1">&larr;</button>
+                <button id="rootTransitionContinue" class="nav-arrow nav-next" aria-label="Continue to Part 2">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 2: SAE Level Questions -->
+    <div id="saeStage" class="stage" style="display:none;" role="region" aria-label="AI Automation Level Questions">
+        <div class="question-viewport">
+            <div class="question-progress" id="saeProgress" role="status" aria-live="polite">Question 1 of 6</div>
+            <div id="saeQuestions" aria-label="SAE level question"></div>
+            <div class="question-nav" role="navigation" aria-label="Question navigation">
+                <button id="saePrev" class="nav-arrow nav-prev" disabled aria-label="Previous question">&larr;</button>
+                <button id="saeNext" class="nav-arrow nav-next" aria-label="Next question">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 2.5: SAE → Canopy Transition -->
+    <div id="saeTransition" class="stage" style="display:none;" role="region" aria-label="AI level result">
+        <div class="question-viewport">
+            <div class="question-progress">Part 2 Complete</div>
+            <div id="saeTransitionContent" class="q-card"></div>
+            <div class="question-nav" role="navigation" aria-label="Transition navigation">
+                <button id="saeTransitionBack" class="nav-arrow nav-prev" aria-label="Go back to Part 2">&larr;</button>
+                <button id="saeTransitionContinue" class="nav-arrow nav-next" aria-label="Continue to Part 3">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stage 3: Canopy EPIAS Questions (AI practice depth at detected SAE level) -->
+    <div id="canopyStage" class="stage" style="display:none;" role="region" aria-label="AI Leadership Questions">
+        <div class="question-viewport">
+            <div class="question-progress" id="canopyProgress" role="status" aria-live="polite">Question 1 of 5</div>
+            <div id="canopyQuestions" aria-label="Canopy EPIAS question"></div>
+            <div class="question-nav" role="navigation" aria-label="Question navigation">
+                <button id="canopyPrev" class="nav-arrow nav-prev" aria-label="Previous question">&larr;</button>
+                <button id="canopyNext" class="nav-arrow nav-next" aria-label="Next question">&rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Already Completed -->
+    <div id="completedStage" class="stage" style="display:none;" role="region" aria-label="Assessment already completed">
+        <div style="text-align:center; padding: 2rem 0;">
+            <h2>Assessment Complete</h2>
+            <p style="color:var(--text-muted); margin: 0.5rem 0 1.5rem;">You've already completed the assessment.</p>
+            <div style="display:flex; gap:1rem; justify-content:center;">
+                <a href="/tree/v2/results" class="btn btn-primary" aria-label="View your results">View Results</a>
+                <button id="retakeBtn" class="btn btn-secondary" aria-label="Retake the assessment from scratch">Retake Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loadingStage" class="stage" style="display:none;" role="status" aria-label="Growing your tree" aria-live="assertive">
+        <div class="loading-spinner">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Growing your tree...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Server-injected question data
+    const SAE_QUESTIONS_DESIGN = {{ questions_design | tojson }};
+    const SAE_QUESTIONS_UXR = {{ questions_uxr | tojson }};
+    const ROOT_QUESTIONS_DESIGN = {{ root_questions_design | tojson }};
+    const ROOT_QUESTIONS_UXR = {{ root_questions_uxr | tojson }};
+    let SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+    let ROOT_QUESTIONS = ROOT_QUESTIONS_DESIGN;
+    const URL_COHORT = {{ (cohort or '') | tojson }};
+</script>
+<script src="{{ url_for('static', filename='assessment-v2.js') }}"></script>
+{% endblock %}

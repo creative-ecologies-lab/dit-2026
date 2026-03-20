@@ -17,3 +17,4 @@ evaluation/
 # Environment
 .env
 .env.local
+static/trees/

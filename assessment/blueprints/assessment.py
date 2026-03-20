@@ -33,7 +33,11 @@ def index():
 @bp.route('/tree')
 @bp.route('/tree/v2/explore')
 def tree_gallery():
-    return render_template('tree-gallery.html')
+    from storage import get_forest_svg
+    trees_svg, forest_svg, stats = get_forest_svg()
+    return render_template('tree-gallery.html',
+                           trees_svg=trees_svg, forest_svg=forest_svg,
+                           stats=stats)
 
 
 @bp.route('/tree/forest')

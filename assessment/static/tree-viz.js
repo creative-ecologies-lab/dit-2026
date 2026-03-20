@@ -766,7 +766,7 @@
         s += `<text x="${CX}" y="${y}" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700" font-family="${FONT}"><tspan>${meta.root_code}</tspan>`;
         if (meta.canopy_code) s += `<tspan fill="#ccccdd"> / </tspan><tspan>${meta.canopy_code}</tspan>`;
         s += `</text>`;
-        s += `<text x="${CX+65}" y="${y}" text-anchor="start" fill="${bc}" font-size="11" font-weight="600" font-family="${FONT}">${meta.balance}</text>`;
+        s += `<text x="${CX+65}" y="${y}" text-anchor="start" fill="${bc}" font-size="13" font-weight="600" font-family="${FONT}" opacity="0.85">${meta.balance}</text>`;
         return s;
     }
 

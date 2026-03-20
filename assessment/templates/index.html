@@ -42,7 +42,7 @@
                     <tr>
                         <th scope="col" class="hm-corner"><span class="sr-only">SAE Level</span></th>
                         {% for s in stage_order %}
-                        <th scope="col" class="hm-stage-header" aria-label="{{ stage_names[s] }}: {{ stage_descriptions[s] }}" data-desc="{{ stage_descriptions[s] }}" data-label="{{ stage_names[s] }}" tabindex="0" role="button">{{ stage_names[s] }}</th>
+                        <th scope="col" class="hm-stage-header" aria-label="{{ stage_names[s] }}: {{ stage_descriptions[s] }}" data-desc="{{ stage_descriptions[s] }}" data-label="{{ stage_names[s] }}" data-abbr="{{ s[0] | upper }}" tabindex="0" role="button"><span class="hm-stage-full">{{ stage_names[s] }}</span><span class="hm-stage-abbr">{{ s[0] | upper }}</span></th>
                         {% endfor %}
                     </tr>
                 </thead>

@@ -82,6 +82,32 @@ def heatmap_data():
     return jsonify(get_heatmap_data(cohort=cohort, include_test=include_test))
 
 
+@bp.route('/event', methods=['POST'])
+def track_event():
+    """Store a lightweight analytics event. Fire-and-forget from client."""
+    from storage import store_event
+
+    data = request.get_json(silent=True) or {}
+    event = (data.get('event') or '').strip()[:50]
+    session_id = (data.get('sid') or '').strip()[:64]
+    if not event or not session_id:
+        return jsonify({"ok": False}), 400
+
+    # Sanitize props — only allow known keys, cap sizes
+    raw_props = data.get('props') or {}
+    props = {}
+    for key in ('path', 'referrer', 'viewport', 'device', 'question',
+                'stage', 'level', 'role', 'cohort', 'action', 'tab',
+                'elapsed_ms', 'utm_source', 'utm_medium', 'utm_campaign'):
+        val = raw_props.get(key)
+        if val is not None:
+            props[key] = str(val)[:200]
+
+    ua = _short_ua(request.headers.get('User-Agent', ''))
+    ok = store_event(event=event, session_id=session_id, props=props, ua=ua)
+    return jsonify({"ok": ok}), (200 if ok else 400)
+
+
 @bp.route('/feedback', methods=['POST'])
 def submit_feedback():
     """Store user feedback, return its ID + HMAC token for edits."""

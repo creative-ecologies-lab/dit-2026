@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}The Tree-Shaped Designer — DIT 2026{% endblock %}
+
+{% block content %}
+<div class="xp-page">
+
+    <div class="xp-layout">
+
+        <!-- Left: intro + CTA -->
+        <div class="xp-left">
+            <h1>The Tree-Shaped Designer</h1>
+            <p class="xp-tagline">Imagine AI maturity like a tree.</p>
+
+            <div class="xp-dims">
+                <div class="xp-dim"><strong>Roots</strong> &mdash; how deep your craft runs</div>
+                <div class="xp-dim"><strong>Branching</strong> &mdash; how far AI extends your reach</div>
+                <div class="xp-dim"><strong>Height</strong> &mdash; how mature your AI practice has become</div>
+            </div>
+            <p class="xp-roots-note">Mature roots in craft provide a foundation to grow strong AI skills and leadership.</p>
+
+            <div class="xp-cta">
+                <p>What does <strong>your</strong> tree look like?</p>
+                <a href="/tree/v2" class="btn btn-primary">Take the Assessment</a>
+            </div>
+
+        </div>
+
+        <!-- Right: triple-tab component -->
+        <div class="xp-right">
+            <div class="forest-toggle xp-gallery-toggle">
+                <button class="forest-toggle-btn gallery-tab active" data-view="examples">Example Trees</button>
+                <button class="forest-toggle-btn gallery-tab" data-view="trees">The Trees</button>
+                <button class="forest-toggle-btn gallery-tab" data-view="forest">The Forest</button>
+            </div>
+
+            <div class="forest-stats" id="galleryStats" style="display:none;">
+                {% for b in ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'] %}
+                    {% if stats.balance_counts.get(b, 0) > 0 %}
+                        {% set pct = (stats.balance_counts[b] / stats.total * 100) | round | int %}
+                        {% set col = {'deeply rooted':'rgba(74,222,128,0.45)', 'balanced':'rgba(74,222,128,0.35)', 'grounded':'rgba(74,222,128,0.25)', 'reaching':'rgba(251,191,36,0.55)', 'top-heavy':'rgba(248,113,113,0.6)'}[b] %}
+                        <span class="forest-stat">
+                            <span class="forest-stat-dot" style="background:{{ col }}"></span>{{ b }} {{ pct }}%
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <p class="forest-subtitle xp-gallery-subtitle" id="gallerySubtitle" style="display:none;">
+                {{ stats.total }} participants
+                <span class="forest-divider forest-show-all">|</span>
+                <label class="forest-toggle-label forest-show-all">
+                    <input type="checkbox" id="showAllTrees"> Show 0-count trees
+                </label>
+            </p>
+
+            <!-- Tab 1: Example Trees (carousel) -->
+            <div id="viewExamples" class="xp-gallery-panel">
+                <div id="xpTreeContainer" class="tree-container xp-tree"></div>
+                <div class="xp-below-tree">
+                    <div class="xp-form-nav">
+                        <button class="xp-nav-arrow" id="xpPrev" aria-label="Previous">&larr;</button>
+                        <div class="xp-form-info">
+                            <span class="xp-form-desc" id="xpDesc"></span>
+                            <span class="xp-form-code" id="xpCode" style="display:none"></span>
+                        </div>
+                        <button class="xp-nav-arrow" id="xpNext" aria-label="Next">&rarr;</button>
+                    </div>
+                    <div class="xp-wind-row">
+                        <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="xpWindValue">calm</span></span>
+                        <input type="range" id="xpWind" min="0" max="100" value="0" step="8" class="wind-slider" style="width:120px">
+                        <span class="forest-divider">|</span>
+                        <button id="xpRollDice" class="forest-roll-btn">Chance</button>
+                        <span class="forest-info-icon" id="xpChanceInfo" title="About chance">?</span>
+                        <span id="xpDiceResult" class="forest-dice-result"></span>
+                        <div class="forest-info-popup" id="xpChancePopup">
+                            Any given day, conditions affect strength and vulnerability. This rolls dice that impact the tree's resilience to strong winds of change.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2+3: Community (Trees grid + Forest landscape) -->
+            <div id="viewCommunity" class="xp-gallery-panel" style="display:none;">
+                <div class="forest-page" id="forestEmbed">
+                    <div class="forest-canvas-wrap" id="forestCanvasWrap">
+                        <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
+                        <div id="viewTreesGrid" class="forest-view">{{ trees_svg | safe }}</div>
+                        <div id="nightOverlay" class="forest-night"></div>
+                        <svg id="starsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
+                            {%- for i in range(40) -%}
+                            <circle cx="{{ (((i * 7 + 13) * 2654435761) % 1100) }}" cy="{{ (((i * 11 + 3) * 340573321) % 280) }}" r="{{ [0.8, 1.0, 1.2, 0.6, 1.4][i % 5] }}" fill="white" opacity="{{ [0.5, 0.7, 0.4, 0.8, 0.6][i % 5] }}"/>
+                            {%- endfor -%}
+                        </svg>
+                    </div>
+
+                    <div class="forest-controls">
+                        <div class="forest-wind">
+                            <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="forestWindValue">calm</span></span>
+                            <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+                        </div>
+                        <span class="forest-divider">|</span>
+                        <div class="forest-dice">
+                            <button id="rollDice" class="forest-roll-btn">Chance</button>
+                            <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
+                            <div class="forest-info-popup" id="chancePopup">
+                                On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.
+                            </div>
+                            <span id="diceResult" class="forest-dice-result">&nbsp;</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Mobile-only CTA -->
+    <div class="xp-mobile-cta">
+        <p>What does <strong>your</strong> tree look like?</p>
+        <a href="/tree/v2" class="btn btn-primary">Take the Assessment</a>
+    </div>
+
+</div>
+
+<div class="forest-zoom-overlay" id="forestZoom"></div>
+
+<script>
+const STEPS = [
+    {
+        viz: {root_depth:2, root_spread:2, canopy_width:4, canopy_height:3, seed:7703},
+        meta: {root_code:'L0-P', canopy_code:'L4-I', balance:'top-heavy'},
+        maxLean: 75, breakAt: 0.5, ratio: (4*2+3*2)/(2*5),
+        code: 'L0-P / L4-I',
+        desc: 'Developing craft. Autonomous AI workflows. Roots not deeply developed. Try the wind.',
+    },
+    {
+        viz: {root_depth:5, root_spread:5, canopy_width:1, canopy_height:3, seed:7702},
+        meta: {root_code:'L0-S', canopy_code:'L1-I', balance:'deeply rooted'},
+        maxLean: 5, breakAt: 99, ratio: (1*2+3*2)/(5*5),
+        code: 'L0-S / L1-I',
+        desc: 'Sets organizational standards. Mentors across teams. Roots interlocked with the forest \u2014 the wind can\u2019t separate what\u2019s woven together.',
+    },
+    {
+        viz: {root_depth:2, root_spread:2, canopy_width:2, canopy_height:2, seed:7701},
+        meta: {root_code:'L0-P', canopy_code:'L2-P', balance:'balanced'},
+        maxLean: 12, breakAt: 99, ratio: (2*2+2*2)/(2*5),
+        code: 'L0-P / L2-P',
+        desc: 'Consistent craft practice. Moderate AI use. Balanced. Roots beginning to connect with neighbors.',
+    },
+];
+</script>
+<script src="{{ url_for('static', filename='tree-viz.js') }}"></script>
+<script src="{{ url_for('static', filename='gallery.js') }}"></script>
+<script src="{{ url_for('static', filename='forest-wind.js') }}"></script>
+<script>
+(function() {
+    // 3-way toggle: Example Trees / The Trees / The Forest
+    var tabs = document.querySelectorAll('.gallery-tab');
+    var examplesView = document.getElementById('viewExamples');
+    var communityView = document.getElementById('viewCommunity');
+    var subtitle = document.getElementById('gallerySubtitle');
+    var galleryStats = document.getElementById('galleryStats');
+    var forestView = document.getElementById('viewForest');
+    var treesView = document.getElementById('viewTreesGrid');
+    var forestEmbed = document.getElementById('forestEmbed');
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var target = tab.getAttribute('data-view');
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            var showAllEls = document.querySelectorAll('.forest-show-all');
+
+            if (target === 'examples') {
+                examplesView.style.display = '';
+                communityView.style.display = 'none';
+                subtitle.style.display = 'none';
+                galleryStats.style.display = 'none';
+                showAllEls.forEach(function(el) { el.style.display = 'none'; });
+            } else {
+                examplesView.style.display = 'none';
+                communityView.style.display = '';
+                subtitle.style.display = '';
+                galleryStats.style.display = '';
+
+                if (target === 'trees') {
+                    treesView.classList.add('active');
+                    forestView.classList.remove('active');
+                    if (forestEmbed) forestEmbed.classList.add('trees-mode');
+                    showAllEls.forEach(function(el) { el.style.display = 'inline-flex'; });
+                } else {
+                    forestView.classList.add('active');
+                    treesView.classList.remove('active');
+                    if (forestEmbed) forestEmbed.classList.remove('trees-mode');
+                    showAllEls.forEach(function(el) { el.style.display = 'none'; });
+                }
+            }
+        });
+    });
+
+    // Hide empty trees on load
+    document.querySelectorAll('[data-empty]').forEach(function(el) {
+        el.style.display = 'none';
+    });
+
+    // Show/hide empty tree types
+    var showAllCheck = document.getElementById('showAllTrees');
+    if (showAllCheck) {
+        showAllCheck.addEventListener('change', function() {
+            document.querySelectorAll('[data-empty]').forEach(function(el) {
+                el.style.display = showAllCheck.checked ? '' : 'none';
+            });
+        });
+    }
+
+    // Info popups
+    var chanceInfo = document.getElementById('chanceInfo');
+    var chancePopup = document.getElementById('chancePopup');
+    var riskInfo = document.getElementById('riskInfo');
+    var riskPopup = document.getElementById('riskPopup');
+
+    if (chanceInfo) chanceInfo.addEventListener('click', function(e) { e.stopPropagation(); chancePopup.classList.toggle('visible'); });
+    if (riskInfo) riskInfo.addEventListener('click', function(e) { e.stopPropagation(); riskPopup.classList.toggle('visible'); });
+    document.addEventListener('click', function() {
+        if (chancePopup) chancePopup.classList.remove('visible');
+        if (riskPopup) riskPopup.classList.remove('visible');
+    });
+
+    // Mobile zoom
+    var canvasWrap = document.getElementById('forestCanvasWrap');
+    var zoomOverlay = document.getElementById('forestZoom');
+    if (canvasWrap && zoomOverlay) {
+        canvasWrap.addEventListener('click', function() {
+            if (window.innerWidth > 768) return;
+            var activeSvg = canvasWrap.querySelector('.forest-view.active svg');
+            if (!activeSvg) return;
+            zoomOverlay.innerHTML = '<button class="forest-zoom-close" onclick="this.parentElement.classList.remove(\'active\');document.body.style.overflow=\'\';">&times;</button>' + activeSvg.outerHTML;
+            zoomOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        zoomOverlay.addEventListener('click', function(e) {
+            if (e.target === zoomOverlay) {
+                zoomOverlay.classList.remove('active');
+                zoomOverlay.innerHTML = '';
+                document.body.style.overflow = '';
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

@@ -70,6 +70,78 @@
     })();
     </script>
     <script>
+    // Lightweight analytics event tracker — no cookies, no PII.
+    // Generates a random session ID per browser session and fires events
+    // to /api/event via sendBeacon (non-blocking).
+    window.dit = window.dit || {};
+    (function(){
+        'use strict';
+        var SID_KEY = 'ditSessionId';
+        var sid = sessionStorage.getItem(SID_KEY);
+        if (!sid) {
+            sid = Math.random().toString(36).slice(2) + Date.now().toString(36);
+            sessionStorage.setItem(SID_KEY, sid);
+        }
+        dit.sid = sid;
+
+        function getUtm() {
+            var o = {};
+            ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
+                var v = sessionStorage.getItem(k);
+                if (v) o[k] = v;
+            });
+            return o;
+        }
+
+        dit.track = function(event, props) {
+            props = props || {};
+            var payload = JSON.stringify({
+                event: event,
+                sid: sid,
+                props: Object.assign({}, getUtm(), props)
+            });
+            // sendBeacon is fire-and-forget, doesn't block navigation
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon('/api/event', new Blob([payload], {type: 'application/json'}));
+            } else {
+                // Fallback for older browsers
+                var x = new XMLHttpRequest();
+                x.open('POST', '/api/event', true);
+                x.setRequestHeader('Content-Type', 'application/json');
+                x.send(payload);
+            }
+        };
+
+        // Auto-track page views
+        var vw = window.innerWidth + 'x' + window.innerHeight;
+        var isMobile = /iPhone|Android|Mobile|iPad/i.test(navigator.userAgent);
+        dit.track('page_view', {
+            path: location.pathname,
+            referrer: document.referrer ? (new URL(document.referrer)).hostname : '',
+            viewport: vw,
+            device: isMobile ? 'mobile' : 'desktop'
+        });
+
+        // Track assessment abandonment on page unload (if on /assess with in-progress state)
+        window.addEventListener('pagehide', function() {
+            if (location.pathname !== '/assess') return;
+            var s = sessionStorage.getItem('ditAssessmentState');
+            if (!s) return;
+            try {
+                var state = JSON.parse(s);
+                // Only fire if they started but didn't submit (no results stored)
+                if (state.stage && state.stage !== 'intake' && !sessionStorage.getItem('ditResult')) {
+                    dit.track('assess_abandon', {
+                        stage: state.stage,
+                        sae_answered: Object.keys(state.saeAnswers || {}).length,
+                        epias_answered: Object.keys(state.epiasAnswers || {}).length
+                    });
+                }
+            } catch(e) {}
+        });
+    })();
+    </script>
+    <script>
     (function(){
         'use strict';
         var trigger=document.getElementById('fbTrigger'),
@@ -179,8 +251,8 @@
                 textarea.value='';
                 setCat('general');
                 dot.style.display='';
-                statusEl.textContent='Sent! ('+submitted.length+' total)';
-                setTimeout(function(){updateStatus();},2000);
+                statusEl.textContent='Sent!';
+                setTimeout(function(){closeModal();},1500);
             })
             .catch(function(){statusEl.textContent='Network error.';})
             .finally(function(){submitBtn.disabled=false;});

@@ -941,6 +941,141 @@ EPIAS_QUESTIONS_UXR = {
 
 
 # ---------------------------------------------------------------------------
+# Root Questions — Craft Foundation Depth (v2 Tree Model)
+#
+# These measure traditional design/UXR craft maturity INDEPENDENT of AI.
+# Everyone answers these regardless of SAE level. The result is root depth
+# (E-P-I-A-S at L0), which forms the below-ground half of the tree.
+# ---------------------------------------------------------------------------
+
+ROOT_QUESTIONS_DESIGN = [
+    {
+        "id": "root_design_craft",
+        "dimension": "Core design craft",
+        "question": "Setting AI aside — which best describes your core skill at turning a vague request into a design that works?",
+        "options": [
+            {"stage": "E", "text": "I'm still building the basics — each project is a learning experience and the path changes every time."},
+            {"stage": "P", "text": "I have reliable techniques that produce consistent work — but the process lives mostly in my head."},
+            {"stage": "I", "text": "I follow a documented process with templates and checkpoints — others can review my work and understand how I got there."},
+            {"stage": "A", "text": "My process is packaged as a shared playbook — other designers run it end-to-end without needing me."},
+            {"stage": "S", "text": "I set and evolve the org's design process standards — I coach teams and make sure projects use them."},
+        ]
+    },
+    {
+        "id": "root_decision_making",
+        "dimension": "Design reasoning",
+        "question": "When a stakeholder asks 'why did you design it this way?' — how well can you (and others) trace the answer?",
+        "options": [
+            {"stage": "E", "text": "I often reconstruct reasoning from memory — decisions happen fast and I rarely capture why."},
+            {"stage": "P", "text": "I can explain my thinking clearly, but it's in my head — others can't trace it independently."},
+            {"stage": "I", "text": "Key decisions are recorded with rationale — teammates can trace reasoning to specific constraints and screens."},
+            {"stage": "A", "text": "Teams use my decision-log format and checkpoints — they can defend design choices without pulling me in."},
+            {"stage": "S", "text": "I define how rationale is captured across the org — I mentor leads and ensure high-stakes decisions stay traceable."},
+        ]
+    },
+    {
+        "id": "root_design_systems",
+        "dimension": "Pattern and system building",
+        "question": "After projects ship, how well does your work feed back into reusable patterns, components, or systems?",
+        "options": [
+            {"stage": "E", "text": "I often rebuild similar things each project — reuse is inconsistent and I'm still finding patterns."},
+            {"stage": "P", "text": "I reuse my own components and snippets, but they're personal — other designers don't reliably adopt them."},
+            {"stage": "I", "text": "I maintain documented components with usage notes — others can reuse them and know when not to."},
+            {"stage": "A", "text": "My components and patterns are the default starting point for multiple teams — they use them without my help."},
+            {"stage": "S", "text": "I steward the design system for the org — I govern contributions, deprecations, and consistency across products."},
+        ]
+    },
+    {
+        "id": "root_quality_judgment",
+        "dimension": "Quality judgment and critique",
+        "question": "How strong is the quality bar you hold — and how far does it reach beyond your own work?",
+        "options": [
+            {"stage": "E", "text": "I'm still learning what 'good' looks like — feedback is ad hoc and depends on who happens to review."},
+            {"stage": "P", "text": "I get reliable feedback from trusted people, but my review practice is informal and doesn't scale."},
+            {"stage": "I", "text": "I run structured reviews with criteria and notes — decisions and follow-ups are visible to the team."},
+            {"stage": "A", "text": "Other designers use my review checklist and cadence — quality holds even when I'm not in the room."},
+            {"stage": "S", "text": "I set org-wide review standards and train reviewers — I monitor recurring issues and raise the bar across teams."},
+        ]
+    },
+    {
+        "id": "root_collaboration",
+        "dimension": "Cross-functional collaboration",
+        "question": "How smooth is the handoff between your design work and the people who build, ship, or use it?",
+        "options": [
+            {"stage": "E", "text": "I hand off screens and answer questions as they come — I'm still figuring out what others need upfront."},
+            {"stage": "P", "text": "I create specs that usually work, but the handoff process is tailored each time and lives with me."},
+            {"stage": "I", "text": "I provide consistent specs with states and behavior — engineers can review and comment in one place."},
+            {"stage": "A", "text": "My handoff templates are used by other designers — engineering can implement with minimal back-and-forth."},
+            {"stage": "S", "text": "I set org standards for design-to-dev handoff — I align Design and Engineering and coach adoption."},
+        ]
+    },
+]
+
+ROOT_QUESTIONS_UXR = [
+    {
+        "id": "root_design_craft",
+        "dimension": "Core research craft",
+        "question": "Setting AI aside — which best describes your core skill at turning a research question into actionable insights?",
+        "options": [
+            {"stage": "E", "text": "I'm still building the basics — each study is a learning experience and my methods change a lot."},
+            {"stage": "P", "text": "I have reliable methods that produce consistent findings — but the process lives mostly in my head."},
+            {"stage": "I", "text": "I follow documented research protocols with clear outputs — others can review my work and trace my reasoning."},
+            {"stage": "A", "text": "My research playbooks are used by other researchers — they run studies end-to-end without needing me."},
+            {"stage": "S", "text": "I set and evolve the org's research standards — I coach teams and ensure rigor across projects."},
+        ]
+    },
+    {
+        "id": "root_decision_making",
+        "dimension": "Analytical reasoning",
+        "question": "When someone asks 'how did you reach that conclusion?' — how well can you (and others) trace the evidence chain?",
+        "options": [
+            {"stage": "E", "text": "I often reconstruct my reasoning from memory — analysis happens fast and I rarely document the trail."},
+            {"stage": "P", "text": "I can explain my analysis clearly, but it's in my head — others can't independently trace evidence to conclusions."},
+            {"stage": "I", "text": "Key findings are documented with evidence chains — teammates can trace conclusions to specific data points."},
+            {"stage": "A", "text": "Teams use my analysis frameworks and templates — they can defend findings without pulling me in."},
+            {"stage": "S", "text": "I define how evidence is documented across the org — I mentor leads and ensure analytical rigor."},
+        ]
+    },
+    {
+        "id": "root_design_systems",
+        "dimension": "Knowledge systems and reuse",
+        "question": "After studies conclude, how well do your findings feed back into reusable knowledge, frameworks, or repositories?",
+        "options": [
+            {"stage": "E", "text": "Findings often stay in the report — reuse is inconsistent and I'm still finding patterns across studies."},
+            {"stage": "P", "text": "I maintain personal notes and templates, but they're not organized for others to use reliably."},
+            {"stage": "I", "text": "I maintain documented findings repositories with tagging — others can search and build on prior work."},
+            {"stage": "A", "text": "My research repositories and frameworks are the go-to resource for multiple teams — no guidance from me needed."},
+            {"stage": "S", "text": "I steward the org's research knowledge base — I govern taxonomy, quality, and cross-study synthesis."},
+        ]
+    },
+    {
+        "id": "root_quality_judgment",
+        "dimension": "Methodological rigor",
+        "question": "How rigorous is the quality bar you hold — and how far does it reach beyond your own studies?",
+        "options": [
+            {"stage": "E", "text": "I'm still learning what makes a study rigorous — peer review is ad hoc and varies by project."},
+            {"stage": "P", "text": "I follow good practices consistently, but my review approach is personal and doesn't scale."},
+            {"stage": "I", "text": "I run structured methodology reviews with criteria — decisions about rigor are documented and visible."},
+            {"stage": "A", "text": "Other researchers use my review frameworks — study quality holds even when I'm not reviewing."},
+            {"stage": "S", "text": "I set org-wide methodological standards and train reviewers — I raise the bar across all research."},
+        ]
+    },
+    {
+        "id": "root_collaboration",
+        "dimension": "Cross-functional impact",
+        "question": "How effectively do your research findings translate into decisions and actions by the teams you support?",
+        "options": [
+            {"stage": "E", "text": "I share findings and hope they land — I'm still figuring out what format and framing works for different audiences."},
+            {"stage": "P", "text": "My deliverables usually drive action, but the translation process is custom each time and lives with me."},
+            {"stage": "I", "text": "I provide consistent insight formats with clear implications — teams can act on findings without extra interpretation."},
+            {"stage": "A", "text": "My insight delivery templates are used by other researchers — teams get actionable research consistently."},
+            {"stage": "S", "text": "I set org standards for research-to-action pipelines — I align Research, Design, and Product on how insights flow."},
+        ]
+    },
+]
+
+
+# ---------------------------------------------------------------------------
 # Backward-compatible aliases (scorer.py imports these by name)
 # ---------------------------------------------------------------------------
 
@@ -964,3 +1099,10 @@ def get_epias_questions(sae_level: int, role: str = 'design') -> list:
     if role == 'uxr':
         return EPIAS_QUESTIONS_UXR.get(sae_level, EPIAS_QUESTIONS_UXR.get(1, []))
     return EPIAS_QUESTIONS_DESIGN.get(sae_level, EPIAS_QUESTIONS_DESIGN.get(1, []))
+
+
+def get_root_questions(role: str = 'design') -> list:
+    """Return root (craft foundation) questions for the v2 tree assessment."""
+    if role == 'uxr':
+        return ROOT_QUESTIONS_UXR
+    return ROOT_QUESTIONS_DESIGN

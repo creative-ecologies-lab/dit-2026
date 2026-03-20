@@ -1,0 +1,27 @@
+{
+  "name": "dit-2026",
+  "version": "1.0.0",
+  "description": "NEW: Try out the simple mapper https://johnmaeda.github.io/dit26-ai-upskilling-gameboard/",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nratzan/dit-2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nratzan/dit-2026/issues"
+  },
+  "homepage": "https://github.com/nratzan/dit-2026#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

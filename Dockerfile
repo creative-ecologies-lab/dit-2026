@@ -44,14 +44,14 @@ USER appuser
 EXPOSE 8080
 
 # Gunicorn with:
-#   - 2 workers (Cloud Run vCPU is shared; 2 is optimal for 1 vCPU)
-#   - 32 threads per worker (64 total — handles 50+ concurrent Groq API waits)
-#   - 120s timeout (Groq LPU is fast; no need for 300s)
+#   - 4 workers (2 vCPU — standard 2*CPU+1 rule, rounded down)
+#   - 8 threads per worker (32 total — enough for I/O-bound Firestore calls)
+#   - 120s timeout
 #   - Bind to 0.0.0.0:$PORT (Cloud Run injects PORT)
 CMD exec gunicorn \
     --bind 0.0.0.0:$PORT \
-    --workers 2 \
-    --threads 32 \
+    --workers 4 \
+    --threads 8 \
     --timeout 120 \
     --access-logfile - \
     --error-logfile - \

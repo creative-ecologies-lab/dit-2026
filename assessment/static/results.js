@@ -15,6 +15,7 @@
     }
 
     let result;
+    if (window.dit) dit.track('results_view');
     try {
         result = JSON.parse(data);
     } catch (e) {
@@ -209,7 +210,7 @@
         html += '<thead><tr>';
         html += '<th scope="col" class="hm-corner"><span class="sr-only">Level</span></th>';
         stages.forEach(s => {
-            html += '<th scope="col" class="hm-stage-header" aria-label="' + stageNames[s] + ': ' + stageDescs[s] + '" data-desc="' + escapeAttr(stageDescs[s]) + '" data-label="' + stageNames[s] + '" tabindex="0" role="button">' + shyStage(stageNames[s]) + '</th>';
+            html += '<th scope="col" class="hm-stage-header" aria-label="' + stageNames[s] + ': ' + stageDescs[s] + '" data-desc="' + escapeAttr(stageDescs[s]) + '" data-label="' + stageNames[s] + '" tabindex="0" role="button"><span class="hm-stage-full">' + stageNames[s] + '</span><span class="hm-stage-abbr">' + s.charAt(0).toUpperCase() + '</span></th>';
         });
         html += '</tr></thead><tbody>';
 
@@ -365,11 +366,13 @@
 
     // ---- PDF Export ----
     document.getElementById('downloadPdf').addEventListener('click', () => {
+        if (window.dit) dit.track('results_share', {action: 'pdf'});
         window.print();
     });
 
     // ---- Markdown Export ----
     document.getElementById('downloadMd').addEventListener('click', () => {
+        if (window.dit) dit.track('results_share', {action: 'markdown'});
         const md = generateMarkdown(result);
         downloadFile('dit-2026-results.md', md, 'text/markdown');
     });
@@ -387,9 +390,12 @@
     const xText = 'Took the Design in Tech 2026 self-assessment and found myself at '
         + shareCode + ' \u2014 ' + sharePlacement
         + '. Try it: #DesignInTech';
-    document.getElementById('shareX').href =
-        'https://twitter.com/intent/tweet?text=' + encodeURIComponent(xText)
+    var shareXLink = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(xText)
         + '&url=' + encodeURIComponent(shareUrl);
+    document.getElementById('shareX').href = shareXLink;
+    document.getElementById('shareX').addEventListener('click', function() {
+        if (window.dit) dit.track('results_share', {action: 'x'});
+    });
 
     // LinkedIn — professional tone
     const liText = 'Took the Design in Tech 2026 self-assessment from John Maeda\u2019s framework and found myself at '
@@ -398,6 +404,9 @@
         + shareUrl + ' #DesignInTech';
     document.getElementById('shareLinkedIn').href =
         'https://www.linkedin.com/feed/?shareActive=true&text=' + encodeURIComponent(liText);
+    document.getElementById('shareLinkedIn').addEventListener('click', function() {
+        if (window.dit) dit.track('results_share', {action: 'linkedin'});
+    });
 
     // Bluesky — 300 char limit
     const bskyText = 'Took the Design in Tech 2026 self-assessment and found myself at '
@@ -405,6 +414,9 @@
         + '. Where are you on the map? #DesignInTech ' + shareUrl;
     document.getElementById('shareBluesky').href =
         'https://bsky.app/intent/compose?text=' + encodeURIComponent(bskyText);
+    document.getElementById('shareBluesky').addEventListener('click', function() {
+        if (window.dit) dit.track('results_share', {action: 'bluesky'});
+    });
 
     // Copy — full version for Threads, email, Slack, etc.
     const copyText = 'I took this Design in Tech 2026 self-assessment based on John Maeda\u2019s framework and found myself at '
@@ -413,6 +425,7 @@
         + shareUrl + ' #DesignInTech';
     document.getElementById('sharePreview').textContent = copyText;
     document.getElementById('copyShare').addEventListener('click', function() {
+        if (window.dit) dit.track('results_share', {action: 'copy'});
         navigator.clipboard.writeText(copyText).then(() => {
             var btn = document.getElementById('copyShare');
             var orig = btn.innerHTML;

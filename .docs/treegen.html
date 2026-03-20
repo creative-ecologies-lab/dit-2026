@@ -1,0 +1,244 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fractal Tree Generator</title>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/dot-luv/jquery-ui.css">
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.matchHeight/0.7.0/jquery.matchHeight-min.js"></script>
+
+</head>
+<body>
+<div class="header">
+	
+</div>
+  
+
+  
+<div class="section group">
+	<div id="animation" class="col span_5_of_8 matchheight">
+    <img id="tree-placeholder" src="https://raw.githubusercontent.com/ashmystic/assets/master/fractal_tree_svg.png" alt="">
+		<canvas id="canvas-fractal-tree" resize="true"></canvas>
+	</div>
+	<div id="controls" class="col span_3_of_8 matchheight">
+		<center>
+			<h2>Fractal Tree Generator</h2>
+			<hr>
+			<h3>
+				Controls
+				<a class="tooltip" href="#" title="For more precise control, enter values in input fields or adjust sliders with arrow keys."><span title="">ⓘ</span></a>
+			</h3>
+		</center>
+			<span class="input-label">
+				<label for="presetSelect">Presets</label>
+				<select name="presetSelect" id="presetSelect">
+				<optgroup label="Low Complexity (fast load)">
+				  <option>Default</option>
+				  <option>Binary Fractal</option>
+				  <option>Dance</option>
+				  <option>Spiral 1</option>
+				  <option>Spiral 2</option>
+				  <option>Kaleidoscope</option>
+				  <option>Polygons 1</option>
+				  <option>Grid</option>
+				  <option>Honeycomb 1</option>
+				  <option>Pinwheel</option>
+				  <option>Holiday 1</option>
+				 </optgroup>
+				 <optgroup label="High Complexity (slow load)">
+				  <option>Canopy</option>
+				  <option>Bloom</option>
+				  <option>Star</option>
+				  <option>Pentagon</option>
+				  <option>Flower of Life</option>
+				  <option>Polygons 2</option>
+				  <option>Holiday 2</option>
+				  <option>Honeycomb 2</option>
+				  
+				  <option>Network</option>
+				  </optgroup>
+				</select>
+			</span>
+			<hr>
+			<span class="input-label">
+				Tree Size
+				<input type="number" id="inputFieldTreeSize" name="inputFieldTreeSize">
+				<input type="checkbox" id="checkDrawTrunk" class=""><label for="checkDrawTrunk">Draw Trunk</label>
+				<input type="checkbox" id="checkDrawFruit" class=""><label for="checkDrawFruit">Draw Fruit</label>
+			</span>
+			<div id="sliderTreeSize" class="slider"></div>
+			<hr>
+			<fieldset>
+			<legend>Angle</legend>
+				<span class="input-label">
+					Branch Angle
+					<input type="number" id="inputFieldBranchAngle" name="inputFieldBranchAngle">
+					<input type="checkbox" id="checkAnimateBranchAngle" class=""><label for="checkAnimateBranchAngle">Animate</label>
+				</span>
+				<div id="sliderBranchAngle" class="slider"></div>
+				<span class="input-label">
+					Spiral Factor
+					<input type="number" id="inputFieldSpiralFactor" name="inputFieldSpiralFactor">
+				</span>
+				<div id="sliderSpiralFactor" class="slider"></div>
+			</fieldset>
+			<fieldset>
+			<legend>Complexity </legend>
+				<span class="input-label">
+					<div id="accordion">
+					<h4>Complexity Reference Table <strong>ⓘ</strong></h4>
+					  <div>
+						<div class="tg">
+						The complexity of the generated image is proportional to the number of nodes (B^L). <br>
+						Stay in the green range for best performance. <br>
+						Brown may crash your browser tab!
+						</div>
+						<table class="tg">
+						  <tr>
+							<th class="tg-amwm">exp (R)→<br>↓base (B)</th>
+							<th class="tg-9hbo">2</th>
+							<th class="tg-9hbo">3</th>
+							<th class="tg-9hbo">4</th>
+							<th class="tg-9hbo">5</th>
+							<th class="tg-9hbo">6</th>
+							<th class="tg-9hbo">7</th>
+							<th class="tg-9hbo">8</th>
+							<th class="tg-9hbo">9</th>
+							<th class="tg-9hbo">10</th>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">2</td>
+							<td class="tg-jhhl">2^2</td>
+							<td class="tg-5ex6">2^3</td>
+							<td class="tg-jhhl">2^4</td>
+							<td class="tg-5ex6">2^5</td>
+							<td class="tg-jhhl">2^6</td>
+							<td class="tg-5ex6">2^7</td>
+							<td class="tg-jhhl">2^8</td>
+							<td class="tg-5ex6">2^9</td>
+							<td class="tg-jhhl">2^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">3</td>
+							<td class="tg-jhhl">3^2</td>
+							<td class="tg-5ex6">3^3</td>
+							<td class="tg-jhhl">3^4</td>
+							<td class="tg-5ex6">3^5</td>
+							<td class="tg-jhhl">3^6</td>
+							<td class="tg-5ex6">3^7</td>
+							<td class="tg-gmyu">3^8</td>
+							<td class="tg-mejs">3^9</td>
+							<td class="tg-xi51">3^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">4</td>
+							<td class="tg-jhhl">4^2</td>
+							<td class="tg-5ex6">4^3</td>
+							<td class="tg-jhhl">4^4</td>
+							<td class="tg-5ex6">4^5</td>
+							<td class="tg-ekto">4^6</td>
+							<td class="tg-mejs">4^7</td>
+							<td class="tg-xi51">4^8</td>
+							<td class="tg-mejs">4^9</td>
+							<td class="tg-gxjt">4^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">5</td>
+							<td class="tg-jhhl">5^2</td>
+							<td class="tg-5ex6">5^3</td>
+							<td class="tg-jhhl">5^4</td>
+							<td class="tg-0kqp">5^5</td>
+							<td class="tg-xi51">5^6</td>
+							<td class="tg-mejs">5^7</td>
+							<td class="tg-xi51">5^8</td>
+							<td class="tg-y80k">5^9</td>
+							<td class="tg-gxjt">5^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">6</td>
+							<td class="tg-jhhl">6^2</td>
+							<td class="tg-5ex6">6^3</td>
+							<td class="tg-jhhl">6^4</td>
+							<td class="tg-0kqp">6^5</td>
+							<td class="tg-xi51">6^6</td>
+							<td class="tg-mejs">6^7</td>
+							<td class="tg-gxjt">6^8</td>
+							<td class="tg-y80k">6^9</td>
+							<td class="tg-gxjt">6^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">7</td>
+							<td class="tg-jhhl">7^2</td>
+							<td class="tg-5ex6">7^3</td>
+							<td class="tg-343t">7^4</td>
+							<td class="tg-mejs">7^5</td>
+							<td class="tg-xi51">7^6</td>
+							<td class="tg-y80k">7^7</td>
+							<td class="tg-gxjt">7^8</td>
+							<td class="tg-y80k">7^9</td>
+							<td class="tg-gxjt">7^10</td>
+						  </tr>
+						  <tr>
+							<td class="tg-9hbo">8</td>
+							<td class="tg-jhhl">8^2</td>
+							<td class="tg-5ex6">8^3</td>
+							<td class="tg-343t">8^4</td>
+							<td class="tg-mejs">8^5</td>
+							<td class="tg-xi51">8^6</td>
+							<td class="tg-y80k">8^7</td>
+							<td class="tg-gxjt">8^8</td>
+							<td class="tg-y80k">8^9</td>
+							<td class="tg-gxjt">8^10</td>
+						  </tr>
+						</table>
+					  </div>
+					</div>
+				</span>
+				<span class="input-label">
+					Recursion Levels (R)
+					<input type="number" id="inputFieldRecursionLevels" name="inputFieldRecursionLevels">
+				</span>
+				<div id="sliderRecursionLevels" class="slider"></div>
+				<span class="input-label">
+					Number of Branches (B)
+					<input type="number" id="inputFieldNumberBranches" name="inputFieldNumberBranches">
+				</span>
+				<div id="sliderNumberBranches" class="slider"></div>
+				<span class="input-label">Number of Nodes (B^R)= <span id="number-of-nodes"></span>
+				<br>
+				<span class="input-label">Complexity Level (R*B^R): <span id="complexity-level"></span>
+					<strong>
+						<a class="tooltip" id="complexity-level-tooltip" href="#" title="Lower one of the sliders to improve performance."><span title="">ⓘ</span></a>
+					</strong>
+				</span>
+			</fieldset>
+        
+      <fieldset>
+			<legend>Export</legend>
+        <span>
+        </span>
+        <input type="button" id="buttonSaveSVG" class="ui-button" value="Save SVG to Device">
+        <a class="tooltip" id="svg-tooltip" href="#" title="Max export complexity is 7776 nodes (R=5, B=6) with drawFruit=OFF or 4096 (R=6, B=5) with drawFruit=ON. If it takes longer than the estimated time then the browser tab probably froze/crashed."><span title="">ⓘ</span></a>
+				<span>
+					Estimated time to export: 
+        </span>
+        <b><span id="export-svg-time-estimate"></span></b>
+        <br>
+        <span>(A dialog window will pop-up when SVG file is ready to download.)</span>
+        <br>
+
+      </fieldset>
+        
+			<center><div id="about">
+				<h3>About</h3>
+				<a href="https://ashmystic.com/tools">ashmystic.com</a>
+				<br>
+				Built with <a href="http://www.paperjs.org" target="_blank">Paper.js</a> and <a href="https://jqueryui.com/" target="_blank">jQuery UI</a>
+			</div></center>
+	</div>
+</div>
+
+</body>
+</html>

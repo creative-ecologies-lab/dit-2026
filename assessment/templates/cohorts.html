@@ -86,8 +86,9 @@
         var html = '<table class="landing-heatmap" role="table" aria-label="Group heatmap">';
         html += '<thead><tr><th scope="col" class="hm-corner"><span class="sr-only">SAE Level</span></th>';
         STAGES.forEach(function(s) {
-            var label = STAGE_NAMES[s].replace('Practitioner', 'Practi\u00ADtioner').replace('Integrator', 'Inte\u00ADgrator');
-            html += '<th scope="col" class="hm-stage-header" aria-label="' + STAGE_NAMES[s] + '">' + label + '</th>';
+            html += '<th scope="col" class="hm-stage-header" aria-label="' + STAGE_NAMES[s] + '">'
+                + '<span class="hm-stage-full">' + STAGE_NAMES[s] + '</span>'
+                + '<span class="hm-stage-abbr">' + s.toUpperCase() + '</span></th>';
         });
         html += '</tr></thead><tbody>';
 

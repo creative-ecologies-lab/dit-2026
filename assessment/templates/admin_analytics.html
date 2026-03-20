@@ -28,6 +28,93 @@
         {% if cohort or include_test %}<a href="/admin/analytics" style="font-size:0.85rem;color:var(--text-muted,#888);">Clear</a>{% endif %}
     </form>
 
+    <!-- ═══════════════ EVENT ANALYTICS (Funnel & Traffic) ═══════════════ -->
+    {% if events and events.total_events > 0 %}
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Live Traffic <span style="font-size:0.75rem;font-weight:400;color:var(--text-muted,#888);">(last 5 days &middot; {{ events.total_events }} events &middot; {{ events.unique_sessions }} sessions)</span></h3>
+        <div class="analytics-cards" style="margin-bottom:1rem;">
+            <div class="analytics-card">
+                <div class="analytics-card-value">{{ events.unique_sessions }}</div>
+                <div class="analytics-card-label">Unique Sessions</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-card-value">{{ events.by_event.get('page_view', 0) }}</div>
+                <div class="analytics-card-label">Page Views</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-card-value">{{ events.by_device.get('mobile', 0) }}</div>
+                <div class="analytics-card-label">Mobile Events</div>
+            </div>
+            <div class="analytics-card">
+                <div class="analytics-card-value">{{ events.by_device.get('desktop', 0) }}</div>
+                <div class="analytics-card-label">Desktop Events</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Funnel -->
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Conversion Funnel <span style="font-size:0.75rem;font-weight:400;color:var(--text-muted,#888);">(sessions reaching each stage)</span></h3>
+        <div class="funnel-container">
+        {% set top_sessions = events.funnel[0].sessions if events.funnel else 1 %}
+        {% for step in events.funnel %}
+            {% set pct = (100 * step.sessions / top_sessions) if top_sessions > 0 else 0 %}
+            {% set drop = '' %}
+            {% if not loop.first and events.funnel[loop.index0 - 1].sessions > 0 %}
+                {% set prev = events.funnel[loop.index0 - 1].sessions %}
+                {% set drop_pct = ((prev - step.sessions) * 100 / prev) | int %}
+                {% set drop = '(-' ~ drop_pct ~ '%)' %}
+            {% endif %}
+            <div class="funnel-row">
+                <div class="funnel-label">{{ step.label }}</div>
+                <div class="funnel-bar-wrap">
+                    <div class="funnel-bar" style="width:{{ [pct, 2] | max }}%;">{{ step.sessions }}</div>
+                </div>
+                <div class="funnel-drop">{{ drop }}</div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <!-- Hourly traffic chart -->
+    {% if events.by_hour %}
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Traffic (Hourly, Last 48h)</h3>
+        <canvas id="hourlyChart" height="80"></canvas>
+    </div>
+    {% endif %}
+
+    <!-- Top pages -->
+    {% if events.by_page %}
+    <div class="analytics-tables" style="margin-bottom:1.5rem;">
+        <div class="analytics-table-box">
+            <h3>Top Pages</h3>
+            <table class="admin-table">
+                <thead><tr><th>Path</th><th>Views</th></tr></thead>
+                <tbody>
+                {% for page, count in events.by_page.items() %}
+                <tr><td>{{ page }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="analytics-table-box">
+            <h3>Event Counts</h3>
+            <table class="admin-table">
+                <thead><tr><th>Event</th><th>Count</th></tr></thead>
+                <tbody>
+                {% for evt, count in events.by_event.items() %}
+                <tr><td>{{ evt }}</td><td>{{ count }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}{# end events #}
+
+    <!-- ═══════════════ SUBMISSION ANALYTICS (existing) ═══════════════ -->
+
     {% if data.total == 0 %}
     <div style="text-align:center;padding:3rem;color:var(--text-muted,#888);">
         <p style="font-size:1.2rem;">No submissions yet.</p>
@@ -41,18 +128,12 @@
             <div class="analytics-card-value">{{ data.total }}</div>
             <div class="analytics-card-label">Total Submissions</div>
         </div>
-        {% set level_vals = data.by_level.values() | list %}
-        {% set avg_level = (level_vals | sum / data.total) if data.total > 0 else 0 %}
         <div class="analytics-card">
-            <div class="analytics-card-value">L{{ "%.1f"|format(avg_level) }}</div>
+            <div class="analytics-card-value">L{{ data.avg_level }}</div>
             <div class="analytics-card-label">Avg SAE Level</div>
         </div>
-        {% set stage_order = ['E','P','I','A','S'] %}
-        {% set stage_scores = namespace(total=0) %}
-        {% for s in stage_order %}{% set stage_scores.total = stage_scores.total + loop.index * (data.by_stage.get(s, 0)) %}{% endfor %}
-        {% set avg_stage_idx = (stage_scores.total / data.total) if data.total > 0 else 1 %}
         <div class="analytics-card">
-            <div class="analytics-card-value">{{ stage_order[(avg_stage_idx - 0.5) | int | max(0) | min(4)] }}</div>
+            <div class="analytics-card-value">{{ data.avg_stage }}</div>
             <div class="analytics-card-label">Avg E-P-I-A-S Stage</div>
         </div>
         <div class="analytics-card">
@@ -266,6 +347,23 @@
 @media (max-width: 700px) {
     .analytics-charts { grid-template-columns: 1fr; }
 }
+/* Funnel visualization */
+.funnel-container { display: flex; flex-direction: column; gap: 0.4rem; }
+.funnel-row { display: flex; align-items: center; gap: 0.5rem; }
+.funnel-label { width: 160px; font-size: 0.8rem; text-align: right; color: var(--text-muted, #666); flex-shrink: 0; }
+.funnel-bar-wrap { flex: 1; background: var(--border, #e5e5e5); border-radius: 4px; height: 28px; overflow: hidden; }
+.funnel-bar {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, #0070f3, #3b82f6);
+    color: #fff; font-size: 0.75rem; font-weight: 600;
+    display: flex; align-items: center; padding-left: 0.5rem;
+    min-width: 30px; transition: width 0.3s ease;
+}
+.funnel-drop { width: 55px; font-size: 0.7rem; color: #e74c3c; flex-shrink: 0; }
+@media (max-width: 600px) {
+    .funnel-label { width: 100px; font-size: 0.7rem; }
+    .funnel-drop { width: 45px; }
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -335,6 +433,41 @@
             plugins: { legend: { display: false } },
         }
     });
+    {% endif %}
+
+    // Hourly traffic chart (from events)
+    {% if events and events.by_hour %}
+    var hourlyEl = document.getElementById('hourlyChart');
+    if (hourlyEl) {
+        var hourlyData = {{ events.by_hour | tojson }};
+        var hourLabels = Object.keys(hourlyData).map(function(h) {
+            // Show just "Mar 16 14:00" style
+            var parts = h.split(' ');
+            var d = parts[0].split('-');
+            var months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            return months[parseInt(d[1])] + ' ' + parseInt(d[2]) + ' ' + parts[1];
+        });
+        var hourlyCounts = Object.values(hourlyData);
+        new Chart(hourlyEl, {
+            type: 'bar',
+            data: {
+                labels: hourLabels,
+                datasets: [{
+                    data: hourlyCounts,
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 3,
+                }]
+            },
+            options: {
+                ...defaults,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { color: textColor, maxRotation: 45, font: { size: 9 } }, grid: { display: false } },
+                    y: { ticks: { color: textColor, precision: 0 }, grid: { color: gridColor }, beginAtZero: true },
+                }
+            }
+        });
+    }
     {% endif %}
 })();
 </script>
