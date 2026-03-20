@@ -1,0 +1,452 @@
+[
+  {
+    "root_depth": 3,
+    "canopy_width": 3,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 1,
+    "root_stage": "A",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 1,
+    "root_stage": "P",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 3,
+    "canopy_height": 3,
+    "root_stage": "I",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "I",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 1,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "E",
+    "canopy_stage": "P",
+    "balance": "reaching",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "P",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 1,
+    "root_stage": "P",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 4,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "P",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 5,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "S",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 1,
+    "canopy_width": 3,
+    "canopy_height": 3,
+    "root_stage": "E",
+    "canopy_stage": "I",
+    "balance": "top-heavy",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 1,
+    "canopy_width": 3,
+    "canopy_height": 2,
+    "root_stage": "E",
+    "canopy_stage": "P",
+    "balance": "top-heavy",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "I",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 0,
+    "canopy_height": 0,
+    "root_stage": "A",
+    "canopy_stage": null,
+    "balance": "grounded",
+    "role": "design"
+  },
+  {
+    "root_depth": 5,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "S",
+    "canopy_stage": "I",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 1,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "E",
+    "canopy_stage": "I",
+    "balance": "top-heavy",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "I",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 1,
+    "canopy_width": 1,
+    "canopy_height": 5,
+    "root_stage": "E",
+    "canopy_stage": "S",
+    "balance": "top-heavy",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "A",
+    "canopy_stage": "I",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 0,
+    "canopy_height": 0,
+    "root_stage": "I",
+    "canopy_stage": null,
+    "balance": "grounded",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 3,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "P",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 4,
+    "root_stage": "P",
+    "canopy_stage": "A",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 4,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 4,
+    "root_stage": "I",
+    "canopy_stage": "A",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "I",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "P",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "P",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 3,
+    "canopy_height": 4,
+    "root_stage": "I",
+    "canopy_stage": "A",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "P",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 3,
+    "root_stage": "P",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 4,
+    "canopy_height": 3,
+    "root_stage": "A",
+    "canopy_stage": "I",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 4,
+    "root_stage": "P",
+    "canopy_stage": "A",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 0,
+    "canopy_height": 0,
+    "root_stage": "I",
+    "canopy_stage": null,
+    "balance": "grounded",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 1,
+    "root_stage": "P",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 2,
+    "canopy_height": 2,
+    "root_stage": "P",
+    "canopy_stage": "P",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 1,
+    "root_stage": "A",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 3,
+    "canopy_height": 4,
+    "root_stage": "A",
+    "canopy_stage": "A",
+    "balance": "balanced",
+    "role": "uxr"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 4,
+    "canopy_height": 3,
+    "root_stage": "P",
+    "canopy_stage": "I",
+    "balance": "reaching",
+    "role": "design"
+  },
+  {
+    "root_depth": 3,
+    "canopy_width": 2,
+    "canopy_height": 1,
+    "root_stage": "I",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 2,
+    "root_stage": "A",
+    "canopy_stage": "P",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 2,
+    "canopy_width": 1,
+    "canopy_height": 1,
+    "root_stage": "P",
+    "canopy_stage": "E",
+    "balance": "deeply rooted",
+    "role": "design"
+  },
+  {
+    "root_depth": 4,
+    "canopy_width": 1,
+    "canopy_height": 4,
+    "root_stage": "A",
+    "canopy_stage": "A",
+    "balance": "deeply rooted",
+    "role": "uxr"
+  }
+]

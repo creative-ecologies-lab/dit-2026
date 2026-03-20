@@ -1,0 +1,89 @@
+# AI Skills Map — Backlog
+# Tracking features, improvements, and bugs for aiskillsmap.noahratzan.com
+
+stories:
+
+  # ── Assessment ──
+
+  - id: TREE-001
+    title: Anonymous return ID for assessment updates
+    status: backlog
+    priority: high
+    description: |
+      After completing the v2 tree assessment, generate a short unique ID
+      (e.g. TREE-7K3M) that lets participants anonymously return and update
+      their answers. Show the ID on the results page just above the
+      download/share section. Do NOT include it in share text.
+
+      Implementation:
+        - Generate short unique ID on submission (e.g. nanoid 8 chars)
+        - Store answers keyed by return ID in Firestore / memory store
+        - /tree/v2?id=TREE-7K3M pre-fills previous answers
+        - Resubmission updates existing record (not creates new)
+        - UI: "Save this ID to return and update your results: TREE-7K3M"
+        - Copy button for the ID
+        - ID must NOT appear in share text, PDF export, or social cards
+
+  - id: TREE-002
+    title: V1 participant migration path
+    status: backlog
+    priority: medium
+    description: |
+      ~150 v1 participants need a path to v2. The v2 assessment adds root
+      questions (craft depth) that v1 never asked. Options:
+        1. Have them retake the full v2 assessment (cleanest)
+        2. Pre-fill their v1 SAE/EPIAS answers and only ask root questions
+      Decision: option 1 — questions changed enough that a fresh take is better.
+      Communicate this via email/announcement to v1 cohorts.
+
+  # ── Forest Visualization ──
+
+  - id: FOREST-001
+    title: Forest visualization polish
+    status: in_progress
+    priority: high
+    description: |
+      The Forest and Trees views are functional. Remaining polish:
+        - Tune tree mini SVG rendering quality
+        - Verify wind animation performance on mobile
+        - Test with real v2 data (currently synthetic 50-record dataset)
+        - Ensure forest rebuilds correctly on new submissions
+
+  - id: FOREST-002
+    title: Cohort-specific forest views
+    status: backlog
+    priority: medium
+    description: |
+      Support ?group=sxsw-2026 parameter on the forest page to show
+      only that cohort's trees. The storage layer already supports
+      cohort filtering in get_forest_data(). Need to wire up the
+      route parameter and rebuild per-cohort SVGs.
+
+  - id: FOREST-003
+    title: Individual tree highlight in forest
+    status: backlog
+    priority: low
+    description: |
+      When a user views the forest from their results page, highlight
+      their specific tree form in the grid/scatter. "You are here."
+
+  # ── Deployment ──
+
+  - id: DEPLOY-001
+    title: Deploy v2 tree assessment to production
+    status: backlog
+    priority: high
+    description: |
+      Deploy the v2 assessment with:
+        - New tree storage (Firestore collection: tree_results)
+        - Forest SVG generation on Cloud Run
+        - Node.js available for generate_one_tree.js
+        - Verify forest rebuild works in production environment
+
+  - id: DEPLOY-002
+    title: Create Firestore index for tree_results
+    status: backlog
+    priority: high
+    description: |
+      The tree_results collection needs a composite index on
+      (cohort, tree_key) for efficient get_forest_data() queries.

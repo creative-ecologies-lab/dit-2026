@@ -2,7 +2,7 @@ import os
 import secrets
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, request
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -38,7 +38,7 @@ def create_app() -> Flask:
         response.headers['Permissions-Policy'] = 'camera=(), microphone=(), geolocation=()'
         response.headers['Content-Security-Policy'] = (
             "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline'; "
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
             "style-src 'self' 'unsafe-inline'; "
             "img-src 'self' data: https://users.ece.cmu.edu; "
             "connect-src 'self'; "
@@ -54,11 +54,23 @@ def create_app() -> Flask:
     csrf.init_app(app)
 
     # --- Rate limiting ---
+    # Cloud Run proxies all requests — remote_addr is always the internal
+    # load-balancer IP (169.254.x.x).  We must read the real client IP from
+    # X-Forwarded-For, which Cloud Run guarantees to set.
     from flask_limiter import Limiter
-    from flask_limiter.util import get_remote_address
+
+    def _real_ip():
+        """Extract the real client IP from X-Forwarded-For (Cloud Run sets this).
+        Falls back to remote_addr for local dev."""
+        xff = request.headers.get("X-Forwarded-For", "")
+        if xff:
+            # X-Forwarded-For: client, proxy1, proxy2 — first entry is the client
+            return xff.split(",")[0].strip()
+        return request.remote_addr or "127.0.0.1"
+
     limiter = Limiter(
-        get_remote_address, app=app,
-        default_limits=["200 per minute"],
+        _real_ip, app=app,
+        default_limits=["1000 per minute"],
         storage_uri="memory://",
     )
     app.limiter = limiter  # expose for blueprint use
@@ -77,6 +89,8 @@ def create_app() -> Flask:
     csrf.exempt(app.view_functions['api.submit_feedback'])
     csrf.exempt(app.view_functions['api.edit_feedback'])
     csrf.exempt(app.view_functions['assessment.submit_assessment'])
+    csrf.exempt(app.view_functions['assessment.submit_assessment_v2'])
+    csrf.exempt(app.view_functions['api.track_event'])
 
     # Pre-populate in-memory store with synthetic data when Firestore is off
     _seed_demo_data()
@@ -175,6 +189,26 @@ def _seed_demo_data():
         for (level, stage), extra in _trend_boost.items():
             for _ in range(extra):
                 store_result(level, stage, cohort=cohort_code)
+
+    # ── V2 Tree assessment seed data (separate from v1 heatmap) ──
+    tree_seed_path = Path(__file__).parent / 'tree_seed_data.json'
+    if tree_seed_path.exists():
+        import storage
+        if not storage._tree_store:  # Don't double-seed
+            storage._seeding = True
+            tree_data = json.load(tree_seed_path.open(encoding='utf-8'))
+            for r in tree_data:
+                storage.store_tree_result(
+                    r['root_depth'], r['canopy_width'], r['canopy_height'],
+                    cohort=None,
+                    role=r.get('role'),
+                    balance=r.get('balance'),
+                    root_stage=r.get('root_stage'),
+                    canopy_stage=r.get('canopy_stage'),
+                )
+            storage._seeding = False
+            # Single synchronous rebuild after all seed data loaded
+            storage._rebuild_forest_svg(cohort=None, sync=True)
 
 
 # Module-level app instance for gunicorn (Cloud Run uses `app:app`)

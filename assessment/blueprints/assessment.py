@@ -30,6 +30,107 @@ def index():
                            stage_order=['E', 'P', 'I', 'A', 'S'])
 
 
+@bp.route('/tree')
+@bp.route('/tree/v2/explore')
+def tree_gallery():
+    return render_template('tree-gallery.html')
+
+
+@bp.route('/tree/forest')
+def tree_forest():
+    from storage import get_forest_svg
+    group = (request.args.get('group') or request.args.get('cohort', '')).strip().lower() or None
+    trees_svg, forest_svg, stats = get_forest_svg(cohort=group)
+    return render_template('forest.html',
+                           trees_svg=trees_svg,
+                           forest_svg=forest_svg,
+                           stats=stats,
+                           group=group)
+
+
+@bp.route('/tree/v2')
+def assess_v2():
+    from assessment.questions import get_all_sae_questions, get_root_questions
+    questions_design = get_all_sae_questions(role='design')
+    questions_uxr = get_all_sae_questions(role='uxr')
+    root_design = get_root_questions(role='design')
+    root_uxr = get_root_questions(role='uxr')
+    cohort = (request.args.get('group') or request.args.get('cohort', '')).strip().lower()
+    return render_template('assessment-v2.html',
+                           questions_design=questions_design,
+                           questions_uxr=questions_uxr,
+                           root_questions_design=root_design,
+                           root_questions_uxr=root_uxr,
+                           cohort=cohort)
+
+
+@bp.route('/api/assess-v2', methods=['POST'])
+def submit_assessment_v2():
+    from assessment.scorer import score_assessment_v2
+    from assessment.matrix import get_placement_v2
+    data = request.get_json()
+    if not data or not isinstance(data, dict):
+        return jsonify({"error": "Invalid request"}), 400
+    cohort = (data.pop('cohort', '') or '')[:64].strip().lower() or None
+    role = data.pop('role', None)
+    if role not in ('design', 'uxr', None):
+        role = None
+    utm_source = (data.pop('utm_source', '') or '')[:100].strip() or None
+    utm_medium = (data.pop('utm_medium', '') or '')[:100].strip() or None
+    utm_campaign = (data.pop('utm_campaign', '') or '')[:100].strip() or None
+    session_id = (data.pop('session_id', '') or '')[:64].strip() or None
+    raw_answers = dict(data)
+    score = score_assessment_v2(data, role=role or 'design')
+    placement = get_placement_v2(score)
+    try:
+        from storage import store_result, store_tree_result
+        # Legacy v1 heatmap storage (sae_level × epias_stage)
+        store_result(
+            score['sae_level'],
+            score.get('canopy_stage') or score['root_stage'],
+            cohort=cohort, role=role,
+            answers=raw_answers,
+            sae_distribution=score.get('sae_distribution'),
+            epias_distribution=score.get('root_distribution'),
+            referrer=request.referrer,
+            ua=request.headers.get('User-Agent', ''),
+            utm_source=utm_source, utm_medium=utm_medium, utm_campaign=utm_campaign,
+        )
+        # V2 tree storage (3D: root_depth × canopy_width × canopy_height)
+        # Generates a unique organism SVG seeded by session_id
+        store_tree_result(
+            score['root_numeric'],
+            score['sae_level'],
+            score['canopy_numeric'],
+            session_id=session_id,
+            cohort=cohort, role=role,
+            balance=score.get('balance'),
+            tree_species=score.get('tree_species'),
+            root_stage=score.get('root_stage'),
+            canopy_stage=score.get('canopy_stage'),
+            answers=raw_answers,
+            referrer=request.referrer,
+            ua=request.headers.get('User-Agent', ''),
+            utm_source=utm_source, utm_medium=utm_medium, utm_campaign=utm_campaign,
+        )
+    except Exception as e:
+        current_app.logger.warning(f"Failed to store v2 result: {e}")
+    if cohort:
+        placement['cohort'] = cohort
+    return jsonify(placement)
+
+
+@bp.route('/tree/v2/results')
+def results_v2():
+    from assessment.scorer import SAE_NAMES, STAGE_NAMES
+    from storage import get_forest_svg
+    trees_svg, forest_svg, stats = get_forest_svg()
+    return render_template('results-v2.html',
+                           sae_names=SAE_NAMES, stage_names=STAGE_NAMES,
+                           trees_svg=trees_svg, forest_svg=forest_svg,
+                           stats=stats)
+
+
 @bp.route('/assess')
 def assess():
     from assessment.questions import get_all_sae_questions

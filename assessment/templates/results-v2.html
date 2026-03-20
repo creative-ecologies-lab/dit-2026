@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% block title %}Your Tree — Design in Tech 2026{% endblock %}
+
+{% block content %}
+<div class="results-container results-scroll" role="region" aria-label="Tree Assessment Results">
+    <div id="resultsContent" style="display:none;">
+
+        <!-- 3-way toggle -->
+        <div class="results-toggle">
+            <div class="forest-toggle">
+                <button class="forest-toggle-btn results-tab active" data-view="yourTree">Your Tree</button>
+                <button class="forest-toggle-btn results-tab" data-view="trees">The Trees</button>
+                <button class="forest-toggle-btn results-tab" data-view="forest">The Forest</button>
+            </div>
+            <p class="forest-subtitle" id="communitySubtitle" style="display:none;">
+                {{ stats.total }} participants
+            </p>
+        </div>
+
+        <!-- ═══ View: Your Tree ═══ -->
+        <div id="viewYourTree" class="results-view-panel">
+
+            <section class="results-section tree-hero" role="region" aria-label="Your tree">
+                <div class="balance-indicator" id="balanceIndicator" role="status">
+                    <span class="balance-dot" id="balanceDot"></span>
+                    <span class="balance-text" id="balanceText"></span>
+                </div>
+
+                <div class="tree-species-header" id="speciesName" style="display:none;"></div>
+                <div id="speciesDesc" style="display:none;"></div>
+
+                <div class="tree-with-cards">
+                    <div id="treeContainer" class="tree-container" role="img" aria-label="Your tree visualization"></div>
+                    <div class="tree-side-cards">
+                        <div class="code-card code-card-canopy tree-side-canopy" id="canopyCard" role="region" aria-label="AI practice">
+                            <div class="code-card-header">
+                                <span class="code-card-icon">&#x1F333;</span>
+                                <span class="code-card-label">AI Canopy</span>
+                            </div>
+                            <div class="code-card-code" id="canopyCode"></div>
+                            <div class="code-card-title" id="canopyTitle"></div>
+                            <p class="code-card-desc" id="canopyDesc"></p>
+                        </div>
+                        <div class="code-card code-card-root tree-side-root" role="region" aria-label="Craft foundation">
+                            <div class="code-card-header">
+                                <span class="code-card-icon">&#x1F331;</span>
+                                <span class="code-card-label">Craft Roots</span>
+                            </div>
+                            <div class="code-card-code" id="rootCode"></div>
+                            <div class="code-card-title" id="rootTitle"></div>
+                            <p class="code-card-desc" id="rootDesc"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="wind-control" role="group" aria-label="Wind simulation">
+                    <div class="result-dice">
+                        <button class="forest-roll-btn" id="resultRollDice">Chance</button>
+                        <span class="forest-info-icon" id="resultChanceInfo" title="Info">?</span>
+                        <div class="forest-info-popup" id="resultChancePopup">
+                            On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice, changing whether your tree can withstand the winds of change.
+                        </div>
+                        <span class="forest-dice-result" id="resultDiceResult">&nbsp;</span>
+                    </div>
+                    <label for="windSlider" class="wind-label">Winds of change</label>
+                    <input type="range" id="windSlider" min="0" max="100" value="0" class="wind-slider" aria-label="Wind strength">
+                    <span class="wind-value" id="windValue">calm</span>
+                </div>
+            </section>
+
+            <section class="results-section" role="region" aria-label="Growth recommendation">
+                <h2 class="section-heading">Recommended Direction</h2>
+                <div class="growth-card" id="growthCard">
+                    <span class="growth-direction" id="growthDirection"></span>
+                    <p class="growth-message" id="growthMessage"></p>
+                    <ul class="growth-actions" id="growthActions"></ul>
+                </div>
+            </section>
+
+            <section class="results-section" role="region" aria-label="Key insight and actions">
+                <div class="return-id-section" id="returnIdSection" style="display:none;">
+                    <p class="return-id-prompt">Save this ID to return and update your results:</p>
+                    <div class="return-id-display">
+                        <code class="return-id-code" id="returnIdCode"></code>
+                        <button class="return-id-copy" id="copyReturnId" aria-label="Copy return ID">Copy</button>
+                    </div>
+                </div>
+
+                <div class="result-actions" role="group" aria-label="Export options">
+                    <button class="btn btn-primary" id="downloadPdf" aria-label="Export results as PDF">Export PDF</button>
+                    <button class="btn btn-secondary" id="downloadMd" aria-label="Export results as Markdown">Export Markdown</button>
+                </div>
+                <div class="share-prompt">
+                    <p>Share your tree with <strong>#DesignInTech</strong></p>
+                    <div class="share-buttons" role="group" aria-label="Share on social media">
+                        <a class="share-btn share-btn-x" id="shareX" target="_blank" rel="noopener" aria-label="Share on X">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            X
+                        </a>
+                        <a class="share-btn share-btn-linkedin" id="shareLinkedIn" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            LinkedIn
+                        </a>
+                        <a class="share-btn share-btn-bluesky" id="shareBluesky" target="_blank" rel="noopener" aria-label="Share on Bluesky">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.785 2.627 3.6 3.476 6.158 3.226-4.363.426-5.47 2.293-3.073 4.159 4.536 3.326 6.527-.946 7.032-2.512.126-.39.186-.575.259-.575.073 0 .133.186.259.575.505 1.566 2.496 5.838 7.032 2.512 2.397-1.866 1.29-3.733-3.073-4.159 2.558.25 5.373-.6 6.158-3.226C21.622 9.418 22 4.458 22 3.768c0-.69-.139-1.861-.902-2.203-.659-.3-1.664-.62-4.3 1.24C14.046 4.747 11.087 8.686 10 10.8h2z"/></svg>
+                            Bluesky
+                        </a>
+                        <button class="share-btn share-btn-copy" id="copyShare" aria-label="Copy share text to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            Copy
+                        </button>
+                    </div>
+                    <div class="share-preview" id="sharePreview" aria-label="Share text preview"></div>
+                </div>
+            </section>
+
+            <section class="results-section" style="text-align:center; padding-top:0.5rem;">
+                <p style="font-size:0.65rem; color:var(--text-muted); line-height:1.5;">
+                    Tree algorithm:
+                    <a href="https://github.com/jasonwebb/2d-space-colonization-experiments" target="_blank" rel="noopener" style="color:var(--text-muted);">jasonwebb/space-colonization</a>
+                    (MIT)
+                </p>
+            </section>
+        </div>
+
+        <!-- ═══ View: Community (Forest + Trees) ═══ -->
+        <div id="viewCommunity" class="results-view-panel" style="display:none;">
+            <div class="forest-page" id="forestEmbed">
+                <div class="forest-canvas-wrap">
+                    <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
+                    <div id="viewTreesGrid" class="forest-view">{{ trees_svg | safe }}</div>
+                    <div id="nightOverlay" class="forest-night"></div>
+                    <svg id="starsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
+                        {%- for i in range(40) -%}
+                        <circle cx="{{ (((i * 7 + 13) * 2654435761) % 1100) }}" cy="{{ (((i * 11 + 3) * 340573321) % 280) }}" r="{{ [0.8, 1.0, 1.2, 0.6, 1.4][i % 5] }}" fill="white" opacity="{{ [0.5, 0.7, 0.4, 0.8, 0.6][i % 5] }}"/>
+                        {%- endfor -%}
+                    </svg>
+                </div>
+
+                <div class="forest-controls">
+                    <div class="forest-dice">
+                        <button id="rollDice" class="forest-roll-btn">Chance</button>
+                        <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
+                        <div class="forest-info-popup" id="chancePopup">
+                            On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.
+                        </div>
+                        <span id="diceResult" class="forest-dice-result">&nbsp;</span>
+                    </div>
+                    <span class="forest-divider">|</span>
+                    <div class="forest-wind">
+                        <span class="xp-wind-label">Winds of change</span>
+                        <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+                        <span class="xp-wind-value" id="forestWindValue">calm</span>
+                    </div>
+                    <span class="forest-divider forest-show-all">|</span>
+                    <label class="forest-toggle-label forest-show-all">
+                        <input type="checkbox" id="showAllTrees"> Show tree forms with 0 count
+                    </label>
+                </div>
+
+                <div class="forest-stats">
+                    {% for b in ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'] %}
+                        {% if stats.balance_counts.get(b, 0) > 0 %}
+                            {% set pct = (stats.balance_counts[b] / stats.total * 100) | round | int %}
+                            {% set col = {'deeply rooted':'rgba(74,222,128,0.45)', 'balanced':'rgba(74,222,128,0.35)', 'grounded':'rgba(74,222,128,0.25)', 'reaching':'rgba(251,191,36,0.55)', 'top-heavy':'rgba(248,113,113,0.6)'}[b] %}
+                            <span class="forest-stat">
+                                <span class="forest-stat-dot" style="background:{{ col }}"></span>{{ b }} {{ pct }}%
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+                    <span class="forest-info-icon" id="riskInfo" title="About risk scale">?</span>
+                    <div class="forest-info-popup" id="riskPopup">
+                        The color behind each tree shows its balance between canopy (AI reach) and roots (craft depth). Green means roots support the canopy. Yellow means the canopy is outpacing the roots. Red means it significantly exceeds them. The Chance button rolls dice that affect each tree's vulnerability to wind independently &mdash; the same tree may survive one day and fall the next.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- No Results -->
+    <div id="noResults" role="alert" aria-label="No results found" style="display:none;">
+        <h2>No Assessment Results</h2>
+        <p>Please complete the v2 tree assessment first.</p>
+        <a href="/tree/v2" class="btn btn-primary" aria-label="Take the tree assessment">Take the Tree Assessment</a>
+    </div>
+</div>
+
+<script>
+    const DIT_SAE_NAMES = {{ sae_names | tojson }};
+    const DIT_STAGE_NAMES = {{ stage_names | tojson }};
+</script>
+<script src="{{ url_for('static', filename='tree-viz.js') }}"></script>
+<script src="{{ url_for('static', filename='results-v2.js') }}"></script>
+<script src="{{ url_for('static', filename='forest-wind.js') }}"></script>
+<script>
+(function() {
+    // 3-way toggle: Your Tree / The Trees / The Forest
+    var tabs = document.querySelectorAll('.results-tab');
+    var yourTree = document.getElementById('viewYourTree');
+    var community = document.getElementById('viewCommunity');
+    var subtitle = document.getElementById('communitySubtitle');
+    var forestView = document.getElementById('viewForest');
+    var treesView = document.getElementById('viewTreesGrid');
+    var forestEmbed = document.getElementById('forestEmbed');
+
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var target = tab.getAttribute('data-view');
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            if (target === 'yourTree') {
+                yourTree.style.display = '';
+                community.style.display = 'none';
+                subtitle.style.display = 'none';
+                if (forestEmbed) forestEmbed.classList.remove('trees-mode');
+            } else {
+                yourTree.style.display = 'none';
+                community.style.display = '';
+                subtitle.style.display = '';
+
+                if (target === 'trees') {
+                    treesView.classList.add('active');
+                    forestView.classList.remove('active');
+                    if (forestEmbed) forestEmbed.classList.add('trees-mode');
+                } else {
+                    forestView.classList.add('active');
+                    treesView.classList.remove('active');
+                    if (forestEmbed) forestEmbed.classList.remove('trees-mode');
+                }
+            }
+        });
+    });
+
+    // Hide empty trees on load (checkbox unchecked by default)
+    document.querySelectorAll('[data-empty]').forEach(function(el) {
+        el.style.display = 'none';
+    });
+
+    // Show/hide empty tree types toggle
+    var showAllCheck = document.getElementById('showAllTrees');
+    if (showAllCheck) {
+        showAllCheck.addEventListener('change', function() {
+            document.querySelectorAll('[data-empty]').forEach(function(el) {
+                el.style.display = showAllCheck.checked ? '' : 'none';
+            });
+        });
+    }
+
+    // Info popup for community Chance
+    var chanceInfo = document.getElementById('chanceInfo');
+    var chancePopup = document.getElementById('chancePopup');
+    if (chanceInfo && chancePopup) {
+        chanceInfo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            chancePopup.classList.toggle('visible');
+        });
+    }
+
+    // Risk info popup
+    var riskInfo = document.getElementById('riskInfo');
+    var riskPopup = document.getElementById('riskPopup');
+    if (riskInfo && riskPopup) {
+        riskInfo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            riskPopup.classList.toggle('visible');
+        });
+    }
+
+    // Dismiss all popups on click outside
+    document.addEventListener('click', function() {
+        if (chancePopup) chancePopup.classList.remove('visible');
+        if (riskPopup) riskPopup.classList.remove('visible');
+    });
+})();
+</script>
+{% endblock %}

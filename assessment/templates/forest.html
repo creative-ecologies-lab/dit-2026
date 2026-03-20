@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}The Forest — Design in Tech 2026{% endblock %}
+
+{% block content %}
+<div class="forest-page">
+    <div class="forest-header">
+        <div class="forest-toggle">
+            <button id="btnForest" class="forest-toggle-btn active">The Forest</button>
+            <button id="btnTrees" class="forest-toggle-btn">The Trees</button>
+        </div>
+        <p class="forest-subtitle">{{ stats.total }} participants{{ ' in ' + group if group else '' }}</p>
+    </div>
+
+    <div class="forest-canvas-wrap">
+        <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
+        <div id="viewTrees" class="forest-view">{{ trees_svg | safe }}</div>
+        <div id="nightOverlay" class="forest-night"></div>
+        <svg id="starsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
+            {%- for i in range(40) -%}
+            <circle cx="{{ (((i * 7 + 13) * 2654435761) % 1100) }}" cy="{{ (((i * 11 + 3) * 340573321) % 280) }}" r="{{ [0.8, 1.0, 1.2, 0.6, 1.4][i % 5] }}" fill="white" opacity="{{ [0.5, 0.7, 0.4, 0.8, 0.6][i % 5] }}"/>
+            {%- endfor -%}
+        </svg>
+    </div>
+
+    <div class="forest-controls">
+        <div class="forest-dice">
+            <button id="rollDice" class="forest-roll-btn">Chance</button>
+            <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
+            <div class="forest-info-popup" id="chancePopup">
+                On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.
+            </div>
+            <span id="diceResult" class="forest-dice-result">&nbsp;</span>
+        </div>
+        <span class="forest-divider">|</span>
+        <div class="forest-wind">
+            <span class="xp-wind-label">Winds of change</span>
+            <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+            <span class="xp-wind-value" id="forestWindValue">calm</span>
+        </div>
+        <span class="forest-divider forest-show-all">|</span>
+        <label class="forest-toggle-label forest-show-all">
+            <input type="checkbox" id="showAllTrees"> Show tree forms with 0 count
+        </label>
+    </div>
+
+    <div class="forest-stats">
+        {% for b in ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'] %}
+            {% if stats.balance_counts.get(b, 0) > 0 %}
+                {% set pct = (stats.balance_counts[b] / stats.total * 100) | round | int %}
+                {% set col = {'deeply rooted':'rgba(74,222,128,0.45)', 'balanced':'rgba(74,222,128,0.35)', 'grounded':'rgba(74,222,128,0.25)', 'reaching':'rgba(251,191,36,0.55)', 'top-heavy':'rgba(248,113,113,0.6)'}[b] %}
+                <span class="forest-stat">
+                    <span class="forest-stat-dot" style="background:{{ col }}"></span>{{ b }} {{ pct }}%
+                </span>
+            {% endif %}
+        {% endfor %}
+        <span class="forest-info-icon" id="riskInfo" title="About risk scale">?</span>
+        <div class="forest-info-popup" id="riskPopup">
+            The color behind each tree shows its balance between canopy (AI reach) and roots (craft depth). Green means roots support the canopy. Yellow means the canopy is outpacing the roots. Red means it significantly exceeds them. The Chance button rolls dice that affect each tree's vulnerability to wind independently &mdash; the same tree may survive one day and fall the next.
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='forest-wind.js') }}"></script>
+<script>
+(function() {
+    var btnForest = document.getElementById('btnForest');
+    var btnTrees = document.getElementById('btnTrees');
+    var viewForest = document.getElementById('viewForest');
+    var viewTrees = document.getElementById('viewTrees');
+
+    var page = document.querySelector('.forest-page');
+
+    btnForest.addEventListener('click', function() {
+        viewForest.classList.add('active');
+        viewTrees.classList.remove('active');
+        btnForest.classList.add('active');
+        btnTrees.classList.remove('active');
+        page.classList.remove('trees-mode');
+    });
+    btnTrees.addEventListener('click', function() {
+        viewTrees.classList.add('active');
+        viewForest.classList.remove('active');
+        btnTrees.classList.add('active');
+        btnForest.classList.remove('active');
+        page.classList.add('trees-mode');
+    });
+
+    // Hide empty trees on load
+    document.querySelectorAll('[data-empty]').forEach(function(el) {
+        el.style.display = 'none';
+    });
+
+    // Info popup
+    var chanceInfo = document.getElementById('chanceInfo');
+    var chancePopup = document.getElementById('chancePopup');
+    chanceInfo.addEventListener('click', function(e) {
+        e.stopPropagation();
+        chancePopup.classList.toggle('visible');
+    });
+    document.addEventListener('click', function() {
+        chancePopup.classList.remove('visible');
+        var riskPopup = document.getElementById('riskPopup');
+        if (riskPopup) riskPopup.classList.remove('visible');
+    });
+
+    // Risk info popup
+    var riskInfo = document.getElementById('riskInfo');
+    var riskPopup = document.getElementById('riskPopup');
+    if (riskInfo && riskPopup) {
+        riskInfo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            riskPopup.classList.toggle('visible');
+        });
+    }
+
+    // Show/hide empty tree types
+    var showAllCheck = document.getElementById('showAllTrees');
+    showAllCheck.addEventListener('change', function() {
+        var empties = document.querySelectorAll('[data-empty]');
+        empties.forEach(function(el) {
+            el.style.display = showAllCheck.checked ? '' : 'none';
+        });
+    });
+})();
+</script>
+{% endblock %}

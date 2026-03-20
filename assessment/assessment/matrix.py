@@ -254,3 +254,116 @@ def get_full_matrix() -> dict:
         "stage_names": dict(STAGE_NAMES),
         "cells": cells,
     }
+
+
+# ---------------------------------------------------------------------------
+# V2 Tree Model — Growth Paths
+# ---------------------------------------------------------------------------
+
+# Root descriptions: EPIAS stage at L0
+ROOT_DESCRIPTIONS = {
+    "E": "Shallow roots — still building craft fundamentals. Each project is a learning experience.",
+    "P": "Developing roots — consistent manual techniques that produce reliable work.",
+    "I": "Spreading roots — documented, traceable processes that others can review and follow.",
+    "A": "Network roots — reusable systems and templates that others adopt without your help.",
+    "S": "The deepest roots — organizational standards, mentorship, and shared infrastructure.",
+}
+
+V2_KEY_INSIGHT = (
+    "You can\u2019t grow a Redwood canopy on Birch roots. "
+    "Go deep before you go wide."
+)
+
+
+def get_placement_v2(score: dict) -> dict:
+    """Get v2 tree placement with growth recommendations.
+
+    The growth recommendation depends on balance:
+    - top-heavy/reaching: deepen roots first
+    - balanced: grow either direction
+    - deeply rooted/grounded: safe to expand canopy
+    """
+    balance = score["balance"]
+    root_stage = score["root_stage"]
+    canopy_stage = score.get("canopy_stage")
+    sae_level = score["sae_level"]
+
+    # Determine growth recommendation
+    # Always encourage roots + AI skills, except top-heavy where roots come first
+    if balance in ("top-heavy", "reaching"):
+        growth = {
+            "direction": "deepen_roots",
+            "label": "The opportunity is in your roots",
+            "message": "You\u2019re reaching into advanced AI territory. The designers who thrive there are the ones whose craft judgment keeps pace with their tools. Your fundamentals are where the next level of growth is.",
+            "actions": _root_growth_actions(root_stage),
+        }
+    elif balance in ("grounded",):
+        if sae_level == 0:
+            growth = {
+                "direction": "grow_both",
+                "label": "Your craft judgment is ready for AI",
+                "message": "Deep craft roots are exactly what makes AI adoption successful. The judgment you\u2019ve built translates directly \u2014 you\u2019ll know what\u2019s good and what isn\u2019t faster than most. Explore AI tools from this position of strength.",
+                "actions": ["Try AI for one task you do repeatedly", "Start with chat tools (L1) before app-builders (L2)", "Your craft judgment is your superpower \u2014 bring it with you"],
+            }
+        else:
+            growth = {
+                "direction": "grow_both",
+                "label": "Strong position to grow from",
+                "message": "Your craft foundation gives you an advantage. Continue developing your fundamentals while growing your AI practice \u2014 each strengthens the other.",
+                "actions": _root_growth_actions(root_stage)[:1] + _canopy_growth_actions(sae_level, canopy_stage)[:1],
+            }
+    elif balance == "deeply rooted":
+        growth = {
+            "direction": "grow_both",
+            "label": "Solid ground to grow an AI practice",
+            "message": "Your deep craft roots mean you can adopt AI with confidence. The design judgment you\u2019ve developed is exactly what keeps AI work grounded. Continue growing your fundamentals while exploring what AI makes possible.",
+            "actions": _canopy_growth_actions(sae_level, canopy_stage) + _root_growth_actions(root_stage)[:1],
+        }
+    else:  # balanced
+        growth = {
+            "direction": "grow_both",
+            "label": "Growing together",
+            "message": "Your craft depth and AI practice are developing in step. This is the pattern that sustains \u2014 keep deepening your fundamentals alongside your AI skills. Each makes the other stronger.",
+            "actions": _root_growth_actions(root_stage)[:1] + _canopy_growth_actions(sae_level, canopy_stage)[:1],
+        }
+
+    # Cell description from matrix (for canopy position)
+    if canopy_stage:
+        cell_key = (sae_level, canopy_stage)
+        canopy_description = MATRIX_DATA.get(cell_key, "")
+    else:
+        canopy_description = ""
+
+    return {
+        **score,
+        "root_description": ROOT_DESCRIPTIONS.get(root_stage, ""),
+        "canopy_description": canopy_description,
+        "growth": growth,
+        "key_insight": V2_KEY_INSIGHT,
+    }
+
+
+def _root_growth_actions(current_stage: str) -> list:
+    """Suggest actions to deepen root stage."""
+    actions_map = {
+        "E": ["Develop repeatable manual techniques", "Document what works and what doesn\u2019t", "Build consistency in your output quality"],
+        "P": ["Document your processes so others can follow them", "Add validation steps to your workflow", "Create traceability from requirements to outputs"],
+        "I": ["Turn your documented processes into reusable templates", "Create onboarding materials for your workflows", "Build shared resources others can use independently"],
+        "A": ["Establish organizational standards for design quality", "Mentor others in craft techniques", "Maintain and evolve the shared systems everyone depends on"],
+        "S": ["You\u2019re at the deepest root level — maintain and evolve your standards", "Focus on succession and knowledge transfer", "Stay connected to the craft as your role evolves"],
+    }
+    return actions_map.get(current_stage, actions_map["E"])
+
+
+def _canopy_growth_actions(sae_level: int, canopy_stage: str | None) -> list:
+    """Suggest actions to expand AI canopy."""
+    if canopy_stage is None or sae_level == 0:
+        return ["Start experimenting with AI chat tools", "Try AI for one specific task you do repeatedly"]
+    actions_map = {
+        "E": ["Build consistency in your AI practice", "Save prompts that work and reuse them", "Define what \u2018good enough\u2019 looks like for AI outputs"],
+        "P": ["Document your AI workflows so others can follow", "Embed AI across multiple steps, not just one", "Create traceability for what AI contributed"],
+        "I": ["Package your workflows for others to use", "Build review templates for AI outputs", "Create reusable prompt libraries"],
+        "A": ["Set organizational standards for AI practice", "Mentor others on judgment with AI", "Govern what\u2019s safe to automate"],
+        "S": ["Maintain and evolve organizational AI governance", "Push boundaries of what\u2019s possible", "Focus on succession planning for AI practice"],
+    }
+    return actions_map.get(canopy_stage, actions_map["E"])
