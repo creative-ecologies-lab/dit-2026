@@ -163,7 +163,9 @@ def track_event():
     props = {}
     for key in ('path', 'referrer', 'viewport', 'device', 'question',
                 'stage', 'level', 'role', 'cohort', 'action', 'tab',
-                'elapsed_ms', 'utm_source', 'utm_medium', 'utm_campaign'):
+                'elapsed_ms', 'utm_source', 'utm_medium', 'utm_campaign',
+                'root_stage', 'sae_level', 'canopy_stage', 'species',
+                'balance', 'value'):
         val = raw_props.get(key)
         if val is not None:
             props[key] = str(val)[:200]

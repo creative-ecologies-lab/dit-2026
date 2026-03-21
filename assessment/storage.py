@@ -901,6 +901,7 @@ _events_store: list[dict] = []
 # Valid event names (whitelist to prevent abuse)
 _VALID_EVENTS = {
     "page_view",
+    # v1 assessment
     "assess_start",         # user clicks "Begin" on intake
     "intake_complete",      # role selected, moving to SAE
     "sae_answer",           # answered a SAE question
@@ -909,6 +910,17 @@ _VALID_EVENTS = {
     "epias_complete",       # finished all EPIAS questions
     "assess_submit",        # assessment submitted successfully
     "assess_abandon",       # left page with incomplete assessment
+    # v2 tree assessment
+    "v2_assess_start",      # landed on v2 assessment page
+    "v2_intake_complete",   # role/cohort selected
+    "root_answer",          # answered a root (craft) question
+    "root_complete",        # finished root questions
+    "canopy_answer",        # answered a canopy question
+    "canopy_complete",      # finished canopy questions
+    "v2_complete",          # all stages done, submitting
+    "v2_submit",            # v2 assessment submitted successfully
+    "v2_abandon",           # left v2 with incomplete assessment
+    # shared
     "results_view",         # viewed results page
     "results_share",        # clicked share/copy/download on results
     "framework_view",       # viewed a framework tab
