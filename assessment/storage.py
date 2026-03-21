@@ -530,6 +530,9 @@ def get_forest_data(cohort: Optional[str] = None) -> dict:
                 "balance": record.get("balance"),
             })
 
+    # Filter out partial submissions (missing core dimensions)
+    trees = [t for t in trees if t.get("rd") is not None and t.get("cw") is not None and t.get("ch") is not None]
+
     result = {
         "trees": trees,
         "total": len(trees),
