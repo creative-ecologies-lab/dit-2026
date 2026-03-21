@@ -568,9 +568,9 @@ def _rebuild_forest_svg(cohort: Optional[str] = None, *, sync: bool = False) -> 
     are not delayed. Pass sync=True for seed-time or first-load builds.
     """
     def _do_rebuild():
-        # Invalidate data cache so get_forest_data re-queries
+        # Invalidate data + SVG caches so get_forest_data and get_forest_svg re-query
         with _cache_lock:
-            to_drop = [k for k in _cache if k.startswith("forest:")]
+            to_drop = [k for k in _cache if k.startswith("forest:") or k.startswith("svg:")]
             for k in to_drop:
                 del _cache[k]
 
@@ -596,36 +596,42 @@ def _rebuild_forest_svg(cohort: Optional[str] = None, *, sync: bool = False) -> 
 
 
 def get_forest_svg(cohort: Optional[str] = None) -> tuple[str, str, dict]:
-    """Return both persisted forest SVGs and stats.
+    """Return forest SVGs and stats, using in-memory cache.
 
-    Reads from disk. If files don't exist yet, builds synchronously.
+    On Cloud Run, filesystem is ephemeral and per-instance, so we
+    cache generated SVGs in memory with a short TTL instead of on disk.
+    Falls back to disk cache for local dev.
 
     Returns:
         (trees_svg, forest_svg, stats_dict)
     """
+    cache_key_t = f"svg:trees:{cohort or ''}"
+    cache_key_f = f"svg:forest:{cohort or ''}"
+    cache_key_s = f"svg:stats:{cohort or ''}"
+
+    cached_t = _cache_get(cache_key_t)
+    if cached_t is not None:
+        return cached_t, _cache_get(cache_key_f) or "", _cache_get(cache_key_s) or {"total": 0, "balance_counts": {}}
+
+    # Generate fresh from data source
+    from assessment.forest_renderer import render_forest_svg
+    forest_data = get_forest_data(cohort=cohort)
+
+    trees_svg, stats = render_forest_svg(forest_data, mode="trees")
+    forest_svg, _ = render_forest_svg(forest_data, mode="forest")
+
+    _cache_set(cache_key_t, trees_svg)
+    _cache_set(cache_key_f, forest_svg)
+    _cache_set(cache_key_s, stats)
+
+    # Also write to disk (for local dev / backup)
     import json as _json
-    trees_path = _forest_svg_path(cohort, "trees")
-    forest_path = _forest_svg_path(cohort, "forest")
-    stats_path = _forest_stats_path(cohort)
-
-    if not trees_path.exists():
-        _rebuild_forest_svg(cohort, sync=True)
-
-    _placeholder = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="50" text-anchor="middle" fill="#999" font-size="8">Building...</text></svg>'
-
-    def _read(p):
-        try:
-            return p.read_text(encoding="utf-8")
-        except FileNotFoundError:
-            return _placeholder
-
-    trees_svg = _read(trees_path)
-    forest_svg = _read(forest_path)
-
     try:
-        stats = _json.loads(stats_path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, ValueError):
-        stats = {"total": 0, "balance_counts": {}}
+        _forest_svg_path(cohort, "trees").write_text(trees_svg, encoding="utf-8")
+        _forest_svg_path(cohort, "forest").write_text(forest_svg, encoding="utf-8")
+        _forest_stats_path(cohort).write_text(_json.dumps(stats), encoding="utf-8")
+    except OSError:
+        pass
 
     return trees_svg, forest_svg, stats
 
