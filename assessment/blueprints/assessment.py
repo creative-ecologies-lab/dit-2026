@@ -166,6 +166,11 @@ def results_v2():
 
 @bp.route('/assess')
 def assess():
+    from flask import redirect
+    return redirect('/', code=301)
+
+
+def _assess_legacy():
     from assessment.questions import get_all_sae_questions
     questions_design = get_all_sae_questions(role='design')
     questions_uxr = get_all_sae_questions(role='uxr')
@@ -225,14 +230,8 @@ def submit_assessment():
 
 @bp.route('/results')
 def results():
-    from assessment.scorer import SAE_NAMES, STAGE_NAMES
-    from assessment.matrix import MATRIX_DATA
-    cell_descriptions = {f"{lvl}_{stg}": desc for (lvl, stg), desc in MATRIX_DATA.items()}
-    return render_template('results.html',
-                           sae_names=SAE_NAMES, stage_names=STAGE_NAMES,
-                           cell_descriptions=cell_descriptions,
-                           stage_descriptions=_STAGE_DESCRIPTIONS,
-                           level_descriptions=_LEVEL_DESCRIPTIONS)
+    from flask import redirect
+    return redirect('/', code=301)
 
 
 @bp.route('/group-id')
