@@ -5,7 +5,6 @@ from config import settings as app_settings
 bp = Blueprint('assessment', __name__)
 
 
-@bp.route('/')
 def index():
     from assessment.scorer import SAE_NAMES, STAGE_NAMES
     heatmap_total = 0
@@ -55,6 +54,7 @@ def about():
                            stage_order=['E', 'P', 'I', 'A', 'S'])
 
 
+@bp.route('/')
 @bp.route('/tree')
 @bp.route('/tree/v2/explore')
 def tree_gallery():
@@ -108,6 +108,7 @@ def submit_assessment_v2():
     utm_medium = (data.pop('utm_medium', '') or '')[:100].strip() or None
     utm_campaign = (data.pop('utm_campaign', '') or '')[:100].strip() or None
     session_id = (data.pop('session_id', '') or '')[:64].strip() or None
+    tree_id = (data.pop('tree_id', '') or '')[:10].strip().upper() or None
     raw_answers = dict(data)
     score = score_assessment_v2(data, role=role or 'design')
     placement = get_placement_v2(score)
@@ -131,7 +132,8 @@ def submit_assessment_v2():
             score['root_numeric'],
             score['sae_level'],
             score['canopy_numeric'],
-            session_id=session_id,
+            tree_id=tree_id,
+            session_id=session_id or tree_id,
             cohort=cohort, role=role,
             balance=score.get('balance'),
             tree_species=score.get('tree_species'),
@@ -146,6 +148,8 @@ def submit_assessment_v2():
         current_app.logger.warning(f"Failed to store v2 result: {e}")
     if cohort:
         placement['cohort'] = cohort
+    if tree_id:
+        placement['tree_id'] = tree_id
     return jsonify(placement)
 
 
