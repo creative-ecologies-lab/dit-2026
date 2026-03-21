@@ -977,12 +977,10 @@ body {
 
 #viewCommunity {
     align-items: stretch;
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    box-sizing: border-box;
-    padding: 0 1rem;
+    width: 100%;
+    max-width: 100%;
 }
+
 
 #viewCommunity .forest-page,
 #viewCommunity .forest-canvas-wrap,
