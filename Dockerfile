@@ -44,15 +44,17 @@ USER appuser
 EXPOSE 8080
 
 # Gunicorn with:
-#   - 4 workers (2 vCPU — standard 2*CPU+1 rule, rounded down)
-#   - 8 threads per worker (32 total — enough for I/O-bound Firestore calls)
+#   - 2 workers (1 vCPU — fewer workers = faster cold start)
+#   - 8 threads per worker (16 total — enough for I/O-bound Firestore calls)
+#   - --preload loads app once in master, then forks (avoids duplicate imports)
 #   - 120s timeout
 #   - Bind to 0.0.0.0:$PORT (Cloud Run injects PORT)
 CMD exec gunicorn \
     --bind 0.0.0.0:$PORT \
-    --workers 4 \
+    --workers 2 \
     --threads 8 \
     --timeout 120 \
+    --preload \
     --access-logfile - \
     --error-logfile - \
     "app:create_app()"
