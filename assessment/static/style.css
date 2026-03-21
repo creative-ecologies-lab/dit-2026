@@ -1064,11 +1064,13 @@ body:has(.landing-split),
 body:has(.results-scroll),
 body:has(.cohort-page),
 body:has(.admin-page),
-body:has(.forest-page) { height: auto; overflow: auto; }
+body:has(.forest-page),
+body:has(.about-page) { height: auto; overflow: auto; }
 body:has(.landing-split) .container,
 body:has(.results-scroll) .container,
 body:has(.cohort-page) .container,
-body:has(.admin-page) .container { overflow: visible; }
+body:has(.admin-page) .container,
+body:has(.about-page) .container { overflow: visible; }
 body:has(.forest-page) .container { max-width: 100%; padding: 0; overflow: visible; display: flex; flex-direction: column; }
 
 /* Assessment — pin nav buttons on mobile (body overflow handled by global 768px rule) */
@@ -3972,6 +3974,108 @@ fieldset.key-card { margin: 0; min-width: 0; }
     height: 8px;
     border-radius: 50%;
     flex-shrink: 0;
+}
+
+/* ===== About Page ===== */
+.about-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 3rem;
+}
+
+.about-section {
+    margin-bottom: 2.5rem;
+}
+
+.about-section h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.about-section h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.about-section p {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.about-section a {
+    color: var(--primary);
+}
+
+.about-page .map-card {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+/* Feedback card */
+.about-feedback-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.about-fb-cats {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.about-fb-cat {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+}
+
+.about-fb-cat.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.about-fb-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+
+.about-fb-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.about-fb-status {
+    font-size: 0.8rem;
+    color: var(--success);
+}
+
+@media (max-width: 768px) {
+    .about-page { padding: 1rem 1rem 2rem; }
+    .about-section h1 { font-size: 1.4rem; }
+    .about-section h2 { font-size: 1.15rem; }
 }
 
 /* Print overrides for v2 */

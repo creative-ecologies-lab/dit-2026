@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block title %}About — AI Upskilling Map{% endblock %}
+
+{% block content %}
+<div class="about-page" role="article">
+
+    <section class="about-section">
+        <h1>About This Project</h1>
+        <p>This project is an effort to learn about the intersection of AI and design practice while building something useful for others. It is a work in progress and will continue to evolve.</p>
+        <p>The framework is based on John Maeda's <strong>Design in Tech Report 2026: From UX to AX</strong>, presented at SXSW 2026. The assessment maps where designers and UX researchers stand on two axes: AI automation level (SAE) and professional maturity (E-P-I-A-S). Thank you, John, for creating this framework and for your continued feedback that has shaped how this tool has evolved.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Version 1: The Grid</h2>
+        <p>The first version of the assessment placed participants on a 6&times;5 grid &mdash; SAE automation levels across the top, E-P-I-A-S maturity stages down the side. Each cell represents a combination of how much AI a designer uses and how mature their practice is.</p>
+
+        <div class="map-card">
+            <table class="landing-heatmap" role="table"
+                   aria-label="Community heatmap: SAE automation levels versus E-P-I-A-S leadership stages, {{ heatmap_total }} total responses">
+                <caption class="sr-only">
+                    Community heatmap showing {{ heatmap_total }} responses.
+                    Darker cells indicate more people at that position.
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col" class="hm-corner"><span class="sr-only">SAE Level</span></th>
+                        {% for s in stage_order %}
+                        <th scope="col" class="hm-stage-header" aria-label="{{ stage_names[s] }}: {{ stage_descriptions[s] }}" data-desc="{{ stage_descriptions[s] }}" data-label="{{ stage_names[s] }}" data-abbr="{{ s[0] | upper }}" tabindex="0" role="button"><span class="hm-stage-full">{{ stage_names[s] }}</span><span class="hm-stage-abbr">{{ s[0] | upper }}</span></th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set max_count = heatmap_counts.values() | list | max if heatmap_counts.values() | list else 1 %}
+                    {% for level in range(5, -1, -1) %}
+                    <tr>
+                        <th scope="row" class="hm-level-header" aria-label="Level {{ level }}: {{ sae_names[level] }} — {{ level_descriptions[level] }}" data-desc="{{ level_descriptions[level] }}" data-label="L{{ level }} {{ sae_names[level] }}" tabindex="0" role="button">
+                            <span class="hm-level-num">L{{ level }}</span>
+                            <span class="hm-level-name">{{ sae_names[level] }}</span>
+                        </th>
+                        {% for s in stage_order %}
+                        {% set key = level | string + '_' + s %}
+                        {% set count = heatmap_counts.get(key, 0) %}
+                        {% set intensity = (count / max_count) if count > 0 else 0 %}
+                        {% set opacity = (intensity * 0.80 + 0.15) if count > 0 else 0.04 %}
+                        <td class="hm-cell{% if count == 0 %} hm-cell-empty{% endif %}"
+                            style="--cell-opacity: {{ '%.2f' | format(opacity) }};"
+                            aria-label="{{ count }} {{ 'person' if count == 1 else 'people' }} at L{{ level }} {{ sae_names[level] }}, {{ stage_names[s] }}">
+                            {% if count > 0 %}
+                            <span class="hm-count {% if intensity > 0.5 %}hm-count-light{% else %}hm-count-dark{% endif %}">{{ count }}</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if heatmap_total == 0 %}
+            <div class="map-empty-overlay" aria-hidden="true">
+                <p>No responses yet. Be the first!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <p>The grid revealed interesting patterns &mdash; most participants clustered in the L1&ndash;L2 range with Practitioner-level maturity. But John Maeda's feedback highlighted a critical gap: the assessment only measured the AI side of the equation. It was missing the "tree-shaped designer" concept and didn't capture L0 &mdash; the depth of a designer's core craft fundamentals. Without that foundation, the grid told only half the story.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Version 2: The Tree</h2>
+        <p>John's tree-shaped designer concept provided the answer. The tree analogy works because it captures what the grid couldn't: <strong>roots matter as much as branches</strong>.</p>
+        <p>In the tree model, your <strong>roots</strong> represent craft depth &mdash; how deep your design fundamentals go. Your <strong>canopy</strong> represents AI breadth &mdash; how far your AI-augmented practice extends. The balance between them determines your tree's shape and resilience.</p>
+        <p>Taking what I knew of botany and real tree biology, I elaborated the metaphor further. Deep roots anchor wide canopies. Shallow roots make tall trees vulnerable to wind. And the most deeply rooted designers &mdash; the ones at L0-Steward &mdash; are like mycorrhizal fungi: invisible underground networks that sustain the entire forest.</p>
+        <p><a href="/tree/v2">Take the v2 assessment</a> to see your tree, or explore <a href="/tree">the community forest</a>.</p>
+    </section>
+
+    <section class="about-section">
+        <h2>Feedback</h2>
+        <div class="about-feedback-card">
+            <div class="about-fb-cats">
+                <button type="button" class="about-fb-cat active" data-cat="general">General</button>
+                <button type="button" class="about-fb-cat" data-cat="bug">Bug</button>
+                <button type="button" class="about-fb-cat" data-cat="suggestion">Suggestion</button>
+            </div>
+            <textarea id="aboutFbText" class="about-fb-textarea" placeholder="What's on your mind?" maxlength="2000"></textarea>
+            <div class="about-fb-footer">
+                <button id="aboutFbSubmit" class="btn btn-primary" type="button">Send feedback</button>
+                <span id="aboutFbStatus" class="about-fb-status"></span>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<div id="cellPopover" class="cell-popover" role="tooltip" style="display:none;">
+    <div class="cell-popover-header">
+        <strong id="popoverTitle"></strong>
+        <button class="cell-popover-close" aria-label="Close">&times;</button>
+    </div>
+    <p id="popoverDesc"></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function() {
+    // --- Heatmap popover ---
+    var popover = document.getElementById('cellPopover');
+    var popTitle = document.getElementById('popoverTitle');
+    var popDesc = document.getElementById('popoverDesc');
+    var closeBtn = popover.querySelector('.cell-popover-close');
+    var activeCell = null;
+
+    function hide() {
+        popover.style.display = 'none';
+        if (activeCell) activeCell.classList.remove('hm-cell-active');
+        activeCell = null;
+    }
+
+    function showHeader(el) {
+        var desc = el.getAttribute('data-desc');
+        if (!desc) return;
+        if (activeCell === el) { hide(); return; }
+
+        popTitle.textContent = el.getAttribute('data-label') || el.textContent.trim();
+        popDesc.textContent = desc;
+
+        var rect = el.getBoundingClientRect();
+        var scroll = document.documentElement.scrollTop || document.body.scrollTop;
+        popover.style.display = '';
+        var pw = popover.offsetWidth;
+        var left = rect.left + rect.width / 2 - pw / 2;
+        if (left < 8) left = 8;
+        if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+        popover.style.left = left + 'px';
+        popover.style.top = (rect.bottom + scroll + 8) + 'px';
+
+        if (activeCell) activeCell.classList.remove('hm-cell-active');
+        activeCell = el;
+    }
+
+    document.querySelectorAll('.hm-stage-header[data-desc], .hm-level-header[data-desc]').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (activeCell === el) { hide(); return; }
+            showHeader(el);
+        });
+        el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+        });
+    });
+
+    closeBtn.addEventListener('click', hide);
+    document.addEventListener('click', function(e) {
+        if (!popover.contains(e.target)) hide();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') hide();
+    });
+
+    // --- Feedback form ---
+    var cats = document.querySelectorAll('.about-fb-cat');
+    var selectedCat = 'general';
+    cats.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            cats.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            selectedCat = btn.getAttribute('data-cat');
+        });
+    });
+
+    var fbText = document.getElementById('aboutFbText');
+    var fbSubmit = document.getElementById('aboutFbSubmit');
+    var fbStatus = document.getElementById('aboutFbStatus');
+
+    fbSubmit.addEventListener('click', function() {
+        var message = fbText.value.trim();
+        if (!message) {
+            fbStatus.textContent = 'Please enter a message.';
+            fbStatus.style.color = 'var(--danger, #e53e3e)';
+            return;
+        }
+        fbSubmit.disabled = true;
+        fbStatus.textContent = 'Sending...';
+        fbStatus.style.color = 'var(--text-muted)';
+
+        fetch('/api/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                category: selectedCat,
+                message: message,
+                page: '/about'
+            })
+        })
+        .then(function(res) {
+            if (!res.ok) return res.json().then(function(d) { throw new Error(d.error || 'Failed'); });
+            return res.json();
+        })
+        .then(function() {
+            fbText.value = '';
+            fbStatus.textContent = 'Thank you for your feedback!';
+            fbStatus.style.color = 'var(--success, #38a169)';
+            fbSubmit.disabled = false;
+        })
+        .catch(function(err) {
+            fbStatus.textContent = err.message || 'Something went wrong.';
+            fbStatus.style.color = 'var(--danger, #e53e3e)';
+            fbSubmit.disabled = false;
+        });
+    });
+})();
+</script>
+{% endblock %}

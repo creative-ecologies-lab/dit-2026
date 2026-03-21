@@ -27,8 +27,8 @@
         </div>
         <div class="nav-links" role="list">
             <a href="/" role="listitem" class="{% if request.path == '/' %}active{% endif %}" {% if request.path == '/' %}aria-current="page"{% endif %}>Home</a>
+            <a href="/about" role="listitem" class="{% if request.path == '/about' %}active{% endif %}" {% if request.path == '/about' %}aria-current="page"{% endif %}>About</a>
             <a href="/framework" role="listitem" class="{% if '/framework' in request.path %}active{% endif %}" {% if '/framework' in request.path %}aria-current="page"{% endif %}>Framework</a>
-            <a href="/assess" role="listitem" class="{% if request.path == '/assess' %}active{% endif %}" {% if request.path == '/assess' %}aria-current="page"{% endif %}>Assess</a>
             <a href="/group-id" role="listitem" class="{% if request.path in ['/group-id', '/group', '/groups', '/group-ids'] %}active{% endif %}" {% if request.path in ['/group-id', '/group', '/groups', '/group-ids'] %}aria-current="page"{% endif %}>Group ID</a>
         </div>
     </nav>

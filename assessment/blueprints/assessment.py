@@ -30,6 +30,31 @@ def index():
                            stage_order=['E', 'P', 'I', 'A', 'S'])
 
 
+@bp.route('/about')
+def about():
+    from assessment.scorer import SAE_NAMES, STAGE_NAMES
+    from assessment.matrix import MATRIX_DATA
+    heatmap_total = 0
+    heatmap_counts = {}
+    try:
+        from storage import get_heatmap_data
+        hm = get_heatmap_data(include_test=False)
+        heatmap_total = hm.get('total', 0)
+        heatmap_counts = hm.get('counts', {})
+    except Exception:
+        pass
+    cell_descriptions = {f"{lvl}_{stg}": desc for (lvl, stg), desc in MATRIX_DATA.items()}
+    return render_template('about.html',
+                           heatmap_total=heatmap_total,
+                           heatmap_counts=heatmap_counts,
+                           cell_descriptions=cell_descriptions,
+                           sae_names=SAE_NAMES,
+                           stage_names=STAGE_NAMES,
+                           stage_descriptions=_STAGE_DESCRIPTIONS,
+                           level_descriptions=_LEVEL_DESCRIPTIONS,
+                           stage_order=['E', 'P', 'I', 'A', 'S'])
+
+
 @bp.route('/tree')
 @bp.route('/tree/v2/explore')
 def tree_gallery():
