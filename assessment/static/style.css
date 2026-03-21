@@ -4044,6 +4044,13 @@ fieldset.key-card { margin: 0; min-width: 0; }
     color: var(--primary);
 }
 
+.about-heatmap-count {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0.5rem 0 1.5rem;
+}
+
 .about-page .map-card {
     max-width: 100%;
     overflow-x: auto;

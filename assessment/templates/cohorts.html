@@ -633,10 +633,7 @@
         } else {
             // v2
             v1Results.style.display = 'none';
-            v2Results.style.display = '';
-
-            // Load the first example tree
-            loadExampleStep(0);
+            v2Results.style.display = 'none';
 
             function fetchV2() {
                 fetch('/api/forest-data?group=' + encodeURIComponent(code))
@@ -650,6 +647,7 @@
                             if (total !== lastTotal) {
                                 activateSidebar();
                                 v2Results.style.display = '';
+                                loadExampleStep(0);
 
                                 // Inject SVGs
                                 document.getElementById('cohortViewTreesGrid').innerHTML = data.trees_svg || '';
@@ -696,7 +694,7 @@
                             }
                         } else {
                             deactivateSidebar();
-                            // Hide community tabs — only show examples and QR
+                            v2Results.style.display = 'none';
                             split.style.justifyContent = 'center';
                             shareCard.style.width = 'auto';
                             status.textContent = 'No responses yet. Share the QR code to get started!';
