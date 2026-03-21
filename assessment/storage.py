@@ -258,6 +258,7 @@ def store_tree_result(
     canopy_width: int,
     canopy_height: int,
     *,
+    tree_id: Optional[str] = None,
     session_id: Optional[str] = None,
     cohort: Optional[str] = None,
     role: Optional[str] = None,
@@ -296,16 +297,19 @@ def store_tree_result(
         "canopy_width": canopy_width,
         "canopy_height": canopy_height,
         "tree_key": tree_key,
-        "svg_filename": svg_filename,       # unique SVG, or None for template
+        "svg_filename": svg_filename,
         "cohort": cohort or None,
         "role": role or None,
         "balance": balance or None,
         "tree_species": tree_species or None,
         "root_stage": root_stage or None,
         "canopy_stage": canopy_stage or None,
+        "status": "complete",
         "app_version": "2.0",
     }
 
+    if tree_id:
+        record["tree_id"] = tree_id
     if answers:
         record["answers"] = answers
     if referrer:
@@ -323,14 +327,151 @@ def store_tree_result(
         from google.cloud import firestore as fs
         db = _get_client()
         record["timestamp"] = fs.SERVER_TIMESTAMP
-        db.collection(TREE_COLLECTION).add(record)
+        # If tree_id exists, update the existing partial doc
+        if tree_id:
+            docs = list(db.collection(TREE_COLLECTION)
+                         .where("tree_id", "==", tree_id)
+                         .limit(1)
+                         .stream())
+            if docs:
+                docs[0].reference.update(record)
+            else:
+                db.collection(TREE_COLLECTION).add(record)
+        else:
+            db.collection(TREE_COLLECTION).add(record)
     else:
         record["timestamp"] = datetime.now(timezone.utc).isoformat()
-        _tree_store.append(record)
+        if tree_id:
+            # Update existing in-memory record
+            for i, rec in enumerate(_tree_store):
+                if rec.get("tree_id") == tree_id:
+                    rec.update(record)
+                    break
+            else:
+                _tree_store.append(record)
+        else:
+            _tree_store.append(record)
 
     # Rebuild the forest SVG asset (skip during bulk seeding)
     if not _seeding:
         _rebuild_forest_svg(cohort)
+
+
+# ---------------------------------------------------------------------------
+# Tree ID — resumable assessment with return codes
+# ---------------------------------------------------------------------------
+
+_TREE_ID_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no O/0/I/1
+
+
+def generate_tree_id() -> str:
+    """Generate a unique TREE-XXXX ID, checking for collisions."""
+    import random
+    for _ in range(50):
+        code = "TREE-" + "".join(random.choices(_TREE_ID_CHARS, k=4))
+        if get_tree_progress(code) is None:
+            return code
+    # Extremely unlikely — extend to 5 chars
+    return "TREE-" + "".join(random.choices(_TREE_ID_CHARS, k=5))
+
+
+def save_tree_progress(
+    tree_id: str,
+    stage: str,
+    answers: dict,
+    *,
+    role: Optional[str] = None,
+    cohort: Optional[str] = None,
+) -> None:
+    """Save partial assessment progress at a stage boundary.
+
+    Called after each stage (root, sae, canopy) completes.
+    Creates the document on first call, upserts on subsequent calls.
+    """
+    if cohort:
+        cohort = cohort.strip().lower()
+
+    completed_stages_field = "completed_stages"
+
+    if _is_enabled():
+        from google.cloud import firestore as fs
+        db = _get_client()
+        # Find existing doc by tree_id
+        docs = list(db.collection(TREE_COLLECTION)
+                     .where("tree_id", "==", tree_id)
+                     .limit(1)
+                     .stream())
+        update = {
+            "tree_id": tree_id,
+            "status": "partial",
+            "answers": answers,
+            "role": role,
+            "cohort": cohort or None,
+            "updated_at": fs.SERVER_TIMESTAMP,
+        }
+        if docs:
+            doc_ref = docs[0].reference
+            existing = docs[0].to_dict()
+            stages = existing.get(completed_stages_field, [])
+            if stage not in stages:
+                stages.append(stage)
+            update[completed_stages_field] = stages
+            doc_ref.update(update)
+        else:
+            update[completed_stages_field] = [stage]
+            update["timestamp"] = fs.SERVER_TIMESTAMP
+            db.collection(TREE_COLLECTION).add(update)
+    else:
+        # In-memory fallback
+        existing = None
+        for rec in _tree_store:
+            if rec.get("tree_id") == tree_id:
+                existing = rec
+                break
+        if existing:
+            stages = existing.get(completed_stages_field, [])
+            if stage not in stages:
+                stages.append(stage)
+            existing.update({
+                "status": "partial",
+                "answers": answers,
+                "role": role,
+                "cohort": cohort or None,
+                completed_stages_field: stages,
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            })
+        else:
+            _tree_store.append({
+                "tree_id": tree_id,
+                "status": "partial",
+                "answers": answers,
+                "role": role,
+                "cohort": cohort or None,
+                completed_stages_field: [stage],
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            })
+
+
+def get_tree_progress(tree_id: str) -> Optional[dict]:
+    """Fetch a tree record by its tree_id. Returns None if not found."""
+    if not tree_id or not tree_id.startswith("TREE-"):
+        return None
+
+    if _is_enabled():
+        db = _get_client()
+        docs = list(db.collection(TREE_COLLECTION)
+                     .where("tree_id", "==", tree_id)
+                     .limit(1)
+                     .stream())
+        if docs:
+            return docs[0].to_dict()
+        return None
+    else:
+        for rec in _tree_store:
+            if rec.get("tree_id") == tree_id:
+                return rec
+        return None
 
 
 def get_forest_data(cohort: Optional[str] = None) -> dict:
@@ -362,8 +503,6 @@ def get_forest_data(cohort: Optional[str] = None) -> dict:
         query = db.collection(TREE_COLLECTION)
         if cohort:
             query = query.where("cohort", "==", cohort)
-        else:
-            query = query.where("cohort", "==", None)
         docs = query.select(["tree_key", "root_depth", "canopy_width",
                              "canopy_height", "svg_filename", "balance"]).stream()
         for doc in docs:
@@ -381,9 +520,6 @@ def get_forest_data(cohort: Optional[str] = None) -> dict:
             rec_cohort = record.get("cohort")
             if cohort:
                 if rec_cohort != cohort:
-                    continue
-            else:
-                if rec_cohort is not None:
                     continue
             trees.append({
                 "tree_key": record.get("tree_key"),
