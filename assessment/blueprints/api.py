@@ -39,6 +39,56 @@ def _feedback_token(fb_id: str) -> str:
     return hmac.new(key, fb_id.encode(), hashlib.sha256).hexdigest()[:16]
 
 
+@bp.route('/tree-progress/<tree_id>')
+def get_tree_progress(tree_id):
+    """Fetch assessment progress or completed result by tree ID."""
+    from storage import get_tree_progress as _get
+    tree_id = tree_id.strip().upper()[:10]
+    record = _get(tree_id)
+    if record is None:
+        return jsonify({"error": "Tree ID not found"}), 404
+    # Strip internal fields, return what the client needs
+    result = {
+        "tree_id": record.get("tree_id"),
+        "status": record.get("status", "partial"),
+        "completed_stages": record.get("completed_stages", []),
+        "answers": record.get("answers", {}),
+        "role": record.get("role"),
+        "cohort": record.get("cohort"),
+    }
+    # If complete, include the full result for loading into results page
+    if result["status"] == "complete":
+        for key in ("root_depth", "canopy_width", "canopy_height",
+                     "root_stage", "canopy_stage", "balance",
+                     "tree_key", "tree_species"):
+            if key in record:
+                result[key] = record[key]
+    return jsonify(result)
+
+
+@bp.route('/tree-progress', methods=['POST'])
+def save_tree_progress():
+    """Save partial assessment progress at a stage boundary."""
+    from storage import save_tree_progress as _save, generate_tree_id
+    data = request.get_json(silent=True) or {}
+
+    tree_id = (data.get('tree_id') or '').strip().upper()[:10]
+    stage = (data.get('stage') or '').strip()[:10]
+    answers = data.get('answers') or {}
+    role = (data.get('role') or '')[:20].strip() or None
+    cohort = (data.get('cohort') or '')[:64].strip().lower() or None
+
+    if stage not in ('intake', 'root', 'sae', 'canopy'):
+        return jsonify({"error": "Invalid stage"}), 400
+
+    # Generate new ID if not provided
+    if not tree_id:
+        tree_id = generate_tree_id()
+
+    _save(tree_id, stage, answers, role=role, cohort=cohort)
+    return jsonify({"tree_id": tree_id, "stage": stage})
+
+
 @bp.route('/epias-questions')
 def epias_questions():
     """Return EPIAS maturity questions for a given SAE level and role."""
@@ -68,6 +118,21 @@ def analytics_data():
     cohort = (request.args.get('group') or request.args.get('cohort', '')).strip().lower() or None
     include_test = request.args.get('include_test', '').lower() in ('1', 'true')
     return jsonify(get_analytics_data(cohort=cohort, include_test=include_test))
+
+
+@bp.route('/forest-data')
+def forest_data():
+    """Return forest SVGs and stats for a group/cohort."""
+    from storage import get_forest_svg
+    group = (request.args.get('group') or request.args.get('cohort', '')).strip().lower()
+    if not group:
+        return jsonify({"error": "group parameter required"}), 400
+    trees_svg, forest_svg, stats = get_forest_svg(cohort=group)
+    return jsonify({
+        "trees_svg": trees_svg,
+        "forest_svg": forest_svg,
+        "stats": stats,
+    })
 
 
 @bp.route('/heatmap')

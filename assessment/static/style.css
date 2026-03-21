@@ -2166,6 +2166,39 @@ fieldset.key-card { margin: 0; min-width: 0; }
     box-shadow: 0 0 0 3px var(--primary-light);
 }
 
+/* ===== Cohort page v2 styles ===== */
+.cohort-version-select {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: var(--surface);
+    color: var(--text);
+    margin-bottom: 0.75rem;
+}
+
+.cohort-page .forest-toggle {
+    margin-bottom: 0.5rem;
+}
+
+.cohort-page .forest-canvas-wrap {
+    aspect-ratio: 1400 / 900;
+}
+
+.cohort-page .forest-page.trees-mode .forest-canvas-wrap {
+    aspect-ratio: 1000 / 600;
+}
+
+.cohort-forest-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0.75rem;
+}
+
+.cohort-panel {
+    width: 100%;
+}
+
 /* Footer */
 
 /* ===== Slide System ===== */

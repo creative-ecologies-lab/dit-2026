@@ -9,6 +9,11 @@
         <h1 class="cohort-heading">Group ID</h1>
         <p class="cohort-desc">Enter a group-id to get a link and see current map.</p>
 
+        <select id="versionSelect" class="cohort-version-select" aria-label="Assessment version">
+            <option value="v2" selected>v2 (Tree Assessment)</option>
+            <option value="v1">v1 (Heatmap)</option>
+        </select>
+
         <div class="cohort-lookup" role="search" aria-label="Group ID lookup">
             <label for="cohortInput" class="sr-only">Group ID</label>
             <div class="cohort-lookup-row">
@@ -33,7 +38,8 @@
                 <p class="cohort-join-url" id="cohortJoinUrl" aria-label="Direct link to join this group"></p>
             </aside>
 
-            <div class="cohort-map-area">
+            <!-- V1: Heatmap area -->
+            <div id="v1Results" class="cohort-map-area">
                 <div class="map-card">
                     <div id="heatmapContainer" aria-live="polite" aria-atomic="true"></div>
                 </div>
@@ -43,12 +49,131 @@
                     <span aria-hidden="true">More</span>
                 </figure>
             </div>
+
+            <!-- V2: Tree/Forest area -->
+            <div id="v2Results" class="cohort-map-area" style="display:none;">
+                <div class="forest-toggle cohort-forest-toggle">
+                    <button class="forest-toggle-btn cohort-tab active" data-cohort-view="examples">Example Trees</button>
+                    <button class="forest-toggle-btn cohort-tab" data-cohort-view="trees">All Trees</button>
+                    <button class="forest-toggle-btn cohort-tab" data-cohort-view="forest">The Forest</button>
+                </div>
+
+                <div class="forest-stats" id="cohortForestStats" style="display:none;"></div>
+                <p class="forest-subtitle" id="cohortForestSubtitle" style="display:none;">
+                    <span id="cohortParticipantCount"></span>
+                    <span class="forest-divider cohort-show-all">|</span>
+                    <label class="forest-toggle-label cohort-show-all">
+                        <input type="checkbox" id="cohortShowAllTrees"> Show 0-count trees
+                    </label>
+                </p>
+
+                <!-- Tab 1: Example Trees (carousel) -->
+                <div id="cohortViewExamples" class="cohort-panel">
+                    <div id="cohortExampleTreeContainer" class="tree-container xp-tree"></div>
+                    <div class="xp-below-tree">
+                        <div class="xp-form-nav">
+                            <button class="xp-nav-arrow" id="cohortPrev" aria-label="Previous">&larr;</button>
+                            <div class="xp-form-info">
+                                <span class="xp-form-desc" id="cohortExampleDesc"></span>
+                            </div>
+                            <button class="xp-nav-arrow" id="cohortNext" aria-label="Next">&rarr;</button>
+                        </div>
+                        <div class="forest-controls">
+                            <div class="forest-wind">
+                                <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="cohortExampleWindValue">calm</span></span>
+                                <input type="range" id="cohortExampleWind" min="0" max="100" value="0" step="8" class="wind-slider">
+                            </div>
+                            <span class="forest-divider">|</span>
+                            <div class="forest-dice">
+                                <button id="cohortExampleRollDice" class="forest-roll-btn">Chance</button>
+                                <span class="forest-info-icon" id="cohortExampleChanceInfo" title="About chance">?</span>
+                                <span id="cohortExampleDiceResult" class="forest-dice-result"></span>
+                                <div class="forest-info-popup" id="cohortExampleChancePopup">
+                                    Any given day, conditions affect strength and vulnerability. This rolls dice that impact the tree's resilience to strong winds of change.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 2+3: Community (Trees grid + Forest landscape) -->
+                <div id="cohortViewCommunity" class="cohort-panel" style="display:none;">
+                    <div class="forest-page" id="cohortForestEmbed">
+                        <div class="forest-canvas-wrap" id="cohortForestCanvasWrap">
+                            <div id="cohortViewForest" class="forest-view active"></div>
+                            <div id="cohortViewTreesGrid" class="forest-view"></div>
+                            <div id="cohortNightOverlay" class="forest-night"></div>
+                            <svg id="cohortStarsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
+                                <circle cx="91" cy="143" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="234" cy="67" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="405" cy="201" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="558" cy="34" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="712" cy="178" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="876" cy="89" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="1023" cy="245" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="150" cy="12" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="321" cy="156" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="489" cy="98" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="634" cy="223" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="798" cy="45" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="945" cy="189" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="67" cy="267" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="200" cy="112" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="378" cy="78" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="523" cy="234" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="690" cy="56" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="845" cy="190" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="1000" cy="123" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="112" cy="89" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="267" cy="234" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="423" cy="45" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="578" cy="167" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="734" cy="12" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="889" cy="145" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="1045" cy="78" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="34" cy="201" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="189" cy="56" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="345" cy="245" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="500" cy="123" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="656" cy="189" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="812" cy="34" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="967" cy="156" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="78" cy="98" r="1.4" fill="white" opacity="0.6"/>
+                                <circle cx="445" cy="267" r="0.8" fill="white" opacity="0.5"/>
+                                <circle cx="601" cy="112" r="1.0" fill="white" opacity="0.7"/>
+                                <circle cx="756" cy="223" r="1.2" fill="white" opacity="0.4"/>
+                                <circle cx="912" cy="67" r="0.6" fill="white" opacity="0.8"/>
+                                <circle cx="1067" cy="178" r="1.4" fill="white" opacity="0.6"/>
+                            </svg>
+                        </div>
+
+                        <div class="forest-controls">
+                            <div class="forest-wind">
+                                <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="cohortForestWindValue">calm</span></span>
+                                <input type="range" id="cohortForestWind" min="0" max="100" value="0" class="wind-slider">
+                            </div>
+                            <span class="forest-divider">|</span>
+                            <div class="forest-dice">
+                                <button id="cohortRollDice" class="forest-roll-btn">Chance</button>
+                                <span class="forest-info-icon" id="cohortChanceInfo" title="Info">?</span>
+                                <div class="forest-info-popup" id="cohortChancePopup">
+                                    On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.<span class="chance-trees-note" style="display:none;"> Only trees with participants are affected — 0-count trees are not rolled.</span>
+                                </div>
+                                <span id="cohortDiceResult" class="forest-dice-result">&nbsp;</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
 </div>
 
 <script src="{{ url_for('static', filename='qrcode.min.js') }}"></script>
+<script src="{{ url_for('static', filename='tree-viz.js') }}"></script>
+<script src="{{ url_for('static', filename='forest-wind.js') }}"></script>
 <script>
 (function() {
     'use strict';
@@ -56,17 +181,21 @@
     var input = document.getElementById('cohortInput');
     var btn = document.getElementById('cohortGoBtn');
     var content = document.getElementById('cohortContent');
-    var title = document.getElementById('cohortTitle');
+    var titleEl = document.getElementById('cohortTitle');
     var status = document.getElementById('heatmapStatus');
-    var container = document.getElementById('heatmapContainer');
+    var heatmapContainer = document.getElementById('heatmapContainer');
     var legend = document.getElementById('heatmapLegend');
     var qrEl = document.getElementById('qrCode');
     var urlEl = document.getElementById('cohortJoinUrl');
     var page = document.querySelector('.cohort-page');
     var header = document.querySelector('.cohort-header');
     var split = document.querySelector('.cohort-split');
-    var mapArea = document.querySelector('.cohort-map-area');
     var shareCard = document.getElementById('cohortShareCard');
+    var versionSelect = document.getElementById('versionSelect');
+
+    var v1Results = document.getElementById('v1Results');
+    var v2Results = document.getElementById('v2Results');
+
     var sidebarActive = false;
 
     var LEVELS = [5, 4, 3, 2, 1, 0];
@@ -78,7 +207,264 @@
     var STAGE_NAMES = {E: 'Explorer', P: 'Practitioner', I: 'Integrator', A: 'Architect', S: 'Steward'};
 
     var pollTimer = null;
+    var lastTotal = -1;
+    var forestWindInstance = null;
 
+    // ── Example Trees carousel data ──
+    var COHORT_STEPS = [
+        {
+            viz: {root_depth:2, root_spread:2, canopy_width:4, canopy_height:3, seed:7703},
+            meta: {root_code:'L0-P', canopy_code:'L4-I', balance:'top-heavy'},
+            desc: 'Developing craft, autonomous AI. Shallow roots. Try the wind.',
+        },
+        {
+            viz: {root_depth:5, root_spread:5, canopy_width:1, canopy_height:3, seed:7702},
+            meta: {root_code:'L0-S', canopy_code:'L1-I', balance:'deeply rooted'},
+            desc: 'Deep craft, light AI. Roots interlocked \u2014 wind can\u2019t uproot it.',
+        },
+        {
+            viz: {root_depth:2, root_spread:2, canopy_width:2, canopy_height:2, seed:7701},
+            meta: {root_code:'L0-P', canopy_code:'L2-P', balance:'balanced'},
+            desc: 'Steady craft, moderate AI. Balanced growth.',
+        },
+    ];
+
+    // ── Example Trees carousel engine ──
+    var exampleContainer = document.getElementById('cohortExampleTreeContainer');
+    var exampleDesc = document.getElementById('cohortExampleDesc');
+    var examplePrev = document.getElementById('cohortPrev');
+    var exampleNext = document.getElementById('cohortNext');
+    var exampleWindSlider = document.getElementById('cohortExampleWind');
+    var exampleWindValue = document.getElementById('cohortExampleWindValue');
+    var exampleRollBtn = document.getElementById('cohortExampleRollDice');
+    var exampleDiceResult = document.getElementById('cohortExampleDiceResult');
+    var exampleChanceInfo = document.getElementById('cohortExampleChanceInfo');
+    var exampleChancePopup = document.getElementById('cohortExampleChancePopup');
+
+    var exampleIdx = 0;
+    var exampleAnimId = null;
+    var exampleState = 'calm';
+    var exampleBreakTime = 0;
+    var exampleCurrentRoll = 5;
+    var CX = 250, GY_PIVOT = 285;
+
+    var exampleWindLabels = [
+        'calm','light air','light breeze','gentle breeze','moderate breeze',
+        'fresh breeze','strong breeze','near gale','gale','strong gale',
+        'storm','severe storm','hurricane','cat 2','cat 3','cat 4','cat 5'
+    ];
+
+    function loadExampleStep(idx) {
+        exampleIdx = idx;
+        var step = COHORT_STEPS[idx];
+        exampleWindSlider.value = 0;
+        exampleWindValue.textContent = 'calm';
+        exampleWindValue.style.color = '';
+        exampleState = 'calm';
+        exampleBreakTime = 0;
+        exampleCurrentRoll = 5;
+        if (exampleAnimId) { cancelAnimationFrame(exampleAnimId); exampleAnimId = null; }
+
+        exampleContainer.innerHTML = TreeViz.generateTreeSVG(step.viz, step.meta);
+        var belowTree = exampleContainer.parentElement.querySelector('.xp-below-tree');
+        if (belowTree) belowTree.classList.add('loaded');
+        exampleDesc.textContent = step.desc;
+
+        examplePrev.style.visibility = idx === 0 ? 'hidden' : '';
+        exampleNext.style.visibility = idx === COHORT_STEPS.length - 1 ? 'hidden' : '';
+        if (exampleDiceResult) exampleDiceResult.textContent = '';
+    }
+
+    examplePrev.addEventListener('click', function() { if (exampleIdx > 0) loadExampleStep(exampleIdx - 1); });
+    exampleNext.addEventListener('click', function() { if (exampleIdx < COHORT_STEPS.length - 1) loadExampleStep(exampleIdx + 1); });
+
+    // Example wind engine
+    function getExampleEls() {
+        var svg = exampleContainer.querySelector('svg');
+        if (!svg) return null;
+        if (!svg.querySelector('#windWarp')) {
+            var defs = svg.querySelector('defs');
+            if (!defs) { defs = document.createElementNS('http://www.w3.org/2000/svg','defs'); svg.prepend(defs); }
+            defs.insertAdjacentHTML('beforeend',
+                '<filter id="windWarp" x="-20%" y="-10%" width="140%" height="120%">' +
+                '<feTurbulence id="wTurb" type="fractalNoise" baseFrequency="0.005 0.003" numOctaves="3" seed="1" result="noise"/>' +
+                '<feDisplacementMap id="wDisp" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/>' +
+                '</filter>');
+        }
+        return {
+            svg: svg, whole: svg.querySelector('.tree-whole'),
+            canopy: svg.querySelector('.tree-canopy'),
+            leaves: svg.querySelector('.tree-leaves'), roots: svg.querySelector('.tree-roots'),
+            turb: svg.querySelector('#wTurb'), disp: svg.querySelector('#wDisp'),
+        };
+    }
+
+    function exampleTick(ts) {
+        var el = getExampleEls();
+        if (!el || !el.canopy) { exampleAnimId = null; return; }
+        var t = ts * 0.001;
+        var f = parseInt(exampleWindSlider.value) / 100;
+        var whole = el.whole || el.canopy;
+
+        if (exampleState === 'calm') {
+            whole.removeAttribute('transform');
+            if (el.canopy) el.canopy.removeAttribute('filter');
+            if (el.leaves) { el.leaves.removeAttribute('filter'); el.leaves.style.opacity = ''; }
+            exampleAnimId = null; return;
+        }
+        if (exampleState === 'swaying') {
+            var freq = 0.004 + f * 0.008;
+            el.turb.setAttribute('baseFrequency', freq.toFixed(4) + ' ' + (freq * 0.5).toFixed(4));
+            el.turb.setAttribute('seed', Math.floor(t * (2 + f * 8)) % 100);
+            el.disp.setAttribute('scale', (f * 15).toFixed(1));
+            if (el.canopy) el.canopy.setAttribute('filter', 'url(#windWarp)');
+            if (el.leaves) el.leaves.setAttribute('filter', 'url(#windWarp)');
+            var bend = Math.sin(t * (1.5 + f * 2)) * f * 3 + f * 2;
+            whole.setAttribute('transform', 'rotate(' + bend.toFixed(1) + ' ' + CX + ' ' + GY_PIVOT + ')');
+        }
+        if (exampleState === 'breaking') {
+            exampleBreakTime += 0.016;
+            var phase = Math.min(exampleBreakTime / 1.5, 1);
+            var shiftX = Math.pow(phase, 1.5) * 600;
+            var liftY = -Math.sin(phase * Math.PI) * 80;
+            var tumble = phase * 360;
+            var scale = 1 - phase * 0.6;
+            whole.setAttribute('transform',
+                'translate(' + shiftX.toFixed(0) + ' ' + liftY.toFixed(0) + ') ' +
+                'rotate(' + tumble.toFixed(0) + ' ' + CX + ' ' + GY_PIVOT + ') ' +
+                'scale(' + scale.toFixed(2) + ')');
+            if (el.canopy) {
+                el.disp.setAttribute('scale', (10 + phase * 15).toFixed(0));
+                el.turb.setAttribute('seed', Math.floor(t * 12) % 100);
+                el.canopy.setAttribute('filter', 'url(#windWarp)');
+            }
+            if (el.leaves) el.leaves.style.opacity = Math.max(0, 1 - phase * 1.5).toFixed(2);
+            if (phase >= 1) exampleState = 'fallen';
+        }
+        if (exampleState === 'fallen') {
+            whole.setAttribute('transform', 'translate(800 -200) scale(0.1)');
+            if (el.canopy) el.canopy.removeAttribute('filter');
+            exampleAnimId = null; return;
+        }
+        exampleAnimId = requestAnimationFrame(exampleTick);
+    }
+
+    function getExampleEffectiveBreakAt() {
+        var step = COHORT_STEPS[exampleIdx];
+        var w = step.viz.canopy_width, h = step.viz.canopy_height;
+        var rd = step.viz.root_depth, rs = step.viz.root_spread || rd;
+        var ratio = (w * 2 + h * 2) / (rd * rs || 1);
+        var effective = ratio * (exampleCurrentRoll / 5);
+        if (effective > 2.0) return 0.20;
+        if (effective <= 0.6) return 99;
+        return 0.20 + (2.0 - effective) / (2.0 - 0.6) * 0.80;
+    }
+
+    exampleWindSlider.addEventListener('input', function() {
+        var f = parseInt(this.value) / 100;
+        var effectiveBreakAt = getExampleEffectiveBreakAt();
+        if (f <= 0) { exampleState = 'calm'; exampleBreakTime = 0; if (exampleAnimId) { cancelAnimationFrame(exampleAnimId); exampleAnimId = null; } exampleTick(0); return; }
+        if (f >= effectiveBreakAt && exampleState === 'swaying') { exampleState = 'breaking'; exampleBreakTime = 0; }
+        else if (exampleState !== 'breaking' && exampleState !== 'fallen') { exampleState = 'swaying'; }
+        if (!exampleAnimId) exampleAnimId = requestAnimationFrame(exampleTick);
+        var li = Math.min(exampleWindLabels.length - 1, Math.floor(f * exampleWindLabels.length * 0.99));
+        exampleWindValue.textContent = exampleWindLabels[li];
+        exampleWindValue.style.color = (exampleState === 'breaking' || exampleState === 'fallen') ? '#f87171' : f > 0.7 ? '#fbbf24' : '';
+    });
+
+    if (exampleRollBtn) {
+        exampleRollBtn.addEventListener('click', function() {
+            exampleCurrentRoll = Math.floor(Math.random() * 9) + 1;
+            var effectiveBreakAt = getExampleEffectiveBreakAt();
+            var rollStatus = effectiveBreakAt >= 99 ? 'safe' : 'at risk';
+            exampleDiceResult.textContent = rollStatus;
+            exampleDiceResult.style.color = rollStatus === 'safe' ? '#4ade80' : '#f87171';
+            if (exampleState === 'fallen' || exampleState === 'breaking') {
+                exampleState = 'calm';
+                exampleBreakTime = 0;
+                exampleWindSlider.value = 0;
+                exampleWindValue.textContent = 'calm';
+                exampleWindValue.style.color = '';
+                exampleTick(0);
+            }
+        });
+    }
+
+    if (exampleChanceInfo && exampleChancePopup) {
+        exampleChanceInfo.addEventListener('click', function(e) {
+            e.stopPropagation();
+            exampleChancePopup.classList.toggle('show');
+        });
+        document.addEventListener('click', function() { exampleChancePopup.classList.remove('show'); });
+    }
+
+    // ── V2 Tab switching ──
+    var cohortTabs = document.querySelectorAll('.cohort-tab');
+    var cohortExamplesView = document.getElementById('cohortViewExamples');
+    var cohortCommunityView = document.getElementById('cohortViewCommunity');
+    var cohortSubtitle = document.getElementById('cohortForestSubtitle');
+    var cohortStats = document.getElementById('cohortForestStats');
+    var cohortForestView = document.getElementById('cohortViewForest');
+    var cohortTreesView = document.getElementById('cohortViewTreesGrid');
+    var cohortForestEmbed = document.getElementById('cohortForestEmbed');
+
+    cohortTabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var target = tab.getAttribute('data-cohort-view');
+            cohortTabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            var showAllEls = document.querySelectorAll('.cohort-show-all');
+
+            if (target === 'examples') {
+                cohortExamplesView.style.display = '';
+                cohortCommunityView.style.display = 'none';
+                cohortSubtitle.style.display = 'none';
+                cohortStats.style.display = 'none';
+                showAllEls.forEach(function(el) { el.style.display = 'none'; });
+            } else {
+                cohortExamplesView.style.display = 'none';
+                cohortCommunityView.style.display = '';
+                cohortSubtitle.style.display = '';
+                cohortStats.style.display = '';
+
+                var treeNotes = document.querySelectorAll('#cohortViewCommunity .chance-trees-note');
+                if (target === 'trees') {
+                    cohortTreesView.classList.add('active');
+                    cohortForestView.classList.remove('active');
+                    if (cohortForestEmbed) cohortForestEmbed.classList.add('trees-mode');
+                    showAllEls.forEach(function(el) { el.style.display = 'inline-flex'; });
+                    treeNotes.forEach(function(el) { el.style.display = ''; });
+                } else {
+                    cohortForestView.classList.add('active');
+                    cohortTreesView.classList.remove('active');
+                    if (cohortForestEmbed) cohortForestEmbed.classList.remove('trees-mode');
+                    showAllEls.forEach(function(el) { el.style.display = 'none'; });
+                    treeNotes.forEach(function(el) { el.style.display = 'none'; });
+                }
+            }
+        });
+    });
+
+    // Show/hide empty trees
+    var cohortShowAllCheck = document.getElementById('cohortShowAllTrees');
+    if (cohortShowAllCheck) {
+        cohortShowAllCheck.addEventListener('change', function() {
+            document.querySelectorAll('#cohortViewCommunity [data-empty]').forEach(function(el) {
+                el.style.display = cohortShowAllCheck.checked ? '' : 'none';
+            });
+        });
+    }
+
+    // Info popups for community view
+    var cohortChanceInfo = document.getElementById('cohortChanceInfo');
+    var cohortChancePopup = document.getElementById('cohortChancePopup');
+    if (cohortChanceInfo) cohortChanceInfo.addEventListener('click', function(e) { e.stopPropagation(); cohortChancePopup.classList.toggle('visible'); });
+    document.addEventListener('click', function() {
+        if (cohortChancePopup) cohortChancePopup.classList.remove('visible');
+    });
+
+    // ── Heatmap rendering (v1) ──
     function renderHeatmap(data) {
         var counts = data.counts;
         var maxCount = Math.max(1, ...Object.values(counts));
@@ -114,28 +500,66 @@
         });
 
         html += '</tbody></table>';
-        container.innerHTML = html;
+        heatmapContainer.innerHTML = html;
     }
 
+    // ── V2: render balance stats ──
+    function renderV2Stats(stats) {
+        var statsEl = document.getElementById('cohortForestStats');
+        var balanceOrder = ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'];
+        var balanceColors = {
+            'deeply rooted': 'rgba(74,222,128,0.45)',
+            'balanced': 'rgba(74,222,128,0.35)',
+            'grounded': 'rgba(74,222,128,0.25)',
+            'reaching': 'rgba(251,191,36,0.55)',
+            'top-heavy': 'rgba(248,113,113,0.6)'
+        };
+        var html = '';
+        var bc = stats.balance_counts || {};
+        balanceOrder.forEach(function(b) {
+            var count = bc[b] || 0;
+            if (count > 0 && stats.total > 0) {
+                var pct = Math.round(count / stats.total * 100);
+                html += '<span class="forest-stat">'
+                    + '<span class="forest-stat-dot" style="background:' + balanceColors[b] + '"></span>'
+                    + b + ' ' + pct + '%</span>';
+            }
+        });
+        statsEl.innerHTML = html;
+        document.getElementById('cohortParticipantCount').textContent = stats.total + ' participant' + (stats.total === 1 ? '' : 's');
+    }
+
+    // ── Main lookup ──
     function lookup() {
         var code = (input.value || '').trim().toLowerCase();
         if (!code) return;
 
         // Stop any previous polling
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+        lastTotal = -1;
 
-        // Prepare title and QR while content stays hidden
+        // Destroy previous forest wind instance
+        if (forestWindInstance) {
+            forestWindInstance.destroy();
+            forestWindInstance = null;
+        }
+
+        var version = versionSelect.value;
+
+        // Prepare title while content stays hidden
         var codeSpan = document.createElement('span');
         codeSpan.className = 'cohort-code-highlight';
         codeSpan.textContent = code;
-        title.textContent = 'AI Upskilling Map for ';
-        title.appendChild(codeSpan);
-        container.innerHTML = '';
+        titleEl.textContent = 'AI Upskilling Map for ';
+        titleEl.appendChild(codeSpan);
+        heatmapContainer.innerHTML = '';
         legend.style.display = 'none';
         status.textContent = '';
 
-        // QR code (generated while hidden)
-        var joinUrl = location.origin + '/assess?group=' + encodeURIComponent(code);
+        // QR code — URL depends on version
+        var joinUrl = version === 'v2'
+            ? location.origin + '/tree/v2?group=' + encodeURIComponent(code)
+            : location.origin + '/assess?group=' + encodeURIComponent(code);
         urlEl.textContent = joinUrl;
         var qr = qrcode(0, 'M');
         qr.addData(joinUrl);
@@ -149,57 +573,157 @@
 
         var firstFetch = !content.style.display || content.style.display === 'none';
 
-        // Fetch heatmap data
-        function fetchData() {
-            fetch('/api/heatmap?group=' + encodeURIComponent(code))
-                .then(function(r) { return r.json(); })
-                .then(function(data) {
-                    if (data.total > 0) {
-                        // Set up sidebar layout before showing
-                        if (!sidebarActive) {
-                            header.appendChild(shareCard);
-                            sidebarActive = true;
-                            page.classList.add('cohort-page--has-map');
-                        }
-                        mapArea.style.display = '';
-                        renderHeatmap(data);
-                        legend.style.display = '';
-                        status.innerHTML = '<strong>' + data.total + '</strong> ' + (data.total === 1 ? 'response' : 'responses');
-                    } else {
-                        // No data — revert to centered layout
-                        if (sidebarActive) {
-                            split.insertBefore(shareCard, mapArea);
-                            page.classList.remove('cohort-page--has-map');
-                            sidebarActive = false;
-                        }
-                        mapArea.style.display = 'none';
-                        split.style.justifyContent = 'center';
-                        shareCard.style.width = 'auto';
-                        legend.style.display = 'none';
-                        status.textContent = 'No responses yet. Share the QR code to get started!';
-                    }
-                    // Show everything at once on first load
-                    if (firstFetch) {
-                        content.style.display = '';
-                        firstFetch = false;
-                    }
-                })
-                .catch(function() {
-                    container.innerHTML = '<p role="alert" style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
-                    if (firstFetch) {
-                        content.style.display = '';
-                        firstFetch = false;
-                    }
-                });
+        function activateSidebar() {
+            if (!sidebarActive) {
+                header.appendChild(shareCard);
+                sidebarActive = true;
+                page.classList.add('cohort-page--has-map');
+            }
         }
 
-        fetchData();
-        pollTimer = setInterval(fetchData, 30000);
+        function deactivateSidebar() {
+            if (sidebarActive) {
+                var activeMapArea = version === 'v2' ? v2Results : v1Results;
+                split.insertBefore(shareCard, activeMapArea);
+                page.classList.remove('cohort-page--has-map');
+                sidebarActive = false;
+            }
+        }
+
+        function showContent() {
+            if (firstFetch) {
+                content.style.display = '';
+                firstFetch = false;
+            }
+        }
+
+        if (version === 'v1') {
+            v1Results.style.display = '';
+            v2Results.style.display = 'none';
+
+            function fetchV1() {
+                fetch('/api/heatmap?group=' + encodeURIComponent(code))
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (data.total > 0) {
+                            activateSidebar();
+                            v1Results.style.display = '';
+                            renderHeatmap(data);
+                            legend.style.display = '';
+                            status.innerHTML = '<strong>' + data.total + '</strong> ' + (data.total === 1 ? 'response' : 'responses');
+                        } else {
+                            deactivateSidebar();
+                            v1Results.style.display = 'none';
+                            split.style.justifyContent = 'center';
+                            shareCard.style.width = 'auto';
+                            legend.style.display = 'none';
+                            status.textContent = 'No responses yet. Share the QR code to get started!';
+                        }
+                        showContent();
+                    })
+                    .catch(function() {
+                        heatmapContainer.innerHTML = '<p role="alert" style="text-align:center;color:var(--text-muted);">Could not load heatmap data.</p>';
+                        showContent();
+                    });
+            }
+
+            fetchV1();
+            pollTimer = setInterval(fetchV1, 30000);
+
+        } else {
+            // v2
+            v1Results.style.display = 'none';
+            v2Results.style.display = '';
+
+            // Load the first example tree
+            loadExampleStep(0);
+
+            function fetchV2() {
+                fetch('/api/forest-data?group=' + encodeURIComponent(code))
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        var stats = data.stats || {};
+                        var total = stats.total || 0;
+
+                        if (total > 0) {
+                            // Only update SVGs if total changed (avoid flicker)
+                            if (total !== lastTotal) {
+                                activateSidebar();
+                                v2Results.style.display = '';
+
+                                // Inject SVGs
+                                document.getElementById('cohortViewTreesGrid').innerHTML = data.trees_svg || '';
+                                document.getElementById('cohortViewForest').innerHTML = data.forest_svg || '';
+
+                                // Render stats
+                                renderV2Stats(stats);
+
+                                // Hide empty trees by default
+                                document.querySelectorAll('#cohortViewCommunity [data-empty]').forEach(function(el) {
+                                    el.style.display = cohortShowAllCheck && cohortShowAllCheck.checked ? '' : 'none';
+                                });
+
+                                // Init forest wind for this cohort's forest embed
+                                // Remap IDs for initForestWind compatibility
+                                var cohortForestEl = document.getElementById('cohortForestEmbed');
+                                if (forestWindInstance) forestWindInstance.destroy();
+
+                                // Create a scoped wrapper that maps the expected IDs
+                                var windProxy = {
+                                    querySelector: function(sel) {
+                                        // Map generic IDs to cohort-prefixed IDs
+                                        var idMap = {
+                                            '#forestWind': '#cohortForestWind',
+                                            '#forestWindValue': '#cohortForestWindValue',
+                                            '#rollDice': '#cohortRollDice',
+                                            '#diceResult': '#cohortDiceResult',
+                                            '#nightOverlay': '#cohortNightOverlay',
+                                            '#starsOverlay': '#cohortStarsOverlay',
+                                            '#showAllTrees': '#cohortShowAllTrees',
+                                        };
+                                        var mapped = idMap[sel];
+                                        if (mapped) return document.querySelector(mapped);
+                                        return cohortForestEl.querySelector(sel) || document.querySelector(sel);
+                                    },
+                                    querySelectorAll: function(sel) {
+                                        return cohortForestEl.querySelectorAll(sel);
+                                    }
+                                };
+                                forestWindInstance = window.initForestWind(windProxy);
+
+                                status.innerHTML = '<strong>' + total + '</strong> ' + (total === 1 ? 'response' : 'responses');
+                                lastTotal = total;
+                            }
+                        } else {
+                            deactivateSidebar();
+                            // Hide community tabs — only show examples and QR
+                            split.style.justifyContent = 'center';
+                            shareCard.style.width = 'auto';
+                            status.textContent = 'No responses yet. Share the QR code to get started!';
+                            lastTotal = 0;
+                        }
+                        showContent();
+                    })
+                    .catch(function() {
+                        status.textContent = 'Could not load forest data.';
+                        showContent();
+                    });
+            }
+
+            fetchV2();
+            pollTimer = setInterval(fetchV2, 30000);
+        }
     }
 
     btn.addEventListener('click', lookup);
     input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') lookup();
+    });
+
+    // Re-lookup when version changes (if there's already a group entered)
+    versionSelect.addEventListener('change', function() {
+        var code = (input.value || '').trim();
+        if (code) lookup();
     });
 
     // Auto-focus the input

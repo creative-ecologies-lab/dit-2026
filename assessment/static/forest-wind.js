@@ -8,16 +8,25 @@
  *
  * Wind slider then reveals which trees fall at each level.
  * Trees must be rolled before wind has any effect beyond swaying.
+ *
+ * Refactored: core logic in initForestWind(rootEl) for dynamic init.
  */
 
-(function() {
+window.initForestWind = function(rootEl) {
     'use strict';
 
-    var windSlider = document.getElementById('forestWind');
-    var windValue = document.getElementById('forestWindValue');
-    var rollBtn = document.getElementById('rollDice');
-    var diceResult = document.getElementById('diceResult');
-    if (!windSlider || !rollBtn) return;
+    rootEl = rootEl || document;
+
+    // Helper: look up by ID within rootEl first, then document
+    function $(id) {
+        return rootEl.querySelector('#' + id) || document.getElementById(id);
+    }
+
+    var windSlider = $('forestWind');
+    var windValue = $('forestWindValue');
+    var rollBtn = $('rollDice');
+    var diceResult = $('diceResult');
+    if (!windSlider || !rollBtn) return { destroy: function() {} };
 
     var windLabels = [
         'calm', 'light air', 'light breeze', 'gentle breeze',
@@ -32,9 +41,11 @@
     var smoothWind = 0;
     var rolled = false;
     var calmSince = 0;
+    var animHandle = null;
 
     function bindTrees() {
-        var active = document.querySelector('.forest-view.active');
+        var active = rootEl.querySelector('.forest-view.active');
+        if (!active) active = document.querySelector('.forest-view.active');
         if (!active) return;
         var els = active.querySelectorAll('.forest-tree-g');
         trees = [];
@@ -69,7 +80,9 @@
     doRoll();
     rolled = true;
 
-    document.querySelectorAll('.forest-toggle-btn').forEach(function(btn) {
+    var toggleBtns = rootEl.querySelectorAll('.forest-toggle-btn');
+    if (toggleBtns.length === 0) toggleBtns = document.querySelectorAll('.forest-toggle-btn');
+    toggleBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
             setTimeout(function() {
                 bindTrees();
@@ -81,8 +94,8 @@
     });
 
     // ── Night overlay ──
-    var nightEl = document.getElementById('nightOverlay');
-    var starsEl = document.getElementById('starsOverlay');
+    var nightEl = $('nightOverlay');
+    var starsEl = $('starsOverlay');
     var rolling = false;
 
     var lastVulnerable = 0;
@@ -95,7 +108,7 @@
             t.fallT = 0;
             t.queued = false;
             t.fadeStart = null;
-            var showAll = document.getElementById('showAllTrees');
+            var showAll = $('showAllTrees');
             var hidden = t.isEmpty && showAll && !showAll.checked;
             t.el.style.display = hidden ? 'none' : '';
             t.el.style.opacity = '';
@@ -138,26 +151,36 @@
 
         diceResult.textContent = '\u00a0';
 
-        starsEl.style.transition = 'opacity 1.5s';
-        starsEl.style.opacity = '0.3';
+        if (starsEl) {
+            starsEl.style.transition = 'opacity 1.5s';
+            starsEl.style.opacity = '0.3';
+        }
 
         setTimeout(function() {
-            nightEl.style.transition = 'opacity 1.2s';
-            nightEl.style.opacity = '0.35';
-            starsEl.style.transition = 'opacity 1s';
-            starsEl.style.opacity = '1';
+            if (nightEl) {
+                nightEl.style.transition = 'opacity 1.2s';
+                nightEl.style.opacity = '0.35';
+            }
+            if (starsEl) {
+                starsEl.style.transition = 'opacity 1s';
+                starsEl.style.opacity = '1';
+            }
         }, 400);
 
         setTimeout(function() { doRoll(); }, 1500);
 
         setTimeout(function() {
-            nightEl.style.transition = 'opacity 1.2s';
-            nightEl.style.opacity = '0';
+            if (nightEl) {
+                nightEl.style.transition = 'opacity 1.2s';
+                nightEl.style.opacity = '0';
+            }
         }, 1900);
 
         setTimeout(function() {
-            starsEl.style.transition = 'opacity 1s';
-            starsEl.style.opacity = '0';
+            if (starsEl) {
+                starsEl.style.transition = 'opacity 1s';
+                starsEl.style.opacity = '0';
+            }
         }, 2200);
 
         setTimeout(function() {
@@ -199,7 +222,7 @@
         }
 
         if (calmSince && (now - calmSince) > 2) {
-            var showAll2 = document.getElementById('showAllTrees');
+            var showAll2 = $('showAllTrees');
             trees.forEach(function(t) {
                 t.fallen = false;
                 t.falling = false;
@@ -298,8 +321,22 @@
             }
         });
 
-        requestAnimationFrame(tick);
+        animHandle = requestAnimationFrame(tick);
     }
 
-    tick();
-})();
+    animHandle = requestAnimationFrame(tick);
+
+    return {
+        destroy: function() {
+            if (animHandle) {
+                cancelAnimationFrame(animHandle);
+                animHandle = null;
+            }
+        }
+    };
+};
+
+// Auto-init for server-rendered pages
+if (document.getElementById('forestWind')) {
+    window._forestWindInstance = window.initForestWind(document);
+}
