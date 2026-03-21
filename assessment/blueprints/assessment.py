@@ -113,19 +113,7 @@ def submit_assessment_v2():
     score = score_assessment_v2(data, role=role or 'design')
     placement = get_placement_v2(score)
     try:
-        from storage import store_result, store_tree_result
-        # Legacy v1 heatmap storage (sae_level × epias_stage)
-        store_result(
-            score['sae_level'],
-            score.get('canopy_stage') or score['root_stage'],
-            cohort=cohort, role=role,
-            answers=raw_answers,
-            sae_distribution=score.get('sae_distribution'),
-            epias_distribution=score.get('root_distribution'),
-            referrer=request.referrer,
-            ua=request.headers.get('User-Agent', ''),
-            utm_source=utm_source, utm_medium=utm_medium, utm_campaign=utm_campaign,
-        )
+        from storage import store_tree_result
         # V2 tree storage (3D: root_depth × canopy_width × canopy_height)
         # Generates a unique organism SVG seeded by session_id
         store_tree_result(
