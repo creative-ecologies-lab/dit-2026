@@ -15,8 +15,8 @@ test.describe('Group ID page (/group-id)', () => {
     const select = page.locator('#versionSelect');
     const options = select.locator('option');
     await expect(options).toHaveCount(2);
-    await expect(options.nth(0)).toHaveValue('v2');
-    await expect(options.nth(1)).toHaveValue('v1');
+    await expect(options.nth(0)).toHaveAttribute('value', 'v2');
+    await expect(options.nth(1)).toHaveAttribute('value', 'v1');
   });
 
   test('entering a group ID generates a QR code', async ({ page }) => {
