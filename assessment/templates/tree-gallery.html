@@ -29,7 +29,7 @@
         <div class="xp-right">
             <div class="forest-toggle xp-gallery-toggle">
                 <button class="forest-toggle-btn gallery-tab active" data-view="examples">Example Trees</button>
-                <button class="forest-toggle-btn gallery-tab" data-view="trees">The Trees</button>
+                <button class="forest-toggle-btn gallery-tab" data-view="trees">All Trees</button>
                 <button class="forest-toggle-btn gallery-tab" data-view="forest">The Forest</button>
             </div>
 
@@ -64,15 +64,19 @@
                         </div>
                         <button class="xp-nav-arrow" id="xpNext" aria-label="Next">&rarr;</button>
                     </div>
-                    <div class="xp-wind-row">
-                        <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="xpWindValue">calm</span></span>
-                        <input type="range" id="xpWind" min="0" max="100" value="0" step="8" class="wind-slider" style="width:120px">
+                    <div class="forest-controls">
+                        <div class="forest-wind">
+                            <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="xpWindValue">calm</span></span>
+                            <input type="range" id="xpWind" min="0" max="100" value="0" step="8" class="wind-slider">
+                        </div>
                         <span class="forest-divider">|</span>
-                        <button id="xpRollDice" class="forest-roll-btn">Chance</button>
-                        <span class="forest-info-icon" id="xpChanceInfo" title="About chance">?</span>
-                        <span id="xpDiceResult" class="forest-dice-result"></span>
-                        <div class="forest-info-popup" id="xpChancePopup">
-                            Any given day, conditions affect strength and vulnerability. This rolls dice that impact the tree's resilience to strong winds of change.
+                        <div class="forest-dice">
+                            <button id="xpRollDice" class="forest-roll-btn">Chance</button>
+                            <span class="forest-info-icon" id="xpChanceInfo" title="About chance">?</span>
+                            <span id="xpDiceResult" class="forest-dice-result"></span>
+                            <div class="forest-info-popup" id="xpChancePopup">
+                                Any given day, conditions affect strength and vulnerability. This rolls dice that impact the tree's resilience to strong winds of change.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +106,7 @@
                             <button id="rollDice" class="forest-roll-btn">Chance</button>
                             <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
                             <div class="forest-info-popup" id="chancePopup">
-                                On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.
+                                On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.<span class="chance-trees-note" style="display:none;"> Only trees with participants are affected — 0-count trees are not rolled.</span>
                             </div>
                             <span id="diceResult" class="forest-dice-result">&nbsp;</span>
                         </div>
@@ -131,21 +135,21 @@ const STEPS = [
         meta: {root_code:'L0-P', canopy_code:'L4-I', balance:'top-heavy'},
         maxLean: 75, breakAt: 0.5, ratio: (4*2+3*2)/(2*5),
         code: 'L0-P / L4-I',
-        desc: 'Developing craft. Autonomous AI workflows. Roots not deeply developed. Try the wind.',
+        desc: 'Developing craft, autonomous AI. Shallow roots. Try the wind.',
     },
     {
         viz: {root_depth:5, root_spread:5, canopy_width:1, canopy_height:3, seed:7702},
         meta: {root_code:'L0-S', canopy_code:'L1-I', balance:'deeply rooted'},
         maxLean: 5, breakAt: 99, ratio: (1*2+3*2)/(5*5),
         code: 'L0-S / L1-I',
-        desc: 'Sets organizational standards. Mentors across teams. Roots interlocked with the forest \u2014 the wind can\u2019t separate what\u2019s woven together.',
+        desc: 'Deep craft, light AI. Roots interlocked \u2014 wind can\u2019t uproot it.',
     },
     {
         viz: {root_depth:2, root_spread:2, canopy_width:2, canopy_height:2, seed:7701},
         meta: {root_code:'L0-P', canopy_code:'L2-P', balance:'balanced'},
         maxLean: 12, breakAt: 99, ratio: (2*2+2*2)/(2*5),
         code: 'L0-P / L2-P',
-        desc: 'Consistent craft practice. Moderate AI use. Balanced. Roots beginning to connect with neighbors.',
+        desc: 'Steady craft, moderate AI. Balanced growth.',
     },
 ];
 </script>
@@ -184,16 +188,19 @@ const STEPS = [
                 subtitle.style.display = '';
                 galleryStats.style.display = '';
 
+                var treeNotes = document.querySelectorAll('.chance-trees-note');
                 if (target === 'trees') {
                     treesView.classList.add('active');
                     forestView.classList.remove('active');
                     if (forestEmbed) forestEmbed.classList.add('trees-mode');
                     showAllEls.forEach(function(el) { el.style.display = 'inline-flex'; });
+                    treeNotes.forEach(function(el) { el.style.display = ''; });
                 } else {
                     forestView.classList.add('active');
                     treesView.classList.remove('active');
                     if (forestEmbed) forestEmbed.classList.remove('trees-mode');
                     showAllEls.forEach(function(el) { el.style.display = 'none'; });
+                    treeNotes.forEach(function(el) { el.style.display = 'none'; });
                 }
             }
         });

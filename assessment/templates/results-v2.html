@@ -9,8 +9,19 @@
         <div class="results-toggle">
             <div class="forest-toggle">
                 <button class="forest-toggle-btn results-tab active" data-view="yourTree">Your Tree</button>
-                <button class="forest-toggle-btn results-tab" data-view="trees">The Trees</button>
+                <button class="forest-toggle-btn results-tab" data-view="trees">All Trees</button>
                 <button class="forest-toggle-btn results-tab" data-view="forest">The Forest</button>
+            </div>
+            <div class="forest-stats" id="resultsStats" style="display:none;">
+                {% for b in ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'] %}
+                    {% if stats.balance_counts.get(b, 0) > 0 %}
+                        {% set pct = (stats.balance_counts[b] / stats.total * 100) | round | int %}
+                        {% set col = {'deeply rooted':'rgba(74,222,128,0.45)', 'balanced':'rgba(74,222,128,0.35)', 'grounded':'rgba(74,222,128,0.25)', 'reaching':'rgba(251,191,36,0.55)', 'top-heavy':'rgba(248,113,113,0.6)'}[b] %}
+                        <span class="forest-stat">
+                            <span class="forest-stat-dot" style="background:{{ col }}"></span>{{ b }} {{ pct }}%
+                        </span>
+                    {% endif %}
+                {% endfor %}
             </div>
             <p class="forest-subtitle" id="communitySubtitle" style="display:none;">
                 {{ stats.total }} participants
@@ -56,10 +67,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="wind-control" role="group" aria-label="Wind simulation">
-                    <label for="windSlider" class="wind-label">Winds of change: <span class="wind-value" id="windValue">calm</span></label>
-                    <input type="range" id="windSlider" min="0" max="100" value="0" class="wind-slider" aria-label="Wind strength">
-                    <div class="result-dice">
+                <div class="forest-controls" role="group" aria-label="Wind simulation">
+                    <div class="forest-wind">
+                        <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="windValue">calm</span></span>
+                        <input type="range" id="windSlider" min="0" max="100" value="0" class="wind-slider" aria-label="Wind strength">
+                    </div>
+                    <span class="forest-divider">|</span>
+                    <div class="forest-dice">
                         <button class="forest-roll-btn" id="resultRollDice">Chance</button>
                         <span class="forest-info-icon" id="resultChanceInfo" title="Info">?</span>
                         <div class="forest-info-popup" id="resultChancePopup">
@@ -149,23 +163,12 @@
                         <button id="rollDice" class="forest-roll-btn">Chance</button>
                         <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
                         <div class="forest-info-popup" id="chancePopup">
-                            On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.
+                            On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.<span class="chance-trees-note" style="display:none;"> Only trees with participants are affected — 0-count trees are not rolled.</span>
                         </div>
                         <span id="diceResult" class="forest-dice-result">&nbsp;</span>
                     </div>
                 </div>
 
-                <div class="forest-stats">
-                    {% for b in ['deeply rooted', 'balanced', 'grounded', 'reaching', 'top-heavy'] %}
-                        {% if stats.balance_counts.get(b, 0) > 0 %}
-                            {% set pct = (stats.balance_counts[b] / stats.total * 100) | round | int %}
-                            {% set col = {'deeply rooted':'rgba(74,222,128,0.45)', 'balanced':'rgba(74,222,128,0.35)', 'grounded':'rgba(74,222,128,0.25)', 'reaching':'rgba(251,191,36,0.55)', 'top-heavy':'rgba(248,113,113,0.6)'}[b] %}
-                            <span class="forest-stat">
-                                <span class="forest-stat-dot" style="background:{{ col }}"></span>{{ b }} {{ pct }}%
-                            </span>
-                        {% endif %}
-                    {% endfor %}
-                </div>
             </div>
         </div>
 
@@ -195,6 +198,7 @@
     var yourTree = document.getElementById('viewYourTree');
     var community = document.getElementById('viewCommunity');
     var subtitle = document.getElementById('communitySubtitle');
+    var resultsStats = document.getElementById('resultsStats');
     var forestView = document.getElementById('viewForest');
     var treesView = document.getElementById('viewTreesGrid');
     var forestEmbed = document.getElementById('forestEmbed');
@@ -211,23 +215,28 @@
                 yourTree.style.display = '';
                 community.style.display = 'none';
                 subtitle.style.display = 'none';
+                if (resultsStats) resultsStats.style.display = 'none';
                 if (forestEmbed) forestEmbed.classList.remove('trees-mode');
                 showAllEls.forEach(function(el) { el.style.display = 'none'; });
             } else {
                 yourTree.style.display = 'none';
                 community.style.display = '';
                 subtitle.style.display = '';
+                if (resultsStats) resultsStats.style.display = '';
 
+                var treeNotes = document.querySelectorAll('.chance-trees-note');
                 if (target === 'trees') {
                     treesView.classList.add('active');
                     forestView.classList.remove('active');
                     if (forestEmbed) forestEmbed.classList.add('trees-mode');
-                    showAllEls.forEach(function(el) { el.style.display = ''; });
+                    showAllEls.forEach(function(el) { el.style.display = 'inline-flex'; });
+                    treeNotes.forEach(function(el) { el.style.display = ''; });
                 } else {
                     forestView.classList.add('active');
                     treesView.classList.remove('active');
                     if (forestEmbed) forestEmbed.classList.remove('trees-mode');
                     showAllEls.forEach(function(el) { el.style.display = 'none'; });
+                    treeNotes.forEach(function(el) { el.style.display = 'none'; });
                 }
             }
         });

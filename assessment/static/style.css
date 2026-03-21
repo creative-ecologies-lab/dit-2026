@@ -1089,7 +1089,7 @@ body:has(.forest-page) .container { max-width: 100%; padding: 0; overflow: visib
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    padding-bottom: 2rem;
+    padding-bottom: 0.5rem;
 }
 .results-section {
     padding: 1.5rem 0;
@@ -2358,6 +2358,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
     body { height: auto; overflow-x: hidden; overflow-y: auto; }
     .container { padding: 0.75rem 1rem; overflow: visible; min-width: 0; }
     .top-nav { padding: 0.75rem 1rem; flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .nav-brand { text-align: center; }
     .nav-brand a { font-size: 0.95rem; word-break: break-word; line-height: 1.3; }
 
     /* Nav — allow links to wrap on narrow screens */
@@ -2915,7 +2916,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
     }
     .tree-hero .balance-indicator { order: 1; }
     .tree-hero .tree-container { order: 2; width: 100%; }
-    .tree-hero .wind-control { order: 3; width: 100%; }
+    .tree-hero .forest-controls { order: 3; width: 100%; }
     .tree-side-cards {
         order: 4;
         display: flex;
@@ -3008,11 +3009,13 @@ fieldset.key-card { margin: 0; min-width: 0; }
 .balance-indicator {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.25rem 1rem;
     background: var(--bg);
     border-radius: var(--radius);
     margin-bottom: 0.25rem;
+    text-align: center;
 }
 
 .balance-dot {
@@ -3143,6 +3146,8 @@ fieldset.key-card { margin: 0; min-width: 0; }
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--text);
+    display: inline-block;
+    min-width: 8em;
 }
 
 /* SVG transform setup */
@@ -3220,37 +3225,63 @@ fieldset.key-card { margin: 0; min-width: 0; }
         overflow-y: auto;
     }
 
-    .xp-layout {
+    .xp-page {
         display: flex;
         flex-direction: column;
-        gap: 0;
-        padding: 0.75rem;
     }
 
-    .xp-left { text-align: center; }
+    .xp-layout {
+        display: contents;
+    }
+
+    .xp-left { text-align: center; order: 1; padding: 0.75rem 0.75rem 0; }
+    .xp-mobile-cta { order: 2; }
+    .xp-right { order: 3; padding: 0 0.75rem; }
+
     .xp-left h1 { font-size: 1.3rem; margin-bottom: 4px; }
     .xp-tagline { font-size: 0.8rem; margin-bottom: 10px; }
     .xp-dims { margin-bottom: 8px; }
     .xp-dim { font-size: 0.78rem; margin-bottom: 3px; }
-    .xp-roots-note { max-width: none; font-size: 0.78rem; margin-bottom: 8px; margin-left: auto; margin-right: auto; }
+    .xp-roots-note { max-width: none; font-size: 0.78rem; margin-bottom: 0; margin-left: auto; margin-right: auto; }
     .xp-cta { display: none; }
 
     /* Tree fills the screen */
+    #viewExamples .xp-tree { margin-top: 0.5rem; margin-bottom: -0.75rem; }
     .xp-tree { max-width: 100%; border-radius: 8px; }
     .xp-tree svg { height: auto; max-height: 60vh; }
 
     .xp-below-tree { max-width: 100%; padding: 0; }
     .xp-wind { justify-content: center; }
     .xp-wind-slider { width: 40% !important; }
-    .xp-form-nav { padding-right: 0; }
+    .xp-wind-row {
+        flex-direction: column;
+        align-items: center;
+        gap: calc(0.4rem + 2px);
+    }
+    .xp-wind-row .xp-wind-label { min-width: auto; text-align: center; }
+    .xp-wind-row .wind-slider { width: 60% !important; margin-bottom: 0.5rem; }
+    .xp-wind-row { margin-bottom: 1.5rem; }
+    .xp-wind-row .forest-divider { display: none; }
+    .xp-form-nav { padding-right: 0; padding-top: 0.15rem; }
     .xp-form-desc { font-size: 0.72rem; }
     .xp-credits { font-size: 0.5rem; }
 
     .xp-mobile-cta {
         display: block !important;
         text-align: center;
-        padding: 1rem 0.75rem;
-        border-top: 1px solid var(--border);
+        padding: 0 0.75rem 0;
+        margin-bottom: 1.25rem;
+    }
+    .xp-mobile-cta p {
+        margin-top: 0;
+    }
+    .xp-mobile-cta .btn {
+        margin-bottom: calc(1.25rem + 10px);
+    }
+    .xp-mobile-cta::after {
+        content: '';
+        display: block;
+        border-bottom: 1px solid var(--border);
     }
     .xp-mobile-cta p {
         font-size: 0.9rem;
@@ -3432,6 +3463,38 @@ fieldset.key-card { margin: 0; min-width: 0; }
     margin-top: 1rem;
 }
 
+/* Tree ID bar between nav buttons */
+.tree-id-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: transparent;
+    padding: 0.3rem 0;
+}
+
+.tree-id-bar strong {
+    color: var(--text);
+    letter-spacing: 0.04em;
+}
+
+.xp-chance-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    position: relative;
+}
+
+.tree-id-bar .tree-id-copy {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: #fff;
+    cursor: pointer;
+}
+
 .xp-wind-row {
     display: flex;
     align-items: center;
@@ -3483,6 +3546,8 @@ fieldset.key-card { margin: 0; min-width: 0; }
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--text);
+    display: inline-block;
+    min-width: 8em;
 }
 
 /* ── Results page mobile responsive ── */
@@ -3609,6 +3674,10 @@ fieldset.key-card { margin: 0; min-width: 0; }
     font-size: 0.85rem;
     color: var(--text-muted);
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
 }
 
 .forest-canvas-wrap {
@@ -3661,7 +3730,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    padding: 0.6rem 0.25rem;
+    padding: 0.6rem 0.25rem 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -3730,9 +3799,10 @@ fieldset.key-card { margin: 0; min-width: 0; }
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.25rem;
+    column-gap: 1.25rem;
+    row-gap: 0.15rem;
     flex-wrap: wrap;
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
     position: relative;
 }
 
@@ -3910,7 +3980,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
         box-shadow: none;
         border: 1px solid #ccc;
     }
-    .wind-control { display: none; }
+    .wind-control, .tree-hero .forest-controls { display: none; }
 
     .code-card-root { border-left-color: #8b7752; }
     .code-card-canopy { border-left-color: #c4a35a; }

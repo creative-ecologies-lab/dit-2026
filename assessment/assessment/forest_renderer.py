@@ -191,7 +191,7 @@ def _prepare(forest_data: dict) -> tuple[list[dict], dict[str, str], dict[str, i
     return enriched, symbols, balance_counts, total
 
 
-def _defs(symbols: dict[str, str], hide_roots: bool = False) -> str:
+def _defs(symbols: dict[str, str], hide_roots: bool = False, prefix: str = "") -> str:
     p = ['<defs>']
     p.append(
         '<linearGradient id="fSkyG" x1="0" y1="0" x2="0" y2="1">'
@@ -206,7 +206,7 @@ def _defs(symbols: dict[str, str], hide_roots: bool = False) -> str:
         if hide_roots:
             # Strip <g class="mini-roots">...</g> from the symbol content
             content = _re.sub(r'<g class="mini-roots">.*?</g>', '', content, flags=_re.DOTALL)
-        p.append(f'<symbol id="sym-{sid}" viewBox="0 0 {ORG_W} {ORG_H}">{content}</symbol>')
+        p.append(f'<symbol id="sym-{prefix}{sid}" viewBox="0 0 {ORG_W} {ORG_H}">{content}</symbol>')
     p.append('</defs>')
     return "".join(p)
 
@@ -223,7 +223,7 @@ def _balance_color(balance: str) -> str:
     return colors.get(balance, "")
 
 
-def _place_tree(i, t, x, y, sc, show_risk_color=False, show_count=False) -> str:
+def _place_tree(i, t, x, y, sc, show_risk_color=False, show_count=False, prefix: str = "") -> str:
     w = ORG_W * sc
     h = ORG_H * sc
     ux = x - w / 2
@@ -260,7 +260,7 @@ def _place_tree(i, t, x, y, sc, show_risk_color=False, show_count=False) -> str:
         f'data-ratio="{t["ratio"]}" '
         f'data-x="{x:.0f}" data-y="{y:.0f}"{data_empty}{tree_opacity}>'
         f'{overlay}'
-        f'<use href="#sym-{t["symbol_id"]}" '
+        f'<use href="#sym-{prefix}{t["symbol_id"]}" '
         f'x="{ux:.1f}" y="{uy:.1f}" width="{w:.1f}" height="{h:.1f}"/>'
         f'{count_label}'
         f'</g>'
@@ -326,7 +326,7 @@ def _render_trees(enriched, symbols):
     def col_width(c):
         return _T_L0_W if c == 0 else _T_COL_W
 
-    parts = [_defs(symbols)]
+    parts = [_defs(symbols, prefix="t-")]
     parts.append(f'<rect width="{TREES_W}" height="{TREES_H}" fill="#f5f3ef"/>')
 
     # Row backgrounds
@@ -394,7 +394,7 @@ def _render_trees(enriched, symbols):
             x = col_center(0)
             y = _T_PAD_T + row * _T_ROW_H + _T_ROW_H / 2 + 10
             sc = 0.10 + ch_val * 0.016
-            parts.append(_place_tree(tree_idx, t, x, y, sc, show_risk_color=True, show_count=True))
+            parts.append(_place_tree(tree_idx, t, x, y, sc, show_risk_color=True, show_count=True, prefix="t-"))
             tree_idx += 1
 
         # L1-L5 columns
@@ -411,7 +411,7 @@ def _render_trees(enriched, symbols):
                 x = cl + (slot + 0.5) * (cw_w / 5)
                 y = cell_cy + 10
                 sc = 0.09 + (cw + ch_val) * 0.011
-                parts.append(_place_tree(tree_idx, t, x, y, sc, show_risk_color=True, show_count=True))
+                parts.append(_place_tree(tree_idx, t, x, y, sc, show_risk_color=True, show_count=True, prefix="t-"))
                 tree_idx += 1
 
 
@@ -461,7 +461,7 @@ def _render_forest(enriched, symbols):
     enriched = expanded
     enriched.sort(key=lambda t: t["_fy"])
 
-    parts = [_defs(symbols, hide_roots=True)]
+    parts = [_defs(symbols, hide_roots=True, prefix="f-")]
 
     # Background — sky and ground as distinct zones
     HORIZON = FOREST_H * 0.38
@@ -546,7 +546,7 @@ def _render_forest(enriched, symbols):
         depth_frac = y / FOREST_H
         sc = 0.12 + depth_frac * 0.22
 
-        parts.append(_place_tree(i, t, x, y, sc))
+        parts.append(_place_tree(i, t, x, y, sc, prefix="f-"))
 
     return "".join(parts)
 
@@ -573,9 +573,10 @@ def render_forest_svg(forest_data: dict, mode: str = "trees") -> tuple[str, dict
         inner = _render_trees(enriched, symbols)
         w, h = TREES_W, TREES_H
 
+    svg_id = "treesSvg" if mode == "trees" else "forestSvg"
     svg = (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" '
-        f'style="width:100%;display:block" id="forestSvg">'
+        f'style="width:100%;display:block" id="{svg_id}">'
         + inner
         + '</svg>'
     )
