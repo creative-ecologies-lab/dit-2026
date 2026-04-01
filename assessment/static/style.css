@@ -952,7 +952,7 @@ body {
 }
 
 #viewExamples .xp-tree {
-    margin-top: 1.5rem;
+    margin-top: 0.75rem;
 }
 
 .xp-gallery-subtitle {
@@ -1001,6 +1001,7 @@ body {
 
 .xp-gallery-panel .forest-canvas-wrap {
     aspect-ratio: 1400 / 900;
+    max-height: calc(100vh - 320px);
 }
 
 .xp-gallery-panel .forest-page.trees-mode .forest-canvas-wrap {
@@ -1058,6 +1059,13 @@ body {
     min-height: 0;
     display: flex;
     flex-direction: column;
+}
+
+/* Community view lives outside .results-container for full-width display */
+.results-community-fullwidth {
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
 }
 
 /* Scrollable pages — override the viewport-locked body/container */
@@ -3246,12 +3254,12 @@ fieldset.key-card { margin: 0; min-width: 0; }
 
 .xp-layout {
     display: grid;
-    grid-template-columns: 250px 1fr;
-    gap: 2rem;
-    padding: 1.5rem 2rem;
-    min-height: 0;
-    align-items: start;
-    max-width: 900px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 4rem;
+    padding: 0 4rem;
+    height: 100%;
+    align-items: center;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -3264,6 +3272,8 @@ fieldset.key-card { margin: 0; min-width: 0; }
     .xp-page {
         display: flex;
         flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
     }
 
     .xp-layout {
@@ -3272,7 +3282,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
 
     .xp-left { text-align: center; order: 1; padding: 0.75rem 0.75rem 0; }
     .xp-mobile-cta { order: 2; }
-    .xp-right { order: 3; padding: 0 0.75rem; }
+    .xp-right { order: 3; padding: 0 0.75rem; max-height: none; }
 
     .xp-left h1 { font-size: 1.3rem; margin-bottom: 4px; }
     .xp-tagline { font-size: 0.8rem; margin-bottom: 10px; }
@@ -3410,8 +3420,8 @@ fieldset.key-card { margin: 0; min-width: 0; }
     flex-direction: column;
     align-items: center;
     min-height: 0;
-    justify-content: flex-start;
-    overflow-y: auto;
+    justify-content: center;
+    max-height: calc(100vh - 100px);
 }
 
 /* Form nav: ← description → */
@@ -3420,7 +3430,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    padding: 1.5rem 0 0.4rem;
+    padding: 0.75rem 0 0.25rem;
 }
 
 .xp-nav-arrow {
@@ -3464,7 +3474,7 @@ fieldset.key-card { margin: 0; min-width: 0; }
 /* Tree — constrained to viewport */
 .xp-tree {
     width: 100%;
-    max-width: 420px;
+    max-width: min(480px, 55vh);
     margin: 0 auto;
     box-shadow: 0 4px 20px rgba(0,0,0,0.12);
     border-radius: 10px;
@@ -3473,9 +3483,10 @@ fieldset.key-card { margin: 0; min-width: 0; }
 
 .xp-tree svg {
     display: block;
-    width: auto;
-    height: calc(100vh - 320px);
-    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: calc(100vh - 320px);
+    object-fit: contain;
     margin: 0 auto;
 }
 

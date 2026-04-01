@@ -62,6 +62,7 @@
         canopyQuestions: [],
         cohort: '',
         role: '',
+        treeId: null,
     };
 
     // ---- State Persistence ----
@@ -77,8 +78,46 @@
             canopyQuestions: state.canopyQuestions,
             cohort: state.cohort,
             role: state.role,
+            treeId: state.treeId,
         }));
     }
+
+    /** Save progress to server at stage boundaries. */
+    function saveProgressToServer(stageName) {
+        var allAnswers = {};
+        Object.keys(state.rootAnswers).forEach(function(k) { allAnswers[k] = state.rootAnswers[k]; });
+        Object.keys(state.saeAnswers).forEach(function(k) { allAnswers[k] = state.saeAnswers[k]; });
+        Object.keys(state.canopyAnswers).forEach(function(k) { allAnswers[k] = state.canopyAnswers[k]; });
+
+        var body = JSON.stringify({
+            tree_id: state.treeId || '',
+            stage: stageName,
+            answers: allAnswers,
+            role: state.role,
+            cohort: state.cohort,
+        });
+
+        fetch('/api/tree-progress', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: body,
+        }).then(function(resp) {
+            return resp.json();
+        }).then(function(data) {
+            if (data.tree_id && !state.treeId) {
+                state.treeId = data.tree_id;
+                saveState();
+            }
+            if (state.treeId) {
+                try { showTreeIdBar(state.treeId); } catch(e) {}
+            }
+        }).catch(function(e) {
+            console.warn('Failed to save progress:', e);
+        });
+    }
+
+    /** No-op — tree ID only shown on results page */
+    function showTreeIdBar(id) {}
 
     function restoreState() {
         const saved = sessionStorage.getItem(STORAGE_KEY);
@@ -95,7 +134,9 @@
                 canopyQuestions: p.canopyQuestions || [],
                 cohort: p.cohort || '',
                 role: p.role || '',
+                treeId: p.treeId || null,
             });
+            if (state.treeId) showTreeIdBar(state.treeId);
             if (state.role === 'uxr') {
                 SAE_QUESTIONS = SAE_QUESTIONS_UXR;
                 ROOT_QUESTIONS = ROOT_QUESTIONS_UXR;
@@ -260,6 +301,7 @@
     }
 
     function showRootTransition() {
+        saveProgressToServer('root');
         const rootStage = calculateRootStage();
         const container = document.getElementById('rootTransitionContent');
         container.innerHTML = `
@@ -342,6 +384,7 @@
 
     async function showSaeTransition() {
         state.saeLevel = calculateSaeLevel();
+        saveProgressToServer('sae');
         if (window.dit) dit.track('sae_complete', {level: state.saeLevel});
 
         // If SAE = 0, skip canopy — go straight to results
@@ -445,6 +488,7 @@
         };
         if (state.cohort) payload.cohort = state.cohort;
         if (state.role) payload.role = state.role;
+        if (state.treeId) payload.tree_id = state.treeId;
 
         // UTM attribution
         const _utmParams = new URLSearchParams(window.location.search);
@@ -511,10 +555,122 @@
         });
     });
 
-    intakeNextBtn.addEventListener('click', () => {
-        if (!state.role) return;
+    const intakeTreeIdInput = document.getElementById('intakeTreeId');
+    const treeIdError = document.getElementById('treeIdError');
+
+    // Enable → button when tree ID is entered (even without role selection)
+    if (intakeTreeIdInput) {
+        intakeTreeIdInput.addEventListener('input', function() {
+            var val = (intakeTreeIdInput.value || '').trim();
+            if (val.length >= 6) {
+                intakeNextBtn.disabled = false;
+            } else if (!state.role) {
+                intakeNextBtn.disabled = true;
+            }
+        });
+    }
+
+    intakeNextBtn.addEventListener('click', async () => {
         state.cohort = (intakeCohortInput.value || '').trim().toLowerCase();
+
+        // Check for tree ID — resume or retake
+        const enteredId = (intakeTreeIdInput ? intakeTreeIdInput.value : '').trim().toUpperCase();
+        if (enteredId) {
+            intakeNextBtn.disabled = true;
+            treeIdError.style.display = 'none';
+            try {
+                const resp = await fetch('/api/tree-progress/' + encodeURIComponent(enteredId));
+                if (!resp.ok) {
+                    treeIdError.style.display = '';
+                    intakeNextBtn.disabled = false;
+                    return;
+                }
+                const progress = await resp.json();
+                state.treeId = progress.tree_id;
+
+                if (progress.status === 'complete') {
+                    // Already completed — load results and redirect
+                    sessionStorage.setItem('ditResultV2', JSON.stringify(progress));
+                    window.location.href = '/tree/v2/results';
+                    return;
+                }
+
+                // Partial — restore answers and advance to next stage
+                const answers = progress.answers || {};
+                const stages = progress.completed_stages || [];
+                // Restore role from saved progress if available
+                if (progress.role && !state.role) {
+                    state.role = progress.role;
+                    if (state.role === 'uxr') {
+                        SAE_QUESTIONS = SAE_QUESTIONS_UXR;
+                        ROOT_QUESTIONS = ROOT_QUESTIONS_UXR;
+                    } else {
+                        SAE_QUESTIONS = SAE_QUESTIONS_DESIGN;
+                        ROOT_QUESTIONS = ROOT_QUESTIONS_DESIGN;
+                    }
+                }
+
+                // Pre-fill answers
+                Object.keys(answers).forEach(k => {
+                    if (k.startsWith('root_')) state.rootAnswers[k] = answers[k];
+                    else if (k.startsWith('sae_')) state.saeAnswers[k] = answers[k];
+                    else state.canopyAnswers[k] = answers[k];
+                });
+
+                hideAllStages();
+                if (!stages.includes('root')) {
+                    // Start at roots
+                    state.stage = 'root_intro';
+                    state.currentQuestion = -1;
+                    saveState();
+                    document.getElementById('rootStage').style.display = '';
+                    showRootIntro();
+                } else if (!stages.includes('sae')) {
+                    // Skip to SAE
+                    showRootTransition();
+                } else if (!stages.includes('canopy')) {
+                    // Skip to canopy
+                    showSaeTransition();
+                }
+                intakeNextBtn.disabled = false;
+                return;
+            } catch (e) {
+                treeIdError.style.display = '';
+                intakeNextBtn.disabled = false;
+                return;
+            }
+        }
+
+        // Without a tree ID, role is required
+        if (!state.role) return;
+
         if (window.dit) dit.track('v2_intake_complete', {role: state.role, cohort: state.cohort || 'none'});
+
+        // Generate tree ID immediately at start
+        if (!state.treeId) {
+            try {
+                const resp = await fetch('/api/tree-progress', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        tree_id: '',
+                        stage: 'intake',
+                        answers: {},
+                        role: state.role,
+                        cohort: state.cohort,
+                    }),
+                });
+                const d = await resp.json();
+                if (d.tree_id) {
+                    state.treeId = d.tree_id;
+                    saveState();
+                    showTreeIdBar(state.treeId);
+                }
+            } catch (e) {
+                console.warn('Failed to generate tree ID:', e);
+            }
+        }
+
         // Start root stage
         state.stage = 'root_intro';
         state.currentQuestion = -1;

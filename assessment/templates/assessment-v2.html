@@ -29,6 +29,15 @@
                                    aria-describedby="cohortHelp">
                             <p id="cohortHelp" class="field-help">Collects results to view in a group heatmap.</p>
                         </div>
+                        <div class="intake-field">
+                            <label for="intakeTreeId">Tree ID <span class="optional-label">(optional)</span></label>
+                            <input type="text" id="intakeTreeId" placeholder=""
+                                   autocomplete="off" spellcheck="false"
+                                   aria-describedby="treeIdHelp"
+                                   style="text-transform: uppercase;">
+                            <p id="treeIdHelp" class="field-help">Have one? Enter it to continue where you left off.</p>
+                            <p id="treeIdError" class="field-help" style="display:none; color: var(--danger);">Tree ID not found.</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -139,39 +139,39 @@
             </section>
         </div>
 
-        <!-- ═══ View: Community (Forest + Trees) ═══ -->
-        <div id="viewCommunity" class="results-view-panel" style="display:none;">
-            <div class="forest-page" id="forestEmbed">
-                <div class="forest-canvas-wrap" id="forestCanvasWrap">
-                    <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
-                    <div id="viewTreesGrid" class="forest-view">{{ trees_svg | safe }}</div>
-                    <div id="nightOverlay" class="forest-night"></div>
-                    <svg id="starsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
-                        {%- for i in range(40) -%}
-                        <circle cx="{{ (((i * 7 + 13) * 2654435761) % 1100) }}" cy="{{ (((i * 11 + 3) * 340573321) % 280) }}" r="{{ [0.8, 1.0, 1.2, 0.6, 1.4][i % 5] }}" fill="white" opacity="{{ [0.5, 0.7, 0.4, 0.8, 0.6][i % 5] }}"/>
-                        {%- endfor -%}
-                    </svg>
-                </div>
+    </div>
 
-                <div class="forest-controls">
-                    <div class="forest-wind">
-                        <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="forestWindValue">calm</span></span>
-                        <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
-                    </div>
-                    <span class="forest-divider">|</span>
-                    <div class="forest-dice">
-                        <button id="rollDice" class="forest-roll-btn">Chance</button>
-                        <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
-                        <div class="forest-info-popup" id="chancePopup">
-                            On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.<span class="chance-trees-note" style="display:none;"> Only trees with participants are affected — 0-count trees are not rolled.</span>
-                        </div>
-                        <span id="diceResult" class="forest-dice-result">&nbsp;</span>
-                    </div>
-                </div>
-
+    <!-- ═══ View: Community (Forest + Trees) — outside results-container for full width ═══ -->
+    <div id="viewCommunity" class="results-community-fullwidth" style="display:none;">
+        <div class="forest-page" id="forestEmbed">
+            <div class="forest-canvas-wrap" id="forestCanvasWrap">
+                <div id="viewForest" class="forest-view active">{{ forest_svg | safe }}</div>
+                <div id="viewTreesGrid" class="forest-view">{{ trees_svg | safe }}</div>
+                <div id="nightOverlay" class="forest-night"></div>
+                <svg id="starsOverlay" class="forest-stars" viewBox="0 0 1100 700" preserveAspectRatio="xMidYMid slice">
+                    {%- for i in range(40) -%}
+                    <circle cx="{{ (((i * 7 + 13) * 2654435761) % 1100) }}" cy="{{ (((i * 11 + 3) * 340573321) % 280) }}" r="{{ [0.8, 1.0, 1.2, 0.6, 1.4][i % 5] }}" fill="white" opacity="{{ [0.5, 0.7, 0.4, 0.8, 0.6][i % 5] }}"/>
+                    {%- endfor -%}
+                </svg>
             </div>
-        </div>
 
+            <div class="forest-controls">
+                <div class="forest-wind">
+                    <span class="xp-wind-label">Winds of change: <span class="xp-wind-value" id="forestWindValue">calm</span></span>
+                    <input type="range" id="forestWind" min="0" max="100" value="0" class="wind-slider">
+                </div>
+                <span class="forest-divider">|</span>
+                <div class="forest-dice">
+                    <button id="rollDice" class="forest-roll-btn">Chance</button>
+                    <span class="forest-info-icon" id="chanceInfo" title="Info">?</span>
+                    <div class="forest-info-popup" id="chancePopup">
+                        On any given day, circumstances shape how vulnerable each tree is. Clicking Chance rolls the dice for every tree, changing which ones can withstand the winds of change and which ones can't.<span class="chance-trees-note" style="display:none;"> Only trees with participants are affected — 0-count trees are not rolled.</span>
+                    </div>
+                    <span id="diceResult" class="forest-dice-result">&nbsp;</span>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!-- No Results -->
