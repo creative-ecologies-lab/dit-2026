@@ -113,7 +113,131 @@
     {% endif %}
     {% endif %}{# end events #}
 
-    <!-- ═══════════════ SUBMISSION ANALYTICS (existing) ═══════════════ -->
+    <!-- ═══════════════ V2 TREE ASSESSMENTS ═══════════════ -->
+    {% if tree_data and tree_data.total > 0 %}
+    <h2 style="margin:2rem 0 1rem;font-size:1.1rem;color:var(--text-muted,#666);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--border,#e5e5e5);padding-bottom:0.5rem;">
+        Tree Assessments (v2) &mdash; {{ tree_data.total }} completed
+    </h2>
+
+    <div class="analytics-cards">
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ tree_data.total }}</div>
+            <div class="analytics-card-label">Tree Submissions</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ tree_data.by_device.get('mobile', 0) }}</div>
+            <div class="analytics-card-label">Mobile</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ tree_data.by_device.get('desktop', 0) }}</div>
+            <div class="analytics-card-label">Desktop</div>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-card-value">{{ tree_data.by_cohort | length }}</div>
+            <div class="analytics-card-label">Cohorts</div>
+        </div>
+    </div>
+
+    <!-- Balance + Role tables -->
+    <div class="analytics-tables">
+        <div class="analytics-table-box">
+            <h3>By Balance</h3>
+            <table class="admin-table">
+                <thead><tr><th>Balance</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for bal, count in tree_data.by_balance.items() %}
+                <tr>
+                    <td>{{ bal }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / tree_data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="analytics-table-box">
+            <h3>By Role</h3>
+            <table class="admin-table">
+                <thead><tr><th>Role</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for role, count in tree_data.by_role.items() %}
+                <tr>
+                    <td>{{ role or '—' }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / tree_data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if tree_data.by_cohort | length > 1 or (tree_data.by_cohort | length == 1 and tree_data.by_cohort.keys() | list | first != 'anonymous') %}
+        <div class="analytics-table-box">
+            <h3>By Cohort</h3>
+            <table class="admin-table">
+                <thead><tr><th>Cohort</th><th>Count</th><th>%</th></tr></thead>
+                <tbody>
+                {% for coh, count in tree_data.by_cohort.items() %}
+                <tr>
+                    <td>{{ coh }}</td>
+                    <td>{{ count }}</td>
+                    <td>{{ "%.0f"|format(100 * count / tree_data.total) }}%</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tree submissions over time -->
+    {% if tree_data.by_date %}
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Tree Submissions Over Time</h3>
+        <canvas id="treeDateChart" height="100"></canvas>
+    </div>
+    {% endif %}
+
+    <!-- Recent tree submissions -->
+    <div class="analytics-chart-box" style="margin-bottom:1.5rem;">
+        <h3>Recent Tree Submissions <span style="font-size:0.8rem;font-weight:400;color:var(--text-muted,#888);">(last {{ tree_data.recent | length }})</span></h3>
+        <div style="overflow-x:auto;">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Tree ID</th>
+                    <th>Root</th>
+                    <th>Canopy W</th>
+                    <th>Canopy H</th>
+                    <th>Balance</th>
+                    <th>Species</th>
+                    <th>Role</th>
+                    <th>Cohort</th>
+                    <th>Referrer</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in tree_data.recent %}
+            <tr>
+                <td class="admin-cell-time">{{ r.timestamp or '—' }}</td>
+                <td><code>{{ r.tree_id or '—' }}</code></td>
+                <td>{{ r.root_depth }}{% if r.root_stage %} ({{ r.root_stage }}){% endif %}</td>
+                <td>{{ r.canopy_width }}{% if r.canopy_stage %} ({{ r.canopy_stage }}){% endif %}</td>
+                <td>{{ r.canopy_height }}</td>
+                <td>{{ r.balance or '—' }}</td>
+                <td>{{ r.tree_species or '—' }}</td>
+                <td>{{ r.role or '—' }}</td>
+                <td>{{ r.cohort or 'anon' }}</td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ r.referrer or '—' }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+    {% endif %}{# end tree_data #}
+
+    <!-- ═══════════════ V1 SUBMISSION ANALYTICS ═══════════════ -->
 
     {% if data.total == 0 %}
     <div style="text-align:center;padding:3rem;color:var(--text-muted,#888);">
@@ -433,6 +557,29 @@
             plugins: { legend: { display: false } },
         }
     });
+    {% endif %}
+
+    // V2 Tree submissions time series
+    {% if tree_data and tree_data.by_date %}
+    var treeDateEl = document.getElementById('treeDateChart');
+    if (treeDateEl) {
+        var treeDateData = {{ tree_data.by_date | tojson }};
+        new Chart(treeDateEl, {
+            type: 'line',
+            data: {
+                labels: Object.keys(treeDateData),
+                datasets: [{
+                    data: Object.values(treeDateData),
+                    borderColor: '#10b981',
+                    backgroundColor: '#10b98122',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 4,
+                }]
+            },
+            options: { ...defaults, plugins: { legend: { display: false } } }
+        });
+    }
     {% endif %}
 
     // Hourly traffic chart (from events)

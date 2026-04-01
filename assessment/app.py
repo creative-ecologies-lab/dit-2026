@@ -91,6 +91,7 @@ def create_app() -> Flask:
     csrf.exempt(app.view_functions['assessment.submit_assessment'])
     csrf.exempt(app.view_functions['assessment.submit_assessment_v2'])
     csrf.exempt(app.view_functions['api.track_event'])
+    csrf.exempt(app.view_functions['api.save_tree_progress'])
 
     # Pre-populate in-memory store with synthetic data when Firestore is off
     _seed_demo_data()

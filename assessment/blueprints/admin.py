@@ -72,13 +72,14 @@ def feedback_list():
 @bp.route('/analytics')
 @require_admin
 def analytics():
-    from storage import get_analytics_data, get_event_analytics
+    from storage import get_analytics_data, get_event_analytics, get_tree_analytics_data
     cohort = request.args.get('cohort') or None
     include_test = request.args.get('include_test', '').lower() in ('1', 'true')
     data = get_analytics_data(cohort=cohort, include_test=include_test)
+    tree_data = get_tree_analytics_data()
     events = get_event_analytics(hours=120)  # 5-day window
-    return render_template('admin_analytics.html', data=data, events=events,
-                           cohort=cohort, include_test=include_test)
+    return render_template('admin_analytics.html', data=data, tree_data=tree_data,
+                           events=events, cohort=cohort, include_test=include_test)
 
 
 @bp.route('/feedback/<fb_id>/status', methods=['POST'])

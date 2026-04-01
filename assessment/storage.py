@@ -334,6 +334,11 @@ def store_tree_result(
                          .limit(1)
                          .stream())
             if docs:
+                # Preserve existing cohort if new submission doesn't specify one
+                if record.get("cohort") is None:
+                    existing = docs[0].to_dict()
+                    if existing.get("cohort"):
+                        record["cohort"] = existing["cohort"]
                 docs[0].reference.update(record)
             else:
                 db.collection(TREE_COLLECTION).add(record)
@@ -345,6 +350,9 @@ def store_tree_result(
             # Update existing in-memory record
             for i, rec in enumerate(_tree_store):
                 if rec.get("tree_id") == tree_id:
+                    # Preserve existing cohort if new submission doesn't specify one
+                    if record.get("cohort") is None and rec.get("cohort"):
+                        record["cohort"] = rec["cohort"]
                     rec.update(record)
                     break
             else:
@@ -768,6 +776,111 @@ def get_analytics_data(cohort: Optional[str] = None, include_test: bool = False)
         "by_date": {d: by_date[d] for d in sorted_dates},
         "recent": recent,
         "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def get_tree_analytics_data() -> dict:
+    """Analytics for v2 tree assessments (from tree_results collection)."""
+    from collections import Counter
+
+    by_root: Counter = Counter()
+    by_canopy_w: Counter = Counter()
+    by_canopy_h: Counter = Counter()
+    by_balance: Counter = Counter()
+    by_role: Counter = Counter()
+    by_cohort: Counter = Counter()
+    by_date: Counter = Counter()
+    by_device: Counter = Counter()
+    total = 0
+    recent = []
+
+    def _device(ua: str) -> str:
+        ua = (ua or '').lower()
+        if any(x in ua for x in ('iphone', 'android', 'mobile', 'ipad')):
+            return 'mobile'
+        return 'desktop'
+
+    if _is_enabled():
+        db = _get_client()
+        docs = db.collection(TREE_COLLECTION).order_by(
+            "timestamp", direction="DESCENDING"
+        ).stream()
+        for doc in docs:
+            d = doc.to_dict()
+            if d.get("status") != "complete":
+                continue
+            total += 1
+            by_root[d.get("root_depth", "?")] += 1
+            by_canopy_w[d.get("canopy_width", "?")] += 1
+            by_canopy_h[d.get("canopy_height", "?")] += 1
+            by_balance[d.get("balance") or "unknown"] += 1
+            by_role[d.get("role") or "not specified"] += 1
+            by_cohort[d.get("cohort") or "anonymous"] += 1
+            by_device[_device(d.get("ua", ""))] += 1
+            ts = d.get("timestamp")
+            if ts:
+                try:
+                    date_str = ts.strftime("%Y-%m-%d")
+                    by_date[date_str] += 1
+                except Exception:
+                    pass
+            if len(recent) < 50:
+                recent.append({
+                    "tree_id": d.get("tree_id"),
+                    "root_depth": d.get("root_depth"),
+                    "canopy_width": d.get("canopy_width"),
+                    "canopy_height": d.get("canopy_height"),
+                    "root_stage": d.get("root_stage"),
+                    "canopy_stage": d.get("canopy_stage"),
+                    "balance": d.get("balance"),
+                    "tree_species": d.get("tree_species"),
+                    "role": d.get("role"),
+                    "cohort": d.get("cohort"),
+                    "referrer": d.get("referrer"),
+                    "timestamp": ts.strftime("%Y-%m-%d %H:%M") if ts else None,
+                })
+    else:
+        for d in reversed(_tree_store):
+            if d.get("status") != "complete":
+                continue
+            total += 1
+            by_root[d.get("root_depth", "?")] += 1
+            by_canopy_w[d.get("canopy_width", "?")] += 1
+            by_canopy_h[d.get("canopy_height", "?")] += 1
+            by_balance[d.get("balance") or "unknown"] += 1
+            by_role[d.get("role") or "not specified"] += 1
+            by_cohort[d.get("cohort") or "anonymous"] += 1
+            by_device[_device(d.get("ua", ""))] += 1
+            ts = d.get("timestamp", "")
+            if ts:
+                by_date[ts[:10]] += 1
+            if len(recent) < 50:
+                recent.append({
+                    "tree_id": d.get("tree_id"),
+                    "root_depth": d.get("root_depth"),
+                    "canopy_width": d.get("canopy_width"),
+                    "canopy_height": d.get("canopy_height"),
+                    "root_stage": d.get("root_stage"),
+                    "canopy_stage": d.get("canopy_stage"),
+                    "balance": d.get("balance"),
+                    "tree_species": d.get("tree_species"),
+                    "role": d.get("role"),
+                    "cohort": d.get("cohort"),
+                    "referrer": d.get("referrer"),
+                    "timestamp": ts[:16] if ts else None,
+                })
+
+    return {
+        "total": total,
+        "by_root": dict(sorted(by_root.items())),
+        "by_canopy_w": dict(sorted(by_canopy_w.items())),
+        "by_canopy_h": dict(sorted(by_canopy_h.items())),
+        "by_balance": dict(by_balance.most_common()),
+        "by_role": dict(by_role.most_common()),
+        "by_cohort": dict(by_cohort.most_common(20)),
+        "by_device": dict(by_device),
+        "by_date": {d: by_date[d] for d in sorted(by_date.keys())},
+        "recent": recent,
     }
 
 
