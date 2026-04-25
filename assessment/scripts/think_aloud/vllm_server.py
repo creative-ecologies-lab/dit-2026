@@ -15,12 +15,26 @@ Usage:
 """
 
 import json
+import os
 import modal
 
 # ── Model configuration ──
 # Change these to switch models. GPU is auto-matched to model size.
 MODEL_NAME = "Qwen/Qwen3-32B"
 MODEL_REVISION = None  # Use latest
+
+# Warm-pool floor — number of containers Modal keeps continuously warm.
+# 0 = scale-to-zero (default; ~60-90s cold start, $0/day idle).
+# 1+ = continuous GPU spend (H100 ≈ $3.46/hr ≈ $83/day per container).
+# Toggle via `ach model warm-pool qwen-modal --min N` and redeploy:
+#   MIN_CONTAINERS=N modal deploy assessment/scripts/think_aloud/vllm_server.py
+# The env var is read at deploy time, baked into the @app.function decorator.
+try:
+    MIN_CONTAINERS = int(os.environ.get("MIN_CONTAINERS", "0"))
+except ValueError:
+    MIN_CONTAINERS = 0
+if MIN_CONTAINERS < 0:
+    MIN_CONTAINERS = 0
 
 # GPU lookup: model HF name → Modal GPU spec
 # Note: A100 string format defaults to 40GB. Use H100 (80GB) for >40GB models.
@@ -59,6 +73,7 @@ FAST_BOOT = True  # Prioritize cold start speed over peak throughput
     gpu=GPU_FOR_MODEL.get(MODEL_NAME, "A100:1"),
     scaledown_window=15 * MINUTES,
     timeout=30 * MINUTES,
+    min_containers=MIN_CONTAINERS,  # warm-pool floor; see MIN_CONTAINERS above
     volumes={
         "/root/.cache/huggingface": hf_cache_vol,
         "/root/.cache/vllm": vllm_cache_vol,
