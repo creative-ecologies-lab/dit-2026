@@ -56,13 +56,15 @@ GPU_FOR_MODEL = {
 # Distinct app name from the other vLLM deploys so all three coexist.
 app = modal.App("think-aloud-vllm-deepseek-r1")
 
+# Pin matches the other vllm_*.py templates — bumped 0.13.0 → 0.19.1
+# for Tier 2. See prototypes/ach/docs/vllm-version-verification-2026-04-25.md.
 vllm_image = (
     modal.Image.from_registry(
         "nvidia/cuda:12.8.0-devel-ubuntu22.04", add_python="3.12"
     )
     .entrypoint([])
     .uv_pip_install(
-        "vllm==0.13.0",
+        "vllm==0.19.1",
         "huggingface-hub==0.36.0",
     )
     .env({"HF_XET_HIGH_PERFORMANCE": "1"})
@@ -101,6 +103,12 @@ def serve():
         "--max-model-len", "8192",  # Limit context to save KV cache memory
         "--gpu-memory-utilization", "0.90",
         "--tensor-parallel-size", "1",
+        # Tool-use unlock (RFD-002 Wave 1.3). DeepSeek-R1-Distill-Qwen-32B
+        # was trained from a Qwen base, so the hermes parser format applies.
+        # Reasoning parser uses the deepseek_r1 dialect for its <think> blocks.
+        "--enable-auto-tool-choice",
+        "--tool-call-parser", "hermes",
+        "--reasoning-parser", "deepseek_r1",
     ]
 
     if MODEL_REVISION:

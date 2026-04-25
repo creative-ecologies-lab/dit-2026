@@ -48,13 +48,17 @@ GPU_FOR_MODEL = {
 # ── Modal resources ──
 app = modal.App("think-aloud-vllm")
 
+# Pin to vLLM 0.19.1 — current PyPI stable as of 2026-04-25.
+# Bumped from 0.13.0 (Tier 1) to 0.19.1 (Tier 2) so the dedicated
+# `qwen3` reasoning parser and post-research-window parser fixes are
+# available. See prototypes/ach/docs/vllm-version-verification-2026-04-25.md.
 vllm_image = (
     modal.Image.from_registry(
         "nvidia/cuda:12.8.0-devel-ubuntu22.04", add_python="3.12"
     )
     .entrypoint([])
     .uv_pip_install(
-        "vllm==0.13.0",
+        "vllm==0.19.1",
         "huggingface-hub==0.36.0",
     )
     .env({"HF_XET_HIGH_PERFORMANCE": "1"})
@@ -93,6 +97,14 @@ def serve():
         "--max-model-len", "8192",  # Limit context to save KV cache memory
         "--gpu-memory-utilization", "0.90",
         "--tensor-parallel-size", "1",
+        # Tool-use unlock (RFD-002 Wave 1.1). These are no-ops when
+        # callers don't send tools[] payloads, so dit-2026's think-aloud
+        # harness keeps working unchanged.
+        "--enable-auto-tool-choice",
+        "--tool-call-parser", "hermes",
+        # qwen3 reasoning parser handles enable_thinking=False + tool_choice
+        # interactions cleanly; see vLLM issues #17655 and #19056.
+        "--reasoning-parser", "qwen3",
     ]
 
     if MODEL_REVISION:
