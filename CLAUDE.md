@@ -58,8 +58,12 @@ costs, and commits flow into the ledger at `~/.ach/ops.db`.
 - **Modal vLLM app (deployed 2026-04-24)**: `think-aloud-vllm` on H100:1,
   URL `https://noah-ratzan--think-aloud-vllm-serve.modal.run`, scales to
   zero after 15 min idle, cold start ~60-90s. Shared by dit-2026 think-aloud
-  AND `ach` (qwen-modal preset in `~/.ach/config/models.yaml`). Redeploy
-  with `modal deploy assessment/scripts/think_aloud/vllm_server.py`.
+  AND `ach` (qwen-modal preset in `~/.ach/config/models.yaml`).
+  **vLLM Modal templates were relocated to `agent-control-hub` on 2026-04-28**
+  — `assessment/scripts/think_aloud/modal_run.py` (the think-aloud experiment
+  runner) stays here, but the four `vllm_*.py` deploy templates now live at
+  `~/code\ repos/agent-control-hub/scripts/modal/`. Redeploy with:
+  `cd ~/code\ repos/agent-control-hub && modal deploy scripts/modal/vllm_server.py`.
 - Ledger project-id: `dit-2026`.
 
 ## Conventions specific to this repo
