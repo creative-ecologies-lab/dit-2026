@@ -55,11 +55,17 @@ costs, and commits flow into the ledger at `~/.ach/ops.db`.
 - **Modal think-aloud standard model: Qwen3-32B** (post-ARIA v2.1). User
   directive: use ONLY Qwen for think-aloud runs, not Haiku. See
   `assessment/scripts/think_aloud/`.
-- **Modal vLLM app (deployed 2026-04-24)**: `think-aloud-vllm` on H100:1,
-  URL `https://noah-ratzan--think-aloud-vllm-serve.modal.run`, scales to
-  zero after 15 min idle, cold start ~60-90s. Shared by dit-2026 think-aloud
-  AND `ach` (qwen-modal preset in `~/.ach/config/models.yaml`). Redeploy
-  with `modal deploy assessment/scripts/think_aloud/vllm_server.py`.
+- **Modal vLLM app**: `ach-vllm-qwen3-32b` on H100:1 (renamed from
+  `think-aloud-vllm` on 2026-04-30 — see agent-control-hub PR
+  `feat/vllm-app-rename`). URL
+  `https://noah-ratzan--ach-vllm-qwen3-32b-serve.modal.run`, scales to
+  zero after 15 min idle, cold start ~60-90s. Shared by dit-2026
+  think-aloud AND `ach` (qwen-modal preset in
+  `~/.ach/config/models.yaml`). The vLLM template lives in
+  `agent-control-hub/scripts/modal/vllm_server.py` (canonical) — the
+  former mirrors at `assessment/scripts/think_aloud/vllm_*.py` were
+  deleted after the relocation. Redeploy from the agent-control-hub
+  worktree: `bash scripts/deploy_modal_vllm.sh`.
 - Ledger project-id: `dit-2026`.
 
 ## Conventions specific to this repo
